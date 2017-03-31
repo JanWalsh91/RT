@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/18 16:07:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 14:39:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ typedef struct	s_vec3
 
 typedef double	**t_matrix;
 
-typedef struct	s_complex
-{
-	double	r;
-	double	i;
-}				t_complex;
-
 unsigned long	ft_abs(long n);
 long			ft_power(int n, int p);
 double			to_radian(double a);
@@ -58,6 +52,7 @@ t_vec3			v_cross(t_vec3 vec1, t_vec3 vec2);
 double			v_dot(t_vec3 vec1, t_vec3 vec2);
 int				v_isnan(t_vec3 v);
 double			v_length(t_vec3 vec);
+double			v_dist(t_vec3 p1, t_vec3 p2);
 t_vec3			v_clamp(t_vec3 v, double min, double max);
 t_vec3			v_mult(t_vec3 vec, t_vec3 i);
 t_vec3			v_new(double x, double y, double z);
@@ -81,24 +76,5 @@ t_vec3			m_p_mult(t_vec3 p, t_matrix m);
 t_matrix		m_scale(t_matrix m, double i);
 t_matrix		m_translate(t_matrix m, t_vec3 v);
 t_vec3			m_v_mult(t_vec3 v, t_matrix m);
-
-/*
-** Complex number functions
-*/
-
-t_complex		c_add(t_complex x, t_complex y);
-t_complex		c_abs(t_complex x);
-t_complex		c_add_float(t_complex x, double y, double z);
-t_complex		c_divide(t_complex x, t_complex y);
-t_complex		c_product(t_complex x, t_complex y);
-t_complex		c_product_double(t_complex x, double y);
-double			c_modulus(t_complex x);
-t_complex		c_minus(t_complex x, t_complex y);
-t_complex		c_minus_double(t_complex x, double y);
-t_complex		c_sin(t_complex x);
-t_complex		c_sphere(t_complex x);
-t_complex		c_horseshoe(t_complex x);
-t_complex		c_swirl(t_complex x);
-t_complex		c_polar(t_complex x);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/02/22 14:16:27 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/03/31 14:52:42 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,6 +121,7 @@ FT_LST = ft_lstnew \
 		ft_lstmap
 
 FT_TO = ft_atoi \
+		ft_atol \
 		ft_itoa \
 		ft_itoa_base \
 		ft_uitoa_base \

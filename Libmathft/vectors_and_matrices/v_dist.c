@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_modulus.c                                        :+:      :+:    :+:   */
+/*   v_dist.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tgros <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/21 15:30:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/21 15:31:01 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/03/31 14:40:24 by tgros             #+#    #+#             */
+/*   Updated: 2017/03/31 14:40:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libmathft.h"
 
-/*
-** Calculates and returns the modulus of the complex number x.
-*/
-
-double	c_modulus(t_complex x)
+double	v_dist(t_vec3 v1, t_vec3 v2)
 {
-	return (sqrt(pow(x.r, 2) + pow(x.i, 2)));
+	double	dist;
+
+	dist = sqrt(pow(v1.x - v2.x, 2)
+			+ pow(v1.y - v2.y, 2)
+			+ pow(v1.z - v2.z, 2));
+	return (dist);
 }

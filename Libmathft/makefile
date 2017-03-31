@@ -6,26 +6,11 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/03/18 16:09:03 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/03/31 14:40:00 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libmathft.a
-
-COMPLEX_NUMBERS = c_add \
-		c_add_float \
-		c_abs \
-		c_divide \
-		c_product \
-		c_product_double \
-		c_minus \
-		c_minus_double \
-		c_modulus \
-		c_sin \
-		c_sphere \
-		c_horseshoe \
-		c_swirl \
-		c_polar
 
 VECTORS_AND_MATRICES = m_new \
 		m_new_identity \
@@ -42,6 +27,7 @@ VECTORS_AND_MATRICES = m_new \
 		v_to_rot_matrix \
 		v_dot \
 		v_length \
+		v_dist \
 		v_norm \
 		v_cross \
 		v_add \
@@ -61,10 +47,8 @@ OBJ_DIR = obj
 
 EXT = .c
 
-SRC_COMPLEX_NUMBERS = $(addsuffix $(EXT), $(COMPLEX_NUMBERS))
 SRC_VECTORS_AND_MATRICES = $(addsuffix $(EXT), $(VECTORS_AND_MATRICES))
 SRC_MISC = $(addsuffix $(EXT), $(MISC))
-OBJ_COMPLEX_NUMBERS = $(addprefix $(OBJ_DIR)/, $(SRC_COMPLEX_NUMBERS:.c=.o))
 OBJ_VECTORS_AND_MATRICES = $(addprefix $(OBJ_DIR)/, $(SRC_VECTORS_AND_MATRICES:.c=.o))
 OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
 
@@ -87,13 +71,9 @@ C_GRAY = \033[37m
 
 all: $(NAME)
 
-$(NAME): $(OBJ_COMPLEX_NUMBERS) $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC) 
-	@ar rcs $(NAME) $(OBJ_COMPLEX_NUMBERS) $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC)
+$(NAME):  $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC) 
+	@ar rcs $(NAME) $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC)
 	@echo "$(C_CYAN)Libmathft compilation done.$(C_NONE)"
-
-$(OBJ_DIR)/%.o : ./complex_numbers/%.c
-	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I./inc -c -o $@ $<
 
 $(OBJ_DIR)/%.o : ./vectors_and_matrices/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
