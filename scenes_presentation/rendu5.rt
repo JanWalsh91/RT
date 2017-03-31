@@ -1,0 +1,52 @@
+scene: rendu5
+{
+	ka: 0.1
+	resolution: 1200, 1200
+	light: light
+	{
+		position: 15, 5, -15
+		intensity: 20
+	}
+	plane: ground
+	{
+		color: 70, 70, 95
+		direction: 0, 1, 0
+		position: 0, 0, 0
+	}
+	plane: wall
+	{
+		color: 0x2020DD
+		direction: 0, 0, 1
+		position: 0, 0, 10
+	}
+	ks: 0.05
+	specular exponent: 20
+	cylinder: cylinder1
+	{
+		position: -6, -3, 5
+		direction: 1, 1, 0
+		color: lime green
+		height: 20
+		radius: 1
+	}
+	sphere: sphere1
+	{
+		position: -0.5, 1, 5
+		color: red
+		radius: 1.5
+	}
+	cone: cone1
+	{
+		color: yellow
+		position: 2, 0, 5
+		direction: -1, 1, 0
+		radius: 5
+		height: 10
+	}
+	camera: cam
+	{
+		look at: sphere1
+		position: 15, 15, -15
+		fov: 30
+	}
+}

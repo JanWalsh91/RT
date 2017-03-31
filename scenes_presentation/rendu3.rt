@@ -1,0 +1,36 @@
+scene: rendu3
+{
+	ka: 0.1
+	resolution: 1200, 1200
+	camera: cam
+	{
+		position: 0, 4, -30
+		rotation: 5, 0, 0
+	}
+	light: light
+	{
+		position: 10, 10, -15
+		intensity: 20
+	}
+	plane: ground
+	{
+		color: 0x1010DD
+		direction: 0, 1, 0
+		ks: 0
+	}
+	color: yellow
+	position: 0, 3, 0
+	radius: 40
+	height: 50
+	ks: 0
+	specular exponent: 12
+	kd: 0.5
+	cone: cone1
+	{
+		direction: 0, 1, 0
+	}
+	cone: cone2
+	{
+		direction: 0, -1, 0
+	}
+}
