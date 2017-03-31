@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 15:24:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 14:53:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/03/31 16:00:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ unsigned char	*ft_ustrncpy(unsigned char *dst, const unsigned char *src,
 		size_t size);
 unsigned char	*ft_ustrcpy(unsigned char *dst, const unsigned char *src);
 unsigned char	*ft_ustrdup(unsigned char *src);
-void			ft_swap(int *a, int *b);
 size_t			ft_ustrlen(const unsigned char *s);
 char			*ft_strdupfree(char *dst, char *src);
 unsigned char	*ft_ustrdupfree(unsigned char *dst, unsigned char *src);
@@ -146,6 +145,5 @@ int				ft_strscmp(const char *s1, const char **s);
 int				ft_charcount(char *s, char c);
 void			ft_errno_exit(void);
 double			ft_atod(const char *str);
-void			ft_swapd(double *a, double *b);
 
 #endif

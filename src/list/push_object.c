@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   push_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:53:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/22 13:44:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.h"
+#include "../../inc/rtv1.cuh"
 
 /*
 ** Adds new_object to the end of list t_objects.

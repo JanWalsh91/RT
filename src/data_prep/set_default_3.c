@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_default_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:29:45 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/21 17:34:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.h"
+#include "../../inc/rtv1.cuh"
 
 /*
 ** Functions for setting default values for

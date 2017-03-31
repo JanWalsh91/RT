@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/22 15:46:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/rtv1.h"
+#include "../inc/rtv1.cuh"
 
 /*
 ** Checks arg count, parses and prepares data, and sends data to rtv1.
@@ -38,7 +38,8 @@ int	main(int ac, char **av)
 	check_scenes(t.scenes);
 	r.scenes = t.scenes;
 	free_parse_tools(&t);
-	rtv1(&r);
+	print_scenes(r.scenes);
+	//rtv1(&r);
 	free_scenes(r.scenes);
 	return (0);
 }

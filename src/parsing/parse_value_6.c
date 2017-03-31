@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_6.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/22 13:37:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.h"
+#include "../../inc/rtv1.cuh"
 
 /*
 ** Contains functions for parsing each value based on token.

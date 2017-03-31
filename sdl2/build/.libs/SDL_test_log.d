@@ -1,5 +1,4 @@
-build/SDL_test_log.o: \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/test/SDL_test_log.c \
+build/SDL_test_log.o: /Users/tgros/gitlab/RT/sdl2/src/test/SDL_test_log.c \
   include/SDL_config.h include/SDL_platform.h include/begin_code.h \
   include/close_code.h include/SDL.h include/SDL_main.h \
   include/SDL_stdinc.h include/SDL_assert.h include/SDL_atomic.h \

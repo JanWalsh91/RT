@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color_name.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:51:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/22 13:49:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.h"
+#include "../../inc/rtv1.cuh"
 
 /*
 ** Initializes the list of colors if not yet initialized

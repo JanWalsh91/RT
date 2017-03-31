@@ -1,8 +1,7 @@
-build/SDL_shape.lo: \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/SDL_shape.c \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/../SDL_internal.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/../dynapi/SDL_dynapi.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/../dynapi/SDL_dynapi_overrides.h \
+build/SDL_shape.lo: /Users/tgros/gitlab/RT/sdl2/src/video/SDL_shape.c \
+  /Users/tgros/gitlab/RT/sdl2/src/video/../SDL_internal.h \
+  /Users/tgros/gitlab/RT/sdl2/src/video/../dynapi/SDL_dynapi.h \
+  /Users/tgros/gitlab/RT/sdl2/src/video/../dynapi/SDL_dynapi_overrides.h \
   include/SDL_config.h include/SDL_platform.h include/begin_code.h \
   include/close_code.h include/SDL.h include/SDL_main.h \
   include/SDL_stdinc.h include/SDL_assert.h include/SDL_atomic.h \
@@ -18,6 +17,6 @@ build/SDL_shape.lo: \
   include/SDL_log.h include/SDL_messagebox.h include/SDL_power.h \
   include/SDL_render.h include/SDL_system.h include/SDL_timer.h \
   include/SDL_version.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/SDL_sysvideo.h \
+  /Users/tgros/gitlab/RT/sdl2/src/video/SDL_sysvideo.h \
   include/SDL_shape.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/SDL_shape_internals.h
+  /Users/tgros/gitlab/RT/sdl2/src/video/SDL_shape_internals.h

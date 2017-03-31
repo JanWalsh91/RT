@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/03/23 11:51:19 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/03/31 16:04:16 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,26 +92,29 @@ MISC = 		debug \
 
 OBJ_DIR = obj
 
-EXT = .c
+EXT_C = .c
+EXT_CU = .cu
 
-SRC_SRC = $(addsuffix $(EXT), $(SRC))
-SRC_SDL = $(addsuffix $(EXT), $(SDL))
-SRC_PARSING = $(addsuffix $(EXT), $(PARSING))
-SRC_DATA = $(addsuffix $(EXT), $(DATA_PREP))
-SRC_RT = $(addsuffix $(EXT), $(RAY_TRACING))
-SRC_LST = $(addsuffix $(EXT), $(LIST))
-SRC_MISC = $(addsuffix $(EXT), $(MISC))
+SRC_SRC = $(addsuffix $(EXT_C), $(SRC))
+SRC_SDL = $(addsuffix $(EXT_C), $(SDL))
+SRC_PARSING = $(addsuffix $(EXT_C), $(PARSING))
+SRC_DATA = $(addsuffix $(EXT_C), $(DATA_PREP))
+SRC_RT = $(addsuffix $(EXT_CU), $(RAY_TRACING))
+SRC_LST = $(addsuffix $(EXT_C), $(LIST))
+SRC_MISC = $(addsuffix $(EXT_C), $(MISC))
 
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_SRC:.c=.o))
 OBJ_SDL = $(addprefix $(OBJ_DIR)/, $(SRC_SDL:.c=.o))
 OBJ_PARSING = $(addprefix $(OBJ_DIR)/, $(SRC_PARSING:.c=.o))
 OBJ_DATA = $(addprefix $(OBJ_DIR)/, $(SRC_DATA:.c=.o))
-OBJ_RT = $(addprefix $(OBJ_DIR)/, $(SRC_RT:.c=.o))
+OBJ_RT = $(addprefix $(OBJ_DIR)/, $(SRC_RT:.cu=.o))
 OBJ_LST = $(addprefix $(OBJ_DIR)/, $(SRC_LST:.c=.o))
 OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
 
-CC	= gcc
-FLG = -Werror -Wextra -Wall
+CC	= nvcc
+NVCC = nvcc
+CUFLAGS = -arch=sm_30
+FLG = $(CUFLAGS) #-Werror -Wextra -Wall
 SDL_PATH = sdl2/
 SDL2 = `$(SDL_PATH)/sdl2-config --cflags --libs`
 
@@ -131,50 +134,50 @@ ECHO = echo
 all: $(NAME)
 
 $(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC)
-	@if [ ! -d "$(SDL_PATH)lib" ]; then \
+	@#if [ ! -d "$(SDL_PATH)lib" ]; then \
 		/bin/mkdir $(SDL_PATH)lib; \
 		cd $(SDL_PATH) ; ./configure --prefix=`pwd`/lib; \
 	fi
-	@make -C $(SDL_PATH)
-	@make -C $(SDL_PATH) install >/dev/null
+	@#make -C $(SDL_PATH)
+	@#make -C $(SDL_PATH) install >/dev/null
 	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	@$(CC) $(FLG) $(SDL2) -g $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(SDL2) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)RTv1 compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/sdl/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/parsing/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/list/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/data_prep/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
 
-$(OBJ_DIR)/%.o : ./src/ray_tracing/%.c
+$(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(NVCC) $(CUFLAGS) -I./inc -I./$(SDL_PATH)/include -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/misc/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) -g -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)
-	@/bin/rm -Rf $(SDL_PATH)lib
-	@/bin/rm -Rf $(SDL_PATH)build
+	@#/bin/rm -Rf $(SDL_PATH)lib
+	@#/bin/rm -Rf $(SDL_PATH)build
 	@$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
 	@make -C $(LIB_PATH) clean
 	@make -C $(LIBMATH_PATH) clean

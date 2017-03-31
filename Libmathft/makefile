@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/03/31 14:40:00 by tgros            ###   ########.fr        #
+#    Updated: 2017/03/31 15:59:06 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,22 +41,24 @@ MISC = 	ft_abs \
 		ft_power \
 		ft_round \
 		ft_rgb_mix \
-		ft_to_radian
+		ft_to_radian \
+		ft_swap \
+		ft_swapd
 
 OBJ_DIR = obj
 
-EXT = .c
+EXT = .cu
 
 SRC_VECTORS_AND_MATRICES = $(addsuffix $(EXT), $(VECTORS_AND_MATRICES))
 SRC_MISC = $(addsuffix $(EXT), $(MISC))
-OBJ_VECTORS_AND_MATRICES = $(addprefix $(OBJ_DIR)/, $(SRC_VECTORS_AND_MATRICES:.c=.o))
-OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
+OBJ_VECTORS_AND_MATRICES = $(addprefix $(OBJ_DIR)/, $(SRC_VECTORS_AND_MATRICES:.cu=.o))
+OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.cu=.o))
 
-HEAD = libmathft.h
+HEAD = libmathft.cuh
 
-CC = gcc
+CC = nvcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -arch=sm_30#-Wall -Werror -Wextra
 
 C_NONE = \033[0m
 C_BOLD = \033[1m
@@ -72,16 +74,16 @@ C_GRAY = \033[37m
 all: $(NAME)
 
 $(NAME):  $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC) 
-	@ar rcs $(NAME) $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC)
+	$(CC) $(CFLAGS) -lib $< -o $(NAME)
 	@echo "$(C_CYAN)Libmathft compilation done.$(C_NONE)"
 
-$(OBJ_DIR)/%.o : ./vectors_and_matrices/%.c
+$(OBJ_DIR)/%.o : ./vectors_and_matrices/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I./inc -c -o $@ $<
+	@$(CC) $(CFLAGS) -dc -I./inc -c -o $@ $<
 
-$(OBJ_DIR)/%.o : ./misc/%.c
+$(OBJ_DIR)/%.o : ./misc/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I./inc -c -o $@ $<
+	@$(CC) $(CFLAGS) -dc -I./inc -c -o $@ $<
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)

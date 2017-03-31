@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_pushback.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 15:02:03 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/22 13:43:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 ** Adds a t_input n to the end of t_input input.
 */
 
-#include "../../inc/rtv1.h"
+#include "../../inc/rtv1.cuh"
 
 void	input_pushback(t_input **input, t_input *n)
 {

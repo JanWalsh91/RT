@@ -1,8 +1,7 @@
-build/SDL_assert.lo: \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/SDL_assert.c \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/./SDL_internal.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/dynapi/SDL_dynapi.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/dynapi/SDL_dynapi_overrides.h \
+build/SDL_assert.lo: /Users/tgros/gitlab/RT/sdl2/src/SDL_assert.c \
+  /Users/tgros/gitlab/RT/sdl2/src/./SDL_internal.h \
+  /Users/tgros/gitlab/RT/sdl2/src/dynapi/SDL_dynapi.h \
+  /Users/tgros/gitlab/RT/sdl2/src/dynapi/SDL_dynapi_overrides.h \
   include/SDL_config.h include/SDL_platform.h include/begin_code.h \
   include/close_code.h include/SDL.h include/SDL_main.h \
   include/SDL_stdinc.h include/SDL_assert.h include/SDL_atomic.h \
@@ -17,7 +16,6 @@ build/SDL_assert.lo: \
   include/SDL_haptic.h include/SDL_hints.h include/SDL_loadso.h \
   include/SDL_log.h include/SDL_messagebox.h include/SDL_power.h \
   include/SDL_render.h include/SDL_system.h include/SDL_timer.h \
-  include/SDL_version.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/SDL_assert_c.h \
-  /Users/jwalsh/Documents/Github_Repositories/RTv1/sdl2/src/video/SDL_sysvideo.h \
+  include/SDL_version.h /Users/tgros/gitlab/RT/sdl2/src/SDL_assert_c.h \
+  /Users/tgros/gitlab/RT/sdl2/src/video/SDL_sysvideo.h \
   include/SDL_shape.h
