@@ -16,6 +16,7 @@
 ** Swaps the values of doubles pointed to by a and b.
 */
 
+__host__ __device__
 void	ft_swapd(double *a, double *b)
 {
 	double tmp;

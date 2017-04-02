@@ -17,9 +17,20 @@
 # include <errno.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <cuda.h>
 # include "../SDL2/include/sdl.h"
 # include "../Libft/inc/libft.h"
+
 # include "../Libmathft/inc/libmathft.cuh"
+
+#ifndef CUDA_DEV
+#ifdef __CUDACC__
+#define CUDA_DEV __device__
+#else
+#define CUDA_DEV
+#endif
+#endif
+
 
 /*
 ** General settings
@@ -529,52 +540,50 @@ void			set_default_specular_exp(t_scene *scene, int type, void *obj,
 ** Ray Tracing Functions
 */
 
-__device__
+CUDA_DEV
 int				rtv1(t_raytracing_tools *r);
-__device__
-void			render(t_raytracing_tools *r);
-__device__
+CUDA_DEV
 t_ray			init_camera_ray(t_pt2 i, t_scene *scene);
-__device__
+CUDA_DEV
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
-__device__
+CUDA_DEV
 void			get_normal(t_raytracing_tools *r, t_ray *ray, t_object *obj);
-__device__
+CUDA_DEV
 bool			in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
-__device__
+CUDA_DEV
 t_color			get_diffuse(t_raytracing_tools *r, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
-__device__
+CUDA_DEV
 t_color			get_specular(t_raytracing_tools *r, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
-__device__
+CUDA_DEV
 t_color			get_ambient(t_raytracing_tools *r);
-__device__
+CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 
 /*
 ** Intersection functions.
 */
 
-__device__
+CUDA_DEV
 bool			intersects(t_raytracing_tools *r, t_ray *ray, t_object *obj);
-__device__
+CUDA_DEV
 bool			get_plane_intersection(t_raytracing_tools *r, t_ray *ray,
 					t_object *obj);
-__device__
+CUDA_DEV
 bool			get_sphere_intersection(t_raytracing_tools *r, t_ray *ray,
 					t_object *obj);
-__device__
+CUDA_DEV
 bool			get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 					t_object *obj);
-__device__
+CUDA_DEV
 bool			get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
 					t_object *cone);
-__device__
+CUDA_DEV
 bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					t_object *disk);
-__device__
+CUDA_DEV
 bool			solve_quadratic(t_vec3 q, double *r1, double *r2);
 
 /*
@@ -605,7 +614,7 @@ void			data_warning(t_scene *scene, int type, void *object, char *msg);
 ** Debug functions
 */
 
-# define C(...) ft_printf("check%i\n", __VA_ARGS__);
+# define C(...) printf("check%i\n", __VA_ARGS__);
 # define P(x) ft_printf(x);
 
 void			print_scenes(t_scene *scenes_head);

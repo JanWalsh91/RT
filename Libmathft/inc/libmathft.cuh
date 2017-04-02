@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:27:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/01 12:24:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,17 @@
 # include <math.h>
 # include <stdlib.h>
 
-# include <cuda/cuda.h>
+# include <cuda.h>
+
+#ifdef __CUDACC__
+#define CUDA_HOSTDEV __host__ __device__
+#define EXT extern "C" {
+#define EXT_END }
+#else
+#define CUDA_HOSTDEV
+#define EXT
+#define EXT_END
+#endif
 
 typedef struct	s_pt2
 {
@@ -39,48 +49,51 @@ typedef struct	s_vec3
 
 typedef double	**t_matrix;
 
-__host__ __device__
+EXT
+CUDA_HOSTDEV
 unsigned long	ft_abs(long n);
-__host__ __device__
+CUDA_HOSTDEV
 long			ft_power(int n, int p);
-__host__ __device__
+CUDA_HOSTDEV
 double			to_radian(double a);
-__host__ __device__
+CUDA_HOSTDEV
 int				ft_round(float i);
-__host__ __device__
+CUDA_HOSTDEV
 int				ft_rgb_mix(int *colors, int n);
-__host__ __device__
+CUDA_HOSTDEV
 void			ft_swap(int *a, int *b);
-__host__ __device__
+CUDA_HOSTDEV
 void			ft_swapd(double *a, double *b);
+CUDA_HOSTDEV
+double			ft_clampd(double i, double min, double max);
 
 /*
 ** 3 x 3 Vector functions
 */
 
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_add(t_vec3 vec1, t_vec3 vec2);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_cross(t_vec3 vec1, t_vec3 vec2);
-__host__ __device__
+CUDA_HOSTDEV
 double			v_dot(t_vec3 vec1, t_vec3 vec2);
-__host__ __device__
+CUDA_HOSTDEV
 int				v_isnan(t_vec3 v);
-__host__ __device__
+CUDA_HOSTDEV
 double			v_length(t_vec3 vec);
-__host__ __device__
+CUDA_HOSTDEV
 double			v_dist(t_vec3 p1, t_vec3 p2);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_clamp(t_vec3 v, double min, double max);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_mult(t_vec3 vec, t_vec3 i);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_new(double x, double y, double z);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_norm(t_vec3 vec);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_scale(t_vec3 vec1, double i);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			v_sub(t_vec3 vec1, t_vec3 vec2);
 
 
@@ -88,29 +101,30 @@ t_vec3			v_sub(t_vec3 vec1, t_vec3 vec2);
 ** 4 x 4 Matrix functions
 */
 
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_add(t_matrix m1, t_matrix m2);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_inverse(t_matrix m);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_mult(t_matrix m1, t_matrix m2);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_new_identity(void);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_new_rodriguez(t_vec3 a, t_vec3 b);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_new_rotate(float angle, char axis);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_new_scale(double i);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_new(void);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			m_p_mult(t_vec3 p, t_matrix m);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_scale(t_matrix m, double i);
-__host__ __device__
+CUDA_HOSTDEV
 t_matrix		m_translate(t_matrix m, t_vec3 v);
-__host__ __device__
+CUDA_HOSTDEV
 t_vec3			m_v_mult(t_vec3 v, t_matrix m);
+EXT_END
 
 #endif

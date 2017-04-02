@@ -32,6 +32,7 @@ t_matrix		m_new_rotate(float angle, char axis)
 	return (0);
 }
 
+__host__ __device__
 static t_matrix	m_rot_x(float angle)
 {
 	t_matrix	m;
@@ -45,6 +46,7 @@ static t_matrix	m_rot_x(float angle)
 	return (m);
 }
 
+__host__ __device__
 static t_matrix	m_rot_y(float angle)
 {
 	t_matrix	m;
@@ -58,6 +60,7 @@ static t_matrix	m_rot_y(float angle)
 	return (m);
 }
 
+__host__ __device__
 static t_matrix	m_rot_z(float angle)
 {
 	t_matrix	m;

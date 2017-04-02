@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:27:49 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/01 12:34:06 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ bool		get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 	i.q.z = v_dot(i.v2, i.v2) - pow(obj->rad, 2);
 	if (!solve_quadratic(i.q, &i.r1, &i.r2))
 		return (false);
-	(i.r2 < i.r1) ? ft_swapd(&i.r1, &i.r2) : 0;
+	if (i.r2 < i.r1)
+		ft_swapd(&i.r1, &i.r2);
 	get_finite_cylinder_intersection(r, ray, obj, &i);
 	(i.r1 < 0 || isnan(i.r1)) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0 || isnan(i.r1))
@@ -47,6 +48,7 @@ bool		get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 	return (true);
 }
 
+__device__
 static void	get_finite_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 	t_object *obj, t_intersection_tools *i)
 {

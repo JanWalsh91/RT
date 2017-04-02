@@ -17,7 +17,7 @@
 ** Mulpitplying a matrix by an identity matrix does not modify it.
 */
 
-__host__ __device__
+extern __host__ __device__
 t_matrix	m_new_identity(void)
 {
 	t_matrix	m;

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:26:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/01 12:33:12 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ bool	get_sphere_intersection(t_raytracing_tools *r, t_ray *ray,
 	i.q.z = v_dot(i.v1, i.v1) - pow(obj->rad, 2);
 	if (!solve_quadratic(i.q, &i.r1, &i.r2))
 		return (false);
-	(i.r2 < i.r1) ? ft_swapd(&i.r1, &i.r2) : 0;
+	if (i.r2 < i.r1)
+		ft_swapd(&i.r1, &i.r2);
 	(i.r1 < 0) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0)
 		return (false);

@@ -14,8 +14,9 @@
 ** Changes the value of int i to max if i > max, or to min if i < min.
 */
 
-#include "libft.h"
+#include "libmathft.cuh"
 
+__host__ __device__
 double	ft_clampd(double i, double min, double max)
 {
 	i < min ? i = min : 0;

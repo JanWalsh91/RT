@@ -16,6 +16,7 @@
 ** Swaps the values of ints pointed to by a and b.
 */
 
+__host__ __device__
 void	ft_swap(int *a, int *b)
 {
 	int tmp;
