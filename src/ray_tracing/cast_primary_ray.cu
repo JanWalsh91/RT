@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/02 18:07:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,48 +22,46 @@
 ** are found.
 */
 
-static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
+static t_color	get_color_at_hitpoint(t_scene *scene, t_ray *ray,
 				t_ray *shadow_ray);
 
 __device__
-t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
+t_color			cast_primary_ray(t_scene *scene, t_ray *ray)
 {
-	t_object	*o_ptr;
 	t_ray		shadow_ray;
+	int			i;
 
-	r->t = INFINITY;
-	o_ptr = r->scenes->objects;
-	while (o_ptr)
+	scene->t = INFINITY;
+	i = -1;
+	while (scene->objects[++i].type != -1)
 	{
-		if (intersects(r, ray, o_ptr) && r->t > ray->t)
-			r->t = ray->t;
-		o_ptr = o_ptr->next;
+		if (intersects(scene, ray, i) && scene->t > ray->t)
+			scene->t = ray->t;
 	}
-	if (r->t == INFINITY)
-		return (r->scenes->background_color);
-	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
-	get_normal(r, ray, ray->hit_obj);
-	return (get_color_at_hitpoint(r, ray, &shadow_ray));
+	if (scene->t == INFINITY)
+		return (scene->background_color);
+	ray->hit = v_add(ray->origin, v_scale(ray->dir, scene->t));
+	get_normal(ray, &scene->objects[ray->hit_obj]);
+	return (get_color_at_hitpoint(scene, ray, &shadow_ray));
 }
 
 __device__
-static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
+static t_color	get_color_at_hitpoint(t_scene *scene, t_ray *ray,
 				t_ray *shadow_ray)
 {
 	t_color	color;
-	t_light	*l_ptr;
+	int		i;
 
 	color = v_new(0, 0, 0);
-	l_ptr = r->scenes->lights;
-	while (l_ptr)
+	i = -1;
+	while (&scene->lights[++i] != NULL)
 	{
-		if (!in_shadow(r, ray, shadow_ray, l_ptr))
+		if (!in_shadow(scene, ray, shadow_ray, &scene->lights[i]))
 		{
-			color = v_add(color, get_diffuse(r, ray, shadow_ray, l_ptr));
-			color = v_add(color, get_specular(r, ray, shadow_ray, l_ptr));
+			color = v_add(color, get_diffuse(scene, ray, shadow_ray, &scene->lights[i]));
+			color = v_add(color, get_specular(scene, ray, shadow_ray, &scene->lights[i]));
 		}
-		l_ptr = l_ptr->next;
 	}
-	color = v_add(color, get_ambient(r));
+	color = v_add(color, get_ambient(scene));
 	return (v_clamp(color, 0, 255));
 }

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 14:04:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/02 17:19:14 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 */
 
 __device__
-t_color	get_ambient(t_raytracing_tools *r)
+t_color	get_ambient(t_scene *scene)
 {
-	return (v_clamp(v_scale(r->scenes->ambient_light_color,
-	r->scenes->ka), 0, 255));
+	return (v_clamp(v_scale(scene->ambient_light_color, scene->ka), 0, 255));
 }

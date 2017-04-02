@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 12:11:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/02 18:24:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
 */
 
 __device__
-bool	intersects(t_raytracing_tools *r, t_ray *ray, t_object *obj)
+bool	intersects(t_scene *scene, t_ray *ray, int index)
 {
-	if (obj->type == T_SPHERE)
-		return (get_sphere_intersection(r, ray, obj));
-	else if (obj->type == T_PLANE)
-		return (get_plane_intersection(r, ray, obj));
-	else if (obj->type == T_DISK)
-		return (get_disk_intersection(r, ray, obj));
-	else if (obj->type == T_CYLINDER)
-		return (get_cylinder_intersection(r, ray, obj));
-	else if (obj->type == T_CONE)
-		return (get_cone_intersection(r, ray, obj));
+	if (scene->objects[index].type == T_SPHERE)
+		return (get_sphere_intersection(scene, ray, index));
+	else if (scene->objects[index].type == T_PLANE)
+		return (get_plane_intersection(scene, ray, index));
+	else if (scene->objects[index].type == T_DISK)
+		return (get_disk_intersection(scene, ray, index));
+	else if (scene->objects[index].type == T_CYLINDER)
+		return (get_cylinder_intersection(scene, ray, index));
+	else if (scene->objects[index].type == T_CONE)
+		return (get_cone_intersection(scene, ray, index));
 	return (false);
 }

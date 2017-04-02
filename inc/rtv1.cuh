@@ -216,7 +216,7 @@ typedef	struct	s_ray
 	t_vec3			dir;
 	double			t;
 	t_vec3			hit;
-	struct s_object	*hit_obj;
+	int				hit_obj; //index of hit obj
 	t_token			hit_type;
 	int				n_dir;
 	t_vec3			nhit;
@@ -307,6 +307,7 @@ typedef struct	s_camera
 typedef struct	s_scene
 {
 	t_pt2			res;
+	t_pt2			pix;
 	char			*name;
 	int				ray_depth;
 	t_color			background_color;
@@ -316,6 +317,7 @@ typedef struct	s_scene
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
+	double 			t;
 	struct s_scene	*prev;
 	struct s_scene	*next;
 }				t_scene;
@@ -545,20 +547,20 @@ int				rtv1(t_raytracing_tools *r);
 CUDA_DEV
 t_ray			init_camera_ray(t_pt2 i, t_scene *scene);
 CUDA_DEV
-t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
+t_color			cast_primary_ray(t_scene *scene, t_ray *ray);
 CUDA_DEV
-void			get_normal(t_raytracing_tools *r, t_ray *ray, t_object *obj);
+void			get_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
-bool			in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
+bool			in_shadow(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
-t_color			get_diffuse(t_raytracing_tools *r, t_ray *primary_ray,
+t_color			get_diffuse(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
-t_color			get_specular(t_raytracing_tools *r, t_ray *primary_ray,
+t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
-t_color			get_ambient(t_raytracing_tools *r);
+t_color			get_ambient(t_scene *scene);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 
@@ -567,22 +569,22 @@ t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 */
 
 CUDA_DEV
-bool			intersects(t_raytracing_tools *r, t_ray *ray, t_object *obj);
+bool			intersects(t_scene *scene, t_ray *ray, int index);
 CUDA_DEV
-bool			get_plane_intersection(t_raytracing_tools *r, t_ray *ray,
-					t_object *obj);
+bool			get_plane_intersection(t_scene *scene, t_ray *ray,
+					int index);
 CUDA_DEV
-bool			get_sphere_intersection(t_raytracing_tools *r, t_ray *ray,
-					t_object *obj);
+bool			get_sphere_intersection(t_scene *scene, t_ray *ray,
+					int index);
 CUDA_DEV
-bool			get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
-					t_object *obj);
+bool			get_cylinder_intersection(t_scene *scene, t_ray *ray,
+					int index);
 CUDA_DEV
-bool			get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
-					t_object *cone);
+bool			get_cone_intersection(t_scene *scene, t_ray *ray,
+					int index);
 CUDA_DEV
-bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
-					t_object *disk);
+bool			get_disk_intersection(t_scene *scene, t_ray *ray,
+					int index);
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, double *r1, double *r2);
 

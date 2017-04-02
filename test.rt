@@ -1,7 +1,7 @@
 scene: rendu1
 {
 	#resolution: 200, 200
-	resolution: 100, 100
+	resolution: 1000, 1000
 	ka: 0.01
 	camera: cam
 	{

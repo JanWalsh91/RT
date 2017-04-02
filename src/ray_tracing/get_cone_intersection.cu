@@ -6,14 +6,15 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/01 12:34:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/02 18:40:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rtv1.cuh"
 
-static void	get_finite_cone_intersection(t_raytracing_tools *r, t_ray *ray,
-	t_object *obj, t_intersection_tools *i);
+__device__
+static void	get_finite_cone_intersection(t_ray *ray,
+	t_object *object, t_intersection_tools *i);
 static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray);
 static bool	higher_than_max(double r, t_intersection_tools *i, t_object *obj,
@@ -24,38 +25,38 @@ static bool	higher_than_max(double r, t_intersection_tools *i, t_object *obj,
 */
 
 __device__
-bool		get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
-			t_object *cone)
+bool		get_cone_intersection(t_scene *scene, t_ray *ray,
+			int index)
 {
 	t_intersection_tools i;
 
-	i.d1 = tan(cone->angle);
-	i.v1 = v_sub(ray->origin, cone->pos);
+	i.d1 = tan(scene->objects[index].angle);
+	i.v1 = v_sub(ray->origin, scene->objects[index].pos);
 	i.q.x = v_dot(ray->dir, ray->dir) - (1.0 + i.d1 * i.d1) *
-		pow(v_dot(ray->dir, cone->dir), 2.0);
+		pow(v_dot(ray->dir, scene->objects[index].dir), 2.0);
 	i.q.y = 2 * (v_dot(ray->dir, i.v1) - (1.0 + i.d1 * i.d1) *
-		v_dot(ray->dir, cone->dir) * v_dot(i.v1, cone->dir));
+		v_dot(ray->dir, scene->objects[index].dir) * v_dot(i.v1, scene->objects[index].dir));
 	i.q.z = v_dot(i.v1, i.v1) - (1.0 + i.d1 * i.d1) * pow(v_dot(i.v1,
-		cone->dir), 2.0);
+		scene->objects[index].dir), 2.0);
 	if (!solve_quadratic(i.q, &i.r1, &i.r2) || (i.r1 < 0 && i.r2 < 0))
 		return (false);
 	if (i.r2 < i.r1)
 		ft_swapd(&i.r1, &i.r2);
-	get_finite_cone_intersection(r, ray, cone, &i);
+	get_finite_cone_intersection(ray, &scene->objects[index], &i);
 	(i.r1 < 0 || isnan(i.r1)) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0 || isnan(i.r1))
 		return (false);
-	r->t > i.r1 ? ray->t = i.r1 : 0;
-	if (ray->type == R_PRIMARY && r->t > i.r1)
+	scene->t > i.r1 ? ray->t = i.r1 : 0;
+	if (ray->type == R_PRIMARY && scene->t > i.r1)
 	{
-		ray->hit_obj = cone;
+		ray->hit_obj = index;
 		ray->hit_type = T_CONE;
 	}
 	return (true);
 }
 
 __device__
-static void	get_finite_cone_intersection(t_raytracing_tools *r, t_ray *ray,
+static void	get_finite_cone_intersection(t_ray *ray,
 	t_object *obj, t_intersection_tools *i)
 {
 	bool	r1_too_low;
@@ -77,6 +78,7 @@ static void	get_finite_cone_intersection(t_raytracing_tools *r, t_ray *ray,
 		i->r2 = NAN;
 }
 
+__device__
 static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray)
 {
@@ -91,6 +93,7 @@ static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
 	return (false);
 }
 
+__device__
 static bool	higher_than_max(double r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray)
 {

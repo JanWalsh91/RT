@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/02 13:58:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/02 18:17:24 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,46 +20,38 @@
 */
 
 
-__host__ void	cuda_push_camera(t_camera **cameras_head, t_camera *new_camera)
-{
-	t_camera	*cam_ptr;
+// __host__ void	cuda_push_camera(t_camera **cameras_head, t_camera *new_camera)
+// {
+// 	t_camera	*cam_ptr;
 
-	if (new_camera)
-	{
-		if (!(*cameras_head))
-			*cameras_head = new_camera;
-		else
-		{
-			cam_ptr = *cameras_head;
-			while (cam_ptr->next)
-				cam_ptr = cam_ptr->next;
-			cam_ptr->next = new_camera;
-			new_camera->prev = cam_ptr;
-		}
-		new_camera->next = NULL;
-	}
-}
-
+// 	if (new_camera)
+// 	{
+// 		if (!(*cameras_head))
+// 			*cameras_head = new_camera;
+// 		else
+// 		{
+// 			cam_ptr = *cameras_head;
+// 			while (cam_ptr->next)
+// 				cam_ptr = cam_ptr->next;
+// 			cam_ptr->next = new_camera;
+// 			new_camera->prev = cam_ptr;
+// 		}
+// 		new_camera->next = NULL;
+// 	}
+// }
+/*
 __host__ void	allocate_cameras(t_camera **d_cams, t_camera *h_cams, t_pt2 res)
 {
 	t_camera *p_cam;
 	t_camera *new_cam;
-	int		i;
 
 	new_cam = NULL;
 	*d_cams = NULL;
 	p_cam = h_cams;
-	while (p_cam)
-	{
-		cudaMallocManaged(&new_cam, sizeof(t_camera));
-		memcpy(new_cam, p_cam, sizeof(t_camera));
-		i = -1;
-		cudaMallocManaged(&new_cam->pixel_map, sizeof(t_color *) * res.y);
-		while (++i < res.y)
-			cudaMallocManaged(&new_cam->pixel_map[i], sizeof(t_color) * res.x);
-		cuda_push_camera(d_cams, new_cam);
-		p_cam = p_cam->next;
-	}
+
+	cudaMallocManaged(&new_cam, sizeof(t_camera));
+	memcpy(new_cam, p_cam, sizeof(t_camera));
+	p_cam = p_cam->next;
 }
 
 __host__ void	cuda_push_light(t_light **lights_head, t_light *new_light)
@@ -79,7 +71,7 @@ __host__ void	cuda_push_light(t_light **lights_head, t_light *new_light)
 		}
 		new_light->next = NULL;
 	}
-}
+}*/
 /*
 __host__ void 	allocate_lights(t_light **d_lights, t_light *h_lights)
 {
@@ -97,7 +89,7 @@ __host__ void 	allocate_lights(t_light **d_lights, t_light *h_lights)
 		p_light = p_light->next;
 	}
 }
-*/
+*//*
 __host__ void	cuda_push_object(t_object **objects_head, t_object *new_object)
 {
 	t_object	*obj_ptr;
@@ -115,7 +107,7 @@ __host__ void	cuda_push_object(t_object **objects_head, t_object *new_object)
 		}
 		new_object->next = NULL;
 	}
-}
+}*/
 /*
 __host__ void	allocate_objects(t_object **d_objs, t_object *h_objs)
 {
@@ -134,25 +126,25 @@ __host__ void	allocate_objects(t_object **d_objs, t_object *h_objs)
 	}
 }
 */
-__host__
-void	cuda_push_scene(t_scene **scenes_head, t_scene *new_scene)
-{
-	t_scene	*scene_ptr;
+// __host__
+// void	cuda_push_scene(t_scene **scenes_head, t_scene *new_scene)
+// {
+// 	t_scene	*scene_ptr;
 
-	if (new_scene)
-	{
-		if (!*scenes_head)
-			*scenes_head = new_scene;
-		else
-		{
-			scene_ptr = *scenes_head;
-			while (scene_ptr->next)
-				scene_ptr = scene_ptr->next;
-			scene_ptr->next = new_scene;
-			new_scene->prev = scene_ptr;
-		}
-	}
-}
+// 	if (new_scene)
+// 	{
+// 		if (!*scenes_head)
+// 			*scenes_head = new_scene;
+// 		else
+// 		{
+// 			scene_ptr = *scenes_head;
+// 			while (scene_ptr->next)
+// 				scene_ptr = scene_ptr->next;
+// 			scene_ptr->next = new_scene;
+// 			new_scene->prev = scene_ptr;
+// 		}
+// 	}
+// }
 /*
 __host__ void	allocate_scenes(t_raytracing_tools *d_r, t_raytracing_tools *h_r)
 {
@@ -179,7 +171,7 @@ __host__ void	allocate_scenes(t_raytracing_tools *d_r, t_raytracing_tools *h_r)
 		p_scene = p_scene->next;
 	}
 }*/
-
+/*
 __host__ void allocate_camera(t_scene *h_scene)
 {
 	t_camera	*h_camera;
@@ -224,25 +216,21 @@ __host__ void	allocate_lights(t_scene *h_scene)
 	}
 }
 
-__host__ void	allocate_objects(t_scene *h_scene)
+__host__ t_object	*allocate_objects(t_object *h_scene)
 {
-	t_light *p_object;
-	t_light *h_object;
-	t_light *d_object;
+	t_object *p_object;
+	t_object *h_object;
+	t_object *d_object;
 
-	p_object = h_scene->lights;
-	while (p_object)
+	p_object = h_scene->objects;
+	if (p_object)
 	{
-		//cudaMallocManaged(&new_light, sizeof(t_light));
-		//memcpy(new_light, p_object, sizeof(t_light));
-		//cuda_push_object(d_objects, new_light);
-		
-		h_object = (t_light *)malloc(sizeof(t_light));
-		memcpy(h_object, p_object, sizeof(t_light));
-
-		cudaMalloc(&d_object, sizeof(t_light));
+		h_object = (t_object *)malloc(sizeof(t_object));
+		memcpy(h_object, p_object, sizeof(t_object));
+		allocate_objects(h_scene);
+		cudaMalloc(&d_object, sizeof(t_object));
 		h_object->next = NULL;
-		cudaMemcpy(d_object, h_object, sizeof(t_light), cudaMemcpyHostToDevice);
+		cudaMemcpy(d_object, h_object, sizeof(t_object), cudaMemcpyHostToDevice);
 		
 		p_object = p_object->next;
 	}
@@ -258,14 +246,14 @@ __host__ void allocate_scene(t_raytracing_tools *h_r_tmp)
 
 	allocate_camera(h_scene);
 	allocate_lights(h_scene);
-	allocate_objects(h_scene);
+	h_r_tmp->objects = allocate_objects(h_r_tmp->objects);
 
 	cudaMalloc(&d_scene, sizeof(t_scene));
 	h_r_tmp->scenes = d_scene;
 	cudaMemcpy(d_scene, h_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
 }
 
-__host__ t_raytracing_tools  *allocate_memory(t_raytracing_tools *h_r)
+__host__ __device__ t_raytracing_tools  *allocate_memory(t_raytracing_tools *h_r)
 {
 	C(11)
 	t_raytracing_tools	*d_r;
@@ -274,10 +262,8 @@ __host__ t_raytracing_tools  *allocate_memory(t_raytracing_tools *h_r)
 	h_r_tmp = (t_raytracing_tools *)malloc(sizeof(t_raytracing_tools));
 	memcpy(h_r_tmp, h_r, sizeof(t_raytracing_tools));
 
-	// allocate_scenes(d_r, h_r);
+	allocate_scenes(d_r, h_r);
 
-
-	// cudaMallocManaged(&d_r, sizeof(t_raytracing_tools));
 	cudaMalloc(&d_r, sizeof(t_raytracing_tools));
 	cudaMemcpy(d_r, h_r_tmp, sizeof(t_raytracing_tools), cudaMemcpyHostToDevice);
 	// printf("%d\n", d_r->pix.x);
@@ -285,91 +271,194 @@ __host__ t_raytracing_tools  *allocate_memory(t_raytracing_tools *h_r)
 	// memcpy(d_r, h_r, sizeof(t_raytracing_tools));
 	C(13)
 	return (d_r);
+}*/
+
+__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map)
+{
+	t_ray	cam_ray;
+	t_pt2 	pixel;
+	int x;
+	int y;
+
+
+	x = (blockDim.x * blockIdx.x) + threadIdx.x;
+	y = (blockDim.y * blockIdx.y) + threadIdx.y;
+	pixel.x = x;
+	pixel.y = y;
+
+	// printf("Coucou : %d\n", r->scenes->res.x * y + x);
+    int idx = 1000 * y + x;
+	cam_ray = init_camera_ray(pixel, scene);
+	if (idx < 1000 * 1000)
+		d_pixel_map[idx] = cast_primary_ray(scene, &cam_ray);
 }
 
-__global__ void render_pixel(t_raytracing_tools *r, t_color *d_pixel_map)
+t_object	*list_to_array_objects(t_object *object)
 {
-	// t_ray	cam_ray;
+	int			size;
+	t_object	*head;
+	t_object	*array;
 
-	(void)r;
-
-
-	// int blockId = blockIdx.x + blockIdx.y * gridDim.x; 
-	// int idx = blockId * (blockDim.x * blockDim.y) + (threadIdx.y * blockDim.x) + threadIdx.x;
-    int x = (blockDim.x * blockIdx.x) + threadIdx.x;
-    int y = (blockDim.y * blockIdx.y) + threadIdx.y;
-    int idx = r->scenes->res.x * y + x;
-	// r->pix.x = pixel.x;
-	// r->pix.y = pixel.y;
-	// cam_ray = init_camera_ray(pixel, r->scenes);*/
-	if (idx < r->scenes->res.x * r->scenes->res.y)
+	size = 0;
+	head = object;
+	while (object)
 	{
-		d_pixel_map[idx].x = 255;//cast_primary_ray(r, &cam_ray);
-		d_pixel_map[idx].y = 255;//cast_primary_ray(r, &cam_ray);
-		d_pixel_map[idx].z = 255;//cast_primary_ray(r, &cam_ray);
+		++size;
+		object = object->next;
 	}
+	array = (t_object *)malloc(sizeof(t_object) * size + 1); // malloc error
+	array[size].type = T_INVALID_TOKEN;
+	object = head;
+	size = -1;
+	while (object)
+	{
+		memcpy(&array[++size], object, sizeof(t_object)); // stack memcpy ?
+		object = object->next;
+	}
+	return (array);
+}
+
+size_t			get_object_array_length(t_object *objects)
+{
+	size_t	size;
+
+	size = 0;
+	while (objects[size].type != T_INVALID_TOKEN)
+		++size;
+	return ((size + 1) * sizeof(t_object));
+}
+
+t_light		*list_to_array_lights(t_light *light)
+{
+	int			size;
+	t_light	*head;
+	t_light	*array;
+
+	size = 0;
+	head = light;
+	while (light)
+	{
+		++size;
+		light = light->next;
+	}
+	array = (t_light *)malloc(sizeof(t_light) * size + 1); // malloc error
+	array[size].col.x = -1;
+	light = head;
+	size = -1;
+	while (light)
+	{
+		memcpy(&array[++size], light, sizeof(t_light));
+		light = light->next;
+	}
+	return (array);
+}
+
+size_t			get_lights_array_length(t_light *lights)
+{
+	size_t	size;
+
+	size = 0;
+	while (lights[size].col.x != -1)
+		++size;
+	return ((size + 1) * sizeof(t_light));
 }
 
 __host__
-void		render(t_raytracing_tools *r)
+void		render(t_scene *scene)
 {
-	t_raytracing_tools *d_r;
 	t_color	*d_pixel_map;
 	t_color *h_pixel_map;
 
-	d_r = allocate_memory(r);
-	cudaMalloc((void**) &d_pixel_map, sizeof(t_color) * r->scenes->res.y * r->scenes->res.x);
-	h_pixel_map = (t_color *)malloc(sizeof(t_color) * r->scenes->res.y * r->scenes->res.x);
+	t_scene		*h_scene;
+	t_scene		*d_scene;
+
+	t_object	*d_objects;
+	t_light		*d_lights;
+	t_camera	*d_camera;
+
+	h_scene = (t_scene *)malloc(sizeof(t_scene)); // malloc error
+	h_scene->objects = list_to_array_objects(scene->objects);
+	h_scene->lights = list_to_array_lights(scene->lights);
+	h_scene->cameras = (t_camera *)malloc(sizeof(t_camera));
+	memcpy(h_scene->cameras, scene->cameras, sizeof(t_camera));
+
+	cudaMalloc(&d_scene, sizeof(t_scene *));
+	cudaMalloc(&d_objects, get_object_array_length(h_scene->objects));
+	cudaMalloc(&d_lights, get_lights_array_length(h_scene->lights));
+	cudaMalloc(&d_camera, sizeof(t_camera));
+
+	cudaMemcpy(d_objects, h_scene->objects, get_object_array_length(h_scene->objects), cudaMemcpyHostToDevice);
+	cudaMemcpy(d_lights, h_scene->lights, get_lights_array_length(h_scene->lights), cudaMemcpyHostToDevice);
+	cudaMemcpy(d_camera, h_scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice);
+
+	h_pixel_map = (t_color *)malloc(sizeof(t_color) * scene->res.y * scene->res.x);
+	cudaMalloc((void**) &d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);
 
 	dim3 block_size;
 	dim3 grid_size;
 
-	h_pixel_map[0].x = -1;
-
 	dim3 blockSize = dim3(32, 32, 1);
-	dim3 gridSize = dim3((blockSize.x + r->scenes->res.x - 1) / blockSize.x, (blockSize.y + r->scenes->res.y - 1) / blockSize.y, 1);
-
-	printf("grid size: %i, %i\n", gridSize.x, gridSize.y); 
-	// dim3	blockSize(100);
-	// dim3	gridSize(10, 10, 10);
-
-
-	render_pixel<<<gridSize, blockSize>>>(d_r, d_pixel_map);
-
-	// render_pixel<<<grid_size, block_size>>>(d_r, d_pixel_map);
+	dim3 gridSize = dim3(scene->res.x / 32 + 1, scene->res.y / 32 + 1);
+	render_pixel<<<gridSize, blockSize>>>(d_scene, d_pixel_map);
 	cudaDeviceSynchronize();
 
-	C(4)
-	// cudaMemcpy(r->scenes->cameras->pixel_map, d_r->scenes->cameras->pixel_map, sizeof(t_color *) * r->scenes->res.y, cudaMemcpyDeviceToHost);
-	// r->scenes->cameras->pixel_map = d_r->scenes->cameras->pixel_map;
-	cudaMemcpy(h_pixel_map, d_pixel_map, sizeof(t_color) * r->scenes->res.y * r->scenes->res.x, cudaMemcpyDeviceToHost);
-	// h_pixel_map[0].x = 255;
-	C(5)
-	// while (++i < r->scenes->res.y)
-		// cudaMemcpy(h_pixel_map[i], d_pixel_map[i], sizeof(t_color) * r->scenes->res.x, cudaMemcpyDeviceToHost);
-		//printf("%f\n", d_r->scenes->cameras->pixel_map[i][0].x);
-		//memcpy(r->scenes->cameras->pixel_map[i], d_r->scenes->cameras->pixel_map[i], sizeof(t_color) * r->scenes->res.x);
-		// r->scenes->cameras->pixel_map[i] = d_r->scenes->cameras->pixel_map[i];
-	C(6)
-	int i = -1;
-	while (++i < 30) //r->scenes->res.y * r->scenes->res.x)
-		printf("%f\n", h_pixel_map[i].x);
+	cudaMemcpy(h_pixel_map, d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x, cudaMemcpyDeviceToHost);
 
+	// Copie la pixel map cree a partir du device dans la scene courante. A modifier, buerk, caca!
 	t_pt2 coord;
-
 	coord.y = -1;
-	while (++coord.y < r->scenes->res.y)
+	while (++coord.y < scene->res.y)
 	{
 		coord.x = -1;
-		while (++coord.x < r->scenes->res.x)
+		while (++coord.x < scene->res.x)
 		{
-			r->scenes->cameras->pixel_map[coord.y][coord.x] = h_pixel_map[r->scenes->res.y * coord.x + coord.y];
+			scene->cameras->pixel_map[coord.y][coord.x] = h_pixel_map[scene->res.y * coord.x + coord.y];
 		}
 	}
-}
 
-// __device__
-// static void	display_percentage(int num)
-// {
-// 	ft_printf("Loading...%i%%\r", num);
-// }
+	free(h_scene->objects);
+	free(h_scene->lights);
+	free(h_scene->cameras);
+	free(h_scene);
+	free(h_pixel_map);
+	cudaFree(d_objects);
+	cudaFree(d_lights);
+	cudaFree(d_camera);
+	cudaFree(d_scene);
+	cudaFree(d_pixel_map);
+
+	// Malloc une scene sur le CPU
+	// Malloc tableau d'objets sur le CPU
+	// Malloc tableau de lights sur le CPU
+	// Malloc camera CPU
+	// Malloc tableau d'objets sur le GPU
+	// Malloc tableau de lights sur le GPU
+	// Malloc camera GPU
+	// Copier tout du CPU au GPU
+	// Malloc une scene sur le GPU
+	// Copie la scene CPU sur le GPU
+	// Lance le kernel
+	// Free les listes GPU a partir de scene CPU
+	// Free la scene GPU
+	// Free la scene CPU et ses objets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
