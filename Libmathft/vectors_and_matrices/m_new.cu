@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 17:06:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:26:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 12:20:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,18 @@
 */
 
 __host__ __device__
-t_matrix	m_new(void)
+t_matrix	*m_new(void)
 {
 	int			x;
 	int			y;
-	t_matrix	m;
+	t_matrix	*m;
 
-	if (!(m = (t_matrix)malloc(sizeof(double *) * 4)))
-		return (m);
 	y = -1;
 	while (++y < 4)
 	{
-		if (!(m[y] = (double *)malloc(sizeof(double) * 4)))
-			return (m);
 		x = -1;
 		while (++x < 4)
-			m[y][x] = 0;
+			(*m)[y][x] = 0;
 	}
 	return (m);
 }

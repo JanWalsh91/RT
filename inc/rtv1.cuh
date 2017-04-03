@@ -215,6 +215,7 @@ typedef	struct	s_ray
 	t_vec3			origin;
 	t_vec3			dir;
 	double			t;
+	double			t2;
 	t_vec3			hit;
 	int				hit_obj; //index of hit obj
 	t_token			hit_type;
@@ -286,7 +287,7 @@ typedef struct	s_camera
 	t_vec3			dir;
 	t_vec3			rot;
 	t_vec3			look_at;
-	t_color			**pixel_map;
+	t_color			*pixel_map;
 	t_matrix		ctw;
 	double			scale;
 	double			fov;

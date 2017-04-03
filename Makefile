@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/02 14:08:50 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/03 16:40:15 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = #-arch=sm_20
+CUFLAGS = -arch=sm_30
 FLG = $(CUFLAGS) #-Werror -Wextra -Wall
 SDL_PATH = sdl2/
 SDL2 = `$(SDL_PATH)/sdl2-config --cflags --libs`
@@ -143,7 +143,7 @@ $(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $
 	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	$(NVCC) $(CUFLAGS) $(SDL2) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(SDL2) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)RTv1 compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c

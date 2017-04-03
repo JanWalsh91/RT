@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/02 18:07:52 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 18:11:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,37 @@ t_color			cast_primary_ray(t_scene *scene, t_ray *ray)
 {
 	t_ray		shadow_ray;
 	int			i;
+	t_color 	col = v_new(0, 0, 0);
 
-	scene->t = INFINITY;
+	// C(1)
+	ray->t2 = INFINITY;
 	i = -1;
-	while (scene->objects[++i].type != -1)
+	while (scene->objects[++i].type != T_INVALID_TOKEN)
 	{
-		if (intersects(scene, ray, i) && scene->t > ray->t)
-			scene->t = ray->t;
+		if (intersects(scene, ray, i) && ray->t2 > ray->t)
+			ray->t2 = ray->t;
 	}
-	if (scene->t == INFINITY)
+	// if (200 < scene->pix.x && scene->pix.x < 300)
+	// {
+	// 	col.z = 255;
+	// }//ray->t2 = 10;
+	// else
+	// {
+	// 	col = v_new(255, 0, 0);
+	// }
+	// C(2)
+	if (ray->t2 == INFINITY)
 		return (scene->background_color);
-	ray->hit = v_add(ray->origin, v_scale(ray->dir, scene->t));
+		// return (v_new(0, 0, 255));
+	// C(3)
+	ray->hit = v_add(ray->origin, v_scale(ray->dir, ray->t2));
+	// C(4)
 	get_normal(ray, &scene->objects[ray->hit_obj]);
-	return (get_color_at_hitpoint(scene, ray, &shadow_ray));
+	// C(5)
+	// col = get_color_at_hitpoint(scene, ray, &shadow_ray);
+	col = scene->objects[ray->hit_obj].col;
+	// printf("col: %f, %f, %f\n", col.x, col.y, col.z);
+	return (col);
 }
 
 __device__
@@ -54,7 +72,8 @@ static t_color	get_color_at_hitpoint(t_scene *scene, t_ray *ray,
 
 	color = v_new(0, 0, 0);
 	i = -1;
-	while (&scene->lights[++i] != NULL)
+	// C(42)
+	while (scene->lights[++i].col.x != -1)
 	{
 		if (!in_shadow(scene, ray, shadow_ray, &scene->lights[i]))
 		{

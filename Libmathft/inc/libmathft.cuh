@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/01 12:24:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 12:27:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct	s_vec3
 	double		z;
 }				t_vec3;
 
-typedef double	**t_matrix;
+typedef double	t_matrix[4][4];
 
 EXT
 CUDA_HOSTDEV
@@ -102,29 +102,29 @@ t_vec3			v_sub(t_vec3 vec1, t_vec3 vec2);
 */
 
 CUDA_HOSTDEV
-t_matrix		m_add(t_matrix m1, t_matrix m2);
+t_matrix		*m_add(t_matrix *m1, t_matrix *m2);
 CUDA_HOSTDEV
-t_matrix		m_inverse(t_matrix m);
+t_matrix		*m_inverse(t_matrix *m);
 CUDA_HOSTDEV
-t_matrix		m_mult(t_matrix m1, t_matrix m2);
+t_matrix		*m_mult(t_matrix *m1, t_matrix *m2);
 CUDA_HOSTDEV
-t_matrix		m_new_identity(void);
+t_matrix		*m_new_identity(void);
 CUDA_HOSTDEV
-t_matrix		m_new_rodriguez(t_vec3 a, t_vec3 b);
+t_matrix		*m_new_rodriguez(t_vec3 a, t_vec3 b);
 CUDA_HOSTDEV
-t_matrix		m_new_rotate(float angle, char axis);
+t_matrix		*m_new_rotate(float angle, char axis);
 CUDA_HOSTDEV
-t_matrix		m_new_scale(double i);
+t_matrix		*m_new_scale(double i);
 CUDA_HOSTDEV
-t_matrix		m_new(void);
+t_matrix		*m_new(void);
 CUDA_HOSTDEV
-t_vec3			m_p_mult(t_vec3 p, t_matrix m);
+t_vec3			m_p_mult(t_vec3 p, t_matrix *m);
 CUDA_HOSTDEV
-t_matrix		m_scale(t_matrix m, double i);
+t_matrix		*m_scale(t_matrix *m, double i);
 CUDA_HOSTDEV
-t_matrix		m_translate(t_matrix m, t_vec3 v);
+t_matrix		*m_translate(t_matrix *m, t_vec3 v);
 CUDA_HOSTDEV
-t_vec3			m_v_mult(t_vec3 v, t_matrix m);
+t_vec3			m_v_mult(t_vec3 v, t_matrix *m);
 EXT_END
 
 #endif

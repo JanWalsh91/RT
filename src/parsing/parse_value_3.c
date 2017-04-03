@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:13:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 14:56:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void		parse_resolution(t_parse_tools *t)
 	s2 = split_trim(t->input->value, ',');
 	if (!(s2[0] && s2[1]) && (invalid = true))
 		rt_file_warning(t, "Resolution formatting error.");
-	if ((new_res.x = ft_atoi(s2[0])) < 100 || new_res.x > 2560 ||
-		(new_res.y = ft_atoi(s2[1])) < 100 || new_res.y > 1600)
+	if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 2560 ||
+		(new_res.y = ft_atoi(s2[1])) < 1 || new_res.y > 1600)
 	{
 		invalid = true;
 		rt_file_warning(t, "Resolution width and height invalid.");

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/05 15:36:08 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 16:23:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@
 
 void	init_camera(t_scene *scene, t_camera *cam)
 {
-	int	y;
+	// int	y;
 
 	cam->pixel_map = NULL;
-	if (!(cam->pixel_map = (t_color **)ft_memalloc(scene->res.y *
-		sizeof(t_color *))))
+	if (!(cam->pixel_map = (t_color *)ft_memalloc(scene->res.y * scene->res.x *
+		sizeof(t_color))))
 		ft_errno_exit();
-	y = -1;
-	while (++y < scene->res.y)
-		if (!(cam->pixel_map[y] = (t_color *)ft_memalloc(scene->res.x *
-			sizeof(t_color))))
-			ft_errno_exit();
+	// y = -1;
+	// while (++y < scene->res.y)
+	// 	if (!(cam->pixel_map[y] = (t_color *)ft_memalloc(scene->res.x *
+	// 		sizeof(t_color))))
+	// 		ft_errno_exit();
 	update_camera_scale(cam);
 	update_camera_ctw(cam);
 }
@@ -60,7 +60,7 @@ void	update_camera_ctw(t_camera *camera)
 	else
 		right = v_norm(v_cross(v_new(0, 1, 0), forward));
 	up = v_norm(v_cross(forward, right));
-	camera->ctw = m_new_identity();
+	ft_memcpy(camera->ctw, *m_new_identity(), sizeof(t_matrix));
 	camera->ctw[0][0] = right.x;
 	camera->ctw[0][1] = right.y;
 	camera->ctw[0][2] = right.z;

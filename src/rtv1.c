@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:39:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/02 18:51:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 16:22:32 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	rtv1(t_raytracing_tools *r)
 	t_color	col;
 	t_pt2	i;
 
-	render(r);
+	render(r->scenes);
 	init_sdl(r->scenes, &env);
 	SDL_RenderClear(env.ren);
 	i.y = -1;
@@ -33,7 +33,7 @@ int	rtv1(t_raytracing_tools *r)
 		i.x = -1;
 		while (++i.x < r->scenes->res.x)
 		{
-			col = (r->scenes)->cameras->pixel_map[i.y][i.x];
+			col = (r->scenes)->cameras->pixel_map[i.y * r->scenes->res.x + i.x];
 			SDL_SetRenderDrawColor(env.ren, col.x, col.y, col.z,
 				SDL_ALPHA_OPAQUE);
 			SDL_RenderDrawPoint(env.ren, i.x, i.y);

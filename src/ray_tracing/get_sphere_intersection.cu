@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:26:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/02 18:25:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 18:05:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ bool	get_sphere_intersection(t_scene *scene, t_ray *ray, int index)
 	(i.r1 < 0) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0)
 		return (false);
-	scene->t > i.r1 ? ray->t = i.r1 : 0;
-	if (ray->type == R_PRIMARY && scene->t > i.r1)
+	ray->t2 > i.r1 ? ray->t = i.r1 : 0;
+	if (ray->type == R_PRIMARY && ray->t2 > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_SPHERE;

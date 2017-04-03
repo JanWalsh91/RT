@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/02 14:07:11 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/03 16:40:28 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ HEAD = libmathft.cuh
 
 CC = nvcc
 
-CFLAGS = #-arch=sm_30#-Wall -Werror -Wextra
+CFLAGS = -arch=sm_30#-Wall -Werror -Wextra
 
 C_NONE = \033[0m
 C_BOLD = \033[1m
@@ -75,7 +75,7 @@ C_GRAY = \033[37m
 all: $(NAME)
 
 $(NAME):  $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC) 
-	$(CC) $(CFLAGS) -lib $@ -o $(NAME)
+	$(CC) $(CFLAGS) -lib $^ -o $(NAME)
 	@echo "$(C_CYAN)Libmathft compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./vectors_and_matrices/%.cu

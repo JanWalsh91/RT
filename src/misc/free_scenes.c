@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 14:12:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/03 16:25:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	free_cameras(t_camera *cams, t_pt2 res);
 static void	free_lights(t_light *lights);
 static void	free_objects(t_object *objs);
-static void	free_matrix(t_matrix *m);
+// static void	free_matrix(t_matrix *m);
 
 /*
 ** Frees the t_scenes linked list and all substructures.
@@ -46,7 +46,6 @@ void		free_scenes(t_scene *scenes)
 static void	free_cameras(t_camera *cams, t_pt2 res)
 {
 	t_camera	*tmp;
-	int			i;
 
 	while (cams->prev)
 		cams = cams->prev;
@@ -55,11 +54,6 @@ static void	free_cameras(t_camera *cams, t_pt2 res)
 		tmp = cams;
 		if (cams->name)
 			free(cams->name);
-		if (cams->ctw)
-			free_matrix(&cams->ctw);
-		i = -1;
-		while (++i < res.y)
-			free(cams->pixel_map[i]);
 		free(cams->pixel_map);
 		cams->pixel_map = NULL;
 		cams = cams->next;
@@ -98,13 +92,13 @@ static void	free_objects(t_object *objs)
 	}
 }
 
-static void	free_matrix(t_matrix *m)
-{
-	int	y;
+// static void	free_matrix(t_matrix *m)
+// {
+// 	int	y;
 
-	y = -1;
-	while (++y < 4)
-		free((*m)[y]);
-	free(*m);
-	*m = NULL;
-}
+// 	y = -1;
+// 	while (++y < 4)
+// 		free((*m)[y]);
+// 	free(*m);
+// 	*m = NULL;
+// }
