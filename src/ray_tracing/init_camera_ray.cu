@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 16:05:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 16:34:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/04 10:33:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 */
 
 __device__
-t_ray	init_camera_ray(t_pt2 i, t_scene *scene)
+t_ray	init_camera_ray(t_raytracing_tools *r)
 {
 	t_ray		cam_ray;
 	t_camera	*cam;
 	t_vec3		pix;
 
-	cam = &scene->cameras[0];
-	pix.x = (2 * (i.x + 0.5) / (double)scene->res.x - 1) *
-			scene->image_aspect_ratio * cam->scale;
-	pix.y = (1 - 2 * (i.y + 0.5) / (double)scene->res.y) * cam->scale;
+	cam = &r->scenes->cameras[0];
+	pix.x = (2 * (r->pix.x + 0.5) / (double)r->scenes->res.x - 1) *
+			r->scenes->image_aspect_ratio * cam->scale;
+	pix.y = (1 - 2 * (r->pix.y + 0.5) / (double)r->scenes->res.y) * cam->scale;
 	pix.z = CAM_IMG_PANE_DIST;
 	cam_ray.dir = v_norm(pix);
 	cam_ray.origin = cam->pos;

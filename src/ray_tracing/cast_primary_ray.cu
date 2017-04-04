@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 18:11:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/04 12:02:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,65 +22,49 @@
 ** are found.
 */
 
-static t_color	get_color_at_hitpoint(t_scene *scene, t_ray *ray,
+static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray);
 
 __device__
-t_color			cast_primary_ray(t_scene *scene, t_ray *ray)
+t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 {
 	t_ray		shadow_ray;
 	int			i;
-	t_color 	col = v_new(0, 0, 0);
+	t_color 	col;
 
-	// C(1)
-	ray->t2 = INFINITY;
+	r->t = INFINITY;
 	i = -1;
-	while (scene->objects[++i].type != T_INVALID_TOKEN)
+	while (r->scenes->objects[++i].type != T_INVALID_TOKEN)
 	{
-		if (intersects(scene, ray, i) && ray->t2 > ray->t)
-			ray->t2 = ray->t;
+		if (intersects(r, ray, i) && r->t > ray->t)
+			r->t = ray->t;
 	}
-	// if (200 < scene->pix.x && scene->pix.x < 300)
-	// {
-	// 	col.z = 255;
-	// }//ray->t2 = 10;
-	// else
-	// {
-	// 	col = v_new(255, 0, 0);
-	// }
-	// C(2)
-	if (ray->t2 == INFINITY)
-		return (scene->background_color);
-		// return (v_new(0, 0, 255));
-	// C(3)
-	ray->hit = v_add(ray->origin, v_scale(ray->dir, ray->t2));
-	// C(4)
-	get_normal(ray, &scene->objects[ray->hit_obj]);
-	// C(5)
-	// col = get_color_at_hitpoint(scene, ray, &shadow_ray);
-	col = scene->objects[ray->hit_obj].col;
+	if (r->t == INFINITY)
+		return (r->scenes->background_color);
+	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
+	get_normal(ray, &r->scenes->objects[ray->hit_obj]);
+	col = get_color_at_hitpoint(r, ray, &shadow_ray);
+	// col = r->scenes->objects[ray->hit_obj].col;
 	// printf("col: %f, %f, %f\n", col.x, col.y, col.z);
 	return (col);
 }
 
 __device__
-static t_color	get_color_at_hitpoint(t_scene *scene, t_ray *ray,
+static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray)
 {
 	t_color	color;
 	int		i;
 
-	color = v_new(0, 0, 0);
 	i = -1;
-	// C(42)
-	while (scene->lights[++i].col.x != -1)
+	while (!v_isnan(r->scenes->lights[++i].col))
 	{
-		if (!in_shadow(scene, ray, shadow_ray, &scene->lights[i]))
+		if (!in_shadow(r, ray, shadow_ray, &r->scenes->lights[i]))
 		{
-			color = v_add(color, get_diffuse(scene, ray, shadow_ray, &scene->lights[i]));
-			color = v_add(color, get_specular(scene, ray, shadow_ray, &scene->lights[i]));
+			color = v_add(color, get_diffuse(r->scenes, ray, shadow_ray, &r->scenes->lights[i]));
+			color = v_add(color, get_specular(r->scenes, ray, shadow_ray, &r->scenes->lights[i]));
 		}
 	}
-	color = v_add(color, get_ambient(scene));
+	color = v_add(color, get_ambient(r->scenes));
 	return (v_clamp(color, 0, 255));
 }
