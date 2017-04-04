@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:39:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 16:22:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/04 16:43:50 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,20 @@
 ** the renderer.
 */
 
+#include <time.h>
+
 int	rtv1(t_raytracing_tools *r)
 {
 	t_env	env;
 	t_color	col;
 	t_pt2	i;
 
+	clock_t start = clock();
 	render(r->scenes);
+	clock_t stop = clock();
+	printf("\nTotal de la fonction render : %f\n",
+  	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
+	
 	init_sdl(r->scenes, &env);
 	SDL_RenderClear(env.ren);
 	i.y = -1;

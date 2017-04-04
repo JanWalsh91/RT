@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/02 12:57:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/04 16:03:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ int	main(int ac, char **av)
 			rt_file_warning(NULL, "Skipped invalid file.");
 	}
 	i = 0;
+	clock_t start = clock();
 	while (++i < ac)
 		parse_input(&t);
 	check_scenes(t.scenes);
+	clock_t stop = clock();
+	printf("\n0. Parsing : %f milliseconds\n",
+  	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
+
 	r.scenes = t.scenes;
 	free_parse_tools(&t);
 	//print_scenes(r.scenes);
