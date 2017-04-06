@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/06 11:00:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 __device__
 static void	get_finite_cone_intersection(t_ray *ray,
 	t_object *object, t_intersection_tools *i);
+__device__
 static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray);
+__device__
 static bool	higher_than_max(double r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray);
 
