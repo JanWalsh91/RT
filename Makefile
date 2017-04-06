@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/05 12:12:21 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/06 18:44:13 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,12 +84,16 @@ RAY_TRACING = cast_primary_ray \
 			get_specular \
 			get_ambient \
 			reflect \
-			filters
+			filters \
+			export_bmp
 
 MISC = 		debug \
 			free_parse_tools \
 			free_scenes \
 			rt_error
+
+GUI =		sig_update_scene \
+			sig_update_objects
 
 OBJ_DIR = obj
 
@@ -103,6 +107,7 @@ SRC_DATA = $(addsuffix $(EXT_C), $(DATA_PREP))
 SRC_RT = $(addsuffix $(EXT_CU), $(RAY_TRACING))
 SRC_LST = $(addsuffix $(EXT_C), $(LIST))
 SRC_MISC = $(addsuffix $(EXT_C), $(MISC))
+SRC_GUI = $(addsuffix $(EXT_C), $(GUI))
 
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_SRC:.c=.o))
 OBJ_SDL = $(addprefix $(OBJ_DIR)/, $(SRC_SDL:.c=.o))
@@ -111,6 +116,7 @@ OBJ_DATA = $(addprefix $(OBJ_DIR)/, $(SRC_DATA:.c=.o))
 OBJ_RT = $(addprefix $(OBJ_DIR)/, $(SRC_RT:.cu=.o))
 OBJ_LST = $(addprefix $(OBJ_DIR)/, $(SRC_LST:.c=.o))
 OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
+OBJ_GUI = $(addprefix $(OBJ_DIR)/, $(SRC_GUI:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
@@ -118,6 +124,8 @@ CUFLAGS = -arch=sm_30
 FLG = $(CUFLAGS) #-Werror -Wextra -Wall
 SDL_PATH = sdl2/
 SDL2 = `$(SDL_PATH)/sdl2-config --cflags --libs`
+GTK3_LIBS = `pkg-config --libs gtk+-3.0`
+GTK3_INC = `pkg-config --cflags gtk+-3.0`
 
 C_NONE = \033[0m
 C_BOLD = \033[1m
@@ -134,7 +142,7 @@ ECHO = echo
 
 all: $(NAME)
 
-$(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC)
+$(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI)
 	@#if [ ! -d "$(SDL_PATH)lib" ]; then \
 		/bin/mkdir $(SDL_PATH)lib; \
 		cd $(SDL_PATH) ; ./configure --prefix=`pwd`/lib; \
@@ -144,28 +152,28 @@ $(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $
 	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	@$(NVCC) $(CUFLAGS) $(SDL2) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(SDL2) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) -dc -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/sdl/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) -dc -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/parsing/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) -dc -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/list/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) -dc -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/data_prep/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) -dc -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
@@ -173,7 +181,11 @@ $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 
 $(OBJ_DIR)/%.o : ./src/misc/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) -dc -I./inc -I./$(SDL_PATH)/include -c -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+
+$(OBJ_DIR)/%.o : ./src/gui/%.c
+	@/bin/mkdir -p $(OBJ_DIR)
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)

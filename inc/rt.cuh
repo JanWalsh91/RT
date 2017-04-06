@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/05 12:26:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/06 17:50:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -600,6 +600,9 @@ t_color			sepia_filter(t_color c);
 CUDA_DEV
 t_color			deutan_filter(t_color c);
 
+int				export_image(t_color *pixmap, int w, int h, char *file);
+
+
 
 /*
 ** SDL2 Functions
@@ -607,6 +610,7 @@ t_color			deutan_filter(t_color c);
 
 int				init_sdl(t_scene *scene, t_env *env);
 int				handle_sdl_events(t_scene *scenes, t_env *env);
+
 
 /*
 ** Free Functions

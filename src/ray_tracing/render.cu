@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/06 10:55:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/06 11:23:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,6 +338,9 @@ void		render(t_scene *scene)
 	start = clock();
 	memcpy(scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);
 	
+	// in a different thread:
+	// export_image(h_pixel_map, scene->res.y, scene->res.x, "image.bmp");
+
 	stop = clock();
 	printf("21. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
