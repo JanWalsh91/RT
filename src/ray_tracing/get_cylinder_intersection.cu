@@ -6,11 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:27:49 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/04 10:40:08 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 
 static void	get_finite_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 	int index, t_intersection_tools *i);

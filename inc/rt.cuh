@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rtv1.cuh                                             :+:      :+:    :+:   */
+/*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 15:53:33 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:46:40 by tgros            ###   ########.fr       */
+/*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
+/*   Updated: 2017/04/05 12:26:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RTV1_H
-# define RTV1_H
+#ifndef RT_H
+# define RT_H
 
 # include <fcntl.h>
 # include <errno.h>
@@ -542,7 +542,7 @@ void			set_default_specular_exp(t_scene *scene, int type, void *obj,
 */
 
 CUDA_DEV
-int				rtv1(t_raytracing_tools *r);
+int				rt(t_raytracing_tools *r);
 CUDA_DEV
 t_ray			init_camera_ray(t_raytracing_tools *r);
 CUDA_DEV
@@ -586,6 +586,20 @@ bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, double *r1, double *r2);
+
+/*
+** Filters functions
+*/
+
+CUDA_DEV
+t_color			b_w_filter(t_color c);
+CUDA_DEV
+t_color			b_w_filter_average(t_color c);
+CUDA_DEV
+t_color			sepia_filter(t_color c);
+CUDA_DEV
+t_color			deutan_filter(t_color c);
+
 
 /*
 ** SDL2 Functions

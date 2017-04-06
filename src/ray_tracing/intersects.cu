@@ -6,11 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 12:11:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/04 10:36:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 
 /*
 ** Checks for a ray-object intersection.

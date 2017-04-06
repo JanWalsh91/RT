@@ -6,11 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:13:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 14:56:18 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 
 static void	free_s2(char **s2);
 

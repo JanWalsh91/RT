@@ -6,11 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 
 static void			get_obj_direction(t_scene *scene, t_object *obj);
 static void			add_disks(t_scene *scene, t_object *obj);

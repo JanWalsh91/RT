@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 15:04:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 16:50:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** If a token is T_READ_RT_FILE, reads that file.
 */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 
 static void	check_fd(int *current_fd, int *line_number, int fd,
 			t_input *new_input);

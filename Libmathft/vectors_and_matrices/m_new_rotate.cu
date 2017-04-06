@@ -6,14 +6,17 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:22:02 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 12:22:29 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 12:36:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libmathft.cuh"
 
+__host__ __device__
 static t_matrix	*m_rot_x(float angle);
+__host__ __device__
 static t_matrix	*m_rot_y(float angle);
+__host__ __device__
 static t_matrix	*m_rot_z(float angle);
 
 /*

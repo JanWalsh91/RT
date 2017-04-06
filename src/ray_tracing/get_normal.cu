@@ -6,15 +6,19 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/02 17:28:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/06 10:56:12 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 
+__device__
 static void	get_sphere_normal(t_ray *ray, t_object *obj);
+__device__
 static void	get_plane_normal(t_ray *ray, t_object *obj);
+__device__
 static void	get_cylinder_normal(t_ray *ray, t_object *obj);
+__device__
 static void	get_cone_normal(t_ray *ray, t_object *obj);
 
 /*

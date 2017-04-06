@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/03 16:40:28 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/05 12:36:27 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ C_GRAY = \033[37m
 all: $(NAME)
 
 $(NAME):  $(OBJ_VECTORS_AND_MATRICES) $(OBJ_MISC) 
-	$(CC) $(CFLAGS) -lib $^ -o $(NAME)
+	@$(CC) $(CFLAGS) -lib $^ -o $(NAME)
 	@echo "$(C_CYAN)Libmathft compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./vectors_and_matrices/%.cu

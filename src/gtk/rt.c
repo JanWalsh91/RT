@@ -52,7 +52,17 @@ static void activate(GtkApplication* app, gpointer user_data)
 	gtk_window_set_title(GTK_WINDOW(window), "RT properties");
 	gtk_window_set_default_size(GTK_WINDOW(window), 400, 600);
 	gtk_container_add(GTK_CONTAINER(window), tab);
+	// gtk_window_move (GTK_WINDOW(window), 1000, 1000); // Changer la position initiale de la fenetre. Essayer peut etre de la mettre sur le bord gauche, un peu decolle
 	gtk_widget_show_all(window);
+}
+
+GMenuModel	*get_menu_model()
+{
+	GMenuModel	*menu_model;
+
+	menu_model = G_MENU_MODEL(g_menu_new());
+
+	return (menu_model);
 }
 
 int main(int argc, char **argv)
@@ -61,6 +71,7 @@ int main(int argc, char **argv)
 	int status;
 
 	app = gtk_application_new("org.gtk.example", G_APPLICATION_FLAGS_NONE);
+	gtk_application_set_app_menu(app, get_menu_model());
 	g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
 	status = g_application_run(G_APPLICATION(app), argc, argv);
 	g_object_unref(app);

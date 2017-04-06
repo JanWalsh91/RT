@@ -6,11 +6,23 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 10:54:14 by tgros             #+#    #+#             */
-/*   Updated: 2017/03/30 10:54:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/05 11:05:13 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
+
+	//gtk_widget_set_sensitive (pos, FALSE); // Desactive un widget
+
+void	whut(GtkWidget *pos_x, gpointer pos_y)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET(pos_y), FALSE); // Desactive un widget
+}
+
+void	dewhut(GtkWidget *pos_z, gpointer pos_y)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET(pos_y), TRUE); // Desactive un widget
+}
 
 GtkWidget	*get_modify_object_ui()
 {
@@ -34,6 +46,15 @@ GtkWidget	*get_modify_object_ui()
 	GtkAdjustment	*adj_rot_x;
 	GtkAdjustment	*adj_rot_y;
 	GtkAdjustment	*adj_rot_z;
+	
+	// Size
+	GtkWidget	*height;
+	GtkWidget	*radius;
+	GtkWidget	*height_v;
+	GtkWidget	*radius_v;
+	GtkAdjustment	*adj_height;
+	GtkAdjustment	*adj_radius;
+	
 	// K*
 	GtkWidget	*kd_l;
 	GtkWidget	*ks_l;
@@ -100,6 +121,14 @@ GtkWidget	*get_modify_object_ui()
 	rot_y = gtk_spin_button_new(adj_rot_y, 0.5, 2);
 	rot_z = gtk_spin_button_new(adj_rot_z, 0.5, 2);
 
+	height = gtk_label_new("Height");
+	radius = gtk_label_new("Radius");
+	adj_height = gtk_adjustment_new(1, 0, 5000, 0.5, 0.5, 0);
+	adj_radius = gtk_adjustment_new(1, 0, 5000, 0.5, 0.5, 0);
+	height_v = gtk_spin_button_new(adj_height, 0.5, 2);
+	radius_v = gtk_spin_button_new(adj_radius, 0.5, 2);
+
+
 	kd_l = gtk_label_new("Kd");
 	ks_l = gtk_label_new("Ks");
 	spec_exp_l = gtk_label_new("Spec exp");
@@ -117,38 +146,51 @@ GtkWidget	*get_modify_object_ui()
 	//texture_v = gtk_file_chooser_widget_new(GTK_FILE_CHOOSER_ACTION_OPEN);
 	texture_v = gtk_file_chooser_button_new("Texture", GTK_FILE_CHOOSER_ACTION_OPEN);
 
+	g_signal_connect(pos_x, "value-changed", G_CALLBACK(whut), pos_y);
+	g_signal_connect(pos_z, "value-changed", G_CALLBACK(dewhut), pos_y);
+
+
 	// ==========================
 	//	Ajout dans la grille
 	// ==========================
 
-	gtk_grid_attach(GTK_GRID(ui), lst_obj, 0, 0, 1, 10);
+	int line = -1;
 
-	gtk_grid_attach(GTK_GRID(ui), sep1, 1, 0, 1, 10);
+	gtk_grid_set_column_homogeneous (GTK_GRID(ui), FALSE);
 
-	gtk_grid_attach(GTK_GRID(ui), pos, 2, 0, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), pos_x, 3, 0, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), pos_y, 4, 0, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), pos_z, 5, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), lst_obj, 0, ++line, 1, 10);
 
-	gtk_grid_attach(GTK_GRID(ui), rot, 2, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), rot_x, 3, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), rot_y, 4, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), rot_z, 5, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), sep1, 1, line, 1, 10);
 
-	gtk_grid_attach(GTK_GRID(ui), kd_l, 2, 2, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), kd_v, 3, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), pos, 2, line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), pos_x, 3, line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), pos_y, 4, line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), pos_z, 5, line, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(ui), rot, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), rot_x, 3, line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), rot_y, 4, line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), rot_z, 5, line, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(ui), height, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), height_v, 3, line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), radius, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), radius_v, 3, line, 1, 1);
+
+	gtk_grid_attach(GTK_GRID(ui), kd_l, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), kd_v, 3, line, 1, 1);
 	
-	gtk_grid_attach(GTK_GRID(ui), ks_l, 2, 3, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), ks_v, 3, 3, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), ks_l, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), ks_v, 3, line, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(ui), spec_exp_l, 2, 4, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), spec_exp_v, 3, 4, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), spec_exp_l, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), spec_exp_v, 3, line, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(ui), color_l, 2, 5, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), color, 3, 5, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), color_l, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), color, 3, line, 1, 1);
 
-	gtk_grid_attach(GTK_GRID(ui), texture_l, 2, 6, 1, 1);
-	gtk_grid_attach(GTK_GRID(ui), texture_v, 3, 6, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), texture_l, 2, ++line, 1, 1);
+	gtk_grid_attach(GTK_GRID(ui), texture_v, 3, line, 1, 1);
 
 	return (ui);
 }

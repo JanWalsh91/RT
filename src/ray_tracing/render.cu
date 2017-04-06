@@ -6,13 +6,14 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/04 16:47:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/06 10:55:50 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rtv1.cuh"
+#include "../../inc/rt.cuh"
 #include "../../inc/cuda_call.h"
 
+#include <pthread.h>
 
 /*
 ** Updates a camera's pixel_map (color of image pixels).
@@ -44,7 +45,7 @@ void	printte_matrix(t_matrix m)
 	}
 }
 
-__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map)
+__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *loading*/)
 {
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
@@ -63,14 +64,17 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map)
 	{
 		// printf("Coucou\n");
 		printf("%f\n", scene->lights[1].col.x);
+		// *loading = 20;
 	}
+
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		cam_ray = init_camera_ray(&r);	
 		d_pixel_map[idx] = cast_primary_ray(&r, &cam_ray);
 	}
-	// __syncthreads();
+	//loading->x = atomicAdd(&(loading->x), 1);
+	//__syncthreads();
 }
 
 
@@ -153,6 +157,16 @@ size_t			get_lights_array_length(t_light *lights)
 }
 
 		#include <time.h>
+
+// void		*loading_bar(void	*pt)
+// {
+// 	t_pt2 *max = (t_pt2*) pt;
+// 	// usleep(1000000);
+
+// 	while (max->x < max->y / 2) ;
+// 		printf("loading : %d\n", max->x);
+// 	return NULL;
+// }
 
 void		render(t_scene *scene)
 {
@@ -288,15 +302,30 @@ void		render(t_scene *scene)
 	dim3 blockSize 	= dim3(BLOCK_DIM, BLOCK_DIM, 1);
 	dim3 gridSize	= dim3(scene->res.x / BLOCK_DIM + 1, scene->res.y / BLOCK_DIM + 1);
 
+
+	// pthread_t	p0;
+
+	// t_pt2 *progress;
+
+	// cudaMallocHost(&progress, sizeof(t_pt2));
+
+	// progress->x = 0;
+	// progress->y = scene->res.x * scene->res.y;
+
+	// pthread_create(&p0, NULL, loading_bar, progress);
+
+
 	start = clock();
-	render_pixel<<<gridSize, blockSize>>>(d_scene, d_pixel_map);
+	render_pixel<<<gridSize, blockSize>>>(d_scene, d_pixel_map/*, progress*/);
 	// gpuErrchk( cudaPeekAtLastError() ); // Debug
 	// gpuErrchk( cudaDeviceSynchronize() ); // Debug
-	// cudaDeviceSynchronize();
+	cudaDeviceSynchronize();
 	stop = clock();
 	printf("19. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 
+	//   printf("!!!%d \n", progress->x);
+	//   pthread_join(p0, NULL);
 
 	start = clock();
 	cudaMemcpy(h_pixel_map, d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x, cudaMemcpyDeviceToHost);
