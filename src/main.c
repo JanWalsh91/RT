@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/07 17:07:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/07 18:07:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,43 @@ int	main(int ac, char **av)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxObjects"));
 	g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_object), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_z), &g);
+
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_z), &g);
+
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_z), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightIntensity"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_intensity), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonLight"));
+	g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_light_color), &g);
+
+
 
     // g_object_unref(g.builder);
  

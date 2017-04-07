@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/07 17:09:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/07 18:05:36 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,6 @@ void	*update_lights_panel(t_gtk_tools *g) //change name
 	
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_lights_info_panel(g, g->r->scenes->lights);
-
-	// gtk_spin_button_set_value (GTK_SPIN_BUTTON(widget), g->r->scenes->res.x);
-	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ResolutionYSpinButton"));
-	// gtk_spin_button_set_value (GTK_SPIN_BUTTON(widget), g->r->scenes->res.y);
-	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "RayDepthSpinButton"));
-	// gtk_spin_button_set_value (GTK_SPIN_BUTTON(widget), g->r->scenes->ray_depth);
-	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "AmbientLightCoeffSpinButton"));
-	// gtk_spin_button_set_value (GTK_SPIN_BUTTON(widget), g->r->scenes->ka);
-	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "AmbientLightColorPicker"));
-	// color.red = g->r->scenes->ambient_light_color.x / 255.0;
-	// color.green = g->r->scenes->ambient_light_color.y / 255.0;
-	// color.blue = g->r->scenes->ambient_light_color.z / 255.0;
-	// color.alpha = 1;
-	// gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
 	
 	gtk_widget_show_all(widget);
 	return (NULL);
@@ -57,5 +43,183 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 {
 	GtkWidget	*widget;
 	GdkRGBA		color;
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryLightName"));
+	gtk_entry_set_text (GTK_ENTRY(widget), light->name);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.x);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.y);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.z);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.x);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.y);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.x);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.y);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.z);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightIntensity"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->intensity);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ColorButtonLight"));
+	color.red = light->col.x / 255.0;
+	color.green = light->col.y / 255.0;
+	color.blue = light->col.z / 255.0;
+	color.alpha = 1;
+	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
 }
 
+// On va devoir faire ca pour chaque evenement de modification, donc autant en faire une fonction! Il faudra probablement la 
+// meme chose avec les objets si l'idee tient debout
+t_light	*get_light_from_list_box(t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+	int			index;
+	int			i;
+
+	i = -1;
+	index = gtk_list_box_row_get_index(gtk_list_box_get_selected_row(GTK_LIST_BOX(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"))));
+	l_ptr = g->r->scenes->lights;
+	while (++i != index && l_ptr)
+		l_ptr = l_ptr->next;
+	if (i != index || !l_ptr)
+		return (NULL);
+	else
+		return (l_ptr);
+}
+	
+void	*sig_update_light_pos_x(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_pos_y(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_pos_z(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+void	*sig_update_light_dir_x(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_dir_y(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_dir_z(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+void	*sig_update_light_rot_x(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->rot.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_rot_y(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->rot.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_rot_z(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->rot.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
+
+void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
+{
+	t_light			*l_ptr;
+	GdkRGBA			color;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER(color_chooser), &color);
+	l_ptr->col.x = color.red * 255;
+	l_ptr->col.y = color.green * 255;
+	l_ptr->col.z = color.blue * 255;
+	return (NULL);
+}
+
+void	*sig_update_light_intensity(GtkWidget *SpeedButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	return (NULL);
+}
