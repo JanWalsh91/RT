@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/06 17:50:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/07 16:31:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ typedef struct	s_object
 	double			refraction;
 	double			reflection;
 	double			specular_exp;
-	double			transparency;
+	double			transparency; // TODO
 	struct s_object	*next;
 }				t_object;
 
@@ -407,6 +407,13 @@ typedef struct	s_env
 	SDL_Renderer	*ren;
 	SDL_Event		e;
 }				t_env;
+
+typedef struct	s_th_export
+{
+	double	progress;
+	char	*filename;
+	struct s_gtk_tools *g;
+}				t_th_export;
 
 /*
 ** File Parsing Functions
@@ -600,8 +607,7 @@ t_color			sepia_filter(t_color c);
 CUDA_DEV
 t_color			deutan_filter(t_color c);
 
-int				export_image(t_color *pixmap, int w, int h, char *file);
-
+void			*export_image(void *th_export);
 
 
 /*

@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/06 18:44:13 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/07 17:06:46 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,15 +85,16 @@ RAY_TRACING = cast_primary_ray \
 			get_ambient \
 			reflect \
 			filters \
-			export_bmp
 
 MISC = 		debug \
 			free_parse_tools \
 			free_scenes \
-			rt_error
+			rt_error \
+			export_bmp
 
 GUI =		sig_update_scene \
-			sig_update_objects
+			sig_update_objects \
+			sig_update_lights
 
 OBJ_DIR = obj
 
@@ -192,14 +193,14 @@ clean:
 	@#/bin/rm -Rf $(SDL_PATH)lib
 	@#/bin/rm -Rf $(SDL_PATH)build
 	@$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
-	@make -C $(LIB_PATH) clean
-	@make -C $(LIBMATH_PATH) clean
+	# @make -C $(LIB_PATH) clean
+	# @make -C $(LIBMATH_PATH) clean
 	@$(ECHO) "$(C_GREEN)$(NAME) clean done.$(C_NONE)"
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@make -C $(LIB_PATH) fclean
-	@make -C $(LIBMATH_PATH) fclean
+	# @make -C $(LIB_PATH) fclean
+	# @make -C $(LIBMATH_PATH) fclean
 	@$(ECHO) "$(C_GREEN)$(NAME) fclean done.$(C_NONE)"
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/06 18:40:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/07 17:04:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,20 @@ void			*sig_update_ambient_light_coeff(GtkWidget *spin_button, t_gtk_tools *g);
 void 			*update_scene_panel(t_gtk_tools *g);
 
 /*
-** Object GUI panel
+** Objects GUI panel
 */
 
-void			*update_objects_panel(t_gtk_tools *g);
+void			*update_objects_panel(t_gtk_tools *g); //Camel
+void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
+void			update_objects_info_panel(t_gtk_tools *g, t_object *obj);
+
+/*
+** Lights GUI panel
+*/
+
+void			*update_lights_panel(t_gtk_tools *g); //Camel
+void			*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
+void			update_lights_info_panel(t_gtk_tools *g, t_light *light);
+
 
 #endif
