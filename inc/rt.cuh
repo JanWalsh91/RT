@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/07 16:31:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:36:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,7 +392,7 @@ typedef struct	s_intersection_tools
 
 typedef struct	s_raytracing_tools
 {
-	t_scene			*scenes;
+	t_scene			*scene;
 	t_pt2			pix;
 	double			t;
 }				t_raytracing_tools;

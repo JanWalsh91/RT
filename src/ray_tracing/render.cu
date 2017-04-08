@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/06 11:23:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 
 	r.pix.x = (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (blockDim.y * blockIdx.y) + threadIdx.y;
-	r.scenes = scene;
+	r.scene = scene;
 	
 	// printf("%d %d\n", blockIdx.x, blockIdx.y);
 	// printf("%d %d\n", threadIdx.x, threadIdx.y);	

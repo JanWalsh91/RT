@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/07 18:07:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 16:54:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 		// gtk_box_pack_start(GTK_BOX(), loading_bar, TRUE, TRUE, 0);
 
  		gtk_container_add(GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog))), loading_bar);
-		render(g->r->scenes);
+		render(g->r->scene);
 		// gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loading_bar), 0);
 		gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(loading_bar), TRUE);
 		gtk_widget_show_all(dialog);
@@ -110,7 +110,8 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		printf("\n0. Parsing : %f milliseconds\n",
 		(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 
-		g->r->scenes = g->t->scenes;
+		//TODO: change parser to read only one scene.
+		g->r->scene = g->t->scenes;
 		update_scene_panel(g);
 		update_objects_panel(g);
 		update_lights_panel(g);
@@ -119,7 +120,7 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);
-		//print_scenes(r.scenes);
+		//print_scenes(r.scene);
 	
 		g_free (filename);
 		gtk_widget_destroy (dialog);
@@ -155,7 +156,7 @@ int	main(int ac, char **av)
 			rt_file_warning(NULL, "Skipped invalid file.");
 		parse_input(g.t);
 		check_scenes(g.t->scenes);
-		g.r->scenes = g.t->scenes;
+		g.r->scene = g.t->scenes;
 		update_scene_panel(&g);
 		update_objects_panel(&g);
 		update_lights_panel(&g);
@@ -229,13 +230,43 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonLight"));
 	g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_light_color), &g);
 
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxObjectType"));
+	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_type), &g);
 
-
-    // g_object_unref(g.builder);
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryObjectName"));
+	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_obj_name), &g);
  
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_z), &g);
+	
     gtk_widget_show(window);                
     gtk_main();
-	// free_scenes(r.scenes);
+    // g_object_unref(g.builder);
+	// free_scenes(r.scene);
 	return (0);
 }
 

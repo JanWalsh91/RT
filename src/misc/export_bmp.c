@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_bmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/07 13:20:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,20 +106,20 @@ void		*export_image(void *data)
 		return (NULL);
 
 	C(2)
-	write_header(fd, th_export->g->r->scenes->res.x, th_export->g->r->scenes->res.y);
+	write_header(fd, th_export->g->r->scene->res.x, th_export->g->r->scene->res.y);
 	C(3)
 	i = -1;
-	while (++i < th_export->g->r->scenes->res.x * th_export->g->r->scenes->res.y)
+	while (++i < th_export->g->r->scene->res.x * th_export->g->r->scene->res.y)
 	{
-		r = th_export->g->r->scenes->cameras->pixel_map[i].x;
-		g = th_export->g->r->scenes->cameras->pixel_map[i].y;
-		b = th_export->g->r->scenes->cameras->pixel_map[i].z;
+		r = th_export->g->r->scene->cameras->pixel_map[i].x;
+		g = th_export->g->r->scene->cameras->pixel_map[i].y;
+		b = th_export->g->r->scene->cameras->pixel_map[i].z;
 		write(fd, &b, sizeof(BYTE));
 		write(fd, &g, sizeof(BYTE));
 		write(fd, &r, sizeof(BYTE));
-		if (i % th_export->g->r->scenes->res.x == 0)
+		if (i % th_export->g->r->scene->res.x == 0)
 		{
-			th_export->progress = (double)i / (th_export->g->r->scenes->res.x * th_export->g->r->scenes->res.y) + 0.1;
+			th_export->progress = (double)i / (th_export->g->r->scene->res.x * th_export->g->r->scene->res.y) + 0.1;
 			// printf("%f\n", th_export->progress);
 		}	
 	}

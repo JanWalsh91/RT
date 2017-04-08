@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_camera_ray.cu                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 16:05:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ t_ray	init_camera_ray(t_raytracing_tools *r)
 	t_camera	*cam;
 	t_vec3		pix;
 
-	cam = &r->scenes->cameras[0];
-	pix.x = (2 * (r->pix.x + 0.5) / (double)r->scenes->res.x - 1) *
-			r->scenes->image_aspect_ratio * cam->scale;
-	pix.y = (1 - 2 * (r->pix.y + 0.5) / (double)r->scenes->res.y) * cam->scale;
+	cam = &r->scene->cameras[0];
+	pix.x = (2 * (r->pix.x + 0.5) / (double)r->scene->res.x - 1) *
+			r->scene->image_aspect_ratio * cam->scale;
+	pix.y = (1 - 2 * (r->pix.y + 0.5) / (double)r->scene->res.y) * cam->scale;
 	pix.z = CAM_IMG_PANE_DIST;
 	cam_ray.dir = v_norm(pix);
 	cam_ray.origin = cam->pos;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/07 17:26:25 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/08 16:02:53 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -189,10 +189,10 @@ $(OBJ_DIR)/%.o : ./src/gui/%.c
 	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 clean:
-	@/bin/rm -Rf $(OBJ_DIR)
-	@/bin/rm -Rf $(SDL_PATH)lib
-	@/bin/rm -Rf $(SDL_PATH)build
-	@$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
+	# @/bin/rm -Rf $(OBJ_DIR)
+	# @/bin/rm -Rf $(SDL_PATH)lib
+	# @/bin/rm -Rf $(SDL_PATH)build
+	# @$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
 	# @make -C $(LIB_PATH) clean
 	# @make -C $(LIBMATH_PATH) clean
 	@$(ECHO) "$(C_GREEN)$(NAME) clean done.$(C_NONE)"

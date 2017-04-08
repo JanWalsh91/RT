@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/07 18:05:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ void	*update_lights_panel(t_gtk_tools *g) //change name
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"));
 
-	light = g->r->scenes->lights;
+	light = g->r->scene->lights;
 	while (light)
 	{
 		label = gtk_label_new(light->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 		light = light->next;
 	}
-	if (!g->r->scenes->lights)
+	if (!g->r->scene->lights)
 		return (NULL);
 	
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
-	update_lights_info_panel(g, g->r->scenes->lights);
+	update_lights_info_panel(g, g->r->scene->lights);
 	
 	gtk_widget_show_all(widget);
 	return (NULL);
@@ -95,7 +95,7 @@ t_light	*get_light_from_list_box(t_gtk_tools *g)
 
 	i = -1;
 	index = gtk_list_box_row_get_index(gtk_list_box_get_selected_row(GTK_LIST_BOX(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"))));
-	l_ptr = g->r->scenes->lights;
+	l_ptr = g->r->scene->lights;
 	while (++i != index && l_ptr)
 		l_ptr = l_ptr->next;
 	if (i != index || !l_ptr)

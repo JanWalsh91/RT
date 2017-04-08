@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cone_intersection.cu                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/06 11:00:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,19 @@ bool		get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
 {
 	t_intersection_tools i;
 
-	i.d1 = tan(r->scenes->objects[index].angle);
-	i.v1 = v_sub(ray->origin, r->scenes->objects[index].pos);
+	i.d1 = tan(r->scene->objects[index].angle);
+	i.v1 = v_sub(ray->origin, r->scene->objects[index].pos);
 	i.q.x = v_dot(ray->dir, ray->dir) - (1.0 + i.d1 * i.d1) *
-		pow(v_dot(ray->dir, r->scenes->objects[index].dir), 2.0);
+		pow(v_dot(ray->dir, r->scene->objects[index].dir), 2.0);
 	i.q.y = 2 * (v_dot(ray->dir, i.v1) - (1.0 + i.d1 * i.d1) *
-		v_dot(ray->dir, r->scenes->objects[index].dir) * v_dot(i.v1, r->scenes->objects[index].dir));
+		v_dot(ray->dir, r->scene->objects[index].dir) * v_dot(i.v1, r->scene->objects[index].dir));
 	i.q.z = v_dot(i.v1, i.v1) - (1.0 + i.d1 * i.d1) * pow(v_dot(i.v1,
-		r->scenes->objects[index].dir), 2.0);
+		r->scene->objects[index].dir), 2.0);
 	if (!solve_quadratic(i.q, &i.r1, &i.r2) || (i.r1 < 0 && i.r2 < 0))
 		return (false);
 	if (i.r2 < i.r1)
 		ft_swapd(&i.r1, &i.r2);
-	get_finite_cone_intersection(ray, &r->scenes->objects[index], &i);
+	get_finite_cone_intersection(ray, &r->scene->objects[index], &i);
 	(i.r1 < 0 || isnan(i.r1)) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0 || isnan(i.r1))
 		return (false);
