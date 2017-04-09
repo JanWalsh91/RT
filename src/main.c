@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/09 18:13:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/09 18:40:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,16 @@ void on_window_main_destroy()
 void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object 	*obj;
+	GtkWidget	*widget2;
 
-	obj = get_selected_object(g);
-	obj->dir = v_norm(obj->dir);
+	widget2 = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
+	if (gtk_widget_get_sensitive (widget2))
+	{
+		obj = get_selected_object(g);
+		obj->dir = v_norm(obj->dir);
+		update_objects_info_panel(g, g->r->scene->objects);
+		gtk_widget_set_sensitive (widget2, FALSE);
+	}
 	rt(g->r);
 	return (NULL);
 }
