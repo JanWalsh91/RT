@@ -194,6 +194,12 @@
     <property name="step_increment">10</property>
     <property name="page_increment">100</property>
   </object>
+  <object class="GtkListStore" id="ListStoreComboBoxObjLookAtName">
+    <columns>
+      <!-- column-name ObjectNames -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name Type -->
@@ -345,8 +351,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Full Screen</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="f" signal="activate" modifiers="GDK_MOD2_MASK"/>
+                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -703,7 +709,7 @@
                           <object class="GtkGrid">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_right">63</property>
+                            <property name="margin_right">56</property>
                             <property name="row_spacing">5</property>
                             <property name="column_spacing">5</property>
                             <child>
@@ -1165,16 +1171,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="ComboBoxObjectLookAt">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">4</property>
-                                <property name="top_attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkComboBox" id="ComboBoxObjectType">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -1203,7 +1199,26 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBoxText" id="ComboBoxTextLookAtName">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">4</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="ButtonObjectDirNormalize">
+                                <property name="label" translatable="yes">Normalize</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">4</property>
+                                <property name="top_attach">4</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>
@@ -1529,7 +1544,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="EntryLightName">
+                      <object class="GtkEntry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -1649,7 +1664,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinButton" id="SpinButtonLightIntensity">
+                      <object class="GtkSpinButton" id="SpinButtonLightLightIntensity">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightIntensity</property>

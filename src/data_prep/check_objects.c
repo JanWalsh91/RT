@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/09 18:32:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void			get_obj_direction(t_scene *scene, t_object *obj)
 	if (v_isnan(obj->dir) || (!obj->dir.x && !obj->dir.y && !obj->dir.z))
 		set_default_obj_dir(scene, obj->type, obj, &obj->dir);
 	obj->dir = v_norm(obj->dir);
+	if (v_isnan(obj->look_at))
+		obj->look_at = v_new(0, 0, 0);
 }
 
 static void			add_disks(t_scene *scene, t_object *obj)

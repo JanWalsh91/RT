@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 16:54:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/09 18:13:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@ void on_window_main_destroy()
 }
 
 
-void *sig_render(GtkWidget *widget, gpointer *data)
+void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
-	rt((t_raytracing_tools *)data);
+	t_object 	*obj;
+
+	obj = get_selected_object(g);
+	obj->dir = v_norm(obj->dir);
+	rt(g->r);
 	return (NULL);
 }
 
@@ -169,7 +173,7 @@ int	main(int ac, char **av)
     gtk_builder_connect_signals(g.builder, NULL);
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonRender"));
-	g_signal_connect(widget, "clicked", G_CALLBACK (sig_render), &r);
+	g_signal_connect(widget, "clicked", G_CALLBACK (sig_render), &g);
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
@@ -245,24 +249,57 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosZ"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_z), &g);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtX"));
-	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_x), &g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_x), &g);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtY"));
-	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_y), &g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_y), &g);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
-	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
-	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_x), &g);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ComboBoxTextLookAtName"));
+	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_lookat_name), &g);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionY"));
-	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_y), &g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_x), &g);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionZ"));
-	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_z), &g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_z), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonObjectDirNormalize"));
+	g_signal_connect(widget, "clicked", G_CALLBACK (sig_obj_dir_normalize), &g);
 	
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonObject"));
+	g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_obj_color), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKS"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_ks), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectSepcularExponent"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_spec_exp), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKD"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kd), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKT"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kt), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKRefraction"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_krefraction), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKReflection"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kreflection), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectRadius"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_radius), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectHeight"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_height), &g);
+
     gtk_widget_show(window);                
     gtk_main();
     // g_object_unref(g.builder);
