@@ -41,6 +41,11 @@ int	rt(t_raytracing_tools *r)
 		while (++i.x < r->scene->res.x)
 		{
 			col = (r->scene)->cameras->pixel_map[i.y * r->scene->res.x + i.x];
+			if (i.x == 200 && i.y == 200)
+			{
+				printf("checking for BUG: col at 200, 200:");
+				print_vec(col);
+			}
 			SDL_SetRenderDrawColor(env.ren, col.x, col.y, col.z,
 				SDL_ALPHA_OPAQUE);
 			SDL_RenderDrawPoint(env.ren, i.x, i.y);

@@ -1544,7 +1544,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry">
+                      <object class="GtkEntry" id="EntryLightName">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -1664,7 +1664,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinButton" id="SpinButtonLightLightIntensity">
+                      <object class="GtkSpinButton" id="SpinButtonLightIntensity">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightIntensity</property>

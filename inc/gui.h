@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/09 18:10:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 14:07:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ void			*sig_update_light_rot_x(GtkWidget *SpeedButton, t_gtk_tools *g);
 void			*sig_update_light_rot_y(GtkWidget *SpeedButton, t_gtk_tools *g);
 void			*sig_update_light_rot_z(GtkWidget *SpeedButton, t_gtk_tools *g);
 void			*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
-void			*sig_update_light_intensity(GtkWidget *color_chooser, t_gtk_tools *g);
-
+void			*sig_update_light_intensity(GtkWidget *SpeedButton, t_gtk_tools *g);
 
 
 

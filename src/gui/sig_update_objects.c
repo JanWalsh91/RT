@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/09 18:30:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 13:59:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	*update_objects_panel(t_gtk_tools *g) //change name
 	GtkWidget	*label;
 	GdkRGBA		color;
 	t_object	*obj;
+	printf("update_objects_panel\n");
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
-
 	obj = g->r->scene->objects;
 	while (obj)
 	{
@@ -45,6 +45,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	GdkRGBA		color;
 	t_token		type;
 	
+	printf("update_objects_info_panel\n");
 	type = obj->type;
 	obj->dir = v_norm(obj->dir);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryObjectName"));	
@@ -150,15 +151,35 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 void	init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object	*obj;
+	t_light		*light;
+	t_camera	*camera;
+	int			id;
 
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), "");
+	printf("init_obj_look_at_combo_box\n");
+	id = (gtk_combo_box_get_has_entry (GTK_COMBO_BOX(widget))) ?
+		gtk_combo_box_get_active (GTK_COMBO_BOX(widget)) : 0;
+	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), "");
 	obj = g->r->scene->objects;
 	while (obj)
 	{
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)obj->name);
 		obj = obj->next;
 	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), 0);
+	light = g->r->scene->lights;
+	while (light)
+	{
+		if (!v_isnan(light->pos))
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)light->name);
+		light = light->next;
+	}
+	camera = g->r->scene->cameras;
+	while (camera)
+	{
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)camera->name);
+		camera = camera->next;
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), id);
 	gtk_widget_show_all(widget);
 }
 
@@ -203,10 +224,11 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 	int			id;
 	t_object 	*obj;
 
+	printf("sig_update_obj_type\n");
 	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(ComboBox));
 	obj->type = id + 6;
-	printf("udpate object [%s] to type: [%i]\n", obj->name, obj->type);
+	// update_objects_info_panel(g, g->r->scene->objects);
 	return (NULL);
 }
 
@@ -262,6 +284,10 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->look_at.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 
+	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
+		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -282,6 +308,10 @@ void	*sig_update_obj_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->look_at.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 
+	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
+		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.y);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -302,6 +332,10 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->look_at.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 
+	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
+		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -313,20 +347,58 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	return (NULL);
 }
 
-//UNIFINISHED
 // UPDATE OBJECT LOOK AT BY NAME
+
+t_vec3		get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g)
+{
+	t_object	*obj;
+	t_light		*light;
+	t_camera	*camera;
+	int			id;
+	int			i;
+
+	i = 0;
+	id = gtk_combo_box_get_active(ComboBox);
+	obj = g->r->scene->objects;
+	if (i == id) //case when first entry is selected (no look at)
+		return (v_new(NAN, NAN, NAN));
+	while (obj && ++i != id)
+		obj = obj->next;
+	if (i == id)
+		return (obj->pos);
+	light = g->r->scene->lights;
+	while (light && ++i != id)
+		light = light->next;
+	if (i == id)
+		return (light->pos);
+	camera = g->r->scene->cameras;
+	while (camera && ++i != id)
+		camera = camera->next;
+	if (i == id)
+		return (camera->pos);
+	return (v_new(NAN, NAN, NAN));
+}
+
 void	*sig_update_obj_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 {
-	int			id;
-	t_object 	*look_at_obj;
+	t_vec3 		look_at;
 	t_object	*obj;
 	GtkWidget	*widget;
 
+	printf("sig_update_obj_lookat_name\n");
 	obj = get_selected_object(g);
-	id = gtk_combo_box_get_active(GTK_COMBO_BOX(ComboBox));
+	if (v_isnan(look_at = get_look_at_obj(GTK_COMBO_BOX(ComboBox), g)))
+		return (NULL); // INVALID OBJ POS
+	obj->dir = v_norm(v_sub(look_at, obj->pos));
+	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
+		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.x);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.y);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.z);
 
-	
-	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -335,7 +407,6 @@ void	*sig_update_obj_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	printf("udpate object [%s] to type: [%i]\n", obj->name, obj->type);
 	return (NULL);
 }
 
