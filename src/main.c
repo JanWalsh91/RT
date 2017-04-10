@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/10 15:09:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 17:00:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,8 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 			gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loading_bar), th_export.progress);
 			gtk_main_iteration_do(TRUE);
 		}
-		C(19)
 		pthread_join(export_thread, NULL);
-		C(20)
 		g_free (th_export.filename);
-		C(21)
 		gtk_widget_destroy(dialog);
 	}
 	return (NULL);
@@ -131,7 +128,7 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		update_scene_panel(g);
 		update_objects_panel(g);
 		update_lights_panel(g);
-		// update_cameras_panel
+		update_cameras_panel(g);
 
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
@@ -176,7 +173,7 @@ int	main(int ac, char **av)
 		update_scene_panel(&g);
 		update_objects_panel(&g);
 		update_lights_panel(&g);
-		// update_cameras_panel(&g);
+		update_cameras_panel(&g);
 		free_parse_tools(g.t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);
@@ -272,7 +269,7 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextLookAtName"));
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextObjLookAtName"));
 	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_lookat_name), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
@@ -313,6 +310,27 @@ int	main(int ac, char **av)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectHeight"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_height), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryCameraName"));
+	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_cam_name), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_z), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_look_at_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_look_at_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_look_at_z), &g);
 
     gtk_widget_show(window);                
     gtk_main();

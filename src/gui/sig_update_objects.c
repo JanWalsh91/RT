@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/10 13:59:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 16:41:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	type != T_SPHERE ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.z) :
 						gtk_widget_set_sensitive (widget, FALSE);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextLookAtName"));
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	type != T_SPHERE ? init_obj_look_at_combo_box(widget, g) :
 						gtk_widget_set_sensitive (widget, FALSE);

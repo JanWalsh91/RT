@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/08 16:02:53 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/10 16:18:30 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,8 @@ MISC = 		debug \
 
 GUI =		sig_update_scene \
 			sig_update_objects \
-			sig_update_lights
+			sig_update_lights \
+			sig_update_cameras
 
 OBJ_DIR = obj
 

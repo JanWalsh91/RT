@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/10 14:27:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 16:50:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			*sig_update_obj_kreflection(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g);
-
+t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);
 /*
 ** Lights GUI panel
 */
@@ -90,6 +90,13 @@ void			*sig_update_light_rot_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_rot_z(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
 void			*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g);
+
+/*
+** Cameras GUI panel
+*/
+
+void			*update_cameras_panel(t_gtk_tools *g);
+void			update_cameras_info_panel(t_gtk_tools *g, t_camera *camera);
 
 /*
 ** Debugging signals -- Remove
