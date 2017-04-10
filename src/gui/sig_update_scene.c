@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 14:19:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ void *update_scene_panel(t_gtk_tools *g)
 	return (NULL);
 }
 
-void	*sig_update_res_x(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
-	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpeedButton));
+	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
 	g->r->scene->image_aspect_ratio = (double)g->r->scene->res.x / (double)g->r->scene->res.y;
 	return (NULL);
 }
 
-void	*sig_update_res_y(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
-	g->r->scene->res.y = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpeedButton));
+	g->r->scene->res.y = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
 	g->r->scene->image_aspect_ratio = (double)g->r->scene->res.x / (double)g->r->scene->res.y;
 	return (NULL);
 }

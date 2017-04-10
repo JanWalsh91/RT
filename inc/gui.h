@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/10 14:07:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 14:27:15 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct	s_gtk_tools
 ** Scene GUI panel
 */
 
-void			*sig_update_res_x(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_res_y(GtkWidget *SpeedButton, t_gtk_tools *g);
+void			*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_udpate_ambient_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
 void			*sig_update_ambient_light_coeff(GtkWidget *spin_button, t_gtk_tools *g);
 void 			*update_scene_panel(t_gtk_tools *g);
@@ -79,18 +79,22 @@ void			*update_lights_panel(t_gtk_tools *g); //Camel
 void			update_lights_info_panel(t_gtk_tools *g, t_light *light);
 
 void			*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
-void			*sig_update_light_pos_x(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_pos_y(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_pos_z(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_dir_x(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_dir_y(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_dir_z(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_rot_x(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_rot_y(GtkWidget *SpeedButton, t_gtk_tools *g);
-void			*sig_update_light_rot_z(GtkWidget *SpeedButton, t_gtk_tools *g);
+void			*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_pos_y(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_rot_x(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_rot_y(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_light_rot_z(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
-void			*sig_update_light_intensity(GtkWidget *SpeedButton, t_gtk_tools *g);
+void			*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g);
 
+/*
+** Debugging signals -- Remove
+*/
 
+void			 *sig_print_scenes(GtkWidget *button, t_gtk_tools *g);
 
 #endif

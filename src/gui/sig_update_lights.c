@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/10 14:12:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 14:19:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,99 +104,99 @@ t_light	*get_light_from_list_box(t_gtk_tools *g)
 		return (l_ptr);
 }
 	
-void	*sig_update_light_pos_x(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
 
-void	*sig_update_light_pos_y(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_pos_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
 
-void	*sig_update_light_pos_z(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
-void	*sig_update_light_dir_x(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
-	return (NULL);
-}
-
-
-void	*sig_update_light_dir_y(GtkWidget *SpeedButton, t_gtk_tools *g)
-{
-	t_light		*l_ptr;
-
-	if (!(l_ptr = get_light_from_list_box(g)))
-		return (NULL);
-	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
 
-void	*sig_update_light_dir_z(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
-	return (NULL);
-}
-
-void	*sig_update_light_rot_x(GtkWidget *SpeedButton, t_gtk_tools *g)
-{
-	t_light		*l_ptr;
-
-	if (!(l_ptr = get_light_from_list_box(g)))
-		return (NULL);
-	l_ptr->rot.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
 
-void	*sig_update_light_rot_y(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->rot.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	return (NULL);
+}
+
+void	*sig_update_light_rot_x(GtkWidget *SpinButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->rot.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
 
-void	*sig_update_light_rot_z(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_rot_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->rot.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->rot.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	return (NULL);
+}
+
+
+void	*sig_update_light_rot_z(GtkWidget *SpinButton, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->rot.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }
 
@@ -214,12 +214,12 @@ void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	return (NULL);
 }
 
-void	*sig_update_light_intensity(GtkWidget *SpeedButton, t_gtk_tools *g)
+void	*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
-	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpeedButton));
+	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	return (NULL);
 }

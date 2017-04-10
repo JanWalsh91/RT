@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/10 14:09:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 14:27:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	return (NULL);
 }
 
+void *sig_print_scenes(GtkWidget *button, t_gtk_tools *g)
+{
+	print_scenes(g->r->scene);
+	return (NULL);
+}
 
 void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
@@ -182,6 +187,9 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonRender"));
 	g_signal_connect(widget, "clicked", G_CALLBACK (sig_render), &g);
 	
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "PrintScenes"));
+	g_signal_connect(widget, "clicked", G_CALLBACK (sig_print_scenes), &g);
+
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
 
