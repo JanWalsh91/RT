@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/10 14:27:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/10 15:09:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ int	main(int ac, char **av)
 		update_scene_panel(&g);
 		update_objects_panel(&g);
 		update_lights_panel(&g);
+		// update_cameras_panel(&g);
 		free_parse_tools(g.t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);
@@ -223,7 +224,6 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosZ"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_z), &g);
 
-
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirX"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_x), &g);
 
@@ -232,7 +232,6 @@ int	main(int ac, char **av)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirZ"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_z), &g);
-
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotX"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_x), &g);
@@ -273,7 +272,7 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ComboBoxTextLookAtName"));
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextLookAtName"));
 	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_lookat_name), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
