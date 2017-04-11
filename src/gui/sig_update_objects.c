@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/10 16:41:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/11 15:14:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	*update_objects_panel(t_gtk_tools *g) //change name
 	printf("update_objects_panel\n");
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
+	gtk_container_foreach (GTK_CONTAINER(widget), G_CALLBACK(gtk_widget_destroy), NULL);
 	obj = g->r->scene->objects;
 	while (obj)
 	{
@@ -242,6 +243,7 @@ void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(obj->name);
 	obj->name = name;
+	update_objects_panel(g);
 	return (NULL);
 }
 

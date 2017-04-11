@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/10 17:00:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/11 17:02:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget2;
 
+	update_camera_ctw(g->r->scene->cameras);
 	widget2 = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	if (gtk_widget_get_sensitive (widget2))
 	{
@@ -314,6 +315,15 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryCameraName"));
 	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_cam_name), &g);
 
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosX"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_x), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosY"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_y), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosZ"));
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_z), &g);
+
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionX"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_x), &g);
 
@@ -323,14 +333,20 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionZ"));
 	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_z), &g);
 
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonCameraDirNormalize"));
+	g_signal_connect(widget, "clicked", G_CALLBACK (sig_cam_dir_normalize), &g);
+
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_look_at_x), &g);
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_x), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_look_at_y), &g);
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_y), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_look_at_z), &g);
+	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_z), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextCamLookAtName"));
+	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_lookat_name), &g);
 
     gtk_widget_show(window);                
     gtk_main();
