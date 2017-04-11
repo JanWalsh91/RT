@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/11 17:02:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/11 17:16:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,10 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextCamLookAtName"));
 	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_lookat_name), &g);
 
-    gtk_widget_show(window);                
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraFov"));
+	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_fov), &g);
+    
+	gtk_widget_show(window);                
     gtk_main();
     // g_object_unref(g.builder);
 	// free_scenes(r.scene);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/11 17:01:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/11 17:18:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ void	update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.z);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraFov"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->fov);
 }
 
 void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
@@ -359,5 +362,15 @@ void	*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive (widget, FALSE);
 	update_cameras_info_panel(g, cam);
+	return (NULL);
+}
+
+void	*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	t_camera 	*cam;
+	
+	cam = get_selected_camera(g);
+	cam->fov = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	update_camera_scale(cam);
 	return (NULL);
 }
