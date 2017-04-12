@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/10 14:19:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/12 13:25:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ void *update_scene_panel(t_gtk_tools *g)
 	color.blue = g->r->scene->ambient_light_color.z / 255.0;
 	color.alpha = 1;
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
+	(g->r->scene->cameras->prev == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
+		gtk_widget_set_sensitive (widget, TRUE);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));
+	(g->r->scene->cameras->next == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
+		gtk_widget_set_sensitive (widget, TRUE);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
+	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
 	return (NULL);
 }
 
@@ -64,5 +72,31 @@ void	*sig_udpate_ambient_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	g->r->scene->ambient_light_color.x = color.red * 255;
 	g->r->scene->ambient_light_color.y = color.green * 255;
 	g->r->scene->ambient_light_color.z = color.blue * 255;
+	return (NULL);
+}
+
+void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
+{
+	GtkWidget	*widget;
+
+	printf("sig_next_camera\n");
+	if (g->r->scene->cameras->next)
+		g->r->scene->cameras = g->r->scene->cameras->next;	
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
+	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
+	update_scene_panel(g);
+	return (NULL);
+}
+
+void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
+{
+	GtkWidget	*widget;
+
+	printf("sig_prev_camera\n");
+	if (g->r->scene->cameras->prev)
+		g->r->scene->cameras = g->r->scene->cameras->prev;	
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
+	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
+	update_scene_panel(g);
 	return (NULL);
 }

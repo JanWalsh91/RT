@@ -54,4 +54,9 @@ scene: spheres fantaisie
 		position: 0, 20, -100
 		look at: 0, 0, 0
 	}
+	camera: cam2
+	{
+		position: 50, 20, -50
+		look at: 0, 0, 0
+	}
 }

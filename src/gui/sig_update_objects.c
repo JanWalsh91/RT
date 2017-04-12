@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/11 15:14:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/12 16:50:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void	*update_objects_panel(t_gtk_tools *g) //change name
 	}
 	if (!g->r->scene->objects)
 		return (NULL);
+	// label = gtk_button_new_with_label("+");
+	// gtk_list_box_insert(widget, label, -1);
+	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_object), g);
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_objects_info_panel(g, g->r->scene->objects);
-	
 	gtk_widget_show_all(widget);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/10 16:18:30 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/12 15:15:33 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,10 @@ MISC = 		debug \
 GUI =		sig_update_scene \
 			sig_update_objects \
 			sig_update_lights \
-			sig_update_cameras
+			sig_update_cameras \
+			sig_new_object \
+			sig_new_camera \
+			sig_new_light
 
 OBJ_DIR = obj
 
@@ -190,7 +193,7 @@ $(OBJ_DIR)/%.o : ./src/gui/%.c
 	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
 
 clean:
-	# @/bin/rm -Rf $(OBJ_DIR)
+	@/bin/rm -Rf $(OBJ_DIR)
 	# @/bin/rm -Rf $(SDL_PATH)lib
 	# @/bin/rm -Rf $(SDL_PATH)build
 	# @$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"

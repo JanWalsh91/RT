@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/11 15:12:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/12 16:56:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	*update_lights_panel(t_gtk_tools *g) //change name
 	}
 	if (!g->r->scene->lights)
 		return (NULL);
-	
+	// label = gtk_button_new_with_label("+");
+	// gtk_list_box_insert(widget, label, -1);
+	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_light), g);
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_lights_info_panel(g, g->r->scene->lights);
 	
@@ -67,13 +69,16 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.x);
+	gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotY"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.y);
-
+	gtk_widget_set_sensitive (widget, FALSE);
+	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.z);
-
+	gtk_widget_set_sensitive (widget, FALSE);
+	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightIntensity"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->intensity);
 
@@ -103,7 +108,39 @@ t_light	*get_light_from_list_box(t_gtk_tools *g)
 	else
 		return (l_ptr);
 }
-	
+
+t_light		*get_selected_light(t_gtk_tools *g)
+{
+	GtkWidget	    *widget;
+	GtkListBoxRow	*listBoxRow;
+	int			    id;
+	int			    i;
+	t_light		    *light;
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxLights"));
+	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
+	id = gtk_list_box_row_get_index (listBoxRow);
+	i = -1;
+	light = g->r->scene->lights;
+	while (++i != id && light)
+		light = light->next;
+	return ((light && id == i) ? light : NULL);
+}
+
+// UPDATE LIGHT NAME
+void	*sig_update_light_name(GtkWidget *GtkEntry, t_gtk_tools *g)
+{
+	char		*name;
+	t_light 	*light;
+
+	light = get_selected_light(g);
+	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
+	free(light->name);
+	light->name = name;
+	update_lights_panel(g);
+	return (NULL);
+}
+
 void	*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;

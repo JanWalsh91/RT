@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/11 17:13:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/12 15:17:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void			*sig_update_ambient_light_coeff(GtkWidget *spin_button, t_gtk_tools *g);
 void 			*update_scene_panel(t_gtk_tools *g);
 void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_render(GtkWidget *widget, t_gtk_tools *g);
+void			*sig_next_camera(GtkWidget *button, t_gtk_tools *g);
+void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
 
 /*
 ** Objects GUI panel
@@ -77,8 +79,9 @@ t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);
 
 void			*update_lights_panel(t_gtk_tools *g); //Camel
 void			update_lights_info_panel(t_gtk_tools *g, t_light *light);
-
 void			*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
+t_light			*get_selected_light(t_gtk_tools *g);
+void			*sig_update_light_name(GtkWidget *GtkEntry, t_gtk_tools *g);
 void			*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_pos_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g);
@@ -115,8 +118,23 @@ void			*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g);
 void			*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g);
 
 
+/*
+** New Object GUI
+*/
 
+void    		*sig_new_object(GtkWidget *widget, t_gtk_tools *g);
 
+/*
+** New Light GUI
+*/
+
+void    		*sig_new_light(GtkWidget *widget, t_gtk_tools *g);
+
+/*
+** New Camera GUI
+*/
+
+void    		*sig_new_camera(GtkWidget *widget, t_gtk_tools *g);
 
 /*
 ** Debugging signals -- Remove

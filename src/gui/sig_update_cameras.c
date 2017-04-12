@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/11 17:18:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/12 16:56:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	*update_cameras_panel(t_gtk_tools *g) //change name
 	}
 	if (!g->r->scene->cameras)
 		return (NULL);
-	
+	// label = gtk_button_new_with_label("+");
+	// gtk_list_box_insert(widget, label, -1);
+	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_camera), g);
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_cameras_info_panel(g, g->r->scene->cameras);
 	
@@ -86,13 +88,16 @@ void	update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
     
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.x);
+	gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationY"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.y);
+	gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.z);
-
+	gtk_widget_set_sensitive (widget, FALSE);
+	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraFov"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->fov);
 }
@@ -157,6 +162,7 @@ t_camera	*get_selected_camera(t_gtk_tools *g)
 	int			    i;
 	t_camera	    *cam;
 
+	printf("get_selected_camera\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxCameras"));
 	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index (listBoxRow);
@@ -164,6 +170,7 @@ t_camera	*get_selected_camera(t_gtk_tools *g)
 	cam = g->r->scene->cameras;
 	while (++i != id && cam)
 		cam = cam->next;
+	printf("end of get_selected_camera. id: [%i] i: [%i]\n", id, i);
 	return ((cam && id == i) ? cam : NULL);
 }
 
@@ -369,8 +376,10 @@ void	*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera 	*cam;
 	
+	printf("sig_update_cam_fov\n");
 	cam = get_selected_camera(g);
 	cam->fov = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	printf("new fov: [%f]\n", cam->fov);
 	update_camera_scale(cam);
 	return (NULL);
 }
