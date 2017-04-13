@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/12 15:15:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/13 10:54:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 
 void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 {
+    t_light     *light;
+
     printf("sig_new_light\n");
-    return (NULL);
+    if (!(light = (t_light *)ft_memalloc(sizeof(t_light))))
+		return (NULL);
+	ft_bzero(light, sizeof(t_light));
+	
+	// light->type = T_SPHERICAL;
+    light->intensity = DEFAULT_INTENSITY;
+	light->col = v_new(DEFAULT_COL_R, DEFAULT_COL_G, DEFAULT_COL_B);
+	light->name = ft_strdup("New light");
+	light->next = NULL;
+	push_light(&(g->r->scene->lights), light);
+	update_lights_panel(g);
+	return (NULL);
 }

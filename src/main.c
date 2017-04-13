@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/12 16:57:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/13 12:06:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 
 void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 {
-	GtkWidget	*dialog;
-	GtkWidget	*loading_bar;
-	t_th_export	th_export;
-	pthread_t	export_thread;
+	GtkWidget		*dialog;
+	GtkWidget		*loading_bar;
+	t_th_export		th_export;
+	pthread_t		export_thread;
+	GtkFileChooser	*chooser;
 
 	th_export.progress = 0;
 	th_export.g = g;
@@ -59,7 +60,7 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	gtk_window_set_attached_to (GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), dialog);
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+		chooser = GTK_FILE_CHOOSER (dialog);
 		th_export.filename = gtk_file_chooser_get_filename (chooser);
 
 
@@ -73,7 +74,6 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 
  		gtk_container_add(GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog))), loading_bar);
 		render(g->r->scene);
-		// gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(loading_bar), 0);
 		gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(loading_bar), TRUE);
 		gtk_widget_show_all(dialog);
 		pthread_create(&export_thread, NULL, export_image, &th_export);
@@ -84,8 +84,8 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 		}
 		pthread_join(export_thread, NULL);
 		g_free (th_export.filename);
-		gtk_widget_destroy(dialog);
 	}
+	gtk_widget_destroy(dialog);
 	return (NULL);
 }
 
@@ -99,9 +99,10 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkWidget 	*dialog;
 	gint		res;
-	char		*filename;
 	GtkWidget	*widget;
 
+	if (g->filename)
+		g_free(g->filename);
 	dialog = gtk_file_chooser_dialog_new ("Open File", NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
                                       "_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT,
                                       NULL);
@@ -111,10 +112,10 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	{
 		
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-		filename = gtk_file_chooser_get_filename (chooser);
+		g->filename = gtk_file_chooser_get_filename (chooser);
 		init_parse_tools(g->t);
-		if (ft_strstr(filename, ".rt") && *(ft_strstr(filename, ".rt") + 3) == '\0')
-			get_file(filename, g->t);
+		if (ft_strstr(g->filename, ".rt") && *(ft_strstr(g->filename, ".rt") + 3) == '\0')
+			get_file(g->filename, g->t);
 		else
 			rt_file_warning(NULL, "Skipped invalid file.");
 		clock_t start = clock();
@@ -133,13 +134,10 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
-		gtk_widget_set_visible(widget, TRUE);
-		//print_scenes(r.scene);
-	
-		g_free (filename);
+		gtk_widget_set_visible(widget, TRUE);	
 		gtk_widget_destroy (dialog);
 	}
-	return (filename);
+	return (NULL);
 }
 
 
@@ -154,7 +152,7 @@ int	main(int ac, char **av)
 
 	g.t = &t;
 	g.r = &r;
-
+	g.filename = NULL;
 	gtk_init(&ac, &av);
 	
     g.builder = gtk_builder_new();
@@ -165,7 +163,10 @@ int	main(int ac, char **av)
 		// Some code duplication. Create function ?
 		init_parse_tools(g.t);
 		if (ft_strstr(av[1], ".rt") && *(ft_strstr(av[1], ".rt") + 3) == '\0')
+		{
 			get_file(av[1], g.t);
+			g.filename = ft_strdup(av[1]);
+		}
 		else
 			rt_file_warning(NULL, "Skipped invalid file.");
 		parse_input(g.t);
@@ -192,11 +193,20 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
 
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSave"));
+	g_signal_connect(widget, "activate", G_CALLBACK(sig_save), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSaveAs"));
+	g_signal_connect(widget, "activate", G_CALLBACK(sig_save), &g);
+	
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemOpenScene"));
 	g_signal_connect(widget, "activate", G_CALLBACK(sig_open_scene), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemExportBMP"));
 	g_signal_connect(widget, "activate", G_CALLBACK(sig_export_scene_bmp), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSettings"));
+	g_signal_connect(widget, "activate", G_CALLBACK(sig_open_settings), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "AmbientLightColorPicker"));
 	g_signal_connect(widget, "color-set", G_CALLBACK(sig_udpate_ambient_light_color), &g);
@@ -212,6 +222,9 @@ int	main(int ac, char **av)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxObjects"));
 	g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_object), &g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxLights"));
+	g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_light), &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryLightName"));
 	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_light_name), &g);

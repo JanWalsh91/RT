@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/12 15:15:33 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/13 11:20:39 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,9 @@ GUI =		sig_update_scene \
 			sig_update_cameras \
 			sig_new_object \
 			sig_new_camera \
-			sig_new_light
+			sig_new_light \
+			sig_save \
+			sig_open_settings
 
 OBJ_DIR = obj
 

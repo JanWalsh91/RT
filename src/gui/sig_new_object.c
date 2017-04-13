@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/12 16:54:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/13 10:53:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 {
     t_object	*obj; 
-	GtkWidget	*listbox;
 	
     printf("sig_new_object\n");
 

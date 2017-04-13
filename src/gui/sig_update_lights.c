@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/12 16:56:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/13 11:00:33 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,23 @@ t_light		*get_selected_light(t_gtk_tools *g)
 	while (++i != id && light)
 		light = light->next;
 	return ((light && id == i) ? light : NULL);
+}
+
+void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g)
+{
+	int			index;
+	int			i;
+	t_light		*l_ptr;
+
+	i = -1;
+	index = gtk_list_box_row_get_index (row);
+	l_ptr = g->r->scene->lights;
+	while (++i != index && l_ptr)
+		l_ptr = l_ptr->next;
+	if (i != index || !l_ptr)
+		return (NULL);
+	update_lights_info_panel(g, l_ptr);
+	return (NULL);
 }
 
 // UPDATE LIGHT NAME

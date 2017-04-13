@@ -6,12 +6,15 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/12 15:17:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/13 14:23:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GUI_H
 # define GUI_H
+
+# define SAVE_DOUBLE_PRECISION 4
+
 
 #include "rt.cuh"
 #include <gtk/gtk.h>
@@ -24,8 +27,30 @@ typedef struct	s_gtk_tools
 {
 	struct s_parse_tools 		*t;
 	struct s_raytracing_tools 	*r;
+	char						*filename; //current open file
 	struct _GtkBuilder 	*builder;
 }				t_gtk_tools;
+
+/*
+** Menu Item Signals
+*/
+
+void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
+void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
+void   			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
+
+/*
+** Save Functions
+*/
+
+char     	 	*get_new_filename(GtkWidget *menu_item, t_gtk_tools *g);
+void			save_scene(int fd, t_scene *scene);
+void			save_object(int fd, t_object *obj);
+void			save_camera(int fd, t_camera *cam);
+void			save_light(int fd, t_light *light);
+void			write_vector(int fd, t_vec3 vec);
+void			write_int(int fd, int i);
+void			write_double(int fd, double d);
 
 /*
 ** Scene GUI panel
@@ -36,7 +61,6 @@ void			*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_udpate_ambient_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
 void			*sig_update_ambient_light_coeff(GtkWidget *spin_button, t_gtk_tools *g);
 void 			*update_scene_panel(t_gtk_tools *g);
-void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_render(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_next_camera(GtkWidget *button, t_gtk_tools *g);
 void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
