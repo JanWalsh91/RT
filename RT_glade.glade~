@@ -357,6 +357,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Open</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_open_scene" swapped="no"/>
+						<accelerator key="o" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -365,6 +367,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Save</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_save" swapped="no"/>
+						<accelerator key="s" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -373,6 +377,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Save As</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_save_as" swapped="no"/>
+						<accelerator key="s" signal="activate" modifiers="GDK_CONTROL_MASK | GDK_SHIFT_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -381,6 +387,7 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Export As .bmp</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_export_scene_bmp" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -397,6 +404,7 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Settings</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_open_settings" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -428,8 +436,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Full Screen</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="f" signal="activate" modifiers="GDK_MOD2_MASK"/>
+                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -597,6 +605,7 @@
                     <property name="input_purpose">number</property>
                     <property name="adjustment">AdjResolutionX</property>
                     <property name="numeric">True</property>
+                    <signal name="value-changed" handler="sig_update_res_x" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -609,6 +618,7 @@
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
                     <property name="adjustment">AdjResolutionY</property>
+                    <signal name="value-changed" handler="sig_update_res_y" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -680,8 +690,9 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="adjustment">AdjAmbientLightCoeff</property>
-                    <property name="climb_rate">0.0099999997764825821</property>
+                    <property name="climb_rate">0.01</property>
                     <property name="digits">2</property>
+                    <signal name="value-changed" handler="sig_update_ambient_light_coeff" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -693,6 +704,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="color-set" handler="sig_udpate_ambient_light_color" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -704,6 +716,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="adjustment">AdjRayDepth</property>
+                    <signal name="value-changed" handler="sig_update_ray_depth" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -755,6 +768,7 @@
                   <object class="GtkListBox" id="ListBoxObjects">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <signal name="row-activated" handler="sig_update_current_object" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -779,6 +793,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="valign">end</property>
+                    <signal name="clicked" handler="sig_new_object" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -986,6 +1001,7 @@
                               <object class="GtkEntry" id="EntryObjectName">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <signal name="activate" handler="sig_update_obj_name" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -998,6 +1014,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjPosX</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_pos_x" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1010,6 +1027,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjPosY</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_pos_y" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1022,6 +1040,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjPosZ</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_pos_z" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1034,6 +1053,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjLookAtX</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_lookat_x" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1046,6 +1066,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjDirX</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_dir_x" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1058,6 +1079,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjLookAtY</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_lookat_y" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1070,6 +1092,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjDirY</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_dir_y" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -1082,6 +1105,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjLookAtZ</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_lookat_z" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1094,6 +1118,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjDirZ</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_dir_z" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1141,6 +1166,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="color-set" handler="sig_update_obj_color" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1153,6 +1179,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKs</property>
                                 <property name="digits">4</property>
+                                <signal name="value-changed" handler="sig_update_obj_ks" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1164,6 +1191,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjSpecExp</property>
+                                <signal name="value-changed" handler="sig_update_obj_spec_exp" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1176,6 +1204,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKd</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_kd" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1188,6 +1217,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKt</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_kt" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1200,6 +1230,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKRefraction</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_krefraction" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1212,6 +1243,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKReflection</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_kreflection" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1246,6 +1278,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjRadius</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_radius" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1258,6 +1291,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjHeight</property>
                                 <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_height" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1269,6 +1303,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="model">liststore1</property>
+                                <signal name="changed" handler="sig_update_obj_type" swapped="no"/>
                                 <child>
                                   <object class="GtkCellRendererText"/>
                                   <attributes>
@@ -1308,6 +1343,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="clicked" handler="sig_obj_dir_normalize" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -1472,6 +1508,7 @@
                   <object class="GtkListBox" id="ListBoxLights">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <signal name="row-activated" handler="sig_update_current_light" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -1595,6 +1632,7 @@
                       <object class="GtkEntry" id="EntryLightName">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="sig_update_light_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1607,6 +1645,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightPosX</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_pos_x" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1619,6 +1658,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightPosY</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_pos_y" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1631,6 +1671,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightPosZ</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_pos_z" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -1643,6 +1684,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightDirX</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_dir_x" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1655,6 +1697,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightDirY</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_dir_y" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1667,6 +1710,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightDirZ</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_dir_z" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -1679,6 +1723,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightRotX</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_rot_x" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1691,6 +1736,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightRotY</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_rot_y" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1703,6 +1749,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightRotZ</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_light_rot_z" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -1714,6 +1761,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="color-set" handler="sig_update_light_color" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1725,6 +1773,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjLightIntensity</property>
+                        <signal name="value-changed" handler="sig_update_light_intensity" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1769,6 +1818,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="valign">end</property>
+                    <signal name="clicked" handler="sig_new_light" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -1800,6 +1850,7 @@
                   <object class="GtkListBox" id="ListBoxCameras">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <signal name="row-activated" handler="sig_update_current_cam" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -1893,6 +1944,7 @@
                       <object class="GtkEntry" id="EntryCameraName">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <signal name="activate" handler="sig_update_cam_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1905,6 +1957,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamPosX</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_pos_x" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1917,7 +1970,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamPosY</property>
                         <property name="digits">2</property>
-                        <property name="value">2.2351741811588166e-10</property>
+                        <signal name="value-changed" handler="sig_update_cam_pos_y" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1930,6 +1983,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamPosZ</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_pos_z" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -1942,6 +1996,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamLookAtX</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_lookat_x" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1954,6 +2009,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamLookAtY</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_lookat_y" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -1966,6 +2022,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamLookAtZ</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_lookat_z" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -1978,6 +2035,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamDirectionX</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_dir_x" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1990,6 +2048,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamDirectionY</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_dir_y" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">2</property>
@@ -2002,6 +2061,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamDirectionZ</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_dir_z" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">3</property>
@@ -2050,6 +2110,7 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">AdjCamFov</property>
                         <property name="digits">2</property>
+                        <signal name="value-changed" handler="sig_update_cam_fov" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2062,6 +2123,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="sig_cam_dir_normalize" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -2072,6 +2134,7 @@
                       <object class="GtkComboBoxText" id="ComboBoxTextCamLookAtName">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <signal name="changed" handler="sig_update_cam_lookat_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">4</property>
@@ -2116,6 +2179,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="valign">end</property>
+                    <signal name="clicked" handler="sig_new_camera" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -2158,6 +2222,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="always_show_image">True</property>
+                <signal name="clicked" handler="sig_prev_camera" swapped="no"/>
                 <child>
                   <object class="GtkArrow">
                     <property name="visible">True</property>
@@ -2191,6 +2256,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="always_show_image">True</property>
+                <signal name="clicked" handler="sig_next_camera" swapped="no"/>
                 <child>
                   <object class="GtkArrow">
                     <property name="visible">True</property>
@@ -2210,6 +2276,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2224,6 +2291,8 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image_position">right</property>
+                <signal name="clicked" handler="sig_render" swapped="no"/>
+				<accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>

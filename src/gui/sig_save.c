@@ -6,13 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/13 16:12:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/14 10:41:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
-#include <errno.h>
 
 //combine save and save as
 //check menu_item text contents
@@ -26,8 +25,8 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
 	fd = open(g->filename, O_WRONLY | O_TRUNC);
 	if (fd == -1)
 	{
-			printf("file not found: [%s]\n", g->filename);
-			g->filename = get_new_filename(menu_item, g);
+		printf("file not found: [%s]\n", g->filename);
+		g->filename = get_new_filename(g);
 	}
 	printf("fd: [%i]\n", fd);
 	if (!g->filename)
@@ -39,7 +38,22 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
     return (NULL);
 }
 
-char       *get_new_filename(GtkWidget *menu_item, t_gtk_tools *g)
+
+//ADD OPEN PROTECTIONS
+void	*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g)
+{
+	int fd;
+
+	fd = -1;
+	printf("sig_save_as\n");
+	g->filename = get_new_filename(g);
+	fd = open(g->filename, O_CREAT | O_WRONLY);
+	save_scene(fd, g->r->scene);
+	close(fd);
+	return (NULL);
+}
+
+char       *get_new_filename(t_gtk_tools *g)
 {
     GtkWidget       *dialog;
     char			*filename;

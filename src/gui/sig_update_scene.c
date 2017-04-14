@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/12 13:25:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/14 11:37:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,11 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
 	update_scene_panel(g);
+	return (NULL);
+}
+
+void	*sig_update_ray_depth(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	g->r->scene->ray_depth = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
 }

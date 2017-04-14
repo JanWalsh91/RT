@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/13 12:06:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/14 12:44:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,212 +182,222 @@ int	main(int ac, char **av)
 	}
 
     window = GTK_WIDGET(gtk_builder_get_object(g.builder, "window_main"));
-    gtk_builder_connect_signals(g.builder, NULL);
-	
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonRender"));
-	g_signal_connect(widget, "clicked", G_CALLBACK (sig_render), &g);
-	
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "PrintScenes"));
-	g_signal_connect(widget, "clicked", G_CALLBACK (sig_print_scenes), &g);
+
+	//passing g instead of null means that &g is the user data that will be read by signals.
+	//Now, any signal function which takes in g can be connected in the .ui file and can all be
+	//connected at once with one call to the following function. 
+    gtk_builder_connect_signals(g.builder, &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSave"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_save), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSaveAs"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_save), &g);
-	
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemOpenScene"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_open_scene), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemExportBMP"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_export_scene_bmp), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSettings"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_open_settings), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "AmbientLightColorPicker"));
-	g_signal_connect(widget, "color-set", G_CALLBACK(sig_udpate_ambient_light_color), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "AmbientLightCoeffSpinButton"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_ambient_light_coeff), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ResolutionXSpinButton"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_res_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ResolutionYSpinButton"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_res_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxObjects"));
-	g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_object), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxLights"));
-	g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_light), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryLightName"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_light_name), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightIntensity"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_intensity), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonLight"));
-	g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_light_color), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxObjectType"));
-	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_type), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryObjectName"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_obj_name), &g);
- 
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextObjLookAtName"));
-	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_lookat_name), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonObjectDirNormalize"));
-	g_signal_connect(widget, "clicked", G_CALLBACK (sig_obj_dir_normalize), &g);
-	
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonObject"));
-	g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_obj_color), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKS"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_ks), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectSepcularExponent"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_spec_exp), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKD"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kd), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKT"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kt), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKRefraction"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_krefraction), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKReflection"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kreflection), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectRadius"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_radius), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectHeight"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_height), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxCameras"));
-	g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_cam), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryCameraName"));
-	g_signal_connect(widget, "activate", G_CALLBACK(sig_update_cam_name), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonPreviousCamera"));
-	g_signal_connect(widget, "clicked", G_CALLBACK(sig_prev_camera), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNextCamera"));
-	g_signal_connect(widget, "clicked", G_CALLBACK(sig_next_camera), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonCameraDirNormalize"));
-	g_signal_connect(widget, "clicked", G_CALLBACK (sig_cam_dir_normalize), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtX"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_x), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtY"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_y), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtZ"));
-	g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_z), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextCamLookAtName"));
-	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_lookat_name), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraFov"));
-	g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_fov), &g);
-    
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNewObject"));
-	g_signal_connect(widget, "clicked", G_CALLBACK(sig_new_object), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNewLight"));
-	g_signal_connect(widget, "clicked", G_CALLBACK(sig_new_light), &g);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNewCamera"));
-	g_signal_connect(widget, "clicked", G_CALLBACK(sig_new_camera), &g);
-	gtk_widget_show(window);                
+	gtk_widget_show(window);    
+	gtk_window_activate_focus (GTK_WINDOW(window));            
     gtk_main();
+	return (0);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonRender"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK (sig_render), &g);
+	
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "PrintScenes"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK (sig_print_scenes), &g);
+
+
+
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSave"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_save), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSaveAs"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_save_as), &g);
+	
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemOpenScene"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_open_scene), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemExportBMP"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_export_scene_bmp), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemSettings"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_open_settings), &g);
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "AmbientLightColorPicker"));
+	// g_signal_connect(widget, "color-set", G_CALLBACK(sig_udpate_ambient_light_color), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "AmbientLightCoeffSpinButton"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_ambient_light_coeff), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ResolutionXSpinButton"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_res_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ResolutionYSpinButton"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_res_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxObjects"));
+	// g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_object), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxLights"));
+	// g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_light), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryLightName"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_update_light_name), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightPosZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_pos_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightDirZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_dir_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightRotZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_rot_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonLightIntensity"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_light_intensity), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonLight"));
+	// g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_light_color), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxObjectType"));
+	// g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_type), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryObjectName"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_update_obj_name), &g);
+ 
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectPosZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_pos_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectLookAtZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_lookat_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextObjLookAtName"));
+	// g_signal_connect(widget, "changed", G_CALLBACK(sig_update_obj_lookat_name), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectDirectionZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_dir_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonObjectDirNormalize"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK (sig_obj_dir_normalize), &g);
+	
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ColorButtonObject"));
+	// g_signal_connect(widget, "color-set", G_CALLBACK(sig_update_obj_color), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKS"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_ks), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectSepcularExponent"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_spec_exp), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKD"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kd), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKT"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kt), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKRefraction"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_krefraction), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectKReflection"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_kreflection), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectRadius"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_radius), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonObjectHeight"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_obj_height), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ListBoxCameras"));
+	// g_signal_connect(widget, "row-activated", G_CALLBACK(sig_update_current_cam), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "EntryCameraName"));
+	// g_signal_connect(widget, "activate", G_CALLBACK(sig_update_cam_name), &g);
+
+	// <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
+	
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonPreviousCamera"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK(sig_prev_camera), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNextCamera"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK(sig_next_camera), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraPosZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_pos_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraDirectionZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_dir_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonCameraDirNormalize"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK (sig_cam_dir_normalize), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtX"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_x), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtY"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_y), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraLookAtZ"));
+	// g_signal_connect(widget, "value-changed", G_CALLBACK(sig_update_cam_lookat_z), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ComboBoxTextCamLookAtName"));
+	// g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_lookat_name), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "SpinButtonCameraFov"));
+	// g_signal_connect(widget, "changed", G_CALLBACK(sig_update_cam_fov), &g);
+    
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNewObject"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK(sig_new_object), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNewLight"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK(sig_new_light), &g);
+
+	// widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "ButtonNewCamera"));
+	// g_signal_connect(widget, "clicked", G_CALLBACK(sig_new_camera), &g);
     // g_object_unref(g.builder);
 	// free_scenes(r.scene);
-	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/13 14:23:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/14 11:37:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ typedef struct	s_gtk_tools
 
 void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
+void			*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g);
 void   			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
 
 /*
 ** Save Functions
 */
 
-char     	 	*get_new_filename(GtkWidget *menu_item, t_gtk_tools *g);
+char     	 	*get_new_filename(t_gtk_tools *g);
 void			save_scene(int fd, t_scene *scene);
 void			save_object(int fd, t_object *obj);
 void			save_camera(int fd, t_camera *cam);
@@ -58,6 +59,7 @@ void			write_double(int fd, double d);
 
 void			*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g);
+void			*sig_update_ray_depth(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_udpate_ambient_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
 void			*sig_update_ambient_light_coeff(GtkWidget *spin_button, t_gtk_tools *g);
 void 			*update_scene_panel(t_gtk_tools *g);
