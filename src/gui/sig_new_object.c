@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/13 10:53:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/15 15:11:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	obj->col = v_new(DEFAULT_COL_R, DEFAULT_COL_G, DEFAULT_COL_B);
 	obj->kd = DEFAULT_KD;
 	obj->ks = DEFAULT_KS;
+	obj->ior = DEFAULT_IOR;
+	obj->transparency = DEFAULT_TRANSPARENCY;
+	obj->reflection = DEFAULT_REFLECTION;
 	obj->specular_exp = DEFAULT_SPECULAR_EXP;
 	obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
 	obj->height = DEFAULT_HEIGHT;

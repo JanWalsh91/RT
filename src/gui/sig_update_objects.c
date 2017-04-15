@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/12 16:50:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/15 14:51:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->transparency);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKRefraction"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->refraction);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->ior);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKReflection"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->reflection);
@@ -532,7 +532,7 @@ void	*sig_update_obj_krefraction(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 
 	obj = get_selected_object(g);
-	obj->refraction = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	obj->ior = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
 }
 

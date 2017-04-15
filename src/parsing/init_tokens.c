@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/15 14:54:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	init_tokens2(t_parse_tools *t)
 		(!(t->tokens[T_RADIUS] = ft_strdup("radius"))) ||
 		(!(t->tokens[T_HEIGHT] = ft_strdup("height"))) ||
 		(!(t->tokens[T_DIFFUSE_COEF] = ft_strdup("kd"))) ||
-		(!(t->tokens[T_REFRACTION] = ft_strdup("refraction"))) ||
+		(!(t->tokens[T_REFRACTION_INDEX] = ft_strdup("ior"))) ||
 		(!(t->tokens[T_REFLECTION] = ft_strdup("reflection"))) ||
 		(!(t->tokens[T_SPECULAR_EXPONENT] = ft_strdup("specular exponent"))) ||
 		(!(t->tokens[T_SPECULAR_COEF] = ft_strdup("ks"))) ||

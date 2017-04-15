@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_object.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/15 15:01:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void		set_non_values(t_object *new_object)
 	new_object->col = v_new(NAN, NAN, NAN);
 	new_object->rad = NAN;
 	new_object->height = NAN;
-	new_object->refraction = -1;
-	new_object->reflection = -1;
+	new_object->ior = NAN;
+	new_object->reflection = NAN;
 	new_object->specular_exp = NAN;
 	new_object->ks = NAN;
 	new_object->kd = NAN;
-	new_object->transparency = -1;
+	new_object->transparency = NAN;
 }

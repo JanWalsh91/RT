@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/15 15:11:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void	print_scenes(t_scene *scenes_head)
 			printf("		object kd: [%f]\n", o_ptr->kd);
 			printf("		object ks: [%f]\n", o_ptr->ks);
 			printf("		object specular exponent: [%f]\n", o_ptr->specular_exp);
+			printf("		object ior: [%f]\n", o_ptr->ior);
+			printf("		object transparency: [%f]\n", o_ptr->transparency);
+			printf("		object reflection: [%f]\n", o_ptr->reflection);
 			o_ptr = o_ptr->next;
 		}
 		c_ptr = s_ptr->cameras;

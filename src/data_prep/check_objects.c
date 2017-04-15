@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/09 18:32:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/15 15:11:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ void				check_objects(t_scene *scene, t_object *objects)
 			o_ptr, &o_ptr->kd) : 0;
 		isnan(o_ptr->specular_exp) ? set_default_specular_exp(scene,
 			o_ptr->type, o_ptr, &o_ptr->specular_exp) : 0;
+		isnan(o_ptr->ior) ? set_default_ior(scene,
+			o_ptr->type, o_ptr, &o_ptr->ior) : 0;
+		isnan(o_ptr->transparency) ? set_default_transparency(scene,
+			o_ptr->type, o_ptr, &o_ptr->transparency) : 0;
+		isnan(o_ptr->reflection) ? set_default_reflection(scene,
+			o_ptr->type, o_ptr, &o_ptr->reflection) : 0;
 		o_ptr->type == T_CONE ? get_cone_angle(o_ptr) : 0;
 		if (o_ptr->type == T_CONE || o_ptr->type == T_CYLINDER)
 			add_disks(scene, o_ptr);
@@ -90,7 +96,7 @@ static t_object		*get_new_disk(t_object *obj, t_vec3 pos)
 	new_disk->pos = pos;
 	new_disk->ks = obj->ks;
 	new_disk->kd = obj->kd;
-	new_disk->refraction = obj->refraction;
+	new_disk->ior = obj->ior;
 	new_disk->reflection = obj->reflection;
 	new_disk->specular_exp = obj->specular_exp;
 	new_disk->transparency = obj->transparency;

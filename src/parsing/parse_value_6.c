@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_6.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/15 16:09:15 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,72 @@ void	parse_specular_exponent(t_parse_tools *t)
 			"Specular exponent attribute only applicable to objects.");
 }
 
-void	parse_refraction(t_parse_tools *t)
+void	parse_ior(t_parse_tools *t)
 {
-	rt_file_warning(t, "Refraction: feature not yet available.");
+	double	new_ior;
+
+	new_ior = NAN;
+	if (isnan(new_ior = parse_double(t->input->value)) || new_ior <= 0)
+	{
+		rt_file_warning(t, "Ior formatting error.");
+		return ;
+	}
+	if (!t->in_scene)
+		t->global_attributes->specular_exp = new_ior;
+	else if (!t->in_object)
+		t->scene_attributes->specular_exp = new_ior;
+	else if (t->in_object)
+		t->object_attributes->specular_exp = new_ior;
+	if (t->in_object && (t->current_type == T_LIGHT ||
+		t->current_type == T_CAMERA))
+		rt_file_warning(t,
+			"Ior attribute only applicable to objects.");
 }
 
 void	parse_reflection(t_parse_tools *t)
 {
-	rt_file_warning(t, "Reflection: feature not yet available.");
+	double	new_reflection_coef;
+
+	new_reflection_coef = NAN;
+	if (isnan(new_reflection_coef = parse_double(t->input->value)) ||
+		new_reflection_coef < 0 || new_reflection_coef > 1)
+	{
+		rt_file_warning(t, "Reflection coefficient formatting error.\n\
+The reflection coefficient is a double between 0 and 1.");
+		return ;
+	}
+	if (!t->in_scene)
+		t->global_attributes->reflection = new_reflection_coef;
+	else if (!t->in_object)
+		t->scene_attributes->reflection = new_reflection_coef;
+	else if (t->in_object)
+		t->object_attributes->reflection = new_reflection_coef;
+	if (t->in_object && (t->current_type == T_LIGHT ||
+		t->current_type == T_CAMERA))
+		rt_file_warning(t, "Reflection coefficient attribute \
+only applicable to objects.");
 }
 
 void	parse_transparency(t_parse_tools *t)
 {
-	rt_file_warning(t, "Transparency: feature not yet available.");
+	double	new_transparency_coef;
+
+	new_transparency_coef = NAN;
+	if (isnan(new_transparency_coef = parse_double(t->input->value)) ||
+		new_transparency_coef < 0 || new_transparency_coef > 1)
+	{
+		rt_file_warning(t, "Transparency coefficient formatting error.\n\
+The reflection coefficient is a double between 0 and 1.");
+		return ;
+	}
+	if (!t->in_scene)
+		t->global_attributes->transparency = new_transparency_coef;
+	else if (!t->in_object)
+		t->scene_attributes->transparency = new_transparency_coef;
+	else if (t->in_object)
+		t->object_attributes->transparency = new_transparency_coef;
+	if (t->in_object && (t->current_type == T_LIGHT ||
+		t->current_type == T_CAMERA))
+		rt_file_warning(t, "Transparency coefficient attribute \
+only applicable to objects.");
 }

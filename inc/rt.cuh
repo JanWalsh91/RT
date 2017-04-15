@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/08 15:36:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/15 16:26:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,12 @@
 # define DEFAULT_KS 0.1
 # define DEFAULT_KD 1
 # define DEFAULT_SPECULAR_EXP 200
+# define DEFAULT_IOR 1.1
+# define DEFAULT_REFLECTION 0
+# define DEFAULT_TRANSPARENCY 0
 # define CAM_IMG_PANE_DIST 1
 # define BIAS 0.01
+# define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
 
 /*
@@ -98,7 +102,7 @@ typedef enum	e_token
 	T_RADIUS,
 	T_HEIGHT,
 	T_DIFFUSE_COEF,
-	T_REFRACTION,
+	T_REFRACTION_INDEX,
 	T_REFLECTION,
 	T_SPECULAR_EXPONENT,
 	T_SPECULAR_COEF,
@@ -158,7 +162,7 @@ typedef struct	s_color_list
 ** ks - specular coefficient (0 - 1)
 ** specular_exp - specular exponent
 ** kd - diffuse coefficient (0 - 1)
-** refraction - refraction coefficient (0 - 1) (pending feature)
+** ior - index of refraction
 ** reflection - reflection coefficient (0 - 1) (pending feature)
 ** transparency - transparency coefficient (0 - 1) (pending feature)
 */
@@ -181,7 +185,7 @@ typedef struct	s_attributes
 	double		ks;
 	double		specular_exp;
 	double		kd;
-	double		refraction;
+	double		ior;
 	double		reflection;
 	double		transparency;
 }				t_attributes;
@@ -222,6 +226,7 @@ typedef	struct	s_ray
 	int				n_dir;
 	t_vec3			nhit;
 	t_color			col;
+	double			ior; //current index of refraction
 }				t_ray;
 
 /*
@@ -246,7 +251,7 @@ typedef struct	s_object
 	double			angle;
 	double			kd;
 	double			ks;
-	double			refraction;
+	double			ior;
 	double			reflection;
 	double			specular_exp;
 	double			transparency; // TODO
@@ -457,7 +462,7 @@ void			parse_look_at(t_parse_tools *t);
 void			parse_color(t_parse_tools *t);
 void			parse_radius(t_parse_tools *t);
 void			parse_height(t_parse_tools *t);
-void			parse_refraction(t_parse_tools *t);
+void			parse_ior(t_parse_tools *t);
 void			parse_reflection(t_parse_tools *t);
 void			parse_diffuse_coef(t_parse_tools *t);
 void			parse_specular_coef(t_parse_tools *t);
@@ -543,6 +548,9 @@ void			set_default_ks(t_scene *scene, int type, void *obj, double *ks);
 void			set_default_kd(t_scene *scene, int type, void *obj, double *kd);
 void			set_default_specular_exp(t_scene *scene, int type, void *obj,
 					double *specular_exp);
+void	set_default_ior(t_scene *scene, int type, void *obj, double *ior);					
+void	set_default_reflection(t_scene *scene, int type, void *obj, double *reflection);
+void	set_default_transparency(t_scene *scene, int type, void *obj, double *transparency);
 
 /*
 ** Ray Tracing Functions
@@ -566,9 +574,15 @@ CUDA_DEV
 t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
+t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *primary_ray);	
+CUDA_DEV
+double			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, double ior);				
+CUDA_DEV
 t_color			get_ambient(t_scene *scene);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
+CUDA_DEV
+t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, double ior);
 
 /*
 ** Intersection functions.

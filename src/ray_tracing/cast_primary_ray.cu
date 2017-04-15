@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/15 15:50:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	int			i;
 	t_color 	col;
 
+	if (!(--r->scene->ray_depth))
+		return (v_new(0, 0, 0));
 	r->t = INFINITY;
 	i = -1;
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
@@ -66,6 +68,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 			color = v_add(color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
 		}
 	}
+	color = v_add(color, get_reflected_and_refracted(r, r->scene, ray));
 	color = v_add(color, get_ambient(r->scene));
 	return (v_clamp(color, 0, 255));
 }

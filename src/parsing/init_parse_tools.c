@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/15 14:53:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_RADIUS] = &parse_radius;
 	t->parse[T_HEIGHT] = &parse_height;
 	t->parse[T_DIFFUSE_COEF] = &parse_diffuse_coef;
-	t->parse[T_REFRACTION] = &parse_refraction;
+	t->parse[T_REFRACTION_INDEX] = &parse_ior;
 	t->parse[T_REFLECTION] = &parse_reflection;
 	t->parse[T_SPECULAR_EXPONENT] = &parse_specular_exponent;
 	t->parse[T_SPECULAR_COEF] = &parse_specular_coef;
