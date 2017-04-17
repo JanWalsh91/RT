@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/13 10:54:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 	light->name = ft_strdup("New light");
 	light->next = NULL;
 	push_light(&(g->r->scene->lights), light);
-	update_lights_panel(g);
+	update_grid_lights(g);
 	return (NULL);
 }

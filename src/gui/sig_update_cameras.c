@@ -6,21 +6,21 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/12 16:56:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 
-void	*update_cameras_panel(t_gtk_tools *g) //change name
+void	*update_grid_cameras(t_gtk_tools *g) //change name
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
 	GdkRGBA		color;
 	t_camera    *camera;
 
-    printf("update_cameras_panel\n");
+    printf("update_grid_cameras\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxCameras"));
 	gtk_container_foreach (GTK_CONTAINER(widget), G_CALLBACK(gtk_widget_destroy), NULL);
 	camera = g->r->scene->cameras;
@@ -39,7 +39,6 @@ void	*update_cameras_panel(t_gtk_tools *g) //change name
 	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_camera), g);
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_cameras_info_panel(g, g->r->scene->cameras);
-	
 	gtk_widget_show_all(widget);
 	return (NULL);
 }
@@ -184,7 +183,7 @@ void	*sig_update_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(cam->name);
 	cam->name = name;
-	update_cameras_panel(g);
+	update_grid_cameras(g);
 	return (NULL);
 }
 

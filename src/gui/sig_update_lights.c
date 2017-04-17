@@ -6,14 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/13 11:00:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 
-void	*update_lights_panel(t_gtk_tools *g) //change name
+void	*update_grid_lights(t_gtk_tools *g) //change name
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
@@ -154,7 +154,7 @@ void	*sig_update_light_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(light->name);
 	light->name = name;
-	update_lights_panel(g);
+	update_grid_lights(g);
 	return (NULL);
 }
 

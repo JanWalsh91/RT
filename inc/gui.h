@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/14 11:37:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_ray_depth(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_udpate_ambient_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
 void			*sig_update_ambient_light_coeff(GtkWidget *spin_button, t_gtk_tools *g);
-void 			*update_scene_panel(t_gtk_tools *g);
+void 			*update_grid_scene(t_gtk_tools *g);
 void			*sig_render(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_next_camera(GtkWidget *button, t_gtk_tools *g);
 void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
@@ -71,7 +71,7 @@ void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
 ** Objects GUI panel
 */
 
-void			*update_objects_panel(t_gtk_tools *g); //Camel
+void			*update_grid_objects(t_gtk_tools *g); //Camel
 void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 void			update_objects_info_panel(t_gtk_tools *g, t_object *obj);
 void			init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
@@ -103,7 +103,7 @@ t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);
 ** Lights GUI panel
 */
 
-void			*update_lights_panel(t_gtk_tools *g); //Camel
+void			*update_grid_lights(t_gtk_tools *g); //Camel
 void			update_lights_info_panel(t_gtk_tools *g, t_light *light);
 void			*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 t_light			*get_selected_light(t_gtk_tools *g);
@@ -124,7 +124,7 @@ void			*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g);
 ** Cameras GUI panel
 */
 
-void			*update_cameras_panel(t_gtk_tools *g);
+void			*update_grid_cameras(t_gtk_tools *g);
 void			update_cameras_info_panel(t_gtk_tools *g, t_camera *camera);
 void			init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
