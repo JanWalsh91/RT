@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/15 14:51:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #include "gui.h"
 
 
-void	*update_objects_panel(t_gtk_tools *g) //change name
+void	*update_grid_objects(t_gtk_tools *g) //change name
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
 	GdkRGBA		color;
 	t_object	*obj;
-	printf("update_objects_panel\n");
+	printf("update_grid_objects\n");
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
 	gtk_container_foreach (GTK_CONTAINER(widget), G_CALLBACK(gtk_widget_destroy), NULL);
@@ -245,7 +245,7 @@ void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(obj->name);
 	obj->name = name;
-	update_objects_panel(g);
+	update_grid_objects(g);
 	return (NULL);
 }
 

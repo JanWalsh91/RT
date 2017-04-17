@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 15:11:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	obj->name = ft_strdup("New Object");
 	obj->next = NULL;
 	push_object(&(g->r->scene->objects), obj);
-	update_objects_panel(g);
+	update_grid_objects(g);
 	return (NULL);
 }

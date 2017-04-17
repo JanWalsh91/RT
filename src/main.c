@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 15:04:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/17 15:19:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 
 		//TODO: change parser to read only one scene.
 		g->r->scene = g->t->scenes;
-		update_scene_panel(g);
-		update_objects_panel(g);
-		update_lights_panel(g);
-		update_cameras_panel(g);
+		update_grid_scene(g);
+		update_grid_objects(g);
+		update_grid_lights(g);
+		update_grid_cameras(g);
 
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
@@ -128,10 +128,10 @@ int	main(int ac, char **av)
 		parse_input(g.t);
 		check_scenes(g.t->scenes);
 		g.r->scene = g.t->scenes;
-		update_scene_panel(&g);
-		update_objects_panel(&g);
-		update_lights_panel(&g);
-		update_cameras_panel(&g);
+		update_grid_scene(&g);
+		update_grid_objects(&g);
+		update_grid_lights(&g);
+		update_grid_cameras(&g);
 		free_parse_tools(g.t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);

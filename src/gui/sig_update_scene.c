@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/14 11:37:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "gui.h"
 
 
-void *update_scene_panel(t_gtk_tools *g)
+void *update_grid_scene(t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 	GdkRGBA		color;
@@ -84,7 +84,7 @@ void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 		g->r->scene->cameras = g->r->scene->cameras->next;	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
-	update_scene_panel(g);
+	update_grid_scene(g);
 	return (NULL);
 }
 
@@ -97,7 +97,7 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 		g->r->scene->cameras = g->r->scene->cameras->prev;	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
-	update_scene_panel(g);
+	update_grid_scene(g);
 	return (NULL);
 }
 
