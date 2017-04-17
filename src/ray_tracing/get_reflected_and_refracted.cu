@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 12:43:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 12:59:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray
 	reflection.origin = v_add(ray->hit, v_scale(ray->nhit, ray->n_dir * BIAS));
 	reflection.dir = reflect(ray->dir, v_scale(ray->nhit, ray->n_dir));
 	reflection.ior = ray->ior;
-	if (scene->objects[ray->hit_obj].reflection > 0 && scene->objects[ray->hit_obj].transparency < 0.0001)
-	{
-		if (r->pix.x == 50 && r->pix.y == 50)
-			C(1);
-		col = cast_primary_ray(r, &reflection);
-	}
+	// if (scene->objects[ray->hit_obj].reflection > 0 && scene->objects[ray->hit_obj].transparency < 0.0001)
+	// {
+	// 	if (r->pix.x == 50 && r->pix.y == 50)
+	// 		C(1);
+	// 	col = cast_primary_ray(r, &reflection);
+	// }
 	// else if (scene->objects[ray->hit_obj].transparency > 0)
 	// {
 	// 	if (r->pix.x == 50 && r->pix.y == 50)
