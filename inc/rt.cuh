@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/15 16:26:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 12:38:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,6 +400,7 @@ typedef struct	s_raytracing_tools
 	t_scene			*scene;
 	t_pt2			pix;
 	double			t;
+	int				ray_depth;
 }				t_raytracing_tools;
 
 /*
@@ -574,7 +575,7 @@ CUDA_DEV
 t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
-t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *primary_ray);	
+t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);	
 CUDA_DEV
 double			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, double ior);				
 CUDA_DEV

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 12:38:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 	r.pix.x = (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
-	
+	r.ray_depth = scene->ray_depth;
 	// printf("%d %d\n", blockIdx.x, blockIdx.y);
 	// printf("%d %d\n", threadIdx.x, threadIdx.y);	
 

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 15:37:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 15:47:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 12:24:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, double ior)
 	eta = etai / etat;
 	k = 1 - eta * eta * (1 - cosi * cosi);
 	//if k < 0, there is no refracted ray;
-	return (k < 0 ? v_new(0, 0, 0) : v_add(v_scale(I, eta), v_scale(n, (eta * cosi - __dsqrt_rn(k)))); 
+	return (k < 0 ? v_new(0, 0, 0) : v_add(v_scale(ray_dir, eta), v_scale(n, (eta * cosi - __dsqrt_rn(k))))); 
 }
 // Vec3f refract(const Vec3f &I, const Vec3f &N, const float &ior) 
 // { 

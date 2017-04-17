@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 15:50:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 12:39:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 ** - returns the calculated color, or background color if no intersections
 ** are found.
 */
+__device__
+t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
 
 __device__
 static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
@@ -32,8 +34,9 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	t_ray		shadow_ray;
 	int			i;
 	t_color 	col;
-
-	if (!(--r->scene->ray_depth))
+	if (r->pix.x == 50 && r->pix.y == 50)
+		printf("r: [%i]\n", r->ray_depth);
+	if (!(--r->ray_depth))
 		return (v_new(0, 0, 0));
 	r->t = INFINITY;
 	i = -1;

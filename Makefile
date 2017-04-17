@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/15 16:29:51 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/17 12:24:33 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,10 +83,13 @@ RAY_TRACING = cast_primary_ray \
 			in_shadow \
 			get_diffuse \
 			get_specular \
-			get_reflected_and_refracted \
 			get_ambient \
 			reflect \
-			filters
+			refract \
+			filters \
+			get_reflected_and_refracted \
+			get_fresnel_ratio
+
 
 MISC = 		debug \
 			free_parse_tools \
@@ -207,8 +210,8 @@ clean:
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	# @make -C $(LIB_PATH) fclean
-	# @make -C $(LIBMATH_PATH) fclean
+	@make -C $(LIB_PATH) fclean
+	@make -C $(LIBMATH_PATH) fclean
 	@$(ECHO) "$(C_GREEN)$(NAME) fclean done.$(C_NONE)"
 
 re: fclean all
