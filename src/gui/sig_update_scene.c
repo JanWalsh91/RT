@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:20:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void *update_grid_scene(t_gtk_tools *g)
 	GtkWidget	*widget;
 	GdkRGBA		color;
 
+	printf("update_grid_scene\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ResolutionXSpinButton"));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON(widget), g->r->scene->res.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ResolutionYSpinButton"));
@@ -103,6 +104,7 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 
 void	*sig_update_ray_depth(GtkWidget *spin_button, t_gtk_tools *g)
 {
+	printf("sig_update_ray_depth\n");
 	g->r->scene->ray_depth = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
 }

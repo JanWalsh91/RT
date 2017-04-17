@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:29:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 	GdkRGBA		color;
 	t_light		*light;
 
+	printf("update_grid_lights\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"));
 	gtk_container_foreach (GTK_CONTAINER(widget), G_CALLBACK(gtk_widget_destroy), NULL);
 	light = g->r->scene->lights;
@@ -46,6 +47,7 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	GtkWidget	*widget;
 	GdkRGBA		color;
 
+	printf("update_lights_info_panel\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryLightName"));
 	gtk_entry_set_text (GTK_ENTRY(widget), light->name);
 
@@ -98,6 +100,7 @@ t_light	*get_light_from_list_box(t_gtk_tools *g)
 	int			index;
 	int			i;
 
+	printf("get_light_from_list_box\n");
 	i = -1;
 	index = gtk_list_box_row_get_index(gtk_list_box_get_selected_row(GTK_LIST_BOX(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"))));
 	l_ptr = g->r->scene->lights;
@@ -117,6 +120,7 @@ t_light		*get_selected_light(t_gtk_tools *g)
 	int			    i;
 	t_light		    *light;
 
+	printf("get_selected_light\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxLights"));
 	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index (listBoxRow);
@@ -133,6 +137,7 @@ void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools 
 	int			i;
 	t_light		*l_ptr;
 
+	printf("sig_update_current_light\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
 	l_ptr = g->r->scene->lights;
@@ -150,6 +155,7 @@ void	*sig_update_light_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	char		*name;
 	t_light 	*light;
 
+	printf("sig_update_light_name\n");
 	light = get_selected_light(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(light->name);
@@ -162,6 +168,7 @@ void	*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_pos_x\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
@@ -173,6 +180,7 @@ void	*sig_update_light_pos_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_pos_y\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
@@ -184,6 +192,7 @@ void	*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_pos_z\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
@@ -194,6 +203,7 @@ void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_dir_x\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
@@ -205,6 +215,7 @@ void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_dir_y\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
@@ -216,6 +227,7 @@ void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_dir_z\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
@@ -259,6 +271,7 @@ void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	t_light			*l_ptr;
 	GdkRGBA			color;
 
+	printf("sig_update_light_color\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER(color_chooser), &color);
@@ -272,6 +285,7 @@ void	*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
+	printf("sig_update_light_intensity\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));

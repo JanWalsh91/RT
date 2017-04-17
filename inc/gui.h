@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:14:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:33:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void			*sig_update_obj_ks(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_kd(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_kt(GtkWidget *spin_button, t_gtk_tools *g);
-void			*sig_update_obj_krefraction(GtkWidget *spin_button, t_gtk_tools *g);
+void			*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_kreflection(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g);

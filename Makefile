@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/17 13:34:42 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/17 15:28:49 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,12 +156,12 @@ ECHO = echo
 all: $(NAME)
 
 $(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI)
-	@#if [ ! -d "$(SDL_PATH)lib" ]; then \
+	@if [ ! -d "$(SDL_PATH)lib" ]; then \
 		/bin/mkdir $(SDL_PATH)lib; \
 		cd $(SDL_PATH) ; ./configure --prefix=`pwd`/lib; \
 	fi
-	@#make -C $(SDL_PATH)
-	@#make -C $(SDL_PATH) install >/dev/null
+	@make -C $(SDL_PATH)
+	@make -C $(SDL_PATH) install >/dev/null
 	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
@@ -202,11 +202,11 @@ $(OBJ_DIR)/%.o : ./src/gui/%.c
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)
-	# @/bin/rm -Rf $(SDL_PATH)lib
-	# @/bin/rm -Rf $(SDL_PATH)build
-	# @$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
-	# @make -C $(LIB_PATH) clean
-	# @make -C $(LIBMATH_PATH) clean
+	@/bin/rm -Rf $(SDL_PATH)lib
+	@/bin/rm -Rf $(SDL_PATH)build
+	@$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
+	@make -C $(LIB_PATH) clean
+	@make -C $(LIBMATH_PATH) clean
 	@$(ECHO) "$(C_GREEN)$(NAME) clean done.$(C_NONE)"
 
 fclean: clean

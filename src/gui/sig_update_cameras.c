@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:21:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g
 	int			i;
 	t_camera	*c_ptr;
 
+	printf("sig_update_current_cam\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
 	c_ptr = g->r->scene->cameras;
@@ -179,6 +180,7 @@ void	*sig_update_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	char		*name;
 	t_camera 	*cam;
 
+	printf("sig_update_cam_name\n");
 	cam = get_selected_camera(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(cam->name);
@@ -192,6 +194,7 @@ void	*sig_update_cam_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera 	*cam;
 
+	printf("sig_update_cam_pos_x\n");
 	cam = get_selected_camera(g);
 	cam->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	printf("update cam pos.x: [%f]\n", cam->pos.x);
@@ -202,6 +205,7 @@ void	*sig_update_cam_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera 	*cam;
 
+	printf("sig_update_cam_pos_y\n");
 	cam = get_selected_camera(g);
 	cam->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -210,7 +214,7 @@ void	*sig_update_cam_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 void	*sig_update_cam_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera 	*cam;
-
+	printf("sig_update_cam_pos_z\n");
 	cam = get_selected_camera(g);
 	cam->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -221,7 +225,7 @@ void	*sig_update_cam_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera	*cam;
 	GtkWidget	*widget;
-
+	printf("sig_update_cam_lookat_x\n");
 	cam = get_selected_camera(g);
 	cam->look_at.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	cam->dir = v_norm(v_sub(cam->look_at, cam->pos));
@@ -245,7 +249,7 @@ void	*sig_update_cam_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera 	*cam;
 	GtkWidget	*widget;
-
+	printf("sig_update_cam_lookat_y\n");	
 	cam = get_selected_camera(g);
 	cam->look_at.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	cam->dir = v_norm(v_sub(cam->look_at, cam->pos));
@@ -270,6 +274,7 @@ void	*sig_update_cam_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera	*cam;
 	GtkWidget	*widget;
 
+	printf("sig_update_cam_lookat_z\n");	
 	cam = get_selected_camera(g);
 	cam->look_at.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	cam->dir = v_norm(v_sub(cam->look_at, cam->pos));
@@ -308,7 +313,6 @@ void	*sig_update_cam_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.y);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraLookAtZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.z);
-
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), cam->dir.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionY"));
@@ -326,6 +330,7 @@ void	*sig_update_cam_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera 	*cam;
 	GtkWidget	*widget;
 
+	printf("sig_update_cam_dir_x\n");
 	cam = get_selected_camera(g);
 	cam->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
@@ -338,6 +343,7 @@ void	*sig_update_cam_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera 	*cam;
 	GtkWidget	*widget;
 
+	printf("sig_update_cam_dir_y\n");
 	cam = get_selected_camera(g);
 	cam->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
@@ -350,6 +356,7 @@ void	*sig_update_cam_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera 	*cam;
 	GtkWidget	*widget;
 
+	printf("sig_update_cam_dir_z\n");
 	cam = get_selected_camera(g);
 	cam->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
@@ -378,7 +385,6 @@ void	*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_cam_fov\n");
 	cam = get_selected_camera(g);
 	cam->fov = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	printf("new fov: [%f]\n", cam->fov);
 	update_camera_scale(cam);
 	return (NULL);
 }

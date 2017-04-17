@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:12:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:33:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools
 	int			i;
 	t_object	*o_ptr;
 
+	printf("sig_update_current_object\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
 	o_ptr = g->r->scene->objects;
@@ -211,6 +212,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	int			i;
 	t_object	*obj;
 
+	printf("get_selected_object\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));
 	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index (listBoxRow);
@@ -241,6 +243,7 @@ void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	char		*name;
 	t_object 	*obj;
 
+	printf("sig_update_obj_name\n");
 	obj = get_selected_object(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(obj->name);
@@ -254,6 +257,7 @@ void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_pos_x\n");
 	obj = get_selected_object(g);
 	obj->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -263,6 +267,7 @@ void	*sig_update_obj_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_pos_y\n");
 	obj = get_selected_object(g);
 	obj->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -272,6 +277,7 @@ void	*sig_update_obj_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_pos_z\n");
 	obj = get_selected_object(g);
 	obj->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -284,6 +290,7 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+	printf("sig_update_obj_lookat_x\n");
 	obj = get_selected_object(g);
 	obj->look_at.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
@@ -308,6 +315,7 @@ void	*sig_update_obj_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+printf("sig_update_obj_lookat_y\n");
 	obj = get_selected_object(g);
 	obj->look_at.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
@@ -332,6 +340,7 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+	printf("sig_update_obj_lookat_z\n");
 	obj = get_selected_object(g);
 	obj->look_at.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
@@ -361,6 +370,7 @@ t_vec3		get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g)
 	int			id;
 	int			i;
 
+	printf("get_look_at_obj\n");
 	i = 0;
 	id = gtk_combo_box_get_active(ComboBox);
 	obj = g->r->scene->objects;
@@ -420,6 +430,7 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+	printf("sig_update_obj_dir_x\n");
 	obj = get_selected_object(g);
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
@@ -432,6 +443,7 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+	printf("sig_update_obj_dir_y\n");
 	obj = get_selected_object(g);
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
@@ -444,6 +456,7 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+	printf("sig_update_obj_dir_z\n");
 	obj = get_selected_object(g);
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
@@ -458,7 +471,7 @@ void	*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 
 	obj = get_selected_object(g);
 	obj->dir = v_norm(obj->dir);
-	printf("normalizing direction: [%f][%f][%f]\n", obj->dir.x, obj->dir.y, obj->dir.z);
+	printf("normalizing obj direction: [%f][%f][%f]\n", obj->dir.x, obj->dir.y, obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, FALSE);
 	update_objects_info_panel(g, obj);
@@ -473,6 +486,7 @@ void	*sig_update_obj_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	t_object 	*obj;
 	GdkRGBA		color;
 
+	printf("sig_update_obj_color\n");
 	obj = get_selected_object(g);
 	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_chooser), &color);
 	obj->col.x = color.red * 255;
@@ -487,6 +501,7 @@ void	*sig_update_obj_ks(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_ks\n");
 	obj = get_selected_object(g);
 	obj->ks = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -498,6 +513,7 @@ void	*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_spec_exp\n");
 	obj = get_selected_object(g);
 	obj->specular_exp = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -509,6 +525,7 @@ void	*sig_update_obj_kd(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_kd\n");
 	obj = get_selected_object(g);
 	obj->kd = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -520,6 +537,7 @@ void	*sig_update_obj_kt(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_transparency\n");
 	obj = get_selected_object(g);
 	obj->transparency = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -527,10 +545,11 @@ void	*sig_update_obj_kt(GtkWidget *spin_button, t_gtk_tools *g)
 
 // TODO: UPDATE OBJECT REFRACTION K
 
-void	*sig_update_obj_krefraction(GtkWidget *spin_button, t_gtk_tools *g)
+void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_refraction\n");
 	obj = get_selected_object(g);
 	obj->ior = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);

@@ -1230,7 +1230,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKRefraction</property>
                                 <property name="digits">2</property>
-                                <signal name="value-changed" handler="sig_update_obj_krefraction" swapped="no"/>
+                                <signal name="value-changed" handler="sig_update_obj_ior" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
