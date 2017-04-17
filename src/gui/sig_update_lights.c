@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:29:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 17:00:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,17 @@ void	*sig_update_light_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 {
 	char		*name;
 	t_light 	*light;
+	GtkWidget	*widget;
 
 	printf("sig_update_light_name\n");
 	light = get_selected_light(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(light->name);
 	light->name = name;
-	update_grid_lights(g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"));
+	gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(gtk_list_box_get_selected_row(GTK_LIST_BOX(widget))))), name);
+
 	return (NULL);
 }
 

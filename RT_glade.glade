@@ -412,8 +412,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>
@@ -1001,6 +1001,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <signal name="activate" handler="sig_update_obj_name" swapped="no"/>
+                                <signal name="changed" handler="sig_update_obj_name" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1632,6 +1633,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <signal name="activate" handler="sig_update_light_name" swapped="no"/>
+                        <signal name="changed" handler="sig_update_light_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1944,6 +1946,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <signal name="activate" handler="sig_update_cam_name" swapped="no"/>
+                        <signal name="changed" handler="sig_update_cam_name" swapped="no"/>
+                        <signal name="leave-notify-event" handler="sig_check_cam_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2291,8 +2295,8 @@
                 <property name="receives_default">True</property>
                 <property name="image_position">right</property>
                 <signal name="clicked" handler="sig_render" swapped="no"/>
+                <accelerator key="r" signal="activate"/>
                 <accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-				<accelerator key="r" signal="activate"/>
               </object>
               <packing>
                 <property name="expand">False</property>

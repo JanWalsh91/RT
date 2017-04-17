@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 15:19:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/17 16:11:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,11 @@ int	main(int ac, char **av)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
+	gtk_widget_show(window);
 	// gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_widget_show(window);    
-	gtk_window_activate_focus (GTK_WINDOW(window));            
+	gtk_widget_set_can_focus(window, TRUE);
+	gtk_widget_grab_focus (window);
+	gtk_window_activate_focus (GTK_WINDOW(window));
     gtk_main();
 	return (0);
 

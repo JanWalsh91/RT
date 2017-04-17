@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_cameras.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 16:08:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 16:57:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,10 @@ void	*sig_update_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(cam->name);
 	cam->name = name;
-	update_grid_cameras(g);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxCameras"));
+	gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(gtk_list_box_get_selected_row(GTK_LIST_BOX(widget))))), name);
+
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
 	return (NULL);
