@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:33:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:59:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void			*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g);
 */
 
 void			*update_grid_cameras(t_gtk_tools *g);
+t_camera		*get_first_camera(t_gtk_tools *g);
 void			update_cameras_info_panel(t_gtk_tools *g, t_camera *camera);
 void			init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);

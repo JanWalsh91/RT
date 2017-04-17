@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 15:39:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 16:08:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	*update_grid_cameras(t_gtk_tools *g) //change name
     printf("update_grid_cameras\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxCameras"));
 	gtk_container_foreach (GTK_CONTAINER(widget), G_CALLBACK(gtk_widget_destroy), NULL);
-	camera = g->r->scene->cameras;
-    while (camera->prev)
-        camera = camera->prev;
+	camera = get_first_camera(g);
 	while (camera)
 	{  
 		label = gtk_label_new(camera->name);
@@ -34,11 +32,8 @@ void	*update_grid_cameras(t_gtk_tools *g) //change name
 	}
 	if (!g->r->scene->cameras)
 		return (NULL);
-	// label = gtk_button_new_with_label("+");
-	// gtk_list_box_insert(widget, label, -1);
-	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_camera), g);
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
-	update_cameras_info_panel(g, g->r->scene->cameras);
+	update_cameras_info_panel(g, get_first_camera(g));
 	gtk_widget_show_all(widget);
 	return (NULL);
 }
@@ -126,7 +121,7 @@ void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)light->name);
 		light = light->next;
 	}
-	camera = g->r->scene->cameras;
+	camera = get_first_camera(g);
 	while (camera)
 	{
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)camera->name);
@@ -134,6 +129,16 @@ void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), id);
 	gtk_widget_show_all(widget);
+}
+
+t_camera		*get_first_camera(t_gtk_tools *g)
+{
+	t_camera	*cam;
+
+	cam = g->r->scene->cameras;
+	while (cam->prev)
+		cam = cam->prev;
+	return (cam);
 }
 
 void	*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g)
@@ -145,7 +150,7 @@ void	*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g
 	printf("sig_update_current_cam\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
-	c_ptr = g->r->scene->cameras;
+	c_ptr = get_first_camera(g);
 	while (++i != index && c_ptr)
 		c_ptr = c_ptr->next;
 	if (i != index || !c_ptr)
@@ -167,9 +172,7 @@ t_camera	*get_selected_camera(t_gtk_tools *g)
 	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index (listBoxRow);
 	i = -1;
-	cam = g->r->scene->cameras;
-	while (cam->prev)
-		cam = cam->prev;
+	cam = get_first_camera(g);
 	while (++i != id && cam)
 		cam = cam->next;
 	// printf("end of get_selected_camera. id: [%i] i: [%i]\n", id, i);
@@ -179,6 +182,7 @@ t_camera	*get_selected_camera(t_gtk_tools *g)
 // UPDATE CAMERA NAME
 void	*sig_update_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 {
+	GtkWidget	*widget;
 	char		*name;
 	t_camera 	*cam;
 
@@ -188,6 +192,8 @@ void	*sig_update_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	free(cam->name);
 	cam->name = name;
 	update_grid_cameras(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
+	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
 	return (NULL);
 }
 

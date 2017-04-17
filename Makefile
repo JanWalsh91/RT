@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/17 15:28:49 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/17 16:00:29 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -202,11 +202,11 @@ $(OBJ_DIR)/%.o : ./src/gui/%.c
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)
-	@/bin/rm -Rf $(SDL_PATH)lib
-	@/bin/rm -Rf $(SDL_PATH)build
+	# @/bin/rm -Rf $(SDL_PATH)lib
+	# @/bin/rm -Rf $(SDL_PATH)build
 	@$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
-	@make -C $(LIB_PATH) clean
-	@make -C $(LIBMATH_PATH) clean
+	# @make -C $(LIB_PATH) clean
+	# @make -C $(LIBMATH_PATH) clean
 	@$(ECHO) "$(C_GREEN)$(NAME) clean done.$(C_NONE)"
 
 fclean: clean
