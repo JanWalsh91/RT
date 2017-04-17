@@ -1,10 +1,10 @@
 # sdl2 cmake project-config input for ./configure scripts
 
-set(prefix "/Users/jwalsh/Documents/Github_Repositories/RT/sdl2/lib") 
+set(prefix "/Users/tgros/gitlab/RT/sdl2/lib") 
 set(exec_prefix "${prefix}")
 set(libdir "${exec_prefix}/lib")
-set(SDL2_PREFIX "/Users/jwalsh/Documents/Github_Repositories/RT/sdl2/lib")
-set(SDL2_EXEC_PREFIX "/Users/jwalsh/Documents/Github_Repositories/RT/sdl2/lib")
+set(SDL2_PREFIX "/Users/tgros/gitlab/RT/sdl2/lib")
+set(SDL2_EXEC_PREFIX "/Users/tgros/gitlab/RT/sdl2/lib")
 set(SDL2_LIBDIR "${exec_prefix}/lib")
 set(SDL2_INCLUDE_DIRS "${prefix}/include/SDL2")
 set(SDL2_LIBRARIES "-L${SDL2_LIBDIR}  -lSDL2 ")
