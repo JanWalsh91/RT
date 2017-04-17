@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:33:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 16:45:20 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,13 +242,19 @@ void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 {
 	char		*name;
 	t_object 	*obj;
+	GtkWidget	*widget;
 
 	printf("sig_update_obj_name\n");
 	obj = get_selected_object(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
 	free(obj->name);
 	obj->name = name;
-	update_grid_objects(g);
+	// update_grid_objects(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
+	gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(gtk_list_box_get_selected_row(GTK_LIST_BOX(widget))))), name);
+
+	// label = gtk_label_new(obj->name);
+	// gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 	return (NULL);
 }
 
