@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/17 12:24:33 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/17 13:34:42 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,8 @@ GUI =		sig_update_scene \
 			sig_new_camera \
 			sig_new_light \
 			sig_save \
-			sig_open_settings
+			sig_open_settings \
+			sig_export_scene_bmp \
 
 OBJ_DIR = obj
 
@@ -155,12 +156,12 @@ ECHO = echo
 all: $(NAME)
 
 $(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI)
-	@if [ ! -d "$(SDL_PATH)lib" ]; then \
+	@#if [ ! -d "$(SDL_PATH)lib" ]; then \
 		/bin/mkdir $(SDL_PATH)lib; \
 		cd $(SDL_PATH) ; ./configure --prefix=`pwd`/lib; \
 	fi
-	@make -C $(SDL_PATH)
-	@make -C $(SDL_PATH) install >/dev/null
+	@#make -C $(SDL_PATH)
+	@#make -C $(SDL_PATH) install >/dev/null
 	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)

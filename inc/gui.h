@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/14 11:37:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 13:33:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void			save_light(int fd, t_light *light);
 void			write_vector(int fd, t_vec3 vec);
 void			write_int(int fd, int i);
 void			write_double(int fd, double d);
+void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g);
 
 /*
 ** Scene GUI panel
