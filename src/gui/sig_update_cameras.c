@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 15:21:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:39:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,11 @@ t_camera	*get_selected_camera(t_gtk_tools *g)
 	id = gtk_list_box_row_get_index (listBoxRow);
 	i = -1;
 	cam = g->r->scene->cameras;
+	while (cam->prev)
+		cam = cam->prev;
 	while (++i != id && cam)
 		cam = cam->next;
-	printf("end of get_selected_camera. id: [%i] i: [%i]\n", id, i);
+	// printf("end of get_selected_camera. id: [%i] i: [%i]\n", id, i);
 	return ((cam && id == i) ? cam : NULL);
 }
 
@@ -197,7 +199,6 @@ void	*sig_update_cam_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_cam_pos_x\n");
 	cam = get_selected_camera(g);
 	cam->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	printf("update cam pos.x: [%f]\n", cam->pos.x);
 	return (NULL);
 }
 

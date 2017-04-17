@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 15:33:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/17 15:33:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -549,7 +549,7 @@ void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
-	printf("sig_update_obj_refraction\n");
+	printf("sig_update_obj_ior\n");
 	obj = get_selected_object(g);
 	obj->ior = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -561,6 +561,7 @@ void	*sig_update_obj_kreflection(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_kreflection\n");
 	obj = get_selected_object(g);
 	obj->reflection = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -572,6 +573,7 @@ void	*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_radius\n");
 	obj = get_selected_object(g);
 	obj->rad = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
@@ -583,6 +585,7 @@ void	*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+	printf("sig_update_obj_height\n");
 	obj = get_selected_object(g);
 	obj->height = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	return (NULL);
