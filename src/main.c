@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 16:11:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/18 13:20:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 	{
 		obj = get_selected_object(g);
 		obj->dir = v_norm(obj->dir);
-		update_objects_info_panel(g, g->r->scene->objects);
+		update_objects_info_panel(g, obj);
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
 	rt(g->r);
