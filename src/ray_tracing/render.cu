@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 12:38:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/18 15:41:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,20 +182,23 @@ void		render(t_scene *scene)
 
 	// Preparation des deux structures temporarires
 	start = clock();
-	h_scene_to_array = (t_scene *)malloc(sizeof(t_scene)); // malloc error
+	if (!(h_scene_to_array = (t_scene *)malloc(sizeof(t_scene))))
+		exit(0); // malloc error
 	stop = clock();
 	printf("1. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	
 
 	start = clock();
-	h_d_scene = (t_scene *)malloc(sizeof(t_scene)); // malloc error
+	if (!(h_d_scene = (t_scene *)malloc(sizeof(t_scene))))
+		exit(0); // malloc error
 	stop = clock();
 	printf("2. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	
 	start = clock();
-	memcpy(h_scene_to_array, scene, sizeof(t_scene));
+	if (!(memcpy(h_scene_to_array, scene, sizeof(t_scene))))
+		exit(0);
 	stop = clock();
 	printf("3. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -372,4 +375,5 @@ void		render(t_scene *scene)
 
 	  cudaGetDeviceCount(&nb);
 	  printf("Nb device : %d\n", nb);
+	cudaDeviceReset();
 }

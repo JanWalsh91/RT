@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/18 12:24:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/18 15:23:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 		gtk_widget_set_sensitive(widget, TRUE);
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
-	
+	update_objects_info_panel(g, obj);
 	return (NULL);
 }
 
