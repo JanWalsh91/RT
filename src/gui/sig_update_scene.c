@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 16:17:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/18 12:08:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	*sig_udpate_ambient_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	g->r->scene->ambient_light_color.x = color.red * 255;
 	g->r->scene->ambient_light_color.y = color.green * 255;
 	g->r->scene->ambient_light_color.z = color.blue * 255;
-	v_clamp(g->r->scene->ambient_light_color, 0, 255);
+	g->r->scene->ambient_light_color = v_clamp(g->r->scene->ambient_light_color, 0.0, 255.0);
 	return (NULL);
 }
 

@@ -412,8 +412,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -629,6 +629,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1275,6 +1276,7 @@
                             <child>
                               <object class="GtkSpinButton" id="SpinButtonObjectRadius">
                                 <property name="visible">True</property>
+                                <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjRadius</property>
                                 <property name="digits">2</property>
@@ -1633,6 +1635,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <signal name="activate" handler="sig_update_light_name" swapped="no"/>
+                        <signal name="changed" handler="sig_update_light_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1945,6 +1948,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <signal name="activate" handler="sig_update_cam_name" swapped="no"/>
+                        <signal name="changed" handler="sig_update_cam_name" swapped="no"/>
+                        <signal name="leave-notify-event" handler="sig_check_cam_name" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2292,8 +2297,8 @@
                 <property name="receives_default">True</property>
                 <property name="image_position">right</property>
                 <signal name="clicked" handler="sig_render" swapped="no"/>
-                <accelerator key="r" signal="activate"/>
                 <accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                <accelerator key="r" signal="activate"/>
               </object>
               <packing>
                 <property name="expand">False</property>
