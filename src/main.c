@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 15:19:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/17 17:03:42 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 	{
 		obj = get_selected_object(g);
 		obj->dir = v_norm(obj->dir);
-		update_objects_info_panel(g, g->r->scene->objects);
+		// update_grid_objects(g);
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
 	rt(g->r);
@@ -147,8 +147,8 @@ int	main(int ac, char **av)
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
 	// gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
+	gtk_window_activate_focus (GTK_WINDOW(window));    
 	gtk_widget_show(window);    
-	gtk_window_activate_focus (GTK_WINDOW(window));            
     gtk_main();
 	return (0);
 
