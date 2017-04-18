@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 13:20:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/18 15:08:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 		obj = get_selected_object(g);
 		obj->dir = v_norm(obj->dir);
 		update_objects_info_panel(g, obj);
+		// update_grid_objects(g);
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
 	rt(g->r);
@@ -148,9 +149,11 @@ int	main(int ac, char **av)
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
 	gtk_widget_show(window);
 	// gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_widget_set_can_focus(window, TRUE);
-	gtk_widget_grab_focus (window);
-	gtk_window_activate_focus (GTK_WINDOW(window));
+	gtk_window_activate_focus (GTK_WINDOW(window));    
+	gtk_widget_show(window);    
+	// gtk_widget_set_can_focus(window, TRUE);
+	// gtk_widget_grab_focus (window);
+	// gtk_window_activate_focus (GTK_WINDOW(window));
     gtk_main();
 	return (0);
 
