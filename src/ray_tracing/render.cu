@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 15:41:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/18 16:08:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,10 +227,12 @@ void		render(t_scene *scene)
 	printf("7. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	
-	t_vec3	*truc;
+	// t_vec3	*truc;
 
 	start = clock();
-	cudaMalloc(&truc, sizeof(t_vec3));
+	// cudaMalloc(&truc, sizeof(t_vec3));
+	gpuErrchk(cudaSetDevice(0));
+	// cudaFree(0);
 	stop = clock();
 	printf("80. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -244,22 +246,22 @@ void		render(t_scene *scene)
 	
 	// Allocation de la memoire GPU
 	start = clock();
-	cudaMalloc(&(h_d_scene->lights), get_lights_array_length(h_scene_to_array->lights));
+	gpuErrchk(cudaMalloc(&(h_d_scene->lights), get_lights_array_length(h_scene_to_array->lights)));
 	stop = clock();
 	printf("10. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	start = clock();
-	cudaMalloc(&(h_d_scene->objects), get_object_array_length(h_scene_to_array->objects));
+	gpuErrchk(cudaMalloc(&(h_d_scene->objects), get_object_array_length(h_scene_to_array->objects)));
 	stop = clock();
 	printf("9. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	start = clock();
-	cudaMalloc(&(h_d_scene->cameras), sizeof(t_camera));
+	gpuErrchk(cudaMalloc(&(h_d_scene->cameras), sizeof(t_camera)));
 	stop = clock();
 	printf("11. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	start = clock();
-	cudaMalloc(&d_scene, sizeof(t_scene));
+	gpuErrchk(cudaMalloc(&d_scene, sizeof(t_scene)));
 	stop = clock();
 	printf("12. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -268,24 +270,24 @@ void		render(t_scene *scene)
 
 	// Copie des tableaux du CPU vers le GPU, en passant par la structure contenant des pointeurs sur GPU
 	start = clock();
-	cudaMemcpy(h_d_scene->cameras, h_scene_to_array->cameras, sizeof(t_camera), cudaMemcpyHostToDevice);
+	gpuErrchk(cudaMemcpy(h_d_scene->cameras, h_scene_to_array->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
 	stop = clock();
 	printf("13. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	start = clock();
-	cudaMemcpy(h_d_scene->objects, h_scene_to_array->objects, get_object_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice);
+	gpuErrchk((cudaMemcpy(h_d_scene->objects, h_scene_to_array->objects, get_object_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
 	stop = clock();
 	printf("14. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	start = clock();
-	cudaMemcpy(h_d_scene->lights, h_scene_to_array->lights, get_lights_array_length(h_scene_to_array->lights), cudaMemcpyHostToDevice);
+	gpuErrchk(cudaMemcpy(h_d_scene->lights, h_scene_to_array->lights, get_lights_array_length(h_scene_to_array->lights), cudaMemcpyHostToDevice));
 	stop = clock();
 	printf("15. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 
 	// Copie de la structure finale sur le GPU, contenant les pointeurs GPU
 	start = clock();
-	cudaMemcpy(d_scene, h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
+	gpuErrchk(cudaMemcpy(d_scene, h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
 	stop = clock();
 	printf("16. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -296,7 +298,7 @@ void		render(t_scene *scene)
 	printf("17. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	start = clock();
-	cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);
+	gpuErrchk((cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x)));
 	// cudaMallocHost(&h_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);
 	stop = clock();
 	printf("18. Time taken %f milliseconds\n",
@@ -306,32 +308,22 @@ void		render(t_scene *scene)
 	dim3 gridSize	= dim3(scene->res.x / BLOCK_DIM + 1, scene->res.y / BLOCK_DIM + 1);
 
 
-	// pthread_t	p0;
-
-	// t_pt2 *progress;
-
-	// cudaMallocHost(&progress, sizeof(t_pt2));
-
-	// progress->x = 0;
-	// progress->y = scene->res.x * scene->res.y;
-
-	// pthread_create(&p0, NULL, loading_bar, progress);
-
-
+	printf("gridsize: [%d][%d][%d] blocksize: [%d][%d][%d]\n", gridSize.x, gridSize.y, gridSize.z, blockSize.x, blockSize.y, blockSize.z);
+	
 	start = clock();
 	render_pixel<<<gridSize, blockSize>>>(d_scene, d_pixel_map/*, progress*/);
-	// gpuErrchk( cudaPeekAtLastError() ); // Debug
+	gpuErrchk( cudaPeekAtLastError() );
 	// gpuErrchk( cudaDeviceSynchronize() ); // Debug
-	cudaDeviceSynchronize();
+	gpuErrchk((cudaDeviceSynchronize()));
 	stop = clock();
 	printf("19. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 
 	//   printf("!!!%d \n", progress->x);
 	//   pthread_join(p0, NULL);
-
+ 
 	start = clock();
-	cudaMemcpy(h_pixel_map, d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x, cudaMemcpyDeviceToHost);
+	gpuErrchk(cudaMemcpy(h_pixel_map, d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x, cudaMemcpyDeviceToHost));
 	stop = clock();
 	printf("20. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -375,5 +367,4 @@ void		render(t_scene *scene)
 
 	  cudaGetDeviceCount(&nb);
 	  printf("Nb device : %d\n", nb);
-	cudaDeviceReset();
 }
