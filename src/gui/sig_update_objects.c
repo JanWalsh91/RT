@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 16:45:20 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/18 12:24:47 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ void	*update_grid_objects(t_gtk_tools *g) //change name
 	t_object	*obj;
 	printf("update_grid_objects\n");
 
+	obj = g->r->scene->objects;
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
+	if (obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK)
+		gtk_widget_set_sensitive(widget, TRUE);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectHeight"));
+	if (obj->type == T_CYLINDER || obj->type == T_CONE)
+		gtk_widget_set_sensitive(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
 	gtk_container_foreach (GTK_CONTAINER(widget), G_CALLBACK(gtk_widget_destroy), NULL);
-	obj = g->r->scene->objects;
 	while (obj)
 	{
 		label = gtk_label_new(obj->name);
@@ -228,12 +234,24 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 {
 	int			id;
 	t_object 	*obj;
+	GtkWidget	*widget;
 
 	printf("sig_update_obj_type\n");
 	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(ComboBox));
 	obj->type = id + 6;
 	// update_objects_info_panel(g, g->r->scene->objects);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectHeight"));
+	if (obj->type == T_CYLINDER || obj->type == T_CONE)
+		gtk_widget_set_sensitive(widget, TRUE);
+	else
+		gtk_widget_set_sensitive(widget, FALSE);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
+	if (obj->type == T_DISK || obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE)
+		gtk_widget_set_sensitive(widget, TRUE);
+	else
+		gtk_widget_set_sensitive(widget, FALSE);
+	
 	return (NULL);
 }
 
@@ -246,15 +264,30 @@ void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 
 	printf("sig_update_obj_name\n");
 	obj = get_selected_object(g);
-	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));
+	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));	
 	free(obj->name);
 	obj->name = name;
-	// update_grid_objects(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
 	gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(gtk_list_box_get_selected_row(GTK_LIST_BOX(widget))))), name);
+	return (NULL);
+}
 
-	// label = gtk_label_new(obj->name);
-	// gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
+/*
+** Delete ?
+*/
+
+void	*sig_check_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
+{
+	char	*name;
+
+	printf("Tulipe\n");
+	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));	
+	if (ft_strlen(name) == 0)
+	{
+		gtk_widget_grab_focus(GtkEntry);
+		printf("Nope\n");
+		return (NULL);
+	}
 	return (NULL);
 }
 
