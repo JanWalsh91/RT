@@ -768,6 +768,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="column_spacing">5</property>
+                <property name="row_homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="ButtonNewObject">
                     <property name="label" translatable="yes">New Object</property>
@@ -779,7 +780,7 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
+                    <property name="top_attach">9</property>
                   </packing>
                 </child>
                 <child>
@@ -1465,7 +1466,7 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
-                    <property name="height">2</property>
+                    <property name="height">10</property>
                   </packing>
                 </child>
                 <child>
@@ -1490,6 +1491,7 @@
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
+                    <property name="height">9</property>
                   </packing>
                 </child>
               </object>
@@ -1513,17 +1515,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkListBox" id="ListBoxLights">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="row-activated" handler="sig_update_current_light" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkSeparator">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1531,7 +1522,7 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
-                    <property name="height">2</property>
+                    <property name="height">10</property>
                   </packing>
                 </child>
                 <child>
@@ -1817,7 +1808,7 @@
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="top_attach">0</property>
-                    <property name="height">2</property>
+                    <property name="height">10</property>
                   </packing>
                 </child>
                 <child>
@@ -1831,7 +1822,32 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
+                    <property name="top_attach">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkListBox" id="ListBoxLights">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <signal name="row-activated" handler="sig_update_current_light" swapped="no"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="height">9</property>
                   </packing>
                 </child>
               </object>
