@@ -2308,7 +2308,6 @@
                 <property name="image_position">right</property>
                 <signal name="clicked" handler="sig_render" swapped="no"/>
                 <accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                <accelerator key="r" signal="activate"/>
               </object>
               <packing>
                 <property name="expand">False</property>
