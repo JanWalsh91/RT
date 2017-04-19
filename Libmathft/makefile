@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/19 13:34:44 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/19 13:41:33 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = libmathft.a
 VECTORS_AND_MATRICES = c_add \
 		c_mult \
 		c_new \
+		c_scale \
 		m_new \
 		m_new_identity \
 		m_new_scale \

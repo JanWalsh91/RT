@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 13:34:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/19 13:41:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ CUDA_HOSTDEV
 t_color			c_mult(t_color col1, t_color col2);
 CUDA_HOSTDEV
 t_color			c_new(int r, int g, int b);
+CUDA_HOSTDEV
+t_color			c_scale(t_color v, double i);
 CUDA_HOSTDEV
 t_color			vec_to_col(t_vec3 vec);
 /*
