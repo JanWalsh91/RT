@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/19 13:25:56 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/19 13:34:44 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ VECTORS_AND_MATRICES = c_add \
 		v_mult \
 		v_scale \
 		v_clamp \
-		v_isnan
+		v_isnan \
+		vec_to_col
 
 MISC = 	ft_abs \
 		ft_power \
