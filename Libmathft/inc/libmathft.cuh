@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libmathft.cuh                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 12:27:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/19 13:27:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 #define EXT
 #define EXT_END
 #endif
+
+typedef struct	s_color
+{
+	uint8_t 	r;
+	uint8_t		g;
+	uint8_t		b;
+}				t_color;
 
 typedef struct	s_pt2
 {
@@ -66,6 +73,17 @@ CUDA_HOSTDEV
 void			ft_swapd(double *a, double *b);
 CUDA_HOSTDEV
 double			ft_clampd(double i, double min, double max);
+
+/*
+** Colors
+*/
+
+CUDA_HOSTDEV
+t_color			c_add(t_color col1, t_color col2);
+CUDA_HOSTDEV
+t_color			c_mult(t_color col1, t_color col2);
+CUDA_HOSTDEV
+t_color			c_new(int r, int g, int b);
 
 /*
 ** 3 x 3 Vector functions

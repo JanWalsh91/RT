@@ -1,18 +1,21 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/05 12:36:27 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/19 13:25:56 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libmathft.a
 
-VECTORS_AND_MATRICES = m_new \
+VECTORS_AND_MATRICES = c_add \
+		c_mult \
+		c_new \
+		m_new \
 		m_new_identity \
 		m_new_scale \
 		m_new_rotate \
