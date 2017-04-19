@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/18 15:49:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/19 16:02:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,26 +119,23 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRotationZ"));
 	gtk_widget_set_sensitive (widget, FALSE);
 	
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKS"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->ks);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScaleObjectKS"));
+	gtk_range_set_value(GTK_RANGE(widget), obj->ks);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectSepcularExponent"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->specular_exp);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKS"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->ks);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScaleObjectKD"));
+	gtk_range_set_value(GTK_RANGE(widget), obj->kd);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKD"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->kd);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKT"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->transparency);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScaleObjectKT"));
+	gtk_range_set_value(GTK_RANGE(widget), obj->transparency);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKRefraction"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->ior);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectKReflection"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->reflection);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScaleObjectKR"));
+	gtk_range_set_value(GTK_RANGE(widget), obj->reflection);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad);
@@ -536,13 +533,13 @@ void	*sig_update_obj_color(GtkWidget *color_chooser, t_gtk_tools *g)
 
 // TOUPDATE OBJECT KS
 
-void	*sig_update_obj_ks(GtkWidget *spin_button, t_gtk_tools *g)
+void	*sig_update_obj_ks(GtkWidget *scale, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
 	printf("sig_update_obj_ks\n");
 	obj = get_selected_object(g);
-	obj->ks = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	obj->ks = gtk_range_get_value(GTK_RANGE(scale));
 	return (NULL);
 }
 
@@ -560,25 +557,25 @@ void	*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g)
 
 // TODO: UPDATE OBJECT KD
 
-void	*sig_update_obj_kd(GtkWidget *spin_button, t_gtk_tools *g)
+void	*sig_update_obj_kd(GtkWidget *scale, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
 	printf("sig_update_obj_kd\n");
 	obj = get_selected_object(g);
-	obj->kd = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	obj->kd = gtk_range_get_value(GTK_RANGE(scale));
 	return (NULL);
 }
 
 // TODO: UPDATE OBJECT TRANSPARENCY
 
-void	*sig_update_obj_kt(GtkWidget *spin_button, t_gtk_tools *g)
+void	*sig_update_obj_kt(GtkWidget *scale, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
 	printf("sig_update_obj_transparency\n");
 	obj = get_selected_object(g);
-	obj->transparency = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	obj->transparency = gtk_range_get_value(GTK_RANGE(scale));
 	return (NULL);
 }
 
@@ -596,13 +593,13 @@ void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 
 // TODO: UPDATE OBJECT REFLECTION K
 
-void	*sig_update_obj_kreflection(GtkWidget *spin_button, t_gtk_tools *g)
+void	*sig_update_obj_kreflection(GtkWidget *scale, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
 	printf("sig_update_obj_kreflection\n");
 	obj = get_selected_object(g);
-	obj->reflection = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	obj->reflection = gtk_range_get_value(GTK_RANGE(scale));
 	return (NULL);
 }
 

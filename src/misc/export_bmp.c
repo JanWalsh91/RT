@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_bmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/19 13:48:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ void		*export_image(void *data)
 	i = -1;
 	while (++i < th_export->g->r->scene->res.x * th_export->g->r->scene->res.y)
 	{
-		r = th_export->g->r->scene->cameras->pixel_map[i].x;
-		g = th_export->g->r->scene->cameras->pixel_map[i].y;
-		b = th_export->g->r->scene->cameras->pixel_map[i].z;
+		r = th_export->g->r->scene->cameras->pixel_map[i].r;
+		g = th_export->g->r->scene->cameras->pixel_map[i].g;
+		b = th_export->g->r->scene->cameras->pixel_map[i].b;
 		write(fd, &b, sizeof(BYTE));
 		write(fd, &g, sizeof(BYTE));
 		write(fd, &r, sizeof(BYTE));

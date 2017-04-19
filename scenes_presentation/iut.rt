@@ -1,0 +1,65 @@
+scene: scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	plane: sol
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 191.0000, 255.0000, 191.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+	}
+	plane: murFond
+	{
+		position: 0.0000, 0.0000, 5.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 242.0000, 140.0000, 61.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+	}
+	sphere: moyenne
+	{
+		position: 2.3999, 1.0000, 0.0000
+		color: 191.0000, 191.0000, 255.0000
+		radius: 0.7500
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+	}
+	sphere: grosse
+	{
+		position: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 191.0000, 191.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 1.0000
+		specular exponent: 200.0000
+	}
+	sphere: petite
+	{
+		position: 2.0000, 1.0000, -2.0000
+		color: 250.0000, 250.0000, 250.0000
+		radius: 0.3500
+		kd: 0.0000
+		ks: 0.1000
+		ior: 1.5
+		specular exponent: 200.0000
+	}
+	light: light
+	{
+		position: 1.0000, 12.0000, -50.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 50
+	}
+	camera: cam
+	{
+		position: -2.6999, 2.2000, -10.0000
+		direction: 0.2961, -0.1386, 0.9450
+		fov: 45
+	}
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 12:39:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/19 16:16:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	if (r->pix.x == 50 && r->pix.y == 50)
 		printf("r: [%i]\n", r->ray_depth);
 	if (!(--r->ray_depth))
-		return (v_new(0, 0, 0));
+		return (c_new(0, 0, 0));
 	r->t = INFINITY;
 	i = -1;
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
@@ -46,7 +46,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 			r->t = ray->t;
 	}
 	if (r->t == INFINITY)
-		return (r->scene->background_color);
+		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
 	col = get_color_at_hitpoint(r, ray, &shadow_ray);
@@ -62,16 +62,21 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	t_color	color;
 	int		i;
 
+	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
+	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
-		if (!in_shadow(r, ray, shadow_ray, &r->scene->lights[i]))
+		if (!in_shadow(r, ray, shadow_ray, &r->scene->lights[i]) || !r->scene->is_shadow)
 		{
-			color = v_add(color, get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			color = v_add(color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
+			if (r->scene->is_diffuse)
+				color = c_add(color, get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]));
+			if (r->scene->is_specular)
+				color = c_add(color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
 		}
 	}
-	color = v_add(color, get_reflected_and_refracted(r, r->scene, ray));
-	color = v_add(color, get_ambient(r->scene));
-	return (v_clamp(color, 0, 255));
+	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
+	color = c_add(color, get_ambient(r->scene));
+	return (color);
+	// return (v_clamp(color, 0, 255));
 }

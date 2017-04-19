@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 15:08:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/19 16:46:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,15 @@ int	main(int ac, char **av)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
+
+	GtkStyleContext *context;
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ButtonRender"));
+	context = gtk_widget_get_style_context(widget);
+	gtk_style_context_add_class(context, "enter_button");
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ListBoxObjects"));
+	gtk_style_context_add_class(context, "listbox");
+
+
 	gtk_widget_show(window);
 	// gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_window_activate_focus (GTK_WINDOW(window));    

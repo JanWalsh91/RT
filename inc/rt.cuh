@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/17 12:38:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/19 14:38:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@
 
 # define BLOCK_DIM 32
 # define USAGE "usage: ./RT <file.rt>"
-# define DEFAULT_RES_W 500
-# define DEFAULT_RES_H 700
+# define DEFAULT_RES_W 1000
+# define DEFAULT_RES_H 1000
 # define DEFAULT_RAY_DEPTH 5
 # define DEFAULT_KA 0.1
 # define DEFAULT_AMBIENT_LIGHT_COLOR_R 255
@@ -132,15 +132,13 @@ typedef	struct	s_input
 	struct s_input	*next;
 }				t_input;
 
-typedef t_vec3	t_color;
-
 /*
 ** Link for linked list with info about colors read from external color file
 */
 
 typedef struct	s_color_list
 {
-	t_color				value;
+	t_vec3				value;
 	char				*name;
 	struct s_color_list	*next;
 }				t_color_list;
@@ -171,7 +169,7 @@ typedef struct	s_attributes
 {
 	t_pt2		res;
 	int			ray_depth;
-	t_color		ambient_light_color;
+	t_vec3		ambient_light_color;
 	double		ka;
 	double		intensity;
 	double		fov;
@@ -179,7 +177,7 @@ typedef struct	s_attributes
 	t_vec3		dir;
 	t_vec3		rot;
 	t_vec3		look_at;
-	t_color		col;
+	t_vec3		col;
 	double		rad;
 	double		height;
 	double		ks;
@@ -245,7 +243,7 @@ typedef struct	s_object
 	t_vec3			dir;
 	t_vec3			rot;
 	t_vec3			look_at;
-	t_color			col;
+	t_vec3			col;
 	double			rad;
 	double			height;
 	double			angle;
@@ -271,7 +269,7 @@ typedef struct	s_light
 	t_vec3			dir;
 	t_vec3			rot;
 	t_vec3			look_at;
-	t_color			col;
+	t_vec3			col;
 	double			intensity;
 	struct s_light	*next;
 }				t_light;
@@ -315,13 +313,16 @@ typedef struct	s_scene
 	t_pt2			res;
 	char			*name;
 	int				ray_depth;
-	t_color			background_color;
-	t_color			ambient_light_color;
+	t_vec3			background_color;
+	t_vec3			ambient_light_color;
 	double			ka;
 	double			image_aspect_ratio;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
+	bool			is_shadow;
+	bool			is_diffuse;
+	bool			is_specular;
 	struct s_scene	*prev;
 	struct s_scene	*next;
 }				t_scene;

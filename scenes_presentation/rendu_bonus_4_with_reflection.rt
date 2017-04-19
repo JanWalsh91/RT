@@ -2,13 +2,14 @@ resolution: 1000, 1000
 scene: spheres fantaisie
 {
 	reflection: 0
-	transparency: 0
 	ior: 0
 	sphere:
 	{
 		position: 0, 20, -10
 		radius: 4
 		color: 250, 250, 250
+		transparency: 0
+		reflection: 1
 	}
 	sphere:
 	{
@@ -45,6 +46,8 @@ scene: spheres fantaisie
 		position: 0, -1, 0
 		direction: 0, 1, 0
 		color: 250, 250, 250
+		transparency: 0.5
+		reflection: 0.5
 	}
 	plane: GREY
 	{

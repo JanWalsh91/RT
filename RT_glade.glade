@@ -517,7 +517,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Shadows</property>
+                    <property name="label" translatable="yes">Diffuse Lighting</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -529,7 +529,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">Diffuse Lighting</property>
+                    <property name="label" translatable="yes">Shadows</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -626,12 +626,14 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton">
+                  <object class="GtkCheckButton" id="IsDiffuseCheckBox">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
+                    <property name="active">True</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_diffuse" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -639,12 +641,14 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton">
+                  <object class="GtkCheckButton" id="IsShadowCheckBox">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
+                    <property name="active">True</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_shadow" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -652,12 +656,14 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton">
+                  <object class="GtkCheckButton" id="IsSpecularCheckBox">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
+                    <property name="active">True</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_specular" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -868,7 +874,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">7</property>
+                                <property name="top_attach">8</property>
                               </packing>
                             </child>
                             <child>
@@ -879,7 +885,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">8</property>
+                                <property name="top_attach">7</property>
                               </packing>
                             </child>
                             <child>
@@ -919,11 +925,11 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Refraction Coefficient</property>
+                                <property name="label" translatable="yes">Index of Refraction</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">11</property>
+                                <property name="top_attach">12</property>
                               </packing>
                             </child>
                             <child>
@@ -934,7 +940,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">12</property>
+                                <property name="top_attach">11</property>
                               </packing>
                             </child>
                             <child>
@@ -1159,19 +1165,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectKS">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjKs</property>
-                                <property name="digits">4</property>
-                                <signal name="value-changed" handler="sig_update_obj_ks" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">7</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkSpinButton" id="SpinButtonObjectSepcularExponent">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -1180,33 +1173,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">8</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectKD">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjKd</property>
-                                <property name="digits">2</property>
-                                <signal name="value-changed" handler="sig_update_obj_kd" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">9</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectKT">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjKt</property>
-                                <property name="digits">2</property>
-                                <signal name="value-changed" handler="sig_update_obj_kt" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">10</property>
+                                <property name="top_attach">7</property>
                               </packing>
                             </child>
                             <child>
@@ -1216,19 +1183,6 @@
                                 <property name="adjustment">AdjObjKRefraction</property>
                                 <property name="digits">2</property>
                                 <signal name="value-changed" handler="sig_update_obj_ior" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">11</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectKReflection">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjKReflection</property>
-                                <property name="digits">2</property>
-                                <signal name="value-changed" handler="sig_update_obj_kreflection" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1334,6 +1288,70 @@
                               <packing>
                                 <property name="left_attach">4</property>
                                 <property name="top_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScale" id="ScaleObjectKS">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjKs</property>
+                                <property name="restrict_to_fill_level">False</property>
+                                <property name="fill_level">0</property>
+                                <property name="round_digits">1</property>
+                                <property name="digits">2</property>
+                                <property name="value_pos">right</property>
+                                <signal name="value-changed" handler="sig_update_obj_ks" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">8</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScale" id="ScaleObjectKD">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjKd</property>
+                                <property name="restrict_to_fill_level">False</property>
+                                <property name="fill_level">0</property>
+                                <property name="round_digits">1</property>
+                                <property name="value_pos">right</property>
+                                <signal name="value-changed" handler="sig_update_obj_kd" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">9</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScale" id="ScaleObjectKT">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjKt</property>
+                                <property name="restrict_to_fill_level">False</property>
+                                <property name="fill_level">0</property>
+                                <property name="round_digits">1</property>
+                                <property name="value_pos">right</property>
+                                <signal name="value-changed" handler="sig_update_obj_kt" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">10</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkScale" id="ScaleObjectKR">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjKReflection</property>
+                                <property name="restrict_to_fill_level">False</property>
+                                <property name="round_digits">1</property>
+                                <property name="value_pos">right</property>
+                                <signal name="value-changed" handler="sig_update_obj_kreflection" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">11</property>
                               </packing>
                             </child>
                             <child>

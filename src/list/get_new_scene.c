@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/19 14:51:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,8 @@ static void		set_scene_non_values(t_scene *new_scene)
 	new_scene->next = NULL;
 	new_scene->prev = NULL;
 	new_scene->name = NULL;
+	new_scene->is_diffuse = true;
+	new_scene->is_shadow = true;
+	new_scene->is_specular = true;
+
 }

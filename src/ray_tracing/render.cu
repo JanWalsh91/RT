@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 16:08:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/19 16:46:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,10 @@ void		render(t_scene *scene)
 	clock_t		start;
 	clock_t		stop;
 
+	size_t       available;
+  	size_t       total;
+
+	cudaDeviceSetLimit(cudaLimitStackSize, 1024 * scene->ray_depth);
 	// Preparation des deux structures temporarires
 	start = clock();
 	if (!(h_scene_to_array = (t_scene *)malloc(sizeof(t_scene))))
@@ -247,6 +251,7 @@ void		render(t_scene *scene)
 	// Allocation de la memoire GPU
 	start = clock();
 	gpuErrchk(cudaMalloc(&(h_d_scene->lights), get_lights_array_length(h_scene_to_array->lights)));
+	
 	stop = clock();
 	printf("10. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -297,10 +302,16 @@ void		render(t_scene *scene)
 	stop = clock();
 	printf("17. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
+  	cudaMemGetInfo(&available, &total);
+ 	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
 	start = clock();
+	printf("Pixelmap size : %d\n", sizeof(t_color) * scene->res.y * scene->res.x);
+	printf("t_color size : %d\n", scene->res.y);
 	gpuErrchk((cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x)));
 	// cudaMallocHost(&h_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);
 	stop = clock();
+	cudaMemGetInfo(&available, &total);
+ 	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
 	printf("18. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 
@@ -310,6 +321,9 @@ void		render(t_scene *scene)
 
 	printf("gridsize: [%d][%d][%d] blocksize: [%d][%d][%d]\n", gridSize.x, gridSize.y, gridSize.z, blockSize.x, blockSize.y, blockSize.z);
 	
+
+
+
 	start = clock();
 	render_pixel<<<gridSize, blockSize>>>(d_scene, d_pixel_map/*, progress*/);
 	gpuErrchk( cudaPeekAtLastError() );
@@ -340,6 +354,7 @@ void		render(t_scene *scene)
 	printf("21. Time taken %f milliseconds\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	  //printf("scene->cameras->pixel_map: %f\n", scene->cameras->pixel_map[0].z);
+
 
 	start = clock();
 	cudaFree(h_d_scene->cameras);

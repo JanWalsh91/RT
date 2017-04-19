@@ -44,9 +44,9 @@ int	rt(t_raytracing_tools *r)
 			if (i.x == 200 && i.y == 200)
 			{
 				printf("checking for BLACK SCREEN BUG: col at 200, 200:");
-				print_vec(col);
+				// print_vec(col);
 			}
-			SDL_SetRenderDrawColor(env.ren, col.x, col.y, col.z,
+			SDL_SetRenderDrawColor(env.ren, col.r, col.g, col.b,
 				SDL_ALPHA_OPAQUE);
 			SDL_RenderDrawPoint(env.ren, i.x, i.y);
 		}
