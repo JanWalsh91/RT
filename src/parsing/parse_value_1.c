@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:11:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 13:49:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 ** Functions for parsing each value based on token.
 */
 
-void	parse_open_bracket(t_parse_tools *t)
+char	*parse_open_bracket(t_parse_tools *t)
 {
-	rt_file_error_exit(t, "Extraneous open bracket.");
+	// rt_file_error_exit(t, "Extraneous open bracket.");
+	return ("Extraneous open bracket.");
 }
 
-void	parse_close_bracket(t_parse_tools *t)
+char	*parse_close_bracket(t_parse_tools *t)
 {
 	if (t->in_object)
 	{
@@ -32,16 +33,21 @@ void	parse_close_bracket(t_parse_tools *t)
 	else if (t->in_scene)
 		t->in_scene = false;
 	else
-		rt_file_error_exit(t, "Extraneous closing bracket.");
+		return ("Extraneous closing bracket.");
+		// rt_file_error_exit(t, "Extraneous closing bracket.");
+	return (NULL);
 }
 
-void	parse_empty_line(t_parse_tools *t)
+char	*parse_empty_line(t_parse_tools *t)
 {
+	return (NULL);
 }
 
-void	parse_scene(t_parse_tools *t)
+char	*parse_scene(t_parse_tools *t)
 {
-	can_add_new_scene(t);
+	char	*ret;
+	if ((ret = can_add_new_scene(t)))
+		return (ret);
 	t->current_scene = get_new_scene(t);
 	push_scene(&t->scenes, t->current_scene);
 	if (t->global_attributes->res.x != -1)
@@ -54,15 +60,20 @@ void	parse_scene(t_parse_tools *t)
 		t->current_scene->ambient_light_color =
 			t->global_attributes->ambient_light_color;
 	t->input = t->input->next;
+	return (NULL);
 }
 
-void	parse_camera(t_parse_tools *t)
+char	*parse_camera(t_parse_tools *t)
 {
-	can_add_new_object(t);
+	char	*ret;
+
+	if ((ret = can_add_new_object(t)))
+		return (ret);
 	t->current_type = T_CAMERA;
 	t->current_camera = get_new_camera(t);
 	push_camera(&t->current_scene->cameras, t->current_camera);
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/19 14:38:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 15:02:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,7 +361,7 @@ typedef struct	s_parse_tools
 	t_attributes	*object_attributes;
 	t_color_list	*colors;
 	char			**tokens;
-	void			(**parse)(struct s_parse_tools *);
+	char			*(**parse)(struct s_parse_tools *);
 }				t_parse_tools;
 
 /*
@@ -428,9 +428,9 @@ typedef struct	s_th_export
 
 void			init_parse_tools(t_parse_tools *t);
 void			init_tokens(t_parse_tools *t);
-void			get_file(char *file_name, t_parse_tools *t);
+char			*get_file(char *file_name, t_parse_tools *t);
 int				get_token(t_parse_tools *t, char *key);
-void			parse_input(t_parse_tools *t);
+char			*parse_input(t_parse_tools *t);
 char			**split_trim(char *s, char c);
 void			set_non_values(t_object *new_object);
 void			set_attributes(t_parse_tools *t, t_attributes *a);
@@ -441,44 +441,44 @@ void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
-void			parse_open_bracket(t_parse_tools *t);
-void			parse_close_bracket(t_parse_tools *t);
-void			parse_empty_line(t_parse_tools *t);
-void			parse_scene(t_parse_tools *t);
-void			parse_camera(t_parse_tools *t);
-void			parse_light(t_parse_tools *t);
-void			parse_plane(t_parse_tools *t);
-void			parse_disk(t_parse_tools *t);
-void			parse_sphere(t_parse_tools *t);
-void			parse_cylinder(t_parse_tools *t);
-void			parse_cone(t_parse_tools *t);
-void			parse_resolution(t_parse_tools *t);
-void			parse_ray_depth(t_parse_tools *t);
-void			parse_background_color(t_parse_tools *t);
-void			parse_ambient_light_color(t_parse_tools *t);
-void			parse_ka(t_parse_tools *t);
-void			parse_position(t_parse_tools *t);
-void			parse_direction(t_parse_tools *t);
-void			parse_rotation(t_parse_tools *t);
-void			parse_look_at(t_parse_tools *t);
-void			parse_color(t_parse_tools *t);
-void			parse_radius(t_parse_tools *t);
-void			parse_height(t_parse_tools *t);
-void			parse_ior(t_parse_tools *t);
-void			parse_reflection(t_parse_tools *t);
-void			parse_diffuse_coef(t_parse_tools *t);
-void			parse_specular_coef(t_parse_tools *t);
-void			parse_specular_exponent(t_parse_tools *t);
-void			parse_transparency(t_parse_tools *t);
-void			parse_fov(t_parse_tools *t);
-void			parse_intensity(t_parse_tools *t);
-void			import_rt_file(t_parse_tools *t);
-void			read_rt_file(t_parse_tools *t);
-void			read_obj_file(t_parse_tools *t);
-void			read_texture_file(t_parse_tools *t);
-void			read_material_file(t_parse_tools *t);
-void			hashtag(t_parse_tools *t);
-void			invalid_token(t_parse_tools *t);
+char			*parse_open_bracket(t_parse_tools *t);
+char			*parse_close_bracket(t_parse_tools *t);
+char			*parse_empty_line(t_parse_tools *t);
+char			*parse_scene(t_parse_tools *t);
+char			*parse_camera(t_parse_tools *t);
+char			*parse_light(t_parse_tools *t);
+char			*parse_plane(t_parse_tools *t);
+char			*parse_disk(t_parse_tools *t);
+char			*parse_sphere(t_parse_tools *t);
+char			*parse_cylinder(t_parse_tools *t);
+char			*parse_cone(t_parse_tools *t);
+char			*parse_resolution(t_parse_tools *t);
+char			*parse_ray_depth(t_parse_tools *t);
+char			*parse_background_color(t_parse_tools *t);
+char			*parse_ambient_light_color(t_parse_tools *t);
+char			*parse_ka(t_parse_tools *t);
+char			*parse_position(t_parse_tools *t);
+char			*parse_direction(t_parse_tools *t);
+char			*parse_rotation(t_parse_tools *t);
+char			*parse_look_at(t_parse_tools *t);
+char			*parse_color(t_parse_tools *t);
+char			*parse_radius(t_parse_tools *t);
+char			*parse_height(t_parse_tools *t);
+char			*parse_ior(t_parse_tools *t);
+char			*parse_reflection(t_parse_tools *t);
+char			*parse_diffuse_coef(t_parse_tools *t);
+char			*parse_specular_coef(t_parse_tools *t);
+char			*parse_specular_exponent(t_parse_tools *t);
+char			*parse_transparency(t_parse_tools *t);
+char			*parse_fov(t_parse_tools *t);
+char			*parse_intensity(t_parse_tools *t);
+char			*import_rt_file(t_parse_tools *t);
+char			*read_rt_file(t_parse_tools *t);
+char			*read_obj_file(t_parse_tools *t);
+char			*read_texture_file(t_parse_tools *t);
+char			*read_material_file(t_parse_tools *t);
+char			*hashtag(t_parse_tools *t);
+char			*invalid_token(t_parse_tools *t);
 t_vec3			get_color(t_parse_tools *t, char *value);
 t_vec3			parse_rgb(char *value);
 t_vec3			parse_hexadecimal(char *value);
@@ -486,8 +486,8 @@ bool			valid_hex_format(char *value, int *i);
 t_vec3			parse_color_name(t_parse_tools *t, char *value);
 t_vec3			parse_vector(char *value);
 double			parse_double(char *value);
-int				can_add_new_scene(t_parse_tools *t);
-int				can_add_new_object(t_parse_tools *t);
+char			*can_add_new_scene(t_parse_tools *t);
+char				*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
 
 /*
@@ -514,7 +514,7 @@ int				get_hex_value(char c);
 ** Data Checking Functions
 */
 
-void			check_scenes(t_scene *scenes);
+char			*check_scenes(t_scene *scenes);
 void			check_objects(t_scene *scene, t_object *objects);
 void			init_camera(t_scene *scene, t_camera *cam);
 void			update_camera_scale(t_camera *camera);
