@@ -1,6 +1,6 @@
 scene: Row of Beads
 {
-	resolution: 1000, 100
+	resolution: 100, 100
 	ray depth: 2
 	background color: 13.0000, 13.0000, 13.0000
 	ambient light color: 255.0000, 255.0000, 255.0000

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 16:05:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/20 15:53:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_ray	init_camera_ray(t_raytracing_tools *r)
 	cam_ray.dir = v_norm(cam_ray.dir);
 	cam_ray.type = R_PRIMARY;
 	cam_ray.n_dir = 1;
+	cam_ray.depth = r->scene->ray_depth;
 	// printf("[%d]: cam ray dir: [%f, %f %f]\n", i.x + i.y * scene->res.x, cam_ray.dir.x, cam_ray.dir.y, cam_ray.dir.z);
 	return (cam_ray);
 }

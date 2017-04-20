@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/20 15:02:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 15:51:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ typedef	struct	s_ray
 	t_vec3			nhit;
 	t_color			col;
 	double			ior; //current index of refraction
+	int				depth;
 }				t_ray;
 
 /*
@@ -401,7 +402,6 @@ typedef struct	s_raytracing_tools
 	t_scene			*scene;
 	t_pt2			pix;
 	double			t;
-	int				ray_depth;
 }				t_raytracing_tools;
 
 /*
