@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/17 16:00:29 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/20 14:45:35 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -211,8 +211,8 @@ clean:
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@make -C $(LIB_PATH) fclean
-	@make -C $(LIBMATH_PATH) fclean
+	# @make./ -C $(LIB_PATH) fclean
+	# @make -C $(LIBMATH_PATH) fclean
 	@$(ECHO) "$(C_GREEN)$(NAME) fclean done.$(C_NONE)"
 
 re: fclean all

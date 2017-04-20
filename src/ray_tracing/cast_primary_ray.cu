@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 16:16:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 15:37:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	t_ray		shadow_ray;
 	int			i;
 	t_color 	col;
+	
+	--r->ray_depth;
 	if (r->pix.x == 50 && r->pix.y == 50)
 		printf("r: [%i]\n", r->ray_depth);
-	if (!(--r->ray_depth))
+	if (r->ray_depth == 0)
 		return (c_new(0, 0, 0));
 	r->t = INFINITY;
 	i = -1;

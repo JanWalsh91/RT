@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 16:46:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 14:08:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,7 @@ void		render(t_scene *scene)
   	cudaMemGetInfo(&available, &total);
  	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
 	start = clock();
-	printf("Pixelmap size : %d\n", sizeof(t_color) * scene->res.y * scene->res.x);
+	printf("Pixelmap size : %lu\n", sizeof(t_color) * scene->res.y * scene->res.x);
 	printf("t_color size : %d\n", scene->res.y);
 	gpuErrchk((cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x)));
 	// cudaMallocHost(&h_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_reflected_and_refracted.cu                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 16:53:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 14:46:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray
 		refraction.dir = refract(ray->dir, ray->nhit, refraction.ior);
 		col = c_add(c_scale(cast_primary_ray(r, &reflection), scene->objects[ray->hit_obj].reflection * f),
 		
-		c_scale(cast_primary_ray(r, &refraction), 1 * (1 - f)));
+		c_scale(cast_primary_ray(r, &refraction), scene->objects[ray->hit_obj].transparency * (1 - f)));
 	}
 	return (col);
 }

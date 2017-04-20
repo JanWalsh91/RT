@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 16:09:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/20 15:27:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ void	parse_ior(t_parse_tools *t)
 		return ;
 	}
 	if (!t->in_scene)
-		t->global_attributes->specular_exp = new_ior;
+		t->global_attributes->ior = new_ior;
 	else if (!t->in_object)
-		t->scene_attributes->specular_exp = new_ior;
+		t->scene_attributes->ior = new_ior;
 	else if (t->in_object)
-		t->object_attributes->specular_exp = new_ior;
+		t->object_attributes->ior = new_ior;
 	if (t->in_object && (t->current_type == T_LIGHT ||
 		t->current_type == T_CAMERA))
 		rt_file_warning(t,

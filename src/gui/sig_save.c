@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 15:24:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 15:25:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	save_scene(int fd, t_scene *scene)
 	write(fd, "\n", 1);
 	if (!v_isnan(scene->background_color))
 	{
-		write(fd, "\tbackgound color: ", 17);
+		write(fd, "\tbackground color: ", 19);
 		write_vector(fd, (t_vec3)scene->background_color);
 		write(fd, "\n", 1);
 	}
@@ -178,8 +178,16 @@ void	save_object(int fd, t_object *obj)
 	write(fd, "\n", 1);
 	write(fd, "\t\tspecular exponent: ", 21);
 	write_double(fd, obj->specular_exp);
+	write(fd, "\n", 1);
+	write(fd, "\t\tior: ", 7);
+	write_double(fd, obj->ior);
+	write(fd, "\n", 1);
+	write(fd, "\t\ttransparency: ", 16);
+	write_double(fd, obj->transparency);
+	write(fd, "\n", 1);
+	write(fd, "\t\treflection: ", 14);
+	write_double(fd, obj->reflection);
 	write(fd, "\n\t}\n", 4);
-
 }
 
 void	save_camera(int fd, t_camera *cam)
