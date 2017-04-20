@@ -413,8 +413,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>
@@ -2279,6 +2279,7 @@
             <child>
               <object class="GtkButton" id="ButtonPreviousCamera">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="always_show_image">True</property>
@@ -2313,6 +2314,7 @@
             <child>
               <object class="GtkButton" id="ButtonNextCamera">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="always_show_image">True</property>
@@ -2334,6 +2336,7 @@
               <object class="GtkButton" id="PrintScenes">
                 <property name="label" translatable="yes">PrintScenes</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
@@ -2348,6 +2351,7 @@
               <object class="GtkButton" id="ButtonRender">
                 <property name="label" translatable="yes">Render</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image_position">right</property>

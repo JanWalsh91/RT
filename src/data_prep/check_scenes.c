@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 15:05:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,24 @@ static void	get_light_direction(t_scene *scene, t_light *light);
 ** Sets default values if necessary.
 */
 
-void		check_scenes(t_scene *scenes)
+char		*check_scenes(t_scene *scenes)
 {
 	t_scene		*s_ptr;
 
 	if (!scenes)
-		data_error_exit(NULL, 0, NULL, "No scenes provided.");
+		return ("No scene provided");
+		// data_error_exit(NULL, 0, NULL, "No scenes provided.");
 	s_ptr = scenes;
+	// check one scene ?
 	while (s_ptr)
 	{
-		(!s_ptr->cameras) ? data_error_exit(s_ptr, 0, NULL,
-			"No camera provided.") : 0;
-		(!s_ptr->lights) ? data_error_exit(s_ptr, 0, NULL,
-			"No light provided.") : 0;
-		(!s_ptr->objects) ? data_error_exit(s_ptr, 0, NULL,
-			"No objects provided.") : 0;
+		print_scenes(s_ptr);
+		if (!s_ptr->cameras)
+			return ("No camera provided.");
+		if (!s_ptr->lights)
+			return ("No light provided.");
+		if (!s_ptr->objects)
+			return ("No objects provided.");
 		(s_ptr->res.x == -1) ? set_default_resolution(s_ptr) : 0;
 		isnan(s_ptr->ka) ? set_default_ka(s_ptr) : 0;
 		v_isnan(s_ptr->ambient_light_color) ?
@@ -48,6 +51,7 @@ void		check_scenes(t_scene *scenes)
 		check_objects(s_ptr, s_ptr->objects);
 		s_ptr = s_ptr->next;
 	}
+	return (NULL);
 }
 
 static void	check_cameras(t_scene *scene, t_camera *cameras)

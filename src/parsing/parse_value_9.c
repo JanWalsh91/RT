@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:35:28 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 14:59:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,36 +18,42 @@ static t_vec3	look_at_object2(t_parse_tools *t, char *value);
 ** Contains helper functions for parsing each value based on token.
 */
 
-int				can_add_new_scene(t_parse_tools *t)
+char				*can_add_new_scene(t_parse_tools *t)
 {
 	if (!t->in_scene)
 		t->in_scene = true;
 	else
-		rt_file_error_exit(t, "Cannot add new scene within a scene.");
+		return ("Cannot add new scene within a scene.");
+		// rt_file_error_exit(t, "Cannot add new scene within a scene.");
 	if (!t->input->next)
-		rt_file_error_exit(t, "New scene must be followed by open bracket.");
+		return ("New scene must be followed by open bracket.");
+		// rt_file_error_exit(t, "New scene must be followed by open bracket.");
 	if (t->input->next->token != T_OPEN_BRACKET)
 	{
 		t->input = t->input->next;
-		rt_file_error_exit(t, "New scene must be followed by open bracket.");
+		return ("New scene must be followed by open bracket.");
+		// rt_file_error_exit(t, "New scene must be followed by open bracket.");
 	}
-	return (1);
+	return (NULL);
 }
 
-int				can_add_new_object(t_parse_tools *t)
+char				*can_add_new_object(t_parse_tools *t)
 {
 	if (!t->in_scene)
-		rt_file_error_exit(t, "Cannot add new object outside a scene.");
+		return ("Cannot add new object outside a scene.");
+		// rt_file_error_exit(t, "Cannot add new object outside a scene.");
 	if (!t->in_object)
 		t->in_object = true;
 	else
-		rt_file_error_exit(t, "Cannot add new object inside another object.");
+		return ("Cannot add new object inside another object.");
+		// rt_file_error_exit(t, "Cannot add new object inside another object.");
 	if (t->input->next->token != T_OPEN_BRACKET)
 	{
 		t->input = t->input->next;
-		rt_file_error_exit(t, "New object must be followed by open bracket.");
+		return ("New object must be followed by open bracket.");
+		// rt_file_error_exit(t, "New object must be followed by open bracket.");
 	}
-	return (1);
+	return (NULL);
 }
 
 t_vec3			look_at_object(t_parse_tools *t, char *value)

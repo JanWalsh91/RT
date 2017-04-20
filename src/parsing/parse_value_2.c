@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:12:44 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 14:05:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Functions for parsing each value based on token.
 */
 
-void	parse_light(t_parse_tools *t)
+char	*parse_light(t_parse_tools *t)
 {
 	can_add_new_object(t);
 	t->current_type = T_LIGHT;
@@ -25,9 +25,10 @@ void	parse_light(t_parse_tools *t)
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
 }
 
-void	parse_plane(t_parse_tools *t)
+char	*parse_plane(t_parse_tools *t)
 {
 	can_add_new_object(t);
 	t->current_type = T_PLANE;
@@ -36,9 +37,10 @@ void	parse_plane(t_parse_tools *t)
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
 }
 
-void	parse_disk(t_parse_tools *t)
+char	*parse_disk(t_parse_tools *t)
 {
 	can_add_new_object(t);
 	t->current_type = T_DISK;
@@ -47,9 +49,10 @@ void	parse_disk(t_parse_tools *t)
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
 }
 
-void	parse_sphere(t_parse_tools *t)
+char	*parse_sphere(t_parse_tools *t)
 {
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
@@ -58,9 +61,10 @@ void	parse_sphere(t_parse_tools *t)
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
 }
 
-void	parse_cylinder(t_parse_tools *t)
+char	*parse_cylinder(t_parse_tools *t)
 {
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
@@ -69,4 +73,5 @@ void	parse_cylinder(t_parse_tools *t)
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
 }

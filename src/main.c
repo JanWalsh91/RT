@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 16:46:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 15:37:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,84 @@ void *sig_print_scenes(GtkWidget *button, t_gtk_tools *g)
 	return (NULL);
 }
 
+void	gtk_popup_dialog(char *mesg, t_gtk_tools *g)
+{
+	GtkWidget		*dialog;
+	char			error_mesg[512];
+	char			*line_number;
+
+	ft_bzero(error_mesg, 512);
+	ft_strcat(error_mesg, "Error in the file:\n");
+	ft_strcat(error_mesg, g->filename);
+	ft_strcat(error_mesg, ".\n\n");
+	ft_strcat(error_mesg, mesg);
+	if (g->t->input)
+	{
+		line_number = ft_itoa((int)g->t->input->line_number);
+		ft_strcat(error_mesg, "\nLine: ");
+		ft_strcat(error_mesg, line_number);
+		free(line_number);
+	}
+	dialog = gtk_message_dialog_new (GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")),
+									GTK_DIALOG_MODAL,
+									GTK_MESSAGE_ERROR,
+									GTK_BUTTONS_CLOSE,
+									"%s", error_mesg);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+}
+
 void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
-	GtkWidget 	*dialog;
-	gint		res;
-	GtkWidget	*widget;
+	GtkFileFilter	*file_filter;
+	GtkWidget 		*dialog;
+	GtkWidget		*widget;
+	char			*ret;
+	gint			res;
 
 	if (g->filename)
 		g_free(g->filename);
 	dialog = gtk_file_chooser_dialog_new ("Open File", NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
-                                      "_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT,
-                                      NULL);
-
+										"_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT, NULL);
+	file_filter = gtk_file_filter_new();
+	gtk_file_filter_add_pattern(file_filter, "*.rt");
+	gtk_file_filter_set_name(file_filter, "RT files");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), file_filter);
 	res = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (res == GTK_RESPONSE_ACCEPT)
 	{
-		
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 		g->filename = gtk_file_chooser_get_filename (chooser);
 		init_parse_tools(g->t);
 		if (ft_strstr(g->filename, ".rt") && *(ft_strstr(g->filename, ".rt") + 3) == '\0')
-			get_file(g->filename, g->t);
+		{
+			if ((ret = get_file(g->filename, g->t)))
+			{
+				gtk_widget_destroy(dialog);
+				gtk_popup_dialog(ret, g);
+				return (NULL);
+			}
+		}
 		else
-			rt_file_warning(NULL, "Skipped invalid file.");
+		{
+			gtk_widget_destroy(dialog);
+			gtk_popup_dialog("Invalid file format.", g);
+			return (NULL);
+		}
 		clock_t start = clock();
-		parse_input(g->t);
-		check_scenes(g->t->scenes);
+		if ((ret = parse_input(g->t)))
+		{
+			gtk_widget_destroy(dialog);
+			gtk_popup_dialog(ret, g);
+			return (NULL);
+		}
+		if ((ret = check_scenes(g->t->scenes)))
+		{
+			// big code duplication ! ><
+			gtk_widget_destroy(dialog);
+			gtk_popup_dialog(ret, g);
+			return (NULL);
+		}
 		clock_t stop = clock();
 		printf("\n0. Parsing : %f milliseconds\n",
 		(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -91,12 +143,20 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
-		gtk_widget_set_visible(widget, TRUE);	
+		gtk_widget_set_visible(widget, TRUE);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
+		gtk_widget_set_sensitive(widget, TRUE);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));
+		gtk_widget_set_sensitive(widget, TRUE);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonRender"));
+		gtk_widget_set_sensitive(widget, TRUE);
 		gtk_widget_destroy (dialog);
 	}
 	return (NULL);
 }
-
 
 int	main(int ac, char **av)
 {
@@ -125,7 +185,10 @@ int	main(int ac, char **av)
 			g.filename = ft_strdup(av[1]);
 		}
 		else
+		{
 			rt_file_warning(NULL, "Skipped invalid file.");
+			// gtk_popup_dialog("Invalid file.", &g);
+		}
 		parse_input(g.t);
 		check_scenes(g.t->scenes);
 		g.r->scene = g.t->scenes;
@@ -136,6 +199,15 @@ int	main(int ac, char **av)
 		free_parse_tools(g.t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ButtonPreviousCamera"));
+		gtk_widget_set_sensitive(widget, TRUE);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ButtonNextCamera"));
+		gtk_widget_set_sensitive(widget, TRUE);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g.builder), "ButtonRender"));
+		gtk_widget_set_sensitive(widget, TRUE);
 	}
 
     window = GTK_WIDGET(gtk_builder_get_object(g.builder, "window_main"));

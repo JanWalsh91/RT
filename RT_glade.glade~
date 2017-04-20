@@ -413,8 +413,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>
@@ -1295,6 +1295,8 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKs</property>
+                                <property name="restrict_to_fill_level">False</property>
+                                <property name="fill_level">0</property>
                                 <property name="round_digits">1</property>
                                 <property name="digits">2</property>
                                 <property name="value_pos">right</property>
@@ -1310,6 +1312,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKd</property>
+                                <property name="restrict_to_fill_level">False</property>
                                 <property name="fill_level">0</property>
                                 <property name="round_digits">1</property>
                                 <property name="value_pos">right</property>
@@ -1325,6 +1328,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKt</property>
+                                <property name="restrict_to_fill_level">False</property>
                                 <property name="fill_level">0</property>
                                 <property name="round_digits">1</property>
                                 <property name="value_pos">right</property>
@@ -1340,6 +1344,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjObjKReflection</property>
+                                <property name="restrict_to_fill_level">False</property>
                                 <property name="round_digits">1</property>
                                 <property name="value_pos">right</property>
                                 <signal name="value-changed" handler="sig_update_obj_kreflection" swapped="no"/>
@@ -2274,6 +2279,7 @@
             <child>
               <object class="GtkButton" id="ButtonPreviousCamera">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="always_show_image">True</property>
@@ -2308,6 +2314,7 @@
             <child>
               <object class="GtkButton" id="ButtonNextCamera">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="always_show_image">True</property>
