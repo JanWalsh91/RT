@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/20 17:36:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 */
 
 __device__
-bool	in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-		t_ray *shadow_ray, t_light *light)
+int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
+		t_ray *shadow_ray, t_light *light, t_color *dim_light)
 {
 	int			i;
 	double		max;
+	int			is_transparent;
 
+	is_transparent = 0;
 	r->t = INFINITY;
 	shadow_ray->type = R_SHADOW;
 	shadow_ray->origin = v_add(primary_ray->hit,
@@ -39,11 +41,26 @@ bool	in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		shadow_ray->dir = v_scale(light->dir, -1);
 	shadow_ray->dir = v_norm(shadow_ray->dir);
 	i = -1;
+	// while (r->scene->objects[++i].type != T_INVALID_TOKEN)
+	// {
+	// 	if (intersects(r, shadow_ray, i) &&
+	// 		shadow_ray->t < max && shadow_ray->t > 0)
+	// 		return (true);
+	// }
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
 		if (intersects(r, shadow_ray, i) &&
 			shadow_ray->t < max && shadow_ray->t > 0)
-			return (true);
+		{
+			if (r->scene->objects[i].transparency > 0.01)
+			{
+				*dim_light = c_min(c_scale(vec_to_col(r->scene->objects[i].col), r->scene->objects[i].transparency),
+				*dim_light);
+				is_transparent = 1;
+			}
+			else
+				return (2);
+		}
 	}
-	return (false);
+	return (is_transparent);
 }

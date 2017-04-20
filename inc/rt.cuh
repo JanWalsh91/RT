@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/20 15:51:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/20 17:39:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -567,8 +567,8 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 void			get_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
-bool			in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-					t_ray *shadow_ray, t_light *light);
+int				in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
+					t_ray *shadow_ray, t_light *light, t_color *dim_light);
 CUDA_DEV
 t_color			get_diffuse(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);

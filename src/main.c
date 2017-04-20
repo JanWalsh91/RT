@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 15:37:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/20 16:14:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		update_grid_objects(g);
 		update_grid_lights(g);
 		update_grid_cameras(g);
-
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);
