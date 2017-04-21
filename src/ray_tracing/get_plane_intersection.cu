@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:25:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 13:42:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	get_plane_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	if (v_dot(r->scene->objects[index].dir, ray->dir) > 0)
 		i.n_dir = -1;
 	i.d1 = v_dot(v_scale(r->scene->objects[index].dir, i.n_dir), ray->dir);
-	if (i.d1 > -1e-6)
+	if (i.d1 > -1e-20)
 		return (false);
 	i.v1 = v_sub(r->scene->objects[index].pos, ray->origin);
 	i.r1 = v_dot(i.v1, v_scale(r->scene->objects[index].dir, i.n_dir)) / i.d1;

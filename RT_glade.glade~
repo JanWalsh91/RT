@@ -2431,7 +2431,7 @@
               <object class="GtkButton" id="PrintScenes">
                 <property name="label" translatable="yes">PrintScenes</property>
                 <property name="visible">True</property>
-                <property name="sensitive">False</property>
+                <property name="sensitive">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
