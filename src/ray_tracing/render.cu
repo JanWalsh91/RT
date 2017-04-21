@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 15:54:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 12:07:34 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		cam_ray = init_camera_ray(&r);	
-		d_pixel_map[idx] = cast_primary_ray(&r, &cam_ray);
+		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+		// d_pixel_map[idx] = cast_primary_ray(&r, &cam_ray);
 	}
 	//loading->x = atomicAdd(&(loading->x), 1);
 	//__syncthreads();

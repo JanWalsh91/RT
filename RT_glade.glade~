@@ -283,6 +283,26 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="filter">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Black and White</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Sepia</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Deutan</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name Type -->
@@ -2182,6 +2202,36 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkComboBox" id="ComboBoxCameraFilter">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">filter</property>
+                        <signal name="changed" handler="sig_update_camera_filter" swapped="no"/>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
                       <placeholder/>
                     </child>
                     <child>
@@ -2341,6 +2391,7 @@
               <object class="GtkButton" id="PrintScenes">
                 <property name="label" translatable="yes">PrintScenes</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
@@ -2355,6 +2406,7 @@
               <object class="GtkButton" id="ButtonRender">
                 <property name="label" translatable="yes">Render</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image_position">right</property>

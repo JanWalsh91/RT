@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 15:33:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 12:02:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,5 +396,14 @@ void	*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g)
 	cam = get_selected_camera(g);
 	cam->fov = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	update_camera_scale(cam);
+	return (NULL);
+}
+
+void	*sig_update_camera_filter(GtkWidget *list_box, t_gtk_tools *g)
+{
+	printf("%d\n", gtk_combo_box_get_active(GTK_COMBO_BOX(list_box)));
+	g->r->scene->cameras->filter = gtk_combo_box_get_active(GTK_COMBO_BOX(list_box));
+
+	printf("%d\n", g->r->scene->cameras->filter);
 	return (NULL);
 }

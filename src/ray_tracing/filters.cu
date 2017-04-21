@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 10:41:42 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/19 13:47:25 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 12:10:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@ t_color		b_w_filter(t_color c)
 }
 
 __device__
-t_color		b_w_filter_average(t_color c)
-{
-	float	average;
-
-	average = (c.r + c.g + c.b) / 3.0;
-	c.r = average;
-	c.g = average;
-	c.b = average;
-	return (c);
-}
-
-__device__
 t_color		sepia_filter(t_color c)
 {
 	float	r;
@@ -46,9 +34,9 @@ t_color		sepia_filter(t_color c)
 	r = (c.r * 0.393 + c.g * 0.769 + c.b * 0.189);
 	g = (c.r * 0.349 + c.g * 0.686 + c.b * 0.168);
 	b = (c.r * 0.272 + c.g * 0.534 + c.b * 0.131);
-	c.r = r;
-	c.g = g;
-	c.b = b;
+	c.r = r > 255 ? 255 : r;
+	c.g = g > 255 ? 255 : g;
+	c.b = b > 255 ? 255 : b;
 	return (c);
 }
 
@@ -66,4 +54,20 @@ t_color		deutan_filter(t_color c)
 	c.g = g;
 	c.b = b;
 	return (c);
+}
+
+__device__
+t_color		filter(t_color orig, t_filter filter)
+{
+	t_color		new_col;
+
+	if (filter == F_NONE)
+		return (orig);
+	if (filter == F_BW)
+		new_col = b_w_filter(orig);
+	else if (filter == F_SEPIA)
+		new_col = sepia_filter(orig);
+	else if (filter == F_DEUTAN)
+		new_col = deutan_filter(orig);
+	return (new_col);
 }

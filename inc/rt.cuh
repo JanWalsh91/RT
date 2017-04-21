@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/20 15:51:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 12:06:34 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef enum	e_token
 	T_TRANSPARENCY,
 	T_FOV,
 	T_INTENSITY,
-	T_IMPORT_RT_FILE,
+	T_FILTER,
 	T_READ_RT_FILE,
 	T_READ_OBJ_FILE,
 	T_READ_TEXTURE_FILE,
@@ -118,6 +118,14 @@ typedef enum	e_token
 	T_INVALID_TOKEN,
 	T_COUNT
 }				t_token;
+
+typedef enum	e_filter
+{
+	F_NONE,
+	F_BW,
+	F_SEPIA,
+	F_DEUTAN
+}				t_filter;
 
 /*
 ** Link for linked list with info about each line parsed.
@@ -178,6 +186,7 @@ typedef struct	s_attributes
 	t_vec3		rot;
 	t_vec3		look_at;
 	t_vec3		col;
+	t_filter	filter;
 	double		rad;
 	double		height;
 	double		ks;
@@ -293,6 +302,7 @@ typedef struct	s_camera
 	t_vec3			look_at;
 	t_color			*pixel_map;
 	t_matrix		ctw;
+	t_filter		filter;
 	double			scale;
 	double			fov;
 	struct s_camera	*prev;
@@ -472,7 +482,7 @@ char			*parse_specular_exponent(t_parse_tools *t);
 char			*parse_transparency(t_parse_tools *t);
 char			*parse_fov(t_parse_tools *t);
 char			*parse_intensity(t_parse_tools *t);
-char			*import_rt_file(t_parse_tools *t);
+char			*parse_filter(t_parse_tools *t);
 char			*read_rt_file(t_parse_tools *t);
 char			*read_obj_file(t_parse_tools *t);
 char			*read_texture_file(t_parse_tools *t);
@@ -614,6 +624,8 @@ bool			solve_quadratic(t_vec3 q, double *r1, double *r2);
 ** Filters functions
 */
 
+CUDA_DEV
+t_color			filter(t_color orig, t_filter filter);
 CUDA_DEV
 t_color			b_w_filter(t_color c);
 CUDA_DEV

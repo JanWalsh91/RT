@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_attributes_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:47:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 14:51:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 11:31:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	set_attributes_camera(t_parse_tools *t, t_attributes *a)
 		t->current_camera->rot = a->rot;
 	if (!v_isnan(a->look_at))
 		t->current_camera->look_at = a->look_at;
+	if (a->filter != 0)
+		t->current_camera->filter = a->filter;
 }
 
 void	set_attributes_light(t_parse_tools *t, t_attributes *a)

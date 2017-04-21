@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 14:58:57 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 11:49:24 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,16 @@ Intensity is a positive double.");
 	return (NULL);
 }
 
-char	*import_rt_file(t_parse_tools *t)
+char	*parse_filter(t_parse_tools *t)
 {
-	rt_file_warning(t, "Import: feature not yet available.");
+	ft_strtoupper(t->input->value);
+	if (ft_strcmp(t->input->value, "BLACK AND WHITE") == 0)
+		t->current_camera->filter = F_BW;
+	else if (ft_strcmp(t->input->value, "SEPIA") == 0)
+		t->current_camera->filter = F_SEPIA;
+	else if (ft_strcmp(t->input->value, "DEUTAN") == 0)
+		t->current_camera->filter = F_DEUTAN;
+	
 	return (NULL);
 }
 

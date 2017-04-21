@@ -283,6 +283,26 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="filter">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Black and White</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Sepia</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Deutan</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name Type -->
@@ -418,8 +438,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -2180,6 +2200,37 @@
                         <property name="left_attach">4</property>
                         <property name="top_attach">2</property>
                       </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="ComboBoxCameraFilter">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">filter</property>
+                        <property name="active">0</property>
+                        <signal name="changed" handler="sig_update_camera_filter" swapped="no"/>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
