@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:13:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 12:46:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 13:03:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ char		*parse_ray_depth(t_parse_tools *t)
 	if (!t->input->value)
 		return ("Ray depth formatting error.");
 	if ((new_ray_depth = ft_atoi(t->input->value)) < 1)
-	{
-		printf("ray depth: [%d]\n", new_ray_depth);
 		return ("Ray depth must be a positive and non-zero integer.");
-	}
 	if (!t->in_scene)
 		t->global_attributes->ray_depth = new_ray_depth;
 	else if (!t->in_object)
