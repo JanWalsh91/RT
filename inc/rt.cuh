@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/20 17:39:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 11:18:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@
 # define BIAS 0.01
 # define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
+# define CSS_PATH "res/gtk.css"
 
 /*
 ** Tokens for the parser.

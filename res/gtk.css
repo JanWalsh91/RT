@@ -1,0 +1,12 @@
+
+window {
+	border-style: dashed;
+	background-color: grey;
+}
+
+list row{
+	: 100px;
+	border-width: 20px;
+	border-color: red;
+	color: blue;
+}

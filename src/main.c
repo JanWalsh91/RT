@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 16:14:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 11:34:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,12 +165,16 @@ int	main(int ac, char **av)
 	t_parse_tools		t;
 	t_raytracing_tools	r;
 	int					i;
-
+	GtkCssProvider		*cssProvider;
 	g.t = &t;
 	g.r = &r;
 	g.filename = NULL;
 	gtk_init(&ac, &av);
 	
+	cssProvider = gtk_css_provider_new();
+	gtk_css_provider_load_from_path(cssProvider, CSS_PATH, NULL); //NULL instead of GError**
+	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+		GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     g.builder = gtk_builder_new();
     gtk_builder_add_from_file (g.builder, "RT_glade.glade", NULL);
 
