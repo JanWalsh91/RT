@@ -347,7 +347,7 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">RT</property>
     <property name="default_width">700</property>
-    <property name="default_height">600</property>
+    <property name="default_height">800</property>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <child>
       <object class="GtkBox">
@@ -840,6 +840,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Name</property>
                               </object>
                               <packing>
@@ -851,6 +852,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Look At</property>
                               </object>
                               <packing>
@@ -862,6 +864,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Direction</property>
                               </object>
                               <packing>
@@ -873,6 +876,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Rotation</property>
                               </object>
                               <packing>
@@ -884,6 +888,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Color</property>
                               </object>
                               <packing>
@@ -895,6 +900,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Specular Coefficient</property>
                               </object>
                               <packing>
@@ -906,6 +912,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Specular Exponent</property>
                               </object>
                               <packing>
@@ -917,6 +924,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Diffuse Coefficient</property>
                               </object>
                               <packing>
@@ -928,6 +936,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Position</property>
                               </object>
                               <packing>
@@ -939,6 +948,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Transparency Coefficient</property>
                               </object>
                               <packing>
@@ -950,6 +960,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Index of Refraction</property>
                               </object>
                               <packing>
@@ -961,6 +972,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Reflection Coefficient</property>
                               </object>
                               <packing>
@@ -972,6 +984,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Texture</property>
                               </object>
                               <packing>
@@ -983,6 +996,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Bump Map</property>
                               </object>
                               <packing>
@@ -994,6 +1008,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Radius</property>
                               </object>
                               <packing>
@@ -1005,6 +1020,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Height</property>
                               </object>
                               <packing>
@@ -1285,6 +1301,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Type</property>
                               </object>
                               <packing>
@@ -1581,6 +1598,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Type</property>
                       </object>
                       <packing>
@@ -1592,6 +1610,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Name</property>
                       </object>
                       <packing>
@@ -1603,6 +1622,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Position</property>
                       </object>
                       <packing>
@@ -1614,6 +1634,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Direction</property>
                       </object>
                       <packing>
@@ -1625,6 +1646,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Rotation</property>
                       </object>
                       <packing>
@@ -1636,6 +1658,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Color</property>
                       </object>
                       <packing>
@@ -1647,6 +1670,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Intensity</property>
                       </object>
                       <packing>
@@ -2206,6 +2230,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="model">filter</property>
+                        <property name="active">0</property>
                         <signal name="changed" handler="sig_update_camera_filter" swapped="no"/>
                         <child>
                           <object class="GtkCellRendererText"/>
