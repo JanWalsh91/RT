@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 15:25:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 15:20:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,15 @@ void	save_camera(int fd, t_camera *cam)
 		write_vector(fd, cam->look_at);
 		write(fd, "\n", 1);
 	}
+	write(fd, "\t\tfilter: ", 10);
+	if (cam->filter == F_NONE)
+		write(fd, "none\n", 5);
+	else if (cam->filter == F_BW)
+		write(fd, "black and white\n", 16);
+	else if (cam->filter == F_SEPIA)
+		write(fd, "sepia\n", 6);
+	else if (cam->filter == F_DEUTAN)
+		write(fd, "deutan\n", 7);
 	write(fd, "\t\tfov: ", 7);
 	write_int(fd, cam->fov);
 	write(fd, "\n\t}\n", 4);
