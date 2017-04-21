@@ -6,10 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 12:20:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 12:23:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rt.cuh"
 #include "../../inc/cuda_call.h"
 
 #include <pthread.h>
