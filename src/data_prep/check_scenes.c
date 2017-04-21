@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_scenes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 15:05:18 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 12:38:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char		*check_scenes(t_scene *scenes)
 	// check one scene ?
 	while (s_ptr)
 	{
-		print_scenes(s_ptr);
+		// print_scenes(s_ptr);
 		if (!s_ptr->cameras)
 			return ("No camera provided.");
 		if (!s_ptr->lights)

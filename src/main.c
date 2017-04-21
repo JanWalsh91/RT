@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 11:34:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/21 12:49:42 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int	main(int ac, char **av)
 		GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     g.builder = gtk_builder_new();
     gtk_builder_add_from_file (g.builder, "RT_glade.glade", NULL);
+    gtk_builder_connect_signals(g.builder, &g);
 
 	if (ac >= 2)
 	{
@@ -192,7 +193,12 @@ int	main(int ac, char **av)
 			rt_file_warning(NULL, "Skipped invalid file.");
 			// gtk_popup_dialog("Invalid file.", &g);
 		}
-		parse_input(g.t);
+		char * ret;
+		if ((ret = parse_input(g.t)))
+		{
+			gtk_popup_dialog(ret, &g);
+			return (-1);
+		}
 		check_scenes(g.t->scenes);
 		g.r->scene = g.t->scenes;
 		update_grid_scene(&g);
@@ -218,7 +224,6 @@ int	main(int ac, char **av)
 	//passing g instead of null means that &g is the user data that will be read by signals.
 	//Now, any signal function which takes in g can be connected in the .ui file and can all be
 	//connected at once with one call to the following function. 
-    gtk_builder_connect_signals(g.builder, &g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
@@ -233,7 +238,7 @@ int	main(int ac, char **av)
 
 	gtk_widget_show(window);
 	// gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_window_activate_focus (GTK_WINDOW(window));    
+	// gtk_window_activate_focus (GTK_WINDOW(window));    
 	gtk_widget_show(window);    
 	// gtk_widget_set_can_focus(window, TRUE);
 	// gtk_widget_grab_focus (window);

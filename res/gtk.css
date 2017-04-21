@@ -5,7 +5,7 @@ window {
 }
 
 list row{
-	: 100px;
+	border-width: 100px;
 	border-width: 20px;
 	border-color: red;
 	color: blue;
