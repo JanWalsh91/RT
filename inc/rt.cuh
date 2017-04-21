@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 12:06:34 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 12:21:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@
 # define BIAS 0.01
 # define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
+# define CSS_PATH "res/gtk.css"
 
 /*
 ** Tokens for the parser.
@@ -577,8 +578,8 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 void			get_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
-bool			in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-					t_ray *shadow_ray, t_light *light);
+int				in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
+					t_ray *shadow_ray, t_light *light, t_color *dim_light);
 CUDA_DEV
 t_color			get_diffuse(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);

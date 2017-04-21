@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 15:37:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 11:34:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		update_grid_objects(g);
 		update_grid_lights(g);
 		update_grid_cameras(g);
-
 		free_parse_tools(g->t);
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 		gtk_widget_set_visible(widget, TRUE);
@@ -166,12 +165,16 @@ int	main(int ac, char **av)
 	t_parse_tools		t;
 	t_raytracing_tools	r;
 	int					i;
-
+	GtkCssProvider		*cssProvider;
 	g.t = &t;
 	g.r = &r;
 	g.filename = NULL;
 	gtk_init(&ac, &av);
 	
+	cssProvider = gtk_css_provider_new();
+	gtk_css_provider_load_from_path(cssProvider, CSS_PATH, NULL); //NULL instead of GError**
+	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+		GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     g.builder = gtk_builder_new();
     gtk_builder_add_from_file (g.builder, "RT_glade.glade", NULL);
 

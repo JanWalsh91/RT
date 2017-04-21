@@ -6,13 +6,14 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/19 13:41:33 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/20 17:21:21 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libmathft.a
 
 VECTORS_AND_MATRICES = c_add \
+		c_min \
 		c_mult \
 		c_new \
 		c_scale \

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 13:41:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/20 17:21:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ double			ft_clampd(double i, double min, double max);
 
 CUDA_HOSTDEV
 t_color			c_add(t_color col1, t_color col2);
+CUDA_HOSTDEV
+t_color			c_min(t_color col1, t_color col2);
 CUDA_HOSTDEV
 t_color			c_mult(t_color col1, t_color col2);
 CUDA_HOSTDEV
