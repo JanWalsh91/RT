@@ -27,7 +27,7 @@ int	rt(t_raytracing_tools *r)
 	t_pt2	i;
 
 	clock_t start = clock();
-	render(r->scene);
+	render(r);
 	clock_t stop = clock();
 	printf("\nTotal de la fonction render : %f\n",
   	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
@@ -35,6 +35,7 @@ int	rt(t_raytracing_tools *r)
 	init_sdl(r->scene, &env);
 	SDL_RenderClear(env.ren);
 	i.y = -1;
+	printf("Coucou\n");
 	while (++i.y < r->scene->res.y)
 	{
 		i.x = -1;

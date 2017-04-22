@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 13:44:25 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 16:13:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void *update_grid_scene(t_gtk_tools *g)
 
 void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
+	printf("sig_update_res_x\n");
 	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
 	g->r->scene->image_aspect_ratio = (double)g->r->scene->res.x / (double)g->r->scene->res.y;
 	return (NULL);

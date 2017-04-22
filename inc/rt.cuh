@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 14:35:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 15:54:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,12 +329,12 @@ typedef struct	s_scene
 	t_vec3			ambient_light_color;
 	double			ka;
 	double			image_aspect_ratio;
-	t_camera		*cameras;
-	t_light			*lights;
-	t_object		*objects;
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;
+	t_camera		*cameras;
+	t_light			*lights;
+	t_object		*objects;
 	struct s_scene	*prev;
 	struct s_scene	*next;
 }				t_scene;
@@ -404,6 +404,7 @@ typedef struct	s_intersection_tools
 typedef struct	s_update
 {
 	uint8_t		resolution;
+	uint8_t		ray_depth;
 	uint8_t		objects;
 	uint8_t		lights;
 	uint8_t		cameras;
@@ -420,7 +421,9 @@ typedef struct	s_update
 typedef struct	s_raytracing_tools
 {
 	t_scene			*scene;
+	t_scene			*d_scene;
 	t_scene			*h_d_scene;
+	t_color			*d_pixel_map;
 	t_pt2			pix;
 	double			t;
 	t_update		update;
@@ -443,6 +446,9 @@ typedef struct	s_th_export
 	char	*filename;
 	struct s_gtk_tools *g;
 }				t_th_export;
+
+// int		cuda_malloc(struct s_raytracing_tools *r);
+// int		cuda_free(struct s_raytracing_tools *r);
 
 /*
 ** File Parsing Functions

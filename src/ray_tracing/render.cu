@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/22 13:50:24 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 16:37:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 	if (idx < 1)
 	{
 		// printf("Coucou\n");
-		printf("%f\n", scene->lights[1].col.x);
+		// printf("%f\n ", scene->lights[1].col.x);
 		// *loading = 20;
 	}
 
@@ -77,92 +77,13 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 	//__syncthreads();
 }
 
-
-
-t_object	*list_to_array_objects(t_object *object)
+void		render(t_raytracing_tools *r)
 {
-	int			size;
-	t_object	*head;
-	t_object	*array;
-
-	size = 0;
-	head = object;
-	while (object)
-	{
-		++size;
-		object = object->next;
-	}
-	array = (t_object *)malloc(sizeof(t_object) * (size + 1)); // malloc error
-	array[size].type = T_INVALID_TOKEN;
-	object = head;
-	size = -1;
-	while (object)
-	{
-		memcpy(&array[++size], object, sizeof(t_object)); // stack memcpy ?
-		object = object->next;
-	}
-	return (array);
-}
-
-size_t			get_object_array_length(t_object *objects)
-{
-	size_t	size;
-
-	size = 0;
-	while (objects[size].type != T_INVALID_TOKEN)
-		++size;
-	return ((size + 1) * sizeof(t_object));
-}
-
-t_light		*list_to_array_lights(t_light *light)
-{
-	int			size;
-	t_light	*head;
-	t_light	*array;
-
-	size = 0;
-	head = light;
-	while (light)
-	{
-		++size;
-		light = light->next;
-	}
-	array = (t_light *)malloc(sizeof(t_light) * (size + 1)); // malloc error
-	// bzero(array, sizeof(t_light) * (size + 1));
-	array[size].col = v_new(NAN, NAN, NAN);
-	light = head;
-	size = -1;
-	// printf("COLOR: %f\n", array[size].col.x);
-	while (light)
-	{
-		array[++size].col = v_new(NAN, NAN, NAN);
-		memcpy(&array[size], light, sizeof(t_light));
-		light = light->next;
-		// printf("%p\n", light);
-	}
-	// printf("COLOR: %f\n", array[size].col.x);
-	return (array);
-}
-
-size_t			get_lights_array_length(t_light *lights)
-{
-	size_t	size;
-
-	size = 0;
-	// printf("%f\n", lights[size].col.x);
-	while (!v_isnan(lights[size].col))
-		++size;
-	// C(3)
-	return ((size + 1) * sizeof(t_light));
-}
-
-void		render(t_scene *scene)
-{
-	t_color		*d_pixel_map;
+	// t_color		*d_pixel_map;
 	t_color 	*h_pixel_map;
-	t_scene		*h_scene_to_array;
-	t_scene		*h_d_scene;
-	t_scene		*d_scene;
+	// t_scene		*h_scene_to_array;
+	// t_scene		*h_d_scene;
+	// t_scene		*d_scene;
 	dim3		block_size;
 	dim3		grid_size;
 
@@ -170,70 +91,71 @@ void		render(t_scene *scene)
 	size_t       available;
   	size_t       total;
 
-	cudaDeviceSetLimit(cudaLimitStackSize, 1024 * scene->ray_depth);
+	
 
 	// Preparation des deux structures temporarires
-	if (!(h_scene_to_array = (t_scene *)malloc(sizeof(t_scene))))
-		exit(0); // malloc error
-	if (!(h_d_scene = (t_scene *)malloc(sizeof(t_scene))))
-		exit(0); // malloc error
-	if (!(memcpy(h_scene_to_array, scene, sizeof(t_scene))))
-		exit(0);
-	memcpy(h_d_scene, scene, sizeof(t_scene));
+	// if (!(h_scene_to_array = (t_scene *)malloc(sizeof(t_scene))))
+		// exit(0); // malloc error
+	// if (!(h_d_scene = (t_scene *)malloc(sizeof(t_scene))))
+	// 	exit(0); // malloc error
+	// if (!(memcpy(h_scene_to_array, scene, sizeof(t_scene))))
+	// 	exit(0);
+	// memcpy(h_d_scene, scene, sizeof(t_scene));
 
 	// Creation des tableaux 1D pour les objets et lumieres
-	h_scene_to_array->objects = list_to_array_objects(scene->objects);
-	h_scene_to_array->lights = list_to_array_lights(scene->lights);
-	h_scene_to_array->cameras = (t_camera *)malloc(sizeof(t_camera));
-	gpuErrchk(cudaSetDevice(0));
-	memcpy(h_scene_to_array->cameras, scene->cameras, sizeof(t_camera));
+	// h_scene_to_array->objects = list_to_array_objects(scene->objects);
+	// h_scene_to_array->lights = list_to_array_lights(scene->lights);
+	// h_scene_to_array->cameras = (t_camera *)malloc(sizeof(t_camera));
+	
+
+	// memcpy(h_scene_to_array->cameras, scene->cameras, sizeof(t_camera));
 	
 	// Allocation de la memoire GPU
-	gpuErrchk(cudaMalloc(&(h_d_scene->lights), get_lights_array_length(h_scene_to_array->lights)));
-	gpuErrchk(cudaMalloc(&(h_d_scene->objects), get_object_array_length(h_scene_to_array->objects)));
-	gpuErrchk(cudaMalloc(&(h_d_scene->cameras), sizeof(t_camera)));
-	gpuErrchk(cudaMalloc(&d_scene, sizeof(t_scene)));
+	// gpuErrchk(cudaMalloc(&(h_d_scene->lights), get_lights_array_length(h_scene_to_array->lights)));
+	// gpuErrchk(cudaMalloc(&(h_d_scene->objects), get_object_array_length(h_scene_to_array->objects)));
+	// gpuErrchk(cudaMalloc(&(h_d_scene->cameras), sizeof(t_camera)));
+	// gpuErrchk(cudaMalloc(&d_scene, sizeof(t_scene)));
 
 	// Copie des tableaux du CPU vers le GPU, en passant par la structure contenant des pointeurs sur GPU
-	gpuErrchk(cudaMemcpy(h_d_scene->cameras, h_scene_to_array->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
-	gpuErrchk((cudaMemcpy(h_d_scene->objects, h_scene_to_array->objects, get_object_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
-	gpuErrchk(cudaMemcpy(h_d_scene->lights, h_scene_to_array->lights, get_lights_array_length(h_scene_to_array->lights), cudaMemcpyHostToDevice));
+	// gpuErrchk(cudaMemcpy(h_d_scene->cameras, h_scene_to_array->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
+	// gpuErrchk((cudaMemcpy(h_d_scene->objects, h_scene_to_array->objects, get_object_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
+	// gpuErrchk(cudaMemcpy(h_d_scene->lights, h_scene_to_array->lights, get_lights_array_length(h_scene_to_array->lights), cudaMemcpyHostToDevice));
 
 	// Copie de la structure finale sur le GPU, contenant les pointeurs GPU
-	gpuErrchk(cudaMemcpy(d_scene, h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
+	// gpuErrchk(cudaMemcpy(d_scene, h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
 	
 	// Pixel map
-	h_pixel_map = (t_color *)malloc(sizeof(t_color) * scene->res.y * scene->res.x);
+	h_pixel_map = (t_color *)malloc(sizeof(t_color) * r->scene->res.y * r->scene->res.x);
 	
   	cudaMemGetInfo(&available, &total);
  	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
-	gpuErrchk((cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x)));
+	// gpuErrchk((cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x)));
 	cudaMemGetInfo(&available, &total);
  	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
 
 	 //prep kernel
 	dim3 blockSize 	= dim3(BLOCK_DIM, BLOCK_DIM, 1);
-	dim3 gridSize	= dim3(scene->res.x / BLOCK_DIM + 1, scene->res.y / BLOCK_DIM + 1);
-	// printf("gridsize: [%d][%d][%d] blocksize: [%d][%d][%d]\n", gridSize.x, gridSize.y, gridSize.z, blockSize.x, blockSize.y, blockSize.z);
-	render_pixel<<<gridSize, blockSize>>>(d_scene, d_pixel_map/*, progress*/);
+	dim3 gridSize	= dim3(r->scene->res.x / BLOCK_DIM + 1, r->scene->res.y / BLOCK_DIM + 1);
+	printf("gridsize: [%d][%d][%d] blocksize: [%d][%d][%d]\n", gridSize.x, gridSize.y, gridSize.z, blockSize.x, blockSize.y, blockSize.z);
+	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map/*, progress*/);
 	
 	gpuErrchk( cudaPeekAtLastError() );
 	gpuErrchk((cudaDeviceSynchronize()));
-	gpuErrchk(cudaMemcpy(h_pixel_map, d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x, cudaMemcpyDeviceToHost));
-	memcpy(scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x);
-
+	gpuErrchk(cudaMemcpy(h_pixel_map, r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x, cudaMemcpyDeviceToHost));
+	// gpuErrchk((cudaMemcpy(r->scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x, cudaMemcpyDeviceToHost)));
+	memcpy(r->scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x);
 	//free dat shit
-	cudaFree(h_d_scene->cameras);
-	cudaFree(h_d_scene->lights);
-	cudaFree(h_d_scene->objects);
-	cudaFree(d_scene);
-	cudaFree(d_pixel_map);
+	// cudaFree(h_d_scene->cameras);
+	// cudaFree(h_d_scene->lights);
+	// cudaFree(h_d_scene->objects);
+	// cudaFree(d_scene);
+	// cudaFree(d_pixel_map);
 
 	//free dis shit
-	free(h_scene_to_array->objects);
-	free(h_scene_to_array->lights);
-	free(h_scene_to_array->cameras);
-	free(h_scene_to_array);
-	free(h_d_scene);
-	free(h_pixel_map);
+	// free(h_scene_to_array->objects);
+	// free(h_scene_to_array->lights);
+	// free(h_scene_to_array->cameras);
+	// free(h_scene_to_array);
+	// free(h_d_scene);
+	// free(h_pixel_map);
 }

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/22 14:34:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 17:09:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../inc/cuda_call.h"
 
 #include <pthread.h>
+ 
  
 // called when window is closed
 void on_window_main_destroy()
@@ -80,6 +81,12 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	r->update.lights = 2;
 	r->update.cameras = 2;
 	r->update.scene = 2;
+	r->update.ray_depth = 2;
+	r->scene = NULL;
+	r->d_scene = NULL;
+	r->h_d_scene = NULL;
+	r->d_pixel_map = NULL;
+	r->h_d_scene = (t_scene *)malloc(sizeof(t_scene));
 }
 
 int	main(int ac, char **av)
@@ -96,7 +103,7 @@ int	main(int ac, char **av)
 	g.r = &r;
 	g.filename = NULL;
 	gtk_init(&ac, &av);
-	init_raytracing_tools(&g.r);
+	init_raytracing_tools(g.r);
 	cssProvider = gtk_css_provider_new();
 	gtk_css_provider_load_from_path(cssProvider, CSS_PATH, NULL); //NULL instead of GError**
 	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
@@ -144,12 +151,24 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 		return (display_error_popup(filechooser, g, "Invalid file format."));
 	if ((ret = parse_input(g->t)) || (ret = check_scenes(g->t->scenes)))
 		return (display_error_popup(filechooser, g, ret));
+	if (g->r->scene)
+		cuda_free(g->r);
 	g->r->scene = g->t->scenes;
+	cuda_malloc(g->r);
 	update_grid_scene(g);
 	update_grid_objects(g);
 	update_grid_lights(g);
 	update_grid_cameras(g);
+	print_scenes(g->r->scene);
+	// rt(g->r);
+	g->r->update.resolution = 2;
+	g->r->update.objects = 2;
+	g->r->update.lights = 2;
+	g->r->update.cameras = 2;
+	g->r->update.scene = 2;
+	g->r->update.ray_depth = 2;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
+	C(1)
 	return (0);
 }
