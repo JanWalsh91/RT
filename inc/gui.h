@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 16:45:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 13:47:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_gtk_tools
 ** Menu Item Signals
 */
 
+int				open_scene(t_gtk_tools *g, GtkWidget *filechooser);
 void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g);
@@ -101,6 +102,7 @@ void			*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g);
 t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);
+
 /*
 ** Lights GUI panel
 */

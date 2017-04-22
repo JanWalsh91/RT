@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 12:16:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 12:08:23 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 13:37:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ char	*get_file(char *file_name, t_parse_tools *t)
 	int			fd;
 	int			ret;
 
-	// Useless ?
-	//  |
-	//  v
-	// if (!ft_strstr(file_name, ".rt") || *(ft_strstr(file_name, ".rt") + 3))
-		// rt_file_error_exit(NULL, "Can only open .rt files.");
-		// return ("Can only open .rt files.");
+	printf("get_file\n");
 	next_line = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)

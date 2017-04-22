@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 16:37:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 14:35:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,6 +401,15 @@ typedef struct	s_intersection_tools
 	int				n_dir;
 }				t_intersection_tools;
 
+typedef struct	s_update
+{
+	uint8_t		resolution;
+	uint8_t		objects;
+	uint8_t		lights;
+	uint8_t		cameras;
+	uint8_t		scene;
+}				t_update;
+
 /*
 ** Structure with tools to help with raytracing
 ** scenes - contains info about all scenes
@@ -411,8 +420,10 @@ typedef struct	s_intersection_tools
 typedef struct	s_raytracing_tools
 {
 	t_scene			*scene;
+	t_scene			*h_d_scene;
 	t_pt2			pix;
 	double			t;
+	t_update		update;
 }				t_raytracing_tools;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/22 12:16:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/22 13:50:24 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,18 +155,6 @@ size_t			get_lights_array_length(t_light *lights)
 	// C(3)
 	return ((size + 1) * sizeof(t_light));
 }
-
-		#include <time.h>
-
-// void		*loading_bar(void	*pt)
-// {
-// 	t_pt2 *max = (t_pt2*) pt;
-// 	// usleep(1000000);
-
-// 	while (max->x < max->y / 2) ;
-// 		printf("loading : %d\n", max->x);
-// 	return NULL;
-// }
 
 void		render(t_scene *scene)
 {

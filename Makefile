@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/21 16:46:05 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/22 13:47:43 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,8 @@ MISC = 		debug \
 			rt_error \
 			export_bmp
 
-GUI =		sig_update_scene \
+GUI =		sig_open_scene \
+			sig_update_scene \
 			sig_update_objects \
 			sig_update_lights \
 			sig_update_cameras \
