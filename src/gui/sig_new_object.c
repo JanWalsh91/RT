@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 15:24:18 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 17:49:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	obj->name = ft_strdup("New Object");
 	obj->next = NULL;
 	push_object(&(g->r->scene->objects), obj);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject")), true);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteObject")), true);
 	update_grid_objects(g);
 	return (NULL);
 }

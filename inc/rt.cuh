@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 12:21:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 16:37:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -515,6 +515,9 @@ void			push_scene(t_scene **scenes, t_scene *new_scene);
 void			push_object(t_object **objects, t_object *new_object);
 void			push_light(t_light **lights_head, t_light *new_light);
 void			push_camera(t_camera **cameras_head, t_camera *new_camera);
+void			remove_object(t_object **objects, t_object *to_delete);
+void			remove_light(t_light **lights, t_light *to_delete);
+void			remove_camera(t_camera **cameras, t_camera *to_delete);
 void			input_pushback(t_input **input, t_input *n);
 int				init_color_list(t_color_list **colors);
 bool			find_color_value(t_color_list *colors, char *value,

@@ -346,7 +346,7 @@
   <object class="GtkWindow" id="window_main">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">RT</property>
-    <property name="default_width">850</property>
+    <property name="default_width">860</property>
     <property name="default_height">760</property>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <child>
@@ -438,8 +438,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -1528,7 +1528,7 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
-                    <property name="height">10</property>
+                    <property name="height">11</property>
                   </packing>
                 </child>
                 <child>
@@ -1556,6 +1556,20 @@
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
                     <property name="height">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="ButtonDeleteObject">
+                    <property name="label" translatable="yes">Delete Object</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="valign">start</property>
+                    <signal name="clicked" handler="sig_delete_object" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">10</property>
                   </packing>
                 </child>
               </object>
@@ -1586,11 +1600,11 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
-                    <property name="height">10</property>
+                    <property name="height">11</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkGrid">
+                  <object class="GtkGrid" id="ScrollWindowLight">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
@@ -1880,7 +1894,7 @@
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="top_attach">0</property>
-                    <property name="height">10</property>
+                    <property name="height">11</property>
                   </packing>
                 </child>
                 <child>
@@ -1924,6 +1938,19 @@
                     <property name="height">9</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkButton" id="ButtonDeleteLight">
+                    <property name="label" translatable="yes">Delete Light</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="sig_delete_light" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">10</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="menu_label">GridLights</property>
@@ -1953,7 +1980,7 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
-                    <property name="height">10</property>
+                    <property name="height">11</property>
                   </packing>
                 </child>
                 <child>
@@ -2297,7 +2324,7 @@
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="top_attach">0</property>
-                    <property name="height">10</property>
+                    <property name="height">11</property>
                   </packing>
                 </child>
                 <child>
@@ -2339,6 +2366,20 @@
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
                     <property name="height">9</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="ButtonDeleteCamera">
+                    <property name="label" translatable="yes">Delete Camera</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="valign">start</property>
+                    <signal name="clicked" handler="sig_delete_camera" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">10</property>
                   </packing>
                 </child>
               </object>
@@ -2431,7 +2472,6 @@
               <object class="GtkButton" id="PrintScenes">
                 <property name="label" translatable="yes">PrintScenes</property>
                 <property name="visible">True</property>
-                <property name="sensitive">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="sig_print_scenes" swapped="no"/>

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/20 14:45:35 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/04/21 16:46:05 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,9 @@ LIST = 		get_new_camera \
 			push_camera \
 			push_light \
 			push_object \
+			remove_object \
+			remove_camera \
+			remove_light \
 			push_scene 
 
 RAY_TRACING = cast_primary_ray \
@@ -104,6 +107,9 @@ GUI =		sig_update_scene \
 			sig_new_object \
 			sig_new_camera \
 			sig_new_light \
+			sig_delete_object \
+			sig_delete_light \
+			sig_delete_camera \
 			sig_save \
 			sig_open_settings \
 			sig_export_scene_bmp \

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/19 16:34:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/21 16:45:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,14 @@ void    		*sig_new_light(GtkWidget *widget, t_gtk_tools *g);
 */
 
 void    		*sig_new_camera(GtkWidget *widget, t_gtk_tools *g);
+
+/*
+** Delete
+*/
+
+void			*sig_delete_object(GtkWidget *widget, t_gtk_tools *g);
+void			*sig_delete_light(GtkWidget *widget, t_gtk_tools *g);
+void 	  	 	*sig_delete_camera(GtkWidget *widget, t_gtk_tools *g);
 
 /*
 ** Debugging signals -- Remove
