@@ -6,14 +6,12 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/22 16:37:29 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 18:49:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "../../inc/cuda_call.h"
-
-#include <pthread.h>
 
 /*
 ** Updates a camera's pixel_map (color of image pixels).
@@ -54,22 +52,13 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 	r.pix.x = (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
-	// printf("%d %d\n", blockIdx.x, blockIdx.y);
-	// printf("%d %d\n", threadIdx.x, threadIdx.y);	
-
     idx = scene->res.x * r.pix.y + r.pix.x;
-
-	if (idx < 1)
-	{
-		// printf("Coucou\n");
-		// printf("%f\n ", scene->lights[1].col.x);
-		// *loading = 20;
-	}
 
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		cam_ray = init_camera_ray(&r);	
+		// d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
 		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
 		// d_pixel_map[idx] = cast_primary_ray(&r, &cam_ray);
 	}
@@ -79,8 +68,9 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map/*, t_pt2 *load
 
 void		render(t_raytracing_tools *r)
 {
+	// t_clock start = clock();
 	// t_color		*d_pixel_map;
-	t_color 	*h_pixel_map;
+	// t_color 	*h_pixel_map;
 	// t_scene		*h_scene_to_array;
 	// t_scene		*h_d_scene;
 	// t_scene		*d_scene;
@@ -88,8 +78,8 @@ void		render(t_raytracing_tools *r)
 	dim3		grid_size;
 
 
-	size_t       available;
-  	size_t       total;
+	// size_t       available;
+  	// size_t       total;
 
 	
 
@@ -125,25 +115,58 @@ void		render(t_raytracing_tools *r)
 	// gpuErrchk(cudaMemcpy(d_scene, h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
 	
 	// Pixel map
-	h_pixel_map = (t_color *)malloc(sizeof(t_color) * r->scene->res.y * r->scene->res.x);
+	// h_pixel_map = (t_color *)malloc(sizeof(t_color) * r->scene->res.y * r->scene->res.x);
 	
-  	cudaMemGetInfo(&available, &total);
- 	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
+  	// cudaMemGetInfo(&available, &total);
+ 	// printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
 	// gpuErrchk((cudaMalloc(&d_pixel_map, sizeof(t_color) * scene->res.y * scene->res.x)));
-	cudaMemGetInfo(&available, &total);
- 	printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
+	// cudaMemGetInfo(&available, &total);
+ 	// printf("available memory: [%'lu]\ntotal memory:   [%'lu]\n", available, total);
 
 	 //prep kernel
 	dim3 blockSize 	= dim3(BLOCK_DIM, BLOCK_DIM, 1);
 	dim3 gridSize	= dim3(r->scene->res.x / BLOCK_DIM + 1, r->scene->res.y / BLOCK_DIM + 1);
-	printf("gridsize: [%d][%d][%d] blocksize: [%d][%d][%d]\n", gridSize.x, gridSize.y, gridSize.z, blockSize.x, blockSize.y, blockSize.z);
-	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map/*, progress*/);
+
+
+	// printf("gridsize: [%d][%d][%d] blocksize: [%d][%d][%d]\n", gridSize.x, gridSize.y, gridSize.z, blockSize.x, blockSize.y, blockSize.z);
 	
-	gpuErrchk( cudaPeekAtLastError() );
+	// printf("Nouvelle position: %f\n", r->scene->objects->pos.x);
+	// printf("d_scene : [%f]\n", r->d_scene->ka);;
+	// clock_t start = clock();
+
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+
+	cudaEventRecord(start);
+	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map/*, progress*/);
+	cudaEventRecord(stop);
+
+	cudaEventSynchronize(stop);
+	float milliseconds = 0;
+	cudaEventElapsedTime(&milliseconds, start, stop);
+
+	printf("=============== EXECUTION ================== \n");
+	printf("Kernel duration: %f milliseconds\n", milliseconds);
+	printf("============================================ \n");
+
+	// clock_t stop = clock();
+	// printf("\nAppel du kernel : %f\n",
+  	// (float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
+	
+	// printf("%d %d %d\n", r->d_pixel_map[25].r, r->d_pixel_map[25].g, r->d_pixel_map[25].b );
+
+	// gpuErrchk( cudaPeekAtLastError() );
 	gpuErrchk((cudaDeviceSynchronize()));
-	gpuErrchk(cudaMemcpy(h_pixel_map, r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x, cudaMemcpyDeviceToHost));
+	// start = clock();
+	// memcpy(r->scene->cameras->pixel_map, r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x);
+	// r->scene->cameras->pixel_map = r->d_pixel_map;
+	// gpuErrchk(cudaMemcpy(r->scene->cameras->pixel_map, r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x, cudaMemcpyDeviceToHost));
+	//  stop = clock();
+	// printf("\nmemcpy pixelmap : %f\n",
+  	// (float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
 	// gpuErrchk((cudaMemcpy(r->scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x, cudaMemcpyDeviceToHost)));
-	memcpy(r->scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x);
+	// memcpy(r->scene->cameras->pixel_map, h_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x);
 	//free dat shit
 	// cudaFree(h_d_scene->cameras);
 	// cudaFree(h_d_scene->lights);

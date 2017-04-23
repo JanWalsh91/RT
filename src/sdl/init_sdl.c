@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 14:07:26 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 12:57:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			init_sdl(t_scene *scene, t_env *env)
 static int	init_window(t_scene *scene, t_env *env)
 {
 	env->win = SDL_CreateWindow(scene->name, SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED, scene->res.x, scene->res.y, SDL_WINDOW_SHOWN);
+		SDL_WINDOWPOS_CENTERED, scene->res.x, scene->res.y, SDL_WINDOW_FOREIGN);
 	if (!env->win)
 	{
 		printf("SDL window creation error");

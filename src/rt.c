@@ -12,6 +12,7 @@
 
 #include "../inc/rt.cuh"
 #include "../inc/cuda_call.h"
+#include "gui.h"
 
 /*
 ** Manages SDL functions and sets pixel colors found from render() to
@@ -20,41 +21,36 @@
 
 #include <time.h>
 
-int	rt(t_raytracing_tools *r)
+
+void	*rt(t_gtk_tools *g)
 {
-	t_env	env;
 	t_color	col;
 	t_pt2	i;
 
-	clock_t start = clock();
-	render(r);
-	clock_t stop = clock();
-	printf("\nTotal de la fonction render : %f\n",
-  	(float)(stop - start) / (float)CLOCKS_PER_SEC * 1000.0f);
-	
-	init_sdl(r->scene, &env);
-	SDL_RenderClear(env.ren);
-	i.y = -1;
-	printf("Coucou\n");
-	while (++i.y < r->scene->res.y)
-	{
-		i.x = -1;
-		while (++i.x < r->scene->res.x)
-		{
-			col = (r->scene)->cameras->pixel_map[i.y * r->scene->res.x + i.x];
-			if (i.x == 200 && i.y == 200)
-			{
-				printf("checking for BLACK SCREEN BUG: col at 200, 200:");
-				// print_vec(col);
-			}
-			SDL_SetRenderDrawColor(env.ren, col.r, col.g, col.b,
-				SDL_ALPHA_OPAQUE);
-			SDL_RenderDrawPoint(env.ren, i.x, i.y);
-		}
-	}
-	SDL_RenderPresent(env.ren);
-	handle_sdl_events(r->scene, &env);
-	SDL_DestroyWindow(env.win);
+	// render(g->r);
+	// init_sdl(g->r->scene, &g->env);
+	// SDL_RenderClear(g->env.ren);
+	// i.y = -1;
+	// while (++i.y < g->r->scene->res.y)
+	// {
+	// 	i.x = -1;
+	// 	while (++i.x < g->r->scene->res.x)
+	// 	{
+	// 		// col = (g->r->scene)->cameras->pixel_map[i.y * g->r->scene->res.x + i.x];
+	// 		// col = g->r->d_pixel_map[i.y * g->r->scene->res.x + i.x];
+	// 		if (i.x == 200 && i.y == 200)
+	// 		{
+	// 			printf("checking for BLACK SCREEN BUG: col at 200, 200:");
+	// 			// print_vec(col);
+	// 		}
+	// 		// SDL_SetRenderDrawColor(g->env.ren, col.r, col.g, col.b,
+	// 			// SDL_ALPHA_OPAQUE);
+	// 		// SDL_RenderDrawPoint(g->env.ren, i.x, i.y);
+	// 	}
+	// }
+	// SDL_RenderPresent(g->env.ren);
+	handle_sdl_events(g->r->scene, g);
+	SDL_DestroyWindow(g->env.win);
 	SDL_Quit();
-	return (1);
+	return (NULL);
 }

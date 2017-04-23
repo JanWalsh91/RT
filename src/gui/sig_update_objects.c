@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/20 15:15:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/23 18:38:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+#include "cuda_call.h"
 
 
 void	*update_grid_objects(t_gtk_tools *g) //change name
@@ -293,9 +294,13 @@ void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
+
 	printf("sig_update_obj_pos_x\n");
 	obj = get_selected_object(g);
 	obj->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	
 	return (NULL);
 }
 

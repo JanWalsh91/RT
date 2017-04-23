@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 13:47:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 12:25:50 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct	s_gtk_tools
 {
 	struct s_parse_tools 		*t;
 	struct s_raytracing_tools 	*r;
+	struct s_env				env;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
 	size_t						stack_size;

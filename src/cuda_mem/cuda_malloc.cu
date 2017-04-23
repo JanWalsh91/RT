@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 17:16:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 18:32:32 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,13 @@ int	cuda_malloc(t_raytracing_tools *r)
 
 	if (!(memcpy(&h_scene_to_array, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  )))
 		exit (0);
-	// h_scene_to_array = *r->scene;
-	printf("%d %d\n", h_scene_to_array.res.x, h_scene_to_array.res.y);
-	printf("%d\n", h_scene_to_array.is_specular);
-	printf("%s\n", h_scene_to_array.name);
-	// if (!(memcpy(h_scene_to_array, r->scene, sizeof(t_scene - (sizeof(void *) * 5)) )))
-		// exit(0);
-
-	memcpy(r->h_d_scene, r->scene, sizeof(t_scene));
+	memcpy(r->h_d_scene, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  );
 	if (r->update.resolution == 2)
 	{
 		printf("malloc d_pixel_map\n");
-		r->scene->cameras->pixel_map = (t_color *)malloc(sizeof(t_color) * r->scene->res.y * r->scene->res.x);
-		gpuErrchk((cudaMalloc(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
+		// r->scene->cameras->pixel_map = (t_color *)malloc(sizeof(t_color) * r->scene->res.y * r->scene->res.x);
+		// cudaMallocManaged(&r->scene->cameras->pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x);
+		gpuErrchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
 	}
 	if (r->update.ray_depth == 2)
 	{
@@ -93,6 +87,9 @@ int	cuda_malloc(t_raytracing_tools *r)
 	r->update.cameras = 0;
 	r->update.scene = 0;
 	r->update.ray_depth = 0;
+	r->update.render = 1;
+	// printf("RENDER ADDR %p\n", &r->update.render);
+	C(2)
 	return (1);
 }
 

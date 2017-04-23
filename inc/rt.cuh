@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 10:20:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 14:55:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,19 @@ typedef struct	s_update
 	uint8_t		lights;
 	uint8_t		cameras;
 	uint8_t		scene;
+	uint8_t		render;
 }				t_update;
+
+/*
+** Structure to handle SDL events.
+*/
+
+typedef struct	s_env
+{
+	SDL_Window		*win;
+	SDL_Renderer	*ren;
+	SDL_Event		e;
+}				t_env;
 
 /*
 ** Structure with tools to help with raytracing
@@ -429,16 +441,6 @@ typedef struct	s_raytracing_tools
 	t_update		update;
 }				t_raytracing_tools;
 
-/*
-** Structure to handle SDL events.
-*/
-
-typedef struct	s_env
-{
-	SDL_Window		*win;
-	SDL_Renderer	*ren;
-	SDL_Event		e;
-}				t_env;
 
 typedef struct	s_th_export
 {
@@ -590,7 +592,7 @@ void	set_default_transparency(t_scene *scene, int type, void *obj, double *trans
 */
 
 CUDA_DEV
-int				rt(t_raytracing_tools *r);
+void			*rt(struct s_gtk_tools *r);
 CUDA_DEV
 t_ray			init_camera_ray(t_raytracing_tools *r);
 CUDA_DEV
@@ -664,7 +666,7 @@ void			*export_image(void *th_export);
 */
 
 int				init_sdl(t_scene *scene, t_env *env);
-int				handle_sdl_events(t_scene *scenes, t_env *env);
+int				handle_sdl_events(t_scene *scenes, struct s_gtk_tools *g);
 
 
 /*

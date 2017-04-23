@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_reflected_and_refracted.cu                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 15:52:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/23 18:30:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray
 	t_ray	refraction;
 	t_color	col;
 
-	if (r->pix.x == 50 && r->pix.y == 50)
-		printf("get_reflected_and_refracted\n");
+	// if (r->pix.x == 50 && r->pix.y == 50)
+		// printf("get_reflected_and_refracted\n");
 	f = 1;
 	col = c_new(0, 0, 0);
 	reflection.type = R_PRIMARY;
@@ -42,8 +42,8 @@ t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray
 	else if (scene->objects[ray->hit_obj].transparency > 0)
 	{
 		f = get_fresnel_ratio(ray->dir, v_scale(ray->nhit, ray->n_dir), scene->objects[ray->hit_obj].ior);
-		if (r->pix.x == 500 && r->pix.y == 500)
-			printf("fresnel: [%f]\n", f);
+		// if (r->pix.x == 500 && r->pix.y == 500)
+			// printf("fresnel: [%f]\n", f);
 		refraction = reflection;
 		refraction.ior = scene->objects[ray->hit_obj].ior;
 		refraction.origin = v_add(ray->hit, v_scale(ray->nhit, -ray->n_dir * BIAS));

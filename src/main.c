@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 10:34:51 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 18:19:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object 	*obj;
 	GtkWidget	*widget2;
+	pthread_t	thread_sdl;
 
 	update_camera_ctw(g->r->scene->cameras);
 	widget2 = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
@@ -37,7 +38,10 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 		update_objects_info_panel(g, obj);
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
-	rt(g->r);
+	init_sdl(g->r->scene, &g->env);
+	// print_scenes(g->r->d_scene);
+	pthread_create(&thread_sdl, NULL, (void *)rt, g);
+	// rt(g);
 	return (NULL);
 }
 
@@ -82,11 +86,13 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	r->update.cameras = 2;
 	r->update.scene = 2;
 	r->update.ray_depth = 2;
+	r->update.render = 0;
 	r->scene = NULL;
 	r->d_scene = NULL;
 	r->h_d_scene = NULL;
 	r->d_pixel_map = NULL;
 	r->h_d_scene = (t_scene *)malloc(sizeof(t_scene));
+	printf("%p\n", r->h_d_scene);
 }
 
 int	main(int ac, char **av)
@@ -96,11 +102,14 @@ int	main(int ac, char **av)
 	t_gtk_tools			g;
 	t_parse_tools		t;
 	t_raytracing_tools	r;
+	// t_env				env;
 	int					i;
 	GtkCssProvider		*cssProvider;
-	
+
 	g.t = &t;
 	g.r = &r;
+	// g.sdl = &env;
+	g.env.win = NULL;
 	g.filename = NULL;
 	gtk_init(&ac, &av);
 	init_raytracing_tools(g.r);
@@ -121,6 +130,13 @@ int	main(int ac, char **av)
     window = GTK_WIDGET(gtk_builder_get_object(g.builder, "window_main"));
 	gtk_widget_show(window);
     gtk_main();
+	g.r->update.resolution = 2; // Function ?
+	g.r->update.objects = 2;
+	g.r->update.lights = 2;
+	g.r->update.cameras = 2;
+	g.r->update.scene = 2;
+	g.r->update.ray_depth = 2;
+	// cuda_free(&r);
 	return (0);
 
     // g_object_unref(g.builder);
@@ -154,12 +170,12 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	if (g->r->scene)
 		cuda_free(g->r);
 	g->r->scene = g->t->scenes;
-	// cuda_malloc(g->r);
+	cuda_malloc(g->r);
 	update_grid_scene(g);
 	update_grid_objects(g);
 	update_grid_lights(g);
 	update_grid_cameras(g);
-	print_scenes(g->r->scene);
+	// print_scenes(g->r->scene);
 	// rt(g->r);
 	g->r->update.resolution = 2;
 	g->r->update.objects = 2;
