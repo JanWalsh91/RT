@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/22 17:09:30 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 10:34:51 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	if (g->r->scene)
 		cuda_free(g->r);
 	g->r->scene = g->t->scenes;
-	cuda_malloc(g->r);
+	// cuda_malloc(g->r);
 	update_grid_scene(g);
 	update_grid_objects(g);
 	update_grid_lights(g);

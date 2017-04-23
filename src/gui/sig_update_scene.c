@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 16:13:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 10:56:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,12 @@ void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 
 	printf("sig_next_camera\n");
 	if (g->r->scene->cameras->next)
-		g->r->scene->cameras = g->r->scene->cameras->next;	
+		g->r->scene->cameras = g->r->scene->cameras->next;
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
-	update_grid_scene(g);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera")), (gboolean)g->r->scene->cameras->next);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera")), (gboolean)g->r->scene->cameras->prev);
+	// update_grid_scene(g); // --> WTF ?
 	return (NULL);
 }
 
@@ -108,7 +110,9 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 		g->r->scene->cameras = g->r->scene->cameras->prev;	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
-	update_grid_scene(g);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera")), (gboolean)g->r->scene->cameras->next);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera")), (gboolean)g->r->scene->cameras->prev);
+	// update_grid_scene(g); // --> WTF ?
 	return (NULL);
 }
 

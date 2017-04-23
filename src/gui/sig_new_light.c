@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/18 15:24:13 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 10:49:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 	light->next = NULL;
 	push_light(&(g->r->scene->lights), light);
 	update_grid_lights(g);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight")), true);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteLight")), true);
 	return (NULL);
 }

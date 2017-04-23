@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 15:54:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 10:20:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -534,7 +534,7 @@ void			push_light(t_light **lights_head, t_light *new_light);
 void			push_camera(t_camera **cameras_head, t_camera *new_camera);
 void			remove_object(t_object **objects, t_object *to_delete);
 void			remove_light(t_light **lights, t_light *to_delete);
-void			remove_camera(t_camera **cameras, t_camera *to_delete);
+void			remove_camera(t_camera *to_delete, struct s_gtk_tools *g);
 void			input_pushback(t_input **input, t_input *n);
 int				init_color_list(t_color_list **colors);
 bool			find_color_value(t_color_list *colors, char *value,

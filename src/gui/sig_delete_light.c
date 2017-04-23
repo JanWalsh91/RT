@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:42:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 17:26:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 10:49:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	*sig_delete_light(GtkWidget *widget, t_gtk_tools *g)
 	else
 	{
 		list_box = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
+		gtk_widget_set_sensitive(list_box, false);
+		list_box = GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteLight"));
 		gtk_widget_set_sensitive(list_box, false);
 	}
 	return (NULL);

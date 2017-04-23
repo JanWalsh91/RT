@@ -6,11 +6,12 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:37:33 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 17:44:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 11:01:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
+#include "gui.h"
 
 void	free_camera(t_camera *to_delete)
 {
@@ -19,37 +20,72 @@ void	free_camera(t_camera *to_delete)
 	free(to_delete);
 }
 
-void	remove_camera(t_camera **head, t_camera *to_delete)
-{
-	t_camera	*prev;
-	t_camera	*tmp;
+// void	remove_camera(t_camera **head, t_camera *to_delete)
+// {
+// 	t_camera	*prev;
+// 	t_camera	*tmp;
 
-	if (!head || !*head)
+// 	if (!head || !*head)
+// 		return ;
+// 	prev = *head;
+// 	if (prev == to_delete)
+// 	{
+// 		*head = prev->next;
+// 		free_camera(to_delete);
+// 		return ;
+// 	}
+// 	if (prev->next)
+// 	{
+// 		tmp = prev->next;
+// 		while (tmp && tmp != to_delete)
+// 		{
+// 			prev = prev->next;
+// 			tmp = tmp->next;
+// 		}
+// 		if (tmp == to_delete)
+// 		{
+// 			prev->next = tmp->next;
+// 			free_camera(to_delete);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		free_camera(to_delete);
+// 		*head = NULL;
+// 	}
+// }
+
+void	remove_camera(t_camera *to_delete, t_gtk_tools *g)
+{
+	t_camera	*head;
+
+	head = get_first_camera(g);
+	if (!head)
 		return ;
-	prev = *head;
-	if (prev == to_delete)
+	while (head && head != to_delete)
+		head = head->next;
+	if (head == to_delete)
 	{
-		*head = prev->next;
-		free_camera(to_delete);
-		return ;
-	}
-	if (prev->next)
-	{
-		tmp = prev->next;
-		while (tmp && tmp != to_delete)
+		if (head->prev == NULL)
 		{
-			prev = prev->next;
-			tmp = tmp->next;
+			if (head->next)
+				head->next->prev = NULL;
+			else
+				g->r->scene->cameras = NULL;
 		}
-		if (tmp == to_delete)
+		else
 		{
-			prev->next = tmp->next;
-			free_camera(to_delete);
+			if (head->prev)
+				head->prev->next = head->next;
+			if (head->next)
+				head->next->prev = head->prev;
 		}
-	}
-	else
-	{
-		free_camera(to_delete);
-		*head = NULL;
+		if (head->prev)
+			g->r->scene->cameras = head->prev;
+		else if (head->next)
+			g->r->scene->cameras = head->next;
+		else
+			g->r->scene->cameras = NULL;
+		free_camera(head);
 	}
 }
