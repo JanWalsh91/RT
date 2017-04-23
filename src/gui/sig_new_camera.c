@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 11:01:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/23 11:04:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void    *sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 		gtk_widget_set_sensitive (widget, TRUE);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowCamera")), true);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteCamera")), true);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonRender")), true);
 	return (NULL);
 }

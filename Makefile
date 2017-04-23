@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/22 15:52:52 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/23 10:20:46 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -176,7 +176,7 @@ $(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $
 	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	$(NVCC) $(CUFLAGS) $(SDL2) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(SDL2) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
