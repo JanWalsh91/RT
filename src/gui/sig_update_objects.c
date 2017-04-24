@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 18:38:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 16:07:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,13 +294,13 @@ void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 
-
 	printf("sig_update_obj_pos_x\n");
 	obj = get_selected_object(g);
+	if (obj->pos.x == gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button)))
+		return (NULL);
 	obj->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	g->r->update.objects = 1;
 	cuda_malloc(g->r);
-	
 	return (NULL);
 }
 

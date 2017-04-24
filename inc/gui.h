@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 12:25:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 15:30:18 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ typedef struct	s_gtk_tools
 	struct s_env				env;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
+	int							sdl;
+	int							quit;
+	int							ac;
+	char						**av;
 	size_t						stack_size;
 }				t_gtk_tools;
 

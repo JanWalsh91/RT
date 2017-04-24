@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 14:55:08 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 15:56:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,6 +418,7 @@ typedef struct	s_update
 
 typedef struct	s_env
 {
+	
 	SDL_Window		*win;
 	SDL_Renderer	*ren;
 	SDL_Event		e;
@@ -451,6 +452,9 @@ typedef struct	s_th_export
 
 // int		cuda_malloc(struct s_raytracing_tools *r);
 // int		cuda_free(struct s_raytracing_tools *r);
+
+void	*main_sdl(void *g);
+void	*main_gtk(struct s_gtk_tools *g);
 
 /*
 ** File Parsing Functions
@@ -666,7 +670,7 @@ void			*export_image(void *th_export);
 */
 
 int				init_sdl(t_scene *scene, t_env *env);
-int				handle_sdl_events(t_scene *scenes, struct s_gtk_tools *g);
+int				handle_sdl_events(struct s_gtk_tools *g);
 
 
 /*

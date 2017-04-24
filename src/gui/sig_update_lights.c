@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/18 15:34:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 11:21:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,25 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 
 	printf("update_grid_lights\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"));
+	C(1)
 	gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
+	C(2)
 	light = g->r->scene->lights;
+	C(3)
 	while (light)
 	{
+		C(4)
 		label = gtk_label_new(light->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 		light = light->next;
 	}
+	C(5)
 	if (!g->r->scene->lights)
 		return (NULL);
 	// label = gtk_button_new_with_label("+");
 	// gtk_list_box_insert(widget, label, -1);
 	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_light), g);
+	C(6)
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_lights_info_panel(g, g->r->scene->lights);
 	

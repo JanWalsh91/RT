@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_object.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 17:49:25 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 12:01:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+#include "../inc/cuda_call.h"
 
 void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -40,5 +41,8 @@ void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject")), true);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteObject")), true);
 	update_grid_objects(g);
+	
+	cuda_free(g->r);
+	cuda_malloc(g->r);
 	return (NULL);
 }

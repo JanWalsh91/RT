@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 10:56:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 11:59:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+#include "../inc/cuda_call.h"
 
 
 void *update_grid_scene(t_gtk_tools *g)
@@ -20,6 +21,7 @@ void *update_grid_scene(t_gtk_tools *g)
 	GdkRGBA		color;
 
 	printf("update_grid_scene\n");
+	print_scenes(g->r->scene);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
@@ -58,6 +60,9 @@ void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	printf("sig_update_res_x\n");
 	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
 	g->r->scene->image_aspect_ratio = (double)g->r->scene->res.x / (double)g->r->scene->res.y;
+	g->r->update.resolution = 2;
+	// cuda_free(g->r);
+	// cuda_malloc(g->r);
 	return (NULL);
 }
 

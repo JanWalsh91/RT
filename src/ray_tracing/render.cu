@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 18:49:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 11:25:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void		render(t_raytracing_tools *r)
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
+	//beautiful....
 	printf("=============== EXECUTION ================== \n");
 	printf("Kernel duration: %f milliseconds\n", milliseconds);
 	printf("============================================ \n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 18:19:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 16:16:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 		update_objects_info_panel(g, obj);
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
-	init_sdl(g->r->scene, &g->env);
-	// print_scenes(g->r->d_scene);
-	pthread_create(&thread_sdl, NULL, (void *)rt, g);
+	g->sdl = 1;
 	// rt(g);
+	// init_sdl(g->r->scene, &g->env);
+	// print_scenes(g->r->d_scene);
+	// pthread_create(&thread_sdl, NULL, (void *)rt, g);
 	return (NULL);
 }
 
@@ -95,52 +96,80 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	printf("%p\n", r->h_d_scene);
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
+{
+	t_gtk_tools			g;
+	pthread_t			thread_sdl;
+	pthread_t			thread_gtk;
+	void 				**ret;
+	
+	// if (SDL_Init(SDL_INIT_VIDEO))
+	// {
+	// 	printf("BIG ERROR");
+	// 	return (0);
+	// }
+	g.env.win = NULL;
+	g.filename = NULL;
+	g.ac = ac;
+	g.av = av;
+	if (ac >= 2)
+		g.filename = ft_strdup(av[1]);
+	pthread_create(&thread_sdl, NULL, (void *)main_sdl, &g);
+	
+	main_gtk(&g);
+	// pthread_create(&thread_gtk, NULL, (void *)main_gtk, (void *)&g);
+	C(100)
+	exit(0);
+	pthread_join(thread_sdl, ret);
+	// pthread_join(thread_gtk, ret);
+	return (0);
+}
+
+void	*main_sdl(void *g)
+{
+	((t_gtk_tools *)g)->env.win = NULL;
+	handle_sdl_events((t_gtk_tools *)g);
+	return (NULL);
+}
+
+void	*main_gtk(t_gtk_tools *g)
 {
 	GtkWidget       *window;
 	GtkWidget		*widget;
-	t_gtk_tools			g;
 	t_parse_tools		t;
 	t_raytracing_tools	r;
-	// t_env				env;
 	int					i;
 	GtkCssProvider		*cssProvider;
 
-	g.t = &t;
-	g.r = &r;
-	// g.sdl = &env;
-	g.env.win = NULL;
-	g.filename = NULL;
-	gtk_init(&ac, &av);
-	init_raytracing_tools(g.r);
+	gtk_init(&g->ac, &g->av);
+	g->t = &t;
+	g->r = &r;
+	init_raytracing_tools(g->r);
 	cssProvider = gtk_css_provider_new();
 	gtk_css_provider_load_from_path(cssProvider, CSS_PATH, NULL); //NULL instead of GError**
 	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
 		GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-    g.builder = gtk_builder_new();
-    gtk_builder_add_from_file (g.builder, "RT_glade.glade", NULL);
-    gtk_builder_connect_signals(g.builder, &g);
-	if (ac >= 2)
-	{
-		g.filename = ft_strdup(av[1]);
-		open_scene(&g, NULL);
-	}
-	widget = GTK_WIDGET(gtk_builder_get_object(g.builder, "MenuItemQuit"));
+    g->builder = gtk_builder_new();
+    gtk_builder_add_from_file (g->builder, "RT_glade.glade", NULL);
+    gtk_builder_connect_signals(g->builder, g);
+	if (g->filename)
+		open_scene(g, NULL);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
-    window = GTK_WIDGET(gtk_builder_get_object(g.builder, "window_main"));
+    window = GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main"));
 	gtk_widget_show(window);
     gtk_main();
-	g.r->update.resolution = 2; // Function ?
-	g.r->update.objects = 2;
-	g.r->update.lights = 2;
-	g.r->update.cameras = 2;
-	g.r->update.scene = 2;
-	g.r->update.ray_depth = 2;
-	// cuda_free(&r);
-	return (0);
+	g->r->update.resolution = 2; // Function ?
+	g->r->update.objects = 2;
+	g->r->update.lights = 2;
+	g->r->update.cameras = 2;
+	g->r->update.scene = 2;
+	g->r->update.ray_depth = 2;
 
-    // g_object_unref(g.builder);
+	// cuda_free(&r);
+    // g_object_unref(g->builder);
 	// free_scenes(r.scene);
+	return (NULL);
 }
 
 int		display_error_popup(GtkWidget *filechooser, t_gtk_tools *g, char *ret)
