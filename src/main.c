@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/25 15:13:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/25 15:57:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,10 @@ void window_destroy(GtkWidget *widget, void *ouais)
 	gtk_widget_destroy (ouais ? GTK_WIDGET(ouais) : widget);
 }
 
-// static void put_pixel(GdkPixbuf *pixbuf, int x, int y, guchar red, guchar green, guchar blue, guchar alpha)
-//      {
-//        int width, height, rowstride, n_channels;
-//        guchar *pixels, *p;
-     
-//        n_channels = gdk_pixbuf_get_n_channels (pixbuf);
-     
-//        width = gdk_pixbuf_get_width (pixbuf);
-//        height = gdk_pixbuf_get_height (pixbuf);
-     
-//        g_assert (x >= 0 && x < width);
-//        g_assert (y >= 0 && y < height);
-     
-//        rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-//        pixels = gdk_pixbuf_get_pixels (pixbuf);
-     
-//        p = pixels + y * rowstride + x * n_channels;
-//        p[0] = red;
-//        p[1] = green;
-//        p[2] = blue;
-//     //    p[3] = alpha;
-// 	   if (x < 5 && y < 5)
-// 	   {
-// 	   		printf("r: [%d] g: [%d] b: [%d] \n", red, green, blue);
-// 	   		printf("%d\n", p[0]);
-// 	   }
-// }
-    
+void window_destroy_esc(GtkWidget *widget, void *ouais)
+{
+	gtk_widget_destroy (GTK_WIDGET(ouais));
+}
 
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 {
@@ -65,7 +41,7 @@ gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 			free(g->pixbuf); // leaks
 		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
 		render(g->r);
-		memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * gtk_widget_get_allocated_height(widget));
+		memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * g->r->scene->res.y);
 		g->r->update.render = 0;
 		// exit(0);
 	}
@@ -76,8 +52,11 @@ gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 
 void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
-	t_object 	*obj;
-	GtkWidget	*widget2;
+	t_object 		*obj;
+	GtkWidget		*widget2;
+	GtkAccelGroup 	*accel_group;
+	GClosure		*closure;
+	GtkWidget 		*drawing_area;
 
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
@@ -90,18 +69,13 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
 
-	GtkWidget *drawing_area;
 	g->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	g_signal_connect(g->win, "destroy", G_CALLBACK(window_destroy), NULL);
-	GClosure* closure = g_cclosure_new(G_CALLBACK(window_destroy), g->win, 0);
-    GtkAccelGroup* accel_group = gtk_accel_group_new();
-    gtk_accel_group_connect(accel_group,
-                            GDK_KEY_Escape,
-                            0,
-                            0,
-                            closure);
-gtk_window_add_accel_group(GTK_WINDOW(g->win), accel_group);
+	closure = g_cclosure_new(G_CALLBACK(window_destroy_esc), g->win, 0);
+    accel_group = gtk_accel_group_new();
+    gtk_accel_group_connect(accel_group, GDK_KEY_Escape, 0, 0, closure);
+	gtk_window_add_accel_group(GTK_WINDOW(g->win), accel_group);
 	drawing_area = gtk_drawing_area_new();
 	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
 	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);
@@ -165,29 +139,14 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 int main(int ac, char **av)
 {
 	t_gtk_tools			g;
-	// pthread_t			thread_sdl;
-	// pthread_t			thread_gtk;
-	// void 				**ret;
-	
-	// if (SDL_Init(SDL_INIT_VIDEO))
-	// {
-	// 	printf("BIG ERROR");
-	// 	return (0);
-	// }
+
 	g.filename = NULL;
 	g.ac = ac;
 	g.av = av;
 	g.win = NULL;
 	if (ac >= 2)
 		g.filename = ft_strdup(av[1]);
-
-	// pthread_create(&thread_sdl, NULL, (void *)main_sdl, &g);
 	main_gtk(&g);
-	// pthread_create(&thread_gtk, NULL, (void *)main_gtk, (void *)&g);
-	// C(100)
-	// exit(0);
-	// pthread_join(thread_sdl, ret);
-	// pthread_join(thread_gtk, ret);
 	return (0);
 }
 
@@ -227,7 +186,7 @@ void	*main_gtk(t_gtk_tools *g)
 	g->r->update.ray_depth = 2;
 
 	// cuda_free(&r);
-    // g_object_unref(g->builder);
+    g_object_unref(g->builder);
 	// free_scenes(r.scene);
 	return (NULL);
 }
