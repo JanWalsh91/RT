@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/24 15:30:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/25 14:27:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ typedef struct	s_gtk_tools
 {
 	struct s_parse_tools 		*t;
 	struct s_raytracing_tools 	*r;
-	struct s_env				env;
+	GtkWidget					*win;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
 	int							sdl;
 	int							quit;
 	int							ac;
 	char						**av;
+	GdkPixbuf					*pixbuf;
 	size_t						stack_size;
 }				t_gtk_tools;
 

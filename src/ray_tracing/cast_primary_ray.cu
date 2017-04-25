@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 18:30:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/24 12:24:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
 	col = get_color_at_hitpoint(r, ray, &shadow_ray);
-	// col = r->scene->objects[ray->hit_obj].col;
 	// printf("col: %f, %f, %f\n", col.x, col.y, col.z);
 	return (col);
 }

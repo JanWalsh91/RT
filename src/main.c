@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/24 16:16:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/25 14:31:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,65 @@ void on_window_main_destroy()
     gtk_main_quit();
 }
 
+void window_destroy(GtkWidget *widget, void *ouais)
+{
+	gtk_widget_destroy (widget);
+}
+
+static void put_pixel(GdkPixbuf *pixbuf, int x, int y, guchar red, guchar green, guchar blue, guchar alpha)
+     {
+       int width, height, rowstride, n_channels;
+       guchar *pixels, *p;
+     
+       n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+     
+       width = gdk_pixbuf_get_width (pixbuf);
+       height = gdk_pixbuf_get_height (pixbuf);
+     
+       g_assert (x >= 0 && x < width);
+       g_assert (y >= 0 && y < height);
+     
+       rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+       pixels = gdk_pixbuf_get_pixels (pixbuf);
+     
+       p = pixels + y * rowstride + x * n_channels;
+       p[0] = red;
+       p[1] = green;
+       p[2] = blue;
+    //    p[3] = alpha;
+	   if (x < 5 && y < 5)
+	   {
+	   		printf("r: [%d] g: [%d] b: [%d] \n", red, green, blue);
+	   		printf("%d\n", p[0]);
+	   }
+}
+    
+
+gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
+{
+	if (g->r->update.render == 1)
+	{
+		if (!g->pixbuf)
+			free(g->pixbuf); // leaks
+		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
+		render(g->r);
+		memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * gtk_widget_get_allocated_height(widget));
+		g->r->update.render = 0;
+		// exit(0);
+	}
+	gdk_cairo_set_source_pixbuf(cr, g->pixbuf, 0, 0);
+	cairo_paint(cr);
+	return FALSE;
+}
+
 void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object 	*obj;
 	GtkWidget	*widget2;
 	pthread_t	thread_sdl;
+	// cairo_t		cr;
 
+	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
 	widget2 = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	if (gtk_widget_get_sensitive (widget2))
@@ -39,6 +92,21 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
 	g->sdl = 1;
+
+	GtkWidget *drawing_area;
+	g->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+	g_signal_connect(g->win,"destroy", G_CALLBACK(window_destroy), NULL);
+
+	drawing_area = gtk_drawing_area_new();
+	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
+	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);
+
+	// render(g->r);
+	// draw_callback(g);
+	g_signal_connect(G_OBJECT(drawing_area), "draw", G_CALLBACK(draw_callback), g);
+
+	gtk_widget_show_all(g->win);
 	// rt(g);
 	// init_sdl(g->r->scene, &g->env);
 	// print_scenes(g->r->d_scene);
@@ -99,38 +167,32 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 int main(int ac, char **av)
 {
 	t_gtk_tools			g;
-	pthread_t			thread_sdl;
-	pthread_t			thread_gtk;
-	void 				**ret;
+	// pthread_t			thread_sdl;
+	// pthread_t			thread_gtk;
+	// void 				**ret;
 	
 	// if (SDL_Init(SDL_INIT_VIDEO))
 	// {
 	// 	printf("BIG ERROR");
 	// 	return (0);
 	// }
-	g.env.win = NULL;
 	g.filename = NULL;
 	g.ac = ac;
 	g.av = av;
+	g.win = NULL;
 	if (ac >= 2)
 		g.filename = ft_strdup(av[1]);
-	pthread_create(&thread_sdl, NULL, (void *)main_sdl, &g);
-	
+
+	// pthread_create(&thread_sdl, NULL, (void *)main_sdl, &g);
 	main_gtk(&g);
 	// pthread_create(&thread_gtk, NULL, (void *)main_gtk, (void *)&g);
-	C(100)
-	exit(0);
-	pthread_join(thread_sdl, ret);
+	// C(100)
+	// exit(0);
+	// pthread_join(thread_sdl, ret);
 	// pthread_join(thread_gtk, ret);
 	return (0);
 }
 
-void	*main_sdl(void *g)
-{
-	((t_gtk_tools *)g)->env.win = NULL;
-	handle_sdl_events((t_gtk_tools *)g);
-	return (NULL);
-}
 
 void	*main_gtk(t_gtk_tools *g)
 {

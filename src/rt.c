@@ -24,6 +24,6 @@
 
 void	*rt(t_gtk_tools *g)
 {
-	handle_sdl_events(g);
+	// handle_sdl_events( g);
 	return (NULL);
 }

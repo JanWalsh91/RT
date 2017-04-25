@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/24 15:56:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/25 14:41:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <cuda.h>
-# include "../SDL2/include/sdl.h"
 # include "../Libft/inc/libft.h"
 
 # include "../Libmathft/inc/libmathft.cuh"
@@ -412,17 +411,6 @@ typedef struct	s_update
 	uint8_t		render;
 }				t_update;
 
-/*
-** Structure to handle SDL events.
-*/
-
-typedef struct	s_env
-{
-	
-	SDL_Window		*win;
-	SDL_Renderer	*ren;
-	SDL_Event		e;
-}				t_env;
 
 /*
 ** Structure with tools to help with raytracing
@@ -669,7 +657,7 @@ void			*export_image(void *th_export);
 ** SDL2 Functions
 */
 
-int				init_sdl(t_scene *scene, t_env *env);
+// int				init_sdl(t_scene *scene, t_env *env);
 int				handle_sdl_events(struct s_gtk_tools *g);
 
 
