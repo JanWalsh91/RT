@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/25 14:41:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/25 14:53:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,7 +441,6 @@ typedef struct	s_th_export
 // int		cuda_malloc(struct s_raytracing_tools *r);
 // int		cuda_free(struct s_raytracing_tools *r);
 
-void	*main_sdl(void *g);
 void	*main_gtk(struct s_gtk_tools *g);
 
 /*
@@ -651,15 +650,6 @@ CUDA_DEV
 t_color			deutan_filter(t_color c);
 
 void			*export_image(void *th_export);
-
-
-/*
-** SDL2 Functions
-*/
-
-// int				init_sdl(t_scene *scene, t_env *env);
-int				handle_sdl_events(struct s_gtk_tools *g);
-
 
 /*
 ** Free Functions

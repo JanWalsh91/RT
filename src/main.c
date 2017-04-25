@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/25 14:31:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/25 15:13:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,36 @@ void on_window_main_destroy()
 
 void window_destroy(GtkWidget *widget, void *ouais)
 {
-	gtk_widget_destroy (widget);
+	gtk_widget_destroy (ouais ? GTK_WIDGET(ouais) : widget);
 }
 
-static void put_pixel(GdkPixbuf *pixbuf, int x, int y, guchar red, guchar green, guchar blue, guchar alpha)
-     {
-       int width, height, rowstride, n_channels;
-       guchar *pixels, *p;
+// static void put_pixel(GdkPixbuf *pixbuf, int x, int y, guchar red, guchar green, guchar blue, guchar alpha)
+//      {
+//        int width, height, rowstride, n_channels;
+//        guchar *pixels, *p;
      
-       n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+//        n_channels = gdk_pixbuf_get_n_channels (pixbuf);
      
-       width = gdk_pixbuf_get_width (pixbuf);
-       height = gdk_pixbuf_get_height (pixbuf);
+//        width = gdk_pixbuf_get_width (pixbuf);
+//        height = gdk_pixbuf_get_height (pixbuf);
      
-       g_assert (x >= 0 && x < width);
-       g_assert (y >= 0 && y < height);
+//        g_assert (x >= 0 && x < width);
+//        g_assert (y >= 0 && y < height);
      
-       rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-       pixels = gdk_pixbuf_get_pixels (pixbuf);
+//        rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+//        pixels = gdk_pixbuf_get_pixels (pixbuf);
      
-       p = pixels + y * rowstride + x * n_channels;
-       p[0] = red;
-       p[1] = green;
-       p[2] = blue;
-    //    p[3] = alpha;
-	   if (x < 5 && y < 5)
-	   {
-	   		printf("r: [%d] g: [%d] b: [%d] \n", red, green, blue);
-	   		printf("%d\n", p[0]);
-	   }
-}
+//        p = pixels + y * rowstride + x * n_channels;
+//        p[0] = red;
+//        p[1] = green;
+//        p[2] = blue;
+//     //    p[3] = alpha;
+// 	   if (x < 5 && y < 5)
+// 	   {
+// 	   		printf("r: [%d] g: [%d] b: [%d] \n", red, green, blue);
+// 	   		printf("%d\n", p[0]);
+// 	   }
+// }
     
 
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
@@ -78,8 +78,6 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object 	*obj;
 	GtkWidget	*widget2;
-	pthread_t	thread_sdl;
-	// cairo_t		cr;
 
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
@@ -91,26 +89,26 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 		update_objects_info_panel(g, obj);
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
-	g->sdl = 1;
 
 	GtkWidget *drawing_area;
 	g->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	g_signal_connect(g->win,"destroy", G_CALLBACK(window_destroy), NULL);
-
+	g_signal_connect(g->win, "destroy", G_CALLBACK(window_destroy), NULL);
+	GClosure* closure = g_cclosure_new(G_CALLBACK(window_destroy), g->win, 0);
+    GtkAccelGroup* accel_group = gtk_accel_group_new();
+    gtk_accel_group_connect(accel_group,
+                            GDK_KEY_Escape,
+                            0,
+                            0,
+                            closure);
+gtk_window_add_accel_group(GTK_WINDOW(g->win), accel_group);
 	drawing_area = gtk_drawing_area_new();
 	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
 	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);
 
-	// render(g->r);
-	// draw_callback(g);
 	g_signal_connect(G_OBJECT(drawing_area), "draw", G_CALLBACK(draw_callback), g);
 
 	gtk_widget_show_all(g->win);
-	// rt(g);
-	// init_sdl(g->r->scene, &g->env);
-	// print_scenes(g->r->d_scene);
-	// pthread_create(&thread_sdl, NULL, (void *)rt, g);
 	return (NULL);
 }
 

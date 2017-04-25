@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/25 14:41:27 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/25 14:54:36 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ LIB_PATH = Libft/
 LIBMATH_PATH = Libmathft/
 
 SRC = 		main \
-			rt
 
 PARSING = 	get_color \
 			get_file \
@@ -166,10 +165,6 @@ $(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) 
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
-	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
-
-$(OBJ_DIR)/%.o : ./src/sdl/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
 	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 

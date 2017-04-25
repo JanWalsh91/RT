@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/25 14:27:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/25 14:54:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ typedef struct	s_gtk_tools
 	GtkWidget					*win;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
-	int							sdl;
-	int							quit;
 	int							ac;
 	char						**av;
 	GdkPixbuf					*pixbuf;
