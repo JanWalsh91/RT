@@ -1,13 +1,52 @@
 
 window {
-	border-style: dashed;
+	border-style: none;
 	background-color: grey;
 }
-/*
-list row{
-	border-width: 100px;
-	border-width: 20px;
-	border-color: red;
-	color: blue;
+
+row > label{
+	padding: 8px;
+	border-bottom-style: double;
+	border-bottom-width: 2px;
+	border-bottom-color: grey;
 	font-size: 15px;
-}*/
+}
+
+tab > label{
+	font-size: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+row:selected {  
+	background-color: #DDDDFF; 
+}
+row:selected > label{  
+	color: black; 
+}
+row:active > label{  
+	color: grey;
+}
+row:active{
+	background-color: #CCCCDD;
+}
+
+
+scrolledwindow undershoot {
+	background-image: none;
+}
+
+scrolledwindow{
+	border-style: none;
+}
+
+separator {
+	margin-right: 10px;
+	background-color: grey;
+	min-width: 2px;
+}
+
+viewport > list {
+	border: 5px;
+}
+
