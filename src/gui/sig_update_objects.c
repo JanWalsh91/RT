@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/25 15:59:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 15:28:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	*update_grid_objects(t_gtk_tools *g) //change name
 	gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
 	while (obj)
 	{
-		label = gtk_label_new(obj->name);
+		label = gtk_label_new (obj->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
-		obj = obj->next;
+		obj = obj->next; 
 	}
 	if (!g->r->scene->objects)
 		return (NULL);
