@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:29:34 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:09:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ void	set_default_col(t_scene *scene, int type, void *obj, t_vec3 *col)
 }
 
 void	set_default_intensity(t_scene *scene, int type,
-		void *obj, double *intensity)
+		void *obj, float *intensity)
 {
 	data_warning(scene, type, ((t_light *)obj),
 		"Providing default intensity.");
 	*intensity = DEFAULT_INTENSITY;
 }
 
-void	set_default_radius(t_scene *scene, int type, void *obj, double *radius)
+void	set_default_radius(t_scene *scene, int type, void *obj, float *radius)
 {
 	if (type == T_CONE || type == T_CYLINDER || type == T_SPHERE)
 		data_warning(scene, type, ((t_object *)obj),

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 17:59:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,7 @@ void	*sig_update_cam_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	cam->dir = v_norm(v_sub(cam->look_at, cam->pos));
 
 	if (cam->dir.x == 0 && cam->dir.y == 0 && cam->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraLookAtX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), cam->look_at.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionX"));
@@ -265,7 +265,7 @@ void	*sig_update_cam_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
 	cam->dir = v_norm(v_sub(cam->look_at, cam->pos));
 
 	if (cam->dir.x == 0 && cam->dir.y == 0 && cam->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraLookAtY"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), cam->look_at.y);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionX"));
@@ -290,7 +290,7 @@ void	*sig_update_cam_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	cam->dir = v_norm(v_sub(cam->look_at, cam->pos));
 
 	if (cam->dir.x == 0 && cam->dir.y == 0 && cam->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraLookAtZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), cam->look_at.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionX"));
@@ -316,7 +316,7 @@ void	*sig_update_cam_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 		return (NULL); // INVALID OBJ POS
 	cam->dir = v_norm(v_sub(look_at, cam->pos));
 	if (cam->dir.x == 0 && cam->dir.y == 0 && cam->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraLookAtX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraLookAtY"));

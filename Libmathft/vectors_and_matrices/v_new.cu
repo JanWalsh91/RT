@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 14:22:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:26:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:17:07 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 __host__ __device__
-t_vec3	v_new(double x, double y, double z)
+t_vec3	v_new(float x, float y, float z)
 {
 	t_vec3	new_v;
 

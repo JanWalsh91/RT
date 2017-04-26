@@ -6,14 +6,14 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/25 14:54:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:51:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GUI_H
 # define GUI_H
 
-# define SAVE_DOUBLE_PRECISION 4
+# define SAVE_FLOAT_PRECISION 4
 
 
 #include "rt.cuh"
@@ -57,7 +57,7 @@ void			save_camera(int fd, t_camera *cam);
 void			save_light(int fd, t_light *light);
 void			write_vector(int fd, t_vec3 vec);
 void			write_int(int fd, int i);
-void			write_double(int fd, double d);
+void			write_float(int fd, float d);
 void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g);
 
 /*

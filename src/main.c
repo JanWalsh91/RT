@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/25 15:57:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:03:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ void	*main_gtk(t_gtk_tools *g)
 	t_raytracing_tools	r;
 	int					i;
 	GtkCssProvider		*cssProvider;
+	GdkRectangle	res;
+	GtkAdjustment	*adj;
 
 	gtk_init(&g->ac, &g->av);
 	g->t = &t;
@@ -175,6 +177,15 @@ void	*main_gtk(t_gtk_tools *g)
 		open_scene(g, NULL);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "MenuItemQuit"));
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
+
+	gdk_monitor_get_geometry(gdk_display_get_monitor(gdk_display_get_default(), 0), &res);
+
+	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionX"));
+	gtk_adjustment_set_upper(adj, res.width);
+
+	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionY"));
+	gtk_adjustment_set_upper(adj, res.height);
+
     window = GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main"));
 	gtk_widget_show(window);
     gtk_main();

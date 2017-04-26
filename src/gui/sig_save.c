@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 15:20:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 12:02:13 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	save_scene(int fd, t_scene *scene)
 	write_vector(fd, (t_vec3)scene->ambient_light_color);
 	write(fd, "\n", 1);
 	write(fd, "\tka: ", 5);
-	write_double(fd, scene->ka);
+	write_float(fd, scene->ka);
 	write(fd, "\n", 1);
 	o_ptr = scene->objects;
 	while (o_ptr)
@@ -161,32 +161,32 @@ void	save_object(int fd, t_object *obj)
 	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE)
 	{
 		write(fd, "\t\tradius: ", 10);
-		write_double(fd, obj->rad);
+		write_float(fd, obj->rad);
 		write(fd, "\n", 1);
 	}
 	if (obj->type == T_CYLINDER || obj->type == T_CONE)
 	{
 		write(fd, "\t\theight: ", 10);
-		write_double(fd, obj->height);
+		write_float(fd, obj->height);
 		write(fd, "\n", 1);
 	}
 	write(fd, "\t\tkd: ", 6);
-	write_double(fd, obj->kd);
+	write_float(fd, obj->kd);
 	write(fd, "\n", 1);
 	write(fd, "\t\tks: ", 6);
-	write_double(fd, obj->ks);
+	write_float(fd, obj->ks);
 	write(fd, "\n", 1);
 	write(fd, "\t\tspecular exponent: ", 21);
-	write_double(fd, obj->specular_exp);
+	write_float(fd, obj->specular_exp);
 	write(fd, "\n", 1);
 	write(fd, "\t\tior: ", 7);
-	write_double(fd, obj->ior);
+	write_float(fd, obj->ior);
 	write(fd, "\n", 1);
 	write(fd, "\t\ttransparency: ", 16);
-	write_double(fd, obj->transparency);
+	write_float(fd, obj->transparency);
 	write(fd, "\n", 1);
 	write(fd, "\t\treflection: ", 14);
-	write_double(fd, obj->reflection);
+	write_float(fd, obj->reflection);
 	write(fd, "\n\t}\n", 4);
 }
 
@@ -253,17 +253,17 @@ void	write_vector(int fd, t_vec3 vec)
 {
 	char 	*tmp;
 
-	write_double(fd, vec.x);
+	write_float(fd, vec.x);
 	write(fd, ", ", 2);
-	write_double(fd, vec.y);
+	write_float(fd, vec.y);
 	write(fd, ", ", 2);
-	write_double(fd, vec.z);
+	write_float(fd, vec.z);
 }
 
-void	write_double(int fd, double d)
+void	write_float(int fd, float d)
 {
 	char 	*tmp;
-	double	tmp2;
+	float	tmp2;
 	int		i;
 	
 	if (d < 0.0)
@@ -276,14 +276,14 @@ void	write_double(int fd, double d)
 	free(tmp);
 	write(fd, ".", 1);
 	i = -1;
-	tmp2 = d - (double)(int)d;
-	while (++i < SAVE_DOUBLE_PRECISION)
+	tmp2 = d - (float)(int)d;
+	while (++i < SAVE_FLOAT_PRECISION)
 	{
 		tmp2 *= 10.0;
 		tmp = ft_itoa((int)tmp2);
 		write(fd, tmp, 1);
 		free(tmp);
-		tmp2 -= (double)(int)tmp2;
+		tmp2 -= (float)(int)tmp2;
 	}
 }
 

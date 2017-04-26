@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/19 13:48:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void		*export_image(void *data)
 		write(fd, &r, sizeof(BYTE));
 		if (i % th_export->g->r->scene->res.x == 0)
 		{
-			th_export->progress = (double)i / (th_export->g->r->scene->res.x * th_export->g->r->scene->res.y) + 0.1;
+			th_export->progress = (float)i / (th_export->g->r->scene->res.x * th_export->g->r->scene->res.y) + 0.1;
 			// printf("%f\n", th_export->progress);
 		}	
 	}

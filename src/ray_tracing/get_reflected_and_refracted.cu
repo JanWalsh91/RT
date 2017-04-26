@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 18:30:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:15:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 __device__
 t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray)
 {
-	double	f;
+	float	f;
 	t_ray	reflection;
 	t_ray	refraction;
 	t_color	col;

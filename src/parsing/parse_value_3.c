@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:13:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 13:03:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/25 16:38:50 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ char		*parse_resolution(t_parse_tools *t)
 		return ("Resolution formatting error.");
 	// if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 2560 ||
 	// 	(new_res.y = ft_atoi(s2[1])) < 1 || new_res.y > 1600)
-	if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 1000 || // TODO
-	(new_res.y = ft_atoi(s2[1])) < 1 || new_res.y > 1000)
+	if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 4000 || // TODO: max value ?
+	(new_res.y = ft_atoi(s2[1])) < 1 || new_res.y > 4000)
 	{
 		invalid = true;
 		rt_file_warning(t, "Resolution width and height invalid.");

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 17:10:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/03 12:22:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 12:58:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@
 */
 
 __host__ __device__
-t_matrix	*m_new_scale(double i)
+void	m_new_scale(t_matrix *m, float i)
 {
-	t_matrix	*m;
-
-	m = m_new_identity();
 	(*m)[0][0] = i;
 	(*m)[1][1] = i;
 	(*m)[2][2] = i;
-	return (m);
 }

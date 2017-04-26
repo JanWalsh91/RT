@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/06 10:56:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:15:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ __device__
 static void	get_cylinder_normal(t_ray *ray, t_object *obj)
 {
 	t_vec3	x;
-	double	m;
+	float	m;
 
 	x = v_sub(ray->origin, obj->pos);
 	m = v_dot(ray->dir, v_scale(obj->dir, ray->t)) + v_dot(x, obj->dir);

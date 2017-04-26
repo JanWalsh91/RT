@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/23 11:05:44 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/26 11:25:56 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,8 +49,8 @@ MISC = 	ft_abs \
 		ft_rgb_mix \
 		ft_to_radian \
 		ft_swap \
-		ft_swapd \
-		ft_clampd
+		ft_swapf \
+		ft_clampf
 
 OBJ_DIR = obj
 

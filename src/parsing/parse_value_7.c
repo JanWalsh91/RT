@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 11:49:24 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 
 char	*parse_fov(t_parse_tools *t)
 {
-	double	new_fov;
+	float	new_fov;
 
 	new_fov = NAN;
-	if (isnan(new_fov = parse_double(t->input->value)) ||
+	if (isnan(new_fov = parse_float(t->input->value)) ||
 		new_fov < 1 || new_fov > 179)
 		return ("FOV index formatting error.\n\
-The field of view is a double between 1 and 179.");
+The field of view is a float between 1 and 179.");
 	if (!t->in_scene)
 		t->global_attributes->fov = new_fov;
 	else if (!t->in_object)
@@ -38,13 +38,13 @@ The field of view is a double between 1 and 179.");
 
 char	*parse_intensity(t_parse_tools *t)
 {
-	double	new_intensity;
+	float	new_intensity;
 
 	new_intensity = NAN;
-	if (isnan(new_intensity = parse_double(t->input->value)) ||
+	if (isnan(new_intensity = parse_float(t->input->value)) ||
 		new_intensity < 0)
 		return ("Intensity index formatting error.\
-Intensity is a positive double.");
+Intensity is a positive float.");
 	if (!t->in_scene)
 		t->global_attributes->intensity = new_intensity;
 	else if (!t->in_object)

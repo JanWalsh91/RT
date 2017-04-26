@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_scale.cu                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:25:08 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 13:43:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 11:57:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 __host__ __device__
-t_color	c_scale(t_color v, double i)
+t_color	c_scale(t_color v, float i)
 {
 	t_color	col;
 

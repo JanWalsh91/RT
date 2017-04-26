@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 14:54:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ char	*parse_color(t_parse_tools *t)
 
 char	*parse_radius(t_parse_tools *t)
 {
-	double	new_radius;
+	float	new_radius;
 
 	new_radius = NAN;
-	if (isnan(new_radius = parse_double(t->input->value)) ||
+	if (isnan(new_radius = parse_float(t->input->value)) ||
 		new_radius <= 0)
 		return ("Radius formatting error.");
 	if (!t->in_scene)
@@ -80,10 +80,10 @@ to spheres, cones, cylinders and disks.");
 
 char	*parse_height(t_parse_tools *t)
 {
-	double	new_height;
+	float	new_height;
 
 	new_height = NAN;
-	if (isnan(new_height = parse_double(t->input->value)) ||
+	if (isnan(new_height = parse_float(t->input->value)) ||
 		new_height <= 0)
 		return ("Height formatting error.");
 	if (!t->in_scene)
@@ -100,13 +100,13 @@ char	*parse_height(t_parse_tools *t)
 
 char	*parse_diffuse_coef(t_parse_tools *t)
 {
-	double	new_diffuse_coef;
+	float	new_diffuse_coef;
 
 	new_diffuse_coef = NAN;
-	if (isnan(new_diffuse_coef = parse_double(t->input->value)) ||
+	if (isnan(new_diffuse_coef = parse_float(t->input->value)) ||
 		new_diffuse_coef < 0 || new_diffuse_coef > 1)
 		return ("Diffuse coefficient formatting error.\n\
-The diffuse coefficient is a double between 0 and 1.");
+The diffuse coefficient is a float between 0 and 1.");
 	if (!t->in_scene)
 		t->global_attributes->kd = new_diffuse_coef;
 	else if (!t->in_object)

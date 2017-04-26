@@ -6,16 +6,16 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 14:40:24 by tgros             #+#    #+#             */
-/*   Updated: 2017/03/31 15:26:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:16:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libmathft.cuh"
 
 __host__ __device__
-double	v_dist(t_vec3 v1, t_vec3 v2)
+float	v_dist(t_vec3 v1, t_vec3 v2)
 {
-	double	dist;
+	float	dist;
 
 	dist = sqrt(pow(v1.x - v2.x, 2)
 			+ pow(v1.y - v2.y, 2)

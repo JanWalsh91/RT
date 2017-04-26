@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 15:24:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/01 12:36:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:53:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,6 @@ void			ft_display_usage_exit(char *usage);
 int				ft_strscmp(const char *s1, const char **s);
 int				ft_charcount(char *s, char c);
 void			ft_errno_exit(void);
-double			ft_atod(const char *str);
+float			ft_atof(const char *str);
 
 #endif

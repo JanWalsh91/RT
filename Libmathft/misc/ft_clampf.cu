@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swapd.c                                         :+:      :+:    :+:   */
+/*   ft_clampf.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/20 11:02:28 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/18 15:39:55 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/02/22 14:13:21 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/04/26 11:28:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libmathft.cuh"
-
 /*
-** Swaps the values of doubles pointed to by a and b.
+** Changes the value of int i to max if i > max, or to min if i < min.
 */
 
-__host__ __device__
-void	ft_swapd(double *a, double *b)
-{
-	double tmp;
+#include "libmathft.cuh"
 
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+__host__ __device__
+float	ft_clampf(float i, float min, float max)
+{
+	i < min ? i = min : 0;
+	i > max ? i = max : 0;
+	return (i);
 }
