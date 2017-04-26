@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/25 14:54:36 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/26 11:56:43 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ PARSING = 	get_color \
 			parse_value_8 \
 			parse_value_9 \
 			parse_vector \
-			parse_double \
+			parse_float \
 			reset_attributes \
 			set_attributes_1 \
 			set_attributes_2 \

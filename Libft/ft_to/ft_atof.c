@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atod.c                                          :+:      :+:    :+:   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/13 11:17:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 14:58:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:55:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
 /*
-** Converts an array into a double. To be improvd.
+** Converts an array into a float. To be improvd.
 */
 
-double	ft_atod(const char *str)
+float	ft_atof(const char *str)
 {
-	double	result;
+	float	result;
 	int		i;
-	double	divider;
-	double	sign;
+	float	divider;
+	float	sign;
 
 	if (!str)
 		return (0);

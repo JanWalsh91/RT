@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cylinder_intersection.cu                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:27:49 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 11:20:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool		get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 	if (!solve_quadratic(i.q, &i.r1, &i.r2))
 		return (false);
 	if (i.r2 < i.r1)
-		ft_swapd(&i.r1, &i.r2);
+		ft_swapf(&i.r1, &i.r2);
 	get_finite_cylinder_intersection(r, ray, index, &i);
 	(i.r1 < 0 || isnan(i.r1)) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0 || isnan(i.r1))

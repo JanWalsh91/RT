@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/01 12:36:22 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/26 11:54:29 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,7 +129,7 @@ FT_TO = ft_atoi \
 		ft_tolower \
 		ft_strtolower \
 		ft_strtoupper \
-		ft_atod
+		ft_atof
 
 FT_PRINTF = ft_printf \
 		check_flags \

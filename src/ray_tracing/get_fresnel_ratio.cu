@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fresnel_ratio.cu                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 14:25:09 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 12:25:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 11:29:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@
 */
 
 __device__
-static double	get_fresnel_ratio2(double cosi, double etai, double etat, double sint);
+static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint);
 
 __device__
-double			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, double ior)
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior)
 {
-	double	cosi;
-	double	etai;
-	double	etat;
-	double	sint;
+	float	cosi;
+	float	etai;
+	float	etat;
+	float	sint;
 
-	cosi = ft_clampd(v_dot(ray_dir, normal), -1, 1);
+	cosi = ft_clampf(v_dot(ray_dir, normal), -1, 1);
 	etai = 1;
 	etat = ior;
 	if (cosi  > 0)
-		ft_swapd(&etai, &etat);
+		ft_swapf(&etai, &etat);
 	sint = etai / etat * __dsqrt_rn(1 - cosi * cosi > 0.0 ? 1 - cosi * cosi > 0.0 : 0.0);
 	if (sint >= 1) 
 		return (1);
@@ -41,11 +41,11 @@ double			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, double ior)
 }
 
 __device__
-static double	get_fresnel_ratio2(double cosi, double etai, double etat, double sint)
+static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint)
 {
-	double	cost;
-	double 	Rs;
-	double	Rp;
+	float	cost;
+	float 	Rs;
+	float	Rp;
 
 	cost = __dsqrt_rn((1 - sint * sint > 0 ? 1 - sint * sint : 0.0)); 
     cosi = cosi < 0 ? -cosi : cosi; 

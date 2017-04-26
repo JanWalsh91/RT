@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:29:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:09:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** - specular exponent (specular_exp)
 */
 
-void	set_default_fov(t_scene *scene, int type, void *obj, double *fov)
+void	set_default_fov(t_scene *scene, int type, void *obj, float *fov)
 {
 	if (type == T_CAMERA)
 		data_warning(scene, type, ((t_camera *)obj),
@@ -28,7 +28,7 @@ void	set_default_fov(t_scene *scene, int type, void *obj, double *fov)
 	*fov = DEFAULT_FOV;
 }
 
-void	set_default_ks(t_scene *scene, int type, void *obj, double *ks)
+void	set_default_ks(t_scene *scene, int type, void *obj, float *ks)
 {
 	if (type == T_CONE || type == T_CYLINDER ||
 		type == T_SPHERE || type == T_PLANE)
@@ -37,7 +37,7 @@ void	set_default_ks(t_scene *scene, int type, void *obj, double *ks)
 	*ks = DEFAULT_KS;
 }
 
-void	set_default_kd(t_scene *scene, int type, void *obj, double *kd)
+void	set_default_kd(t_scene *scene, int type, void *obj, float *kd)
 {
 	if (type == T_CONE || type == T_CYLINDER ||
 		type == T_SPHERE || type == T_PLANE)
@@ -47,7 +47,7 @@ void	set_default_kd(t_scene *scene, int type, void *obj, double *kd)
 }
 
 void	set_default_specular_exp(t_scene *scene, int type,
-		void *obj, double *specular_exp)
+		void *obj, float *specular_exp)
 {
 	if (type == T_CONE || type == T_CYLINDER ||
 		type == T_SPHERE || type == T_PLANE)

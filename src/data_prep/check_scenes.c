@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_scenes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 12:38:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 12:04:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char		*check_scenes(t_scene *scenes)
 		isnan(s_ptr->ka) ? set_default_ka(s_ptr) : 0;
 		v_isnan(s_ptr->ambient_light_color) ?
 			set_default_ambient_light_color(s_ptr) : 0;
-		s_ptr->image_aspect_ratio = (double)s_ptr->res.x / (double)s_ptr->res.y;
+		s_ptr->image_aspect_ratio = (float)s_ptr->res.x / (float)s_ptr->res.y;
 		(s_ptr->ray_depth == -1) ? set_default_ray_depth(s_ptr) : 0;
 		check_cameras(s_ptr, s_ptr->cameras);
 		check_lights(s_ptr, s_ptr->lights);

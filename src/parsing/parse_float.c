@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_double.c                                     :+:      :+:    :+:   */
+/*   parse_float.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,12 +13,12 @@
 #include "../../inc/rt.cuh"
 
 /*
-** Parses a double.
+** Parses a float.
 */
 
-double	parse_double(char *value)
+float	parse_float(char *value)
 {
-	double	new_d;
+	float	new_d;
 	int		i;
 
 	new_d = NAN;
@@ -31,6 +31,6 @@ double	parse_double(char *value)
 		if (!((ft_isdigit(value[i]) || value[i] == '-' ||
 			value[i] == '+') || value[i] == '.'))
 			return (new_d);
-	new_d = ft_atod(value);
+	new_d = ft_atof(value);
 	return (new_d);
 }

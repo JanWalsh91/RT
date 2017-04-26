@@ -1,6 +1,6 @@
 scene: spheres fantaisie
 {
-	resolution: 1000, 1000
+	resolution: 2000, 1000
 	ray depth: 2
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000

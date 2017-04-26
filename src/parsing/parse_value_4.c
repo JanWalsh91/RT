@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:16:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 14:53:08 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ not an object attribute.");
 
 char	*parse_ka(t_parse_tools *t)
 {
-	double	new_intensity;
+	float	new_intensity;
 
 	new_intensity = NAN;
-	if (isnan(new_intensity = parse_double(t->input->value)) ||
+	if (isnan(new_intensity = parse_float(t->input->value)) ||
 		new_intensity < 0 || new_intensity > 1)
 		return ("Ambient light coefficient formatting error.");
 	if (!t->in_scene)

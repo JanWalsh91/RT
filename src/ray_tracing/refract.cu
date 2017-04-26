@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refract.cu                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 15:37:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/17 12:24:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 11:30:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 */
 
 __device__
-t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, double ior)
+t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, float ior)
 {
-	double	cosi;
-	double	etai;
-	double	etat;
-	double	eta;
+	float	cosi;
+	float	etai;
+	float	etat;
+	float	eta;
 	float	k;
 	t_vec3	n;
 
-	cosi = ft_clampd(v_dot(ray_dir, nhit), -1, 1);
+	cosi = ft_clampf(v_dot(ray_dir, nhit), -1, 1);
 	etai = 1;
 	etat = ior;
 	n = nhit;
@@ -35,7 +35,7 @@ t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, double ior)
 		cosi = -cosi;
 	else
 	{
-		ft_swapd(&etai, &etat);
+		ft_swapf(&etai, &etat);
 		n = v_scale(nhit, -1);
 	}
 	eta = etai / etat;

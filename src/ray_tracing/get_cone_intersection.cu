@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cone_intersection.cu                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/08 15:37:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 11:20:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ __device__
 static void	get_finite_cone_intersection(t_ray *ray,
 	t_object *object, t_intersection_tools *i);
 __device__
-static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
+static bool	lower_than_min(float r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray);
 __device__
-static bool	higher_than_max(double r, t_intersection_tools *i, t_object *obj,
+static bool	higher_than_max(float r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray);
 
 /*
@@ -43,7 +43,7 @@ bool		get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
 	if (!solve_quadratic(i.q, &i.r1, &i.r2) || (i.r1 < 0 && i.r2 < 0))
 		return (false);
 	if (i.r2 < i.r1)
-		ft_swapd(&i.r1, &i.r2);
+		ft_swapf(&i.r1, &i.r2);
 	get_finite_cone_intersection(ray, &r->scene->objects[index], &i);
 	(i.r1 < 0 || isnan(i.r1)) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0 || isnan(i.r1))
@@ -81,7 +81,7 @@ static void	get_finite_cone_intersection(t_ray *ray,
 }
 
 __device__
-static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
+static bool	lower_than_min(float r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray)
 {
 	if (r > 0)
@@ -96,7 +96,7 @@ static bool	lower_than_min(double r, t_intersection_tools *i, t_object *obj,
 }
 
 __device__
-static bool	higher_than_max(double r, t_intersection_tools *i, t_object *obj,
+static bool	higher_than_max(float r, t_intersection_tools *i, t_object *obj,
 	t_ray *ray)
 {
 	if (r > 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/24 11:59:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	printf("sig_update_res_x\n");
 	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
-	g->r->scene->image_aspect_ratio = (double)g->r->scene->res.x / (double)g->r->scene->res.y;
+	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	// cuda_free(g->r);
 	// cuda_malloc(g->r);
@@ -69,7 +69,7 @@ void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 void	*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	g->r->scene->res.y = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
-	g->r->scene->image_aspect_ratio = (double)g->r->scene->res.x / (double)g->r->scene->res.y;
+	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	return (NULL);
 }
 

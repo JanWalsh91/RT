@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cameras.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/05 15:36:08 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/11 17:08:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/26 13:23:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 void	init_camera(t_scene *scene, t_camera *cam)
 {
 	// int	y;
-
 	cam->pixel_map = NULL;
 	if (!(cam->pixel_map = (t_color *)ft_memalloc(scene->res.y * scene->res.x *
 		sizeof(t_color))))
@@ -60,7 +59,7 @@ void	update_camera_ctw(t_camera *camera)
 	else
 		right = v_norm(v_cross(v_new(0, 1, 0), forward));
 	up = v_norm(v_cross(forward, right));
-	ft_memcpy(camera->ctw, *m_new_identity(), sizeof(t_matrix));
+	m_new_identity(&camera->ctw);
 	camera->ctw[0][0] = right.x;
 	camera->ctw[0][1] = right.y;
 	camera->ctw[0][2] = right.z;

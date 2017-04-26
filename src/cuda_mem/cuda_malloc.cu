@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 18:32:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/25 16:56:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
    }
 }
 
-t_light		*list_to_array_lights(t_light *light);
+t_light			*list_to_array_lights(t_light *light);
 t_object		*list_to_array_objects(t_object *object);
 size_t			get_objects_array_length(t_object *objects);
 size_t			get_lights_array_length(t_light *lights);
@@ -40,9 +40,6 @@ int	cuda_malloc(t_raytracing_tools *r)
 	memcpy(r->h_d_scene, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  );
 	if (r->update.resolution == 2)
 	{
-		printf("malloc d_pixel_map\n");
-		// r->scene->cameras->pixel_map = (t_color *)malloc(sizeof(t_color) * r->scene->res.y * r->scene->res.x);
-		// cudaMallocManaged(&r->scene->cameras->pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x);
 		gpuErrchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
 	}
 	if (r->update.ray_depth == 2)

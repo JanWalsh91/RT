@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:24:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:26:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:16:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 */
 
 __host__ __device__
-double	v_dot(t_vec3 vec1, t_vec3 vec2)
+float	v_dot(t_vec3 vec1, t_vec3 vec2)
 {
 	return (vec1.x * vec2.x +
 			vec1.y * vec2.y +

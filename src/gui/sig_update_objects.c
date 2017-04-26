@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/25 15:59:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,9 +299,12 @@ void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 	if (obj->pos.x == gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button)))
 		return (NULL);
 	obj->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.objects = 1;
-	cuda_malloc(g->r);
-	gtk_widget_queue_draw(g->win);
+	if (g->r->update.render == 0)
+	{
+		g->r->update.objects = 1;
+		cuda_malloc(g->r);
+		g->win ? gtk_widget_queue_draw(g->win) : 0;
+	}
 	return (NULL);
 }
 
@@ -312,6 +315,9 @@ void	*sig_update_obj_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_pos_y\n");
 	obj = get_selected_object(g);
 	obj->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -322,6 +328,9 @@ void	*sig_update_obj_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_pos_z\n");
 	obj = get_selected_object(g);
 	obj->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -338,7 +347,7 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 
 	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
@@ -349,6 +358,9 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -363,7 +375,7 @@ printf("sig_update_obj_lookat_y\n");
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 
 	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.y);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
@@ -374,6 +386,9 @@ printf("sig_update_obj_lookat_y\n");
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -388,7 +403,7 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
 
 	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
@@ -399,6 +414,9 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -432,6 +450,9 @@ t_vec3		get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g)
 		camera = camera->next;
 	if (i == id)
 		return (camera->pos);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (v_new(NAN, NAN, NAN));
 }
 
@@ -447,7 +468,7 @@ void	*sig_update_obj_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 		return (NULL); // INVALID OBJ POS
 	obj->dir = v_norm(v_sub(look_at, obj->pos));
 	if (obj->dir.x == 0 && obj->dir.y == 0 && obj->dir.x == 0)
-		return (NULL); // NUll direction is invalid (comparision works with doubles?)
+		return (NULL); // NUll direction is invalid (comparision works with floats?)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
@@ -463,6 +484,9 @@ void	*sig_update_obj_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -477,6 +501,9 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -490,6 +517,9 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -503,6 +533,9 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -517,6 +550,9 @@ void	*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, FALSE);
 	update_objects_info_panel(g, obj);
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 // TODO: UPDATE OBJECT ROTATION
@@ -534,6 +570,9 @@ void	*sig_update_obj_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	obj->col.x = color.red * 255;
 	obj->col.y = color.green * 255;
 	obj->col.z = color.blue * 255;
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -546,6 +585,9 @@ void	*sig_update_obj_ks(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_ks\n");
 	obj = get_selected_object(g);
 	obj->ks = gtk_range_get_value(GTK_RANGE(scale));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -558,6 +600,12 @@ void	*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_spec_exp\n");
 	obj = get_selected_object(g);
 	obj->specular_exp = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (g->r->update.render == 0)
+	{
+		g->r->update.objects = 1;
+		cuda_malloc(g->r);
+		g->win ? gtk_widget_queue_draw(g->win) : 0;
+	}
 	return (NULL);
 }
 
@@ -570,6 +618,9 @@ void	*sig_update_obj_kd(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_kd\n");
 	obj = get_selected_object(g);
 	obj->kd = gtk_range_get_value(GTK_RANGE(scale));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -582,6 +633,9 @@ void	*sig_update_obj_kt(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_transparency\n");
 	obj = get_selected_object(g);
 	obj->transparency = gtk_range_get_value(GTK_RANGE(scale));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -594,6 +648,9 @@ void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_ior\n");
 	obj = get_selected_object(g);
 	obj->ior = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -606,6 +663,9 @@ void	*sig_update_obj_kreflection(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_kreflection\n");
 	obj = get_selected_object(g);
 	obj->reflection = gtk_range_get_value(GTK_RANGE(scale));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -618,6 +678,9 @@ void	*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_radius\n");
 	obj = get_selected_object(g);
 	obj->rad = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }
 
@@ -630,5 +693,8 @@ void	*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_height\n");
 	obj = get_selected_object(g);
 	obj->height = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	g->r->update.objects = 1;
+	cuda_malloc(g->r);
+	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (NULL);
 }

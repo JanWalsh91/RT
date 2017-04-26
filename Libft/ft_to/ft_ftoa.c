@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dtoa.c                                          :+:      :+:    :+:   */
+/*   ft_ftoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 17:30:21 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:00:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:55:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 ** work in progress...
 */
 
-char	*ft_dtoa(double n)
+char	*ft_ftoa(float n)
 {
 	char	*str;
-	double	nb;
+	float	nb;
 	int		count;
 	int		i;
 	char	*integral;
