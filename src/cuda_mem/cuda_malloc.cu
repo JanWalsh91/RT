@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/25 16:56:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/27 13:07:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	cuda_malloc(t_raytracing_tools *r)
 	if (r->update.resolution == 2)
 	{
 		gpuErrchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
+		if (r->scene->is_3d)
+			gpuErrchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
 	}
 	if (r->update.ray_depth == 2)
 	{
@@ -67,9 +69,10 @@ int	cuda_malloc(t_raytracing_tools *r)
 	{
 		if (r->update.cameras == 2)
 		{
-			printf("Malloc cameras\n");
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->cameras), sizeof(t_camera)));
 		}
+		if (r->scene->is_3d) // l'enlever si on decoche l'opt 3d
+			r->scene->cameras->filter = F_LEFT_RED;
 		gpuErrchk((cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice)));
 	}
 	if (r->update.scene == 2)
@@ -84,7 +87,7 @@ int	cuda_malloc(t_raytracing_tools *r)
 	r->update.cameras = 0;
 	r->update.scene = 0;
 	r->update.ray_depth = 0;
-	r->update.render = 1;
+	r->update.render = 0;
 	// printf("RENDER ADDR %p\n", &r->update.render);
 	C(2)
 	return (1);

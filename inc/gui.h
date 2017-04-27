@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/26 11:51:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/27 16:33:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_gtk_tools
 	int							ac;
 	char						**av;
 	GdkPixbuf					*pixbuf;
+	cairo_t						*cr;
 	size_t						stack_size;
 }				t_gtk_tools;
 

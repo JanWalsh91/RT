@@ -6,12 +6,13 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/27 12:00:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+#include "cuda_call.h"
 
 void	*update_grid_cameras(t_gtk_tools *g) //change name
 {
@@ -252,6 +253,12 @@ void	*sig_update_cam_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), cam->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
+	if (g->r->update.render == 0)
+	{
+		g->r->update.cameras = 1;
+		cuda_malloc(g->r);
+		g->win ? gtk_widget_queue_draw(g->win) : 0;
+	}
 	return (NULL);
 }
 

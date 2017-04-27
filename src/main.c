@@ -6,17 +6,18 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:03:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/27 17:22:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/rt.cuh"
 #include "../inc/gui.h"
 #include "../inc/cuda_call.h"
+#include <time.h>
+ 
+ 
+ #include <pthread.h>
 
-#include <pthread.h>
- 
- 
 // called when window is closed
 void on_window_main_destroy()
 {
@@ -33,20 +34,95 @@ void window_destroy_esc(GtkWidget *widget, void *ouais)
 	gtk_widget_destroy (GTK_WIDGET(ouais));
 }
 
+void	increment_tile(t_pt2 *tileId, int size, t_pt2 res)
+{
+	if (++tileId->x == res.x / size + 1)
+	{
+		tileId->x = 0;
+		++tileId->y;
+	}
+}
+
+void *render_wrapper(gpointer data)
+{
+	t_gtk_tools	*g;
+	t_pt2		tileId;
+	int			max_tile;
+	printf("render_wa\n");
+
+	g = (t_gtk_tools *)data;
+	// if (!g->pixbuf)
+	// 	free(g->pixbuf); // leaks / WTF
+	g->r->settings.tile_size = 32 * 3;
+	g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
+	tileId.x = 0;
+	tileId.y = 0;
+	// max_tile = (g->r->scene->res.x / g->r->settings.tile_size + (g->r->scene->res.x % g->r->settings.tile_size) ? 1 : 0) *
+	// 		   (g->r->scene->res.y / g->r->settings.tile_size + (g->r->scene->res.y % g->r->settings.tile_size) ? 1 : 0);
+	max_tile = (g->r->scene->res.x / g->r->settings.tile_size + 1) *
+			(g->r->scene->res.y / g->r->settings.tile_size + 1);
+	cuda_malloc(g->r);
+	while (tileId.x * tileId.y < max_tile && g->win) //to FIX (theo)
+	{
+		printf("[%d, %d], max tile: [%d]\n", tileId.x, tileId.y, max_tile);
+		render(g->r, tileId);
+		// sleep(1);
+		ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * g->r->scene->res.y);
+		gtk_widget_queue_draw(g->win);
+		increment_tile(&tileId, g->r->settings.tile_size, g->r->scene->res);
+		printf("tileId.x * tileId.y: [%d]\n", tileId.x * tileId.y);
+	}
+	g->r->rendering = 0;
+	return (FALSE);
+}
+
+
+
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 {
-	if (g->r->update.render == 1)
+	printf("maman ?\n");
+	pthread_t	render_thread;
+
+	if (!g->cr)
 	{
-		if (!g->pixbuf)
-			free(g->pixbuf); // leaks
-		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
-		render(g->r);
-		memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * g->r->scene->res.y);
-		g->r->update.render = 0;
-		// exit(0);
+		// fill bbc
+		g->cr = cr;
 	}
-	gdk_cairo_set_source_pixbuf(cr, g->pixbuf, 0, 0);
-	cairo_paint(cr);
+	if (g->r->update.render == 1 && !g->r->rendering)
+	{
+		g->r->update.render = 0;
+		g->r->rendering = 1;
+		// g_thread_new (NULL, render_wrapper, g);
+		printf("Create a new thread\n");
+		// pthread_create(&render_thread, NULL, render_wrapper, g);
+		
+		g_thread_new ("Swaggy_turkey", render_wrapper, g);
+
+		
+		// gdk_threads_add_idle_full(1, render_wrapper, g, NULL);
+		// gtk_threads_idle_add(render_wrapper, g);
+
+		// GTask *task = g_task_new (NULL, NULL, shit, g);
+		// g_task_set_task_data (task, g, g_free);
+		// g_task_run_in_thread (task, render_wrapper);
+
+
+		//	/* Runs the count_to_five() function in a thread, and calls
+		// * count_to_five_done() when the thread terminates
+		// */
+		// GTask *task = g_task_new (label, cancellable, count_to_five_done, data);
+		// g_task_set_task_data (task, data, g_free);
+		// g_task_run_in_thread (task, count_to_five);
+		// g_object_unref (task);
+	}
+	if (g->pixbuf)
+	{
+		clock_t start = clock();
+		gdk_cairo_set_source_pixbuf(g->cr, g->pixbuf, 0, 0);
+		cairo_paint(g->cr);
+		clock_t end = clock();
+		printf("g_threas_new time: %f\n", (double)(end - start) / CLOCKS_PER_SEC);
+	}
 	return FALSE;
 }
 
@@ -70,7 +146,6 @@ void *sig_render(GtkWidget *widget, t_gtk_tools *g)
 	}
 
 	g->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
 	g_signal_connect(g->win, "destroy", G_CALLBACK(window_destroy), NULL);
 	closure = g_cclosure_new(G_CALLBACK(window_destroy_esc), g->win, 0);
     accel_group = gtk_accel_group_new();
@@ -128,6 +203,7 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	r->update.scene = 2;
 	r->update.ray_depth = 2;
 	r->update.render = 0;
+	r->rendering = 0;
 	r->scene = NULL;
 	r->d_scene = NULL;
 	r->h_d_scene = NULL;
@@ -135,6 +211,7 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	r->h_d_scene = (t_scene *)malloc(sizeof(t_scene));
 	printf("%p\n", r->h_d_scene);
 }
+
 
 int main(int ac, char **av)
 {
@@ -144,6 +221,7 @@ int main(int ac, char **av)
 	g.ac = ac;
 	g.av = av;
 	g.win = NULL;
+	g.cr = NULL;
 	if (ac >= 2)
 		g.filename = ft_strdup(av[1]);
 	main_gtk(&g);
@@ -163,6 +241,7 @@ void	*main_gtk(t_gtk_tools *g)
 	GtkAdjustment	*adj;
 
 	gtk_init(&g->ac, &g->av);
+
 	g->t = &t;
 	g->r = &r;
 	init_raytracing_tools(g->r);
@@ -229,6 +308,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	if (g->r->scene)
 		cuda_free(g->r);
 	g->r->scene = g->t->scenes;
+	// g->r->scene->is_3d = 1;
 	cuda_malloc(g->r);
 	update_grid_scene(g);
 	update_grid_objects(g);
@@ -244,6 +324,5 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->update.ray_depth = 2;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
-	C(1)
 	return (0);
 }

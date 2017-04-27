@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/22 15:56:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/27 16:51:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		cuda_malloc(struct s_raytracing_tools *r);
 #ifdef __cplusplus
 extern "C"
 #endif
-void	render(struct s_raytracing_tools *r);
+void	render(struct s_raytracing_tools *r, struct s_pt2 tileId);
 #ifdef __cplusplus
 extern "C"
 #endif

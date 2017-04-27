@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/26 11:53:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/27 17:03:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ typedef enum	e_filter
 	F_NONE,
 	F_BW,
 	F_SEPIA,
-	F_DEUTAN
+	F_DEUTAN,
+	F_LEFT_RED,
+	F_RIGHT_CYAN
 }				t_filter;
 
 /*
@@ -331,6 +333,7 @@ typedef struct	s_scene
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;
+	uint8_t			is_3d;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -419,15 +422,23 @@ typedef struct	s_update
 ** t - distance to closest intersection
 */
 
+typedef	struct	s_rt_settings
+{
+	int		tile_size;
+}				t_rt_settings;
+
 typedef struct	s_raytracing_tools
 {
 	t_scene			*scene;
 	t_scene			*d_scene;
 	t_scene			*h_d_scene;
 	t_color			*d_pixel_map;
+	t_color			*d_pixel_map_3d;
 	t_pt2			pix;
 	float			t;
 	t_update		update;
+	uint8_t			rendering;
+	t_rt_settings	settings;
 }				t_raytracing_tools;
 
 
@@ -648,6 +659,10 @@ CUDA_DEV
 t_color			sepia_filter(t_color c);
 CUDA_DEV
 t_color			deutan_filter(t_color c);
+CUDA_DEV
+t_color			right_cyan_filter(t_color c);
+CUDA_DEV
+t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
 
