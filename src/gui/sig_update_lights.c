@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 12:35:08 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 15:15:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 
 	printf("update_grid_lights\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"));
-	C(1)
 	gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
-	C(2)
 	light = g->r->scene->lights;
-	C(3)
 	while (light)
 	{
 		C(4)

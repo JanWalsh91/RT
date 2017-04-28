@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/27 17:20:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 16:09:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,29 @@ __global__ void create_anaglyph(t_color *left, t_color *right, int res_x, int re
 
 void		render(t_raytracing_tools *r, t_pt2 tileId)
 {
-	dim3 		blockSize 	= dim3(BLOCK_DIM, BLOCK_DIM, 1);
-	// dim3 		gridSize	= dim3(r->scene->res.x / BLOCK_DIM + 1, r->scene->res.y / BLOCK_DIM + 1);
-	dim3 		gridSize	= dim3(r->settings.tile_size / BLOCK_DIM + 1, r->settings.tile_size / BLOCK_DIM + 1);
+	dim3 		blockSize;
+	dim3 		gridSize;
+	int			size;
+
+	size = (r->settings.tile_size / BLOCK_DIM) + ((r->settings.tile_size % BLOCK_DIM) ? 1 : 0);
+	blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
+	gridSize = dim3(size, size);
 
 	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
+	cudaEventCreate(&start); 
 	cudaEventCreate(&stop);
 	cudaEventRecord(start);
 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, tileId, r->settings.tile_size);
+	// printf("Iteration i = %d	\n", i++);
 	cudaEventRecord(stop);
 	cudaEventSynchronize(stop);
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
 	//beautiful....
-	printf("=============== EXECUTION ================== \n");
-	printf("Kernel duration: %f milliseconds\n", milliseconds);
-	printf("============================================ \n");
+	// printf("=============== EXECUTION ================== \n");
+	// printf("Kernel duration: %f milliseconds\n", milliseconds);
+	// printf("============================================ \n");
 
 	gpuErrchk((cudaDeviceSynchronize()));
 	// if (r->scene->is_3d)

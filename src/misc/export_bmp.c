@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 15:15:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void		*export_image(void *data)
 	if (!(fd = open(th_export->filename, O_WRONLY | O_CREAT | O_TRUNC, 0600)))
 		return (NULL);
 
-	C(2)
 	write_header(fd, th_export->g->r->scene->res.x, th_export->g->r->scene->res.y);
 	C(3)
 	i = -1;

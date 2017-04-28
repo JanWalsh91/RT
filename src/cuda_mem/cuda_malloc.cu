@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 14:02:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 15:26:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	cuda_malloc(t_raytracing_tools *r)
 	if (!(memcpy(&h_scene_to_array, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  )))
 		exit (0);
 	memcpy(r->h_d_scene, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  );
-	printf("Resolution: %d\n", r->update.resolution);
 	// sleep(2);
 	if (r->update.resolution == 2)
 	{
@@ -91,8 +90,8 @@ int	cuda_malloc(t_raytracing_tools *r)
 	r->update.scene = 0;
 	r->update.ray_depth = 0;
 	r->update.render = 0;
+	printf("Resolution: %d\n", r->update.resolution);
 	// printf("RENDER ADDR %p\n", &r->update.render);
-	C(2)
 	return (1);
 }
 

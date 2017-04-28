@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 14:11:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 16:40:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,52 +34,55 @@ void window_destroy_esc(GtkWidget *widget, void *ouais)
 	gtk_widget_destroy (GTK_WIDGET(ouais));
 }
 
-void	increment_tile(t_pt2 *tileId, int size, t_pt2 res)
+void	increment_tile(t_pt2 *tileId, int tile_col)
 {
-	if (++tileId->x == res.x / size + 1)
-		{
+	if (++tileId->x >= tile_col)
+	{
 		tileId->x = 0;
 		++tileId->y;
 	}
 }
+
 
 void *render_wrapper(gpointer data)
 {
 	t_gtk_tools	*g;
 	t_pt2		tileId;
 	int			max_tile;
+	int			tile_row;
+	int			tile_col;
+
 	printf("render_wrapper\n");
 
 	g = (t_gtk_tools *)data;
-	// if (!g->pixbuf)
-	// 	free(g->pixbuf); // leaks / WTF
-	g->r->settings.tile_size = 32 * 3;
+
+	g->r->settings.tile_size = 200;
 	if (g->r->update.resolution)
+	{	
+		// g->pixbuf ? g_object_unref(g->pixbuf) : 0;
+		printf("Res render wrapper: %d - %d\n", g->r->scene->res.x, g->r->scene->res.y);
 		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
+	}
 	tileId.x = 0;
 	tileId.y = 0;
-	// max_tile = (g->r->scene->res.x / g->r->settings.tile_size + (g->r->scene->res.x % g->r->settings.tile_size) ? 1 : 0) *
-	// 		   (g->r->scene->res.y / g->r->settings.tile_size + (g->r->scene->res.y % g->r->settings.tile_size) ? 1 : 0);
-	max_tile = (g->r->scene->res.x / g->r->settings.tile_size + 1) *
-			(g->r->scene->res.y / g->r->settings.tile_size + 1);
+
+	tile_row = (g->r->scene->res.x / g->r->settings.tile_size) + ((g->r->scene->res.x % g->r->settings.tile_size) ? 1 : 0);
+	tile_col = (g->r->scene->res.y / g->r->settings.tile_size) + ((g->r->scene->res.y % g->r->settings.tile_size) ? 1 : 0);
+	max_tile = tile_row * tile_col;
 	cuda_malloc(g->r);
-	while (tileId.x * tileId.y < max_tile && g->win) //to FIX (theo)
-	{
-		printf("[%d, %d], max tile: [%d]\n", tileId.x, tileId.y, max_tile);
-		render(g->r, tileId);
-		// sleep(1);
-		// ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * g->r->scene->res.y);
-		increment_tile(&tileId, g->r->settings.tile_size, g->r->scene->res);
-		printf("tileId.x * tileId.y: [%d]\n", tileId.x * tileId.y);
-	}
-		g->pixbuf = gdk_pixbuf_new_from_bytes ((const guchar *)g->r->d_pixel_map,
-                    		GDK_COLORSPACE_RGB,
-                          FALSE,
-                          8,
-                          g->r->scene->res.x,
-                          g->r->scene->res.y,
-		g->r->scene->res.x * 8);	
+	// printf("rows: %d cols: %d total: %d\n", tile_row, tile_col, max_tile);
+	while (g->win && (tileId.y + 1) <= tile_col)
+	{ 
+		// printf("tileId.x * tile_col + tileId.y: %d\n", tileId.x * tile_col + tileId.y);
+		// printf("[%d, %d]\n", tileId.x, tileId.y);
+		render(g->r, tileId); 
+		// usleep(100000);
+		printf("gdk_pixbuf_get_rowstride (g->pixbuf): [%d]\n", g->r->scene->res.x * 3);
+		increment_tile(&tileId, tile_col);
+		ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, /*gdk_pixbuf_get_rows(g->p g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
+	}
+	printf("size copied: %d\n", gdk_pixbuf_get_rowstride(g->pixbuf) * g->r->scene->res.y);
 	g->r->rendering = 0;
 	return (FALSE);
 }
@@ -88,7 +91,6 @@ void *render_wrapper(gpointer data)
 
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 {
-	printf("maman ?\n");
 	pthread_t	render_thread;
 
 	if (!g->cr)
@@ -98,10 +100,10 @@ gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 	}
 	if (g->r->update.render == 1 && !g->r->rendering)
 	{
+		printf("Create a new thread\n");
 		g->r->update.render = 0;
 		g->r->rendering = 1;
 		// g_thread_new (NULL, render_wrapper, g);
-		printf("Create a new thread\n");
 		// pthread_create(&render_thread, NULL, render_wrapper, g);
 		
 		g_thread_new ("Swaggy_turkey", render_wrapper, g);
