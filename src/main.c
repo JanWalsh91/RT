@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 13:15:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 14:11:47 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,14 @@ void *render_wrapper(gpointer data)
 	t_gtk_tools	*g;
 	t_pt2		tileId;
 	int			max_tile;
-	printf("render_wa\n");
+	printf("render_wrapper\n");
 
 	g = (t_gtk_tools *)data;
 	// if (!g->pixbuf)
 	// 	free(g->pixbuf); // leaks / WTF
 	g->r->settings.tile_size = 32 * 3;
-	g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
+	if (g->r->update.resolution)
+		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
 	tileId.x = 0;
 	tileId.y = 0;
 	// max_tile = (g->r->scene->res.x / g->r->settings.tile_size + (g->r->scene->res.x % g->r->settings.tile_size) ? 1 : 0) *
@@ -67,11 +68,18 @@ void *render_wrapper(gpointer data)
 		printf("[%d, %d], max tile: [%d]\n", tileId.x, tileId.y, max_tile);
 		render(g->r, tileId);
 		// sleep(1);
-		ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * g->r->scene->res.y);
-		gtk_widget_queue_draw(g->win);
+		// ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, gdk_pixbuf_get_rowstride (g->pixbuf) * g->r->scene->res.y);
 		increment_tile(&tileId, g->r->settings.tile_size, g->r->scene->res);
 		printf("tileId.x * tileId.y: [%d]\n", tileId.x * tileId.y);
 	}
+		g->pixbuf = gdk_pixbuf_new_from_bytes ((const guchar *)g->r->d_pixel_map,
+                    		GDK_COLORSPACE_RGB,
+                          FALSE,
+                          8,
+                          g->r->scene->res.x,
+                          g->r->scene->res.y,
+		g->r->scene->res.x * 8);	
+		gtk_widget_queue_draw(g->win);
 	g->r->rendering = 0;
 	return (FALSE);
 }
@@ -117,11 +125,8 @@ gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 	}
 	if (g->pixbuf)
 	{
-		clock_t start = clock();
 		gdk_cairo_set_source_pixbuf(g->cr, g->pixbuf, 0, 0);
 		cairo_paint(g->cr);
-		clock_t end = clock();
-		printf("g_threas_new time: %f\n", (double)(end - start) / CLOCKS_PER_SEC);
 	}
 	return FALSE;
 }

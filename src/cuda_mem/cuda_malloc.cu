@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 13:05:51 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 14:02:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	cuda_malloc(t_raytracing_tools *r)
 	if (!(memcpy(&h_scene_to_array, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  )))
 		exit (0);
 	memcpy(r->h_d_scene, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  );
+	printf("Resolution: %d\n", r->update.resolution);
+	// sleep(2);
 	if (r->update.resolution == 2)
 	{
 		gpuErrchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
