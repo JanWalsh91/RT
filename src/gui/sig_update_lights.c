@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/24 11:21:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/28 12:35:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,14 @@ t_light		*get_selected_light(t_gtk_tools *g)
 	return ((light && id == i) ? light : NULL);
 }
 
+void	light_render_sig(t_gtk_tools *g)
+{
+	g->r->update.render = 1;
+	g->r->update.lights = 1;
+	if (g->win)
+		gtk_widget_queue_draw(g->win);
+}
+
 void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g)
 {
 	int			index;
@@ -151,7 +159,9 @@ void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools 
 		l_ptr = l_ptr->next;
 	if (i != index || !l_ptr)
 		return (NULL);
+	g->updating_gui = 1;
 	update_lights_info_panel(g, l_ptr);
+	g->updating_gui = 0;
 	return (NULL);
 }
 
@@ -182,6 +192,7 @@ void	*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -194,6 +205,7 @@ void	*sig_update_light_pos_y(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -206,6 +218,7 @@ void	*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -217,6 +230,7 @@ void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -229,6 +243,7 @@ void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -241,6 +256,7 @@ void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -251,6 +267,7 @@ void	*sig_update_light_rot_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->rot.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -262,6 +279,7 @@ void	*sig_update_light_rot_y(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->rot.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -273,6 +291,7 @@ void	*sig_update_light_rot_z(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->rot.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -288,6 +307,7 @@ void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	l_ptr->col.x = color.red * 255;
 	l_ptr->col.y = color.green * 255;
 	l_ptr->col.z = color.blue * 255;
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 
@@ -299,5 +319,6 @@ void	*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }

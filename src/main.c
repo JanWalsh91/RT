@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/27 17:22:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 13:15:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void window_destroy_esc(GtkWidget *widget, void *ouais)
 void	increment_tile(t_pt2 *tileId, int size, t_pt2 res)
 {
 	if (++tileId->x == res.x / size + 1)
-	{
+		{
 		tileId->x = 0;
 		++tileId->y;
 	}
@@ -222,6 +222,7 @@ int main(int ac, char **av)
 	g.av = av;
 	g.win = NULL;
 	g.cr = NULL;
+	g.updating_gui = 0;
 	if (ac >= 2)
 		g.filename = ft_strdup(av[1]);
 	main_gtk(&g);
@@ -311,7 +312,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	// g->r->scene->is_3d = 1;
 	cuda_malloc(g->r);
 	update_grid_scene(g);
-	update_grid_objects(g);
+	populate_list_box_objects(g);
 	update_grid_lights(g);
 	update_grid_cameras(g);
 	// print_scenes(g->r->scene);

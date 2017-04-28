@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/27 13:07:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 13:05:51 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	cuda_malloc(t_raytracing_tools *r)
 	if (r->update.objects >= 1)
 	{
 		h_scene_to_array.objects = list_to_array_objects(r->scene->objects);
+		printf("%d\n", r->update.objects);
 		if (r->update.objects == 2)
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array.objects)));
 		gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array.objects, get_objects_array_length(h_scene_to_array.objects), cudaMemcpyHostToDevice)));

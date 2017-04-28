@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/27 13:13:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 12:30:14 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,24 @@
 #include "cuda_call.h"
 
 
-void	*update_grid_objects(t_gtk_tools *g) //change name
+void	*populate_list_box_objects(t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
 	GdkRGBA		color;
 	t_object	*obj;
-	printf("update_grid_objects\n");
+	printf("populate_list_box_objects\n");
 
+	if (!g->r->scene->objects)
+		return (NULL);
 	obj = g->r->scene->objects;
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
-	if (obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK)
-		gtk_widget_set_sensitive(widget, TRUE);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectHeight"));
-	if (obj->type == T_CYLINDER || obj->type == T_CONE)
-		gtk_widget_set_sensitive(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
-	gtk_container_foreach (GTK_CONTAINER(widget), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
 	while (obj)
 	{
 		label = gtk_label_new (obj->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 		obj = obj->next; 
 	}
-	if (!g->r->scene->objects)
-		return (NULL);
-	// label = gtk_button_new_with_label("+");
-	// gtk_list_box_insert(widget, label, -1);
-	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_object), g);
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_objects_info_panel(g, g->r->scene->objects);
 	gtk_widget_show_all(widget);
@@ -73,6 +63,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectPosZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->pos.z);
 
+	// to change when adding textures to spheres....
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	type != T_SPHERE ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.x) :
@@ -139,13 +130,16 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	gtk_range_set_value(GTK_RANGE(widget), obj->reflection);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad);
+	gtk_widget_set_sensitive(widget, TRUE);
+	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK) ?
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad) :
+		gtk_widget_set_sensitive(widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectHeight"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	(type != T_SPHERE && type != T_DISK && type != T_PLANE) ?
-						gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->height) :
-						gtk_widget_set_sensitive (widget, FALSE);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->height) :
+		gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ColorButtonObject"));
 	color.red = obj->col.x / 255.0;
@@ -204,7 +198,9 @@ void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools
 		o_ptr = o_ptr->next;
 	if (i != index || !o_ptr)
 		return (NULL);
+	g->updating_gui = 1;
 	update_objects_info_panel(g, o_ptr);
+	g->updating_gui = 0;
 	return (NULL);
 }
 
@@ -226,6 +222,14 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	while (++i != id && obj)
 		obj = obj->next;
 	return ((obj && id == i) ? obj : NULL);
+}
+
+void	obj_render_sig(t_gtk_tools *g)
+{
+	g->r->update.render = 1;
+	g->r->update.objects = 1;
+	if (g->win)
+		gtk_widget_queue_draw(g->win);
 }
 
 // UPDATE OBJECT TYPE
@@ -251,6 +255,7 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	update_objects_info_panel(g, obj);
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -271,25 +276,6 @@ void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 	return (NULL);
 }
 
-/*
-** Delete ?
-*/
-
-void	*sig_check_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g)
-{
-	char	*name;
-
-	printf("Tulipe\n");
-	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));	
-	if (ft_strlen(name) == 0)
-	{
-		gtk_widget_grab_focus(GtkEntry);
-		printf("Nope\n");
-		return (NULL);
-	}
-	return (NULL);
-}
-
 // UPDATE OBJECT POSITION
 void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
@@ -297,13 +283,8 @@ void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 
 	printf("sig_update_obj_pos_x\n");
 	obj = get_selected_object(g);
-	if (obj->pos.x == gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button)))
-		return (NULL);
 	obj->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.render = 1;
-	g->r->update.objects = 1;
-	if (g->win)
-		gtk_widget_queue_draw(g->win);
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -314,8 +295,7 @@ void	*sig_update_obj_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_pos_y\n");
 	obj = get_selected_object(g);
 	obj->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -326,8 +306,7 @@ void	*sig_update_obj_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_pos_z\n");
 	obj = get_selected_object(g);
 	obj->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -355,8 +334,7 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -382,8 +360,7 @@ printf("sig_update_obj_lookat_y\n");
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -409,8 +386,7 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -444,8 +420,6 @@ t_vec3		get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g)
 		camera = camera->next;
 	if (i == id)
 		return (camera->pos);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
 	return (v_new(NAN, NAN, NAN));
 }
 
@@ -477,8 +451,7 @@ void	*sig_update_obj_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -493,8 +466,7 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -508,8 +480,7 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -523,8 +494,7 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -539,8 +509,7 @@ void	*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, FALSE);
 	update_objects_info_panel(g, obj);
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 // TODO: UPDATE OBJECT ROTATION
@@ -558,8 +527,7 @@ void	*sig_update_obj_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	obj->col.x = color.red * 255;
 	obj->col.y = color.green * 255;
 	obj->col.z = color.blue * 255;
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -570,13 +538,9 @@ void	*sig_update_obj_ks(GtkWidget *scale, t_gtk_tools *g)
 	t_object 	*obj;
 
 	printf("sig_update_obj_ks\n");
-	C(2)
 	obj = get_selected_object(g);
 	obj->ks = gtk_range_get_value(GTK_RANGE(scale));
-	g->r->update.render = 1;
-	g->r->update.objects = 1;
-	if (g->win)
-		gtk_widget_queue_draw(g->win);
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -589,12 +553,7 @@ void	*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_spec_exp\n");
 	obj = get_selected_object(g);
 	obj->specular_exp = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (g->r->update.render == 0)
-	{
-		g->r->update.objects = 1;
-
-		g->win ? gtk_widget_queue_draw(g->win) : 0;
-	}
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -607,8 +566,7 @@ void	*sig_update_obj_kd(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_kd\n");
 	obj = get_selected_object(g);
 	obj->kd = gtk_range_get_value(GTK_RANGE(scale));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -621,8 +579,7 @@ void	*sig_update_obj_kt(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_transparency\n");
 	obj = get_selected_object(g);
 	obj->transparency = gtk_range_get_value(GTK_RANGE(scale));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -635,8 +592,7 @@ void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_ior\n");
 	obj = get_selected_object(g);
 	obj->ior = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -649,8 +605,7 @@ void	*sig_update_obj_kreflection(GtkWidget *scale, t_gtk_tools *g)
 	printf("sig_update_obj_kreflection\n");
 	obj = get_selected_object(g);
 	obj->reflection = gtk_range_get_value(GTK_RANGE(scale));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -663,8 +618,7 @@ void	*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_radius\n");
 	obj = get_selected_object(g);
 	obj->rad = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -677,7 +631,6 @@ void	*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_height\n");
 	obj = get_selected_object(g);
 	obj->height = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	g->r->update.objects = 1;
-	g->win ? gtk_widget_queue_draw(g->win) : 0;
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }

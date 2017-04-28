@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/27 16:33:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 12:17:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_gtk_tools
 	GdkPixbuf					*pixbuf;
 	cairo_t						*cr;
 	size_t						stack_size;
+	bool						updating_gui;
 }				t_gtk_tools;
 
 /*
@@ -79,7 +80,7 @@ void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
 ** Objects GUI panel
 */
 
-void			*update_grid_objects(t_gtk_tools *g); //Camel
+void			*populate_list_box_objects(t_gtk_tools *g); //Camel
 void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 void			update_objects_info_panel(t_gtk_tools *g, t_object *obj);
 void			init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
