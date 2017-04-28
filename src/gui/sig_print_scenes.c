@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cuda_call.h                                        :+:      :+:    :+:   */
+/*   sig_print_scenes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 16:52:31 by tgros            ###   ########.fr       */
+/*   Created: 2017/04/28 17:07:07 by tgros             #+#    #+#             */
+/*   Updated: 2017/04/28 17:07:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUDA_CALL_H
-#define CUDA_CALL_H
+#include "rt.cuh"
+#include "gui.h"
+#include "../inc/cuda_call.h"
 
-#ifdef __cplusplus
-extern "C"
-#endif
-int		cuda_malloc(struct s_raytracing_tools *r);
-#ifdef __cplusplus
-extern "C"
-#endif
-void	render(struct s_raytracing_tools *r, struct s_pt2 tileId);
-#ifdef __cplusplus
-extern "C"
-#endif
-int		cuda_free(struct s_raytracing_tools *r, int all);
-#endif
+void *sig_print_scenes(GtkWidget *button, t_gtk_tools *g)
+{
+	print_scenes(g->r->scene);
+	return (NULL);
+}

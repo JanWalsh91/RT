@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 13:07:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 16:54:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	push_object(&(g->r->scene->objects), obj);
 	g->r->update.render = 1;
 	g->r->update.objects = 2;
-	cuda_free(g->r);
+	cuda_free(g->r, 0);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject")), true);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteObject")), true);
 	list_box = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));

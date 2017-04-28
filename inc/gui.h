@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 12:17:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 17:11:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,24 @@ typedef struct	s_gtk_tools
 }				t_gtk_tools;
 
 /*
-** Menu Item Signals
+** Menu Item
 */
-
+void			*main_gtk(t_gtk_tools *g);
+void			init_window(t_gtk_tools *g);
+void			build_gui(t_gtk_tools *g);
+int				clean_exit(t_gtk_tools *g);
 int				open_scene(t_gtk_tools *g, GtkWidget *filechooser);
 void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g);
 void   			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
+
+/*
+** Render Functions
+*/
+
+void 			*sig_render(GtkWidget *widget, t_gtk_tools *g);
+gboolean 		draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g);
 
 /*
 ** Save Functions
@@ -181,6 +191,20 @@ void    		*sig_new_camera(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_delete_object(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_delete_light(GtkWidget *widget, t_gtk_tools *g);
 void 	  	 	*sig_delete_camera(GtkWidget *widget, t_gtk_tools *g);
+
+/*
+** Window Signals
+*/
+
+void 			on_window_main_destroy();
+void 			window_destroy(GtkWidget *widget, void *ouais);
+void 			window_destroy_esc(GtkWidget *widget, void *ouais);
+
+/*
+** Error
+*/
+
+int				display_error_popup(GtkWidget *filechooser, t_gtk_tools *g, char *ret);
 
 /*
 ** Debugging signals -- Remove

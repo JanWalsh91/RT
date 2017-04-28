@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/26 11:56:43 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/28 17:08:28 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,8 @@ MISC = 		debug \
 			rt_error \
 			export_bmp
 
-GUI =		sig_open_scene \
+GUI =		window_signals \
+			sig_open_scene \
 			sig_update_scene \
 			sig_update_objects \
 			sig_update_lights \
@@ -109,6 +110,8 @@ GUI =		sig_open_scene \
 			sig_save \
 			sig_open_settings \
 			sig_export_scene_bmp \
+			sig_print_scenes \
+			sig_render
 
 CUDA_MEM =	cuda_malloc \
 			cuda_free

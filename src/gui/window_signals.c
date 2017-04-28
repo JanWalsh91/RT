@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cuda_call.h                                        :+:      :+:    :+:   */
+/*   window_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 16:52:31 by tgros            ###   ########.fr       */
+/*   Created: 2017/04/28 17:06:27 by tgros             #+#    #+#             */
+/*   Updated: 2017/04/28 17:06:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUDA_CALL_H
-#define CUDA_CALL_H
+#include "rt.cuh"
+#include "gui.h"
+#include "../inc/cuda_call.h"
 
-#ifdef __cplusplus
-extern "C"
-#endif
-int		cuda_malloc(struct s_raytracing_tools *r);
-#ifdef __cplusplus
-extern "C"
-#endif
-void	render(struct s_raytracing_tools *r, struct s_pt2 tileId);
-#ifdef __cplusplus
-extern "C"
-#endif
-int		cuda_free(struct s_raytracing_tools *r, int all);
-#endif
+// called when window is closed
+void on_window_main_destroy()
+{
+    gtk_main_quit();
+}
+
+void window_destroy(GtkWidget *widget, void *ouais)
+{
+	gtk_widget_destroy (ouais ? GTK_WIDGET(ouais) : widget);
+}
+
+void window_destroy_esc(GtkWidget *widget, void *ouais)
+{
+	gtk_widget_destroy (GTK_WIDGET(ouais));
+}
