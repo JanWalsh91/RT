@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fresnel_ratio.cu                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 14:25:09 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:29:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/28 13:40:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior)
 	etat = ior;
 	if (cosi  > 0)
 		ft_swapf(&etai, &etat);
-	sint = etai / etat * __dsqrt_rn(1 - cosi * cosi > 0.0 ? 1 - cosi * cosi > 0.0 : 0.0);
+	sint = etai / etat * sqrtf(1 - cosi * cosi > 0.0 ? 1 - cosi * cosi > 0.0 : 0.0);
 	if (sint >= 1) 
 		return (1);
 	else
@@ -47,7 +47,7 @@ static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint)
 	float 	Rs;
 	float	Rp;
 
-	cost = __dsqrt_rn((1 - sint * sint > 0 ? 1 - sint * sint : 0.0)); 
+	cost = sqrtf((1 - sint * sint > 0 ? 1 - sint * sint : 0.0)); 
     cosi = cosi < 0 ? -cosi : cosi; 
     Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost)); 
     Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost)); 
