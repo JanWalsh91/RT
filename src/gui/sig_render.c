@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 11:59:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 12:25:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,14 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 		gtk_widget_set_sensitive (widget2, FALSE);
 	}
 	g->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	g_signal_connect(g->win, "destroy", G_CALLBACK(window_destroy), NULL);
-	closure = g_cclosure_new(G_CALLBACK(window_destroy_esc), g->win, 0);
+
+	g_signal_connect(g->win, "destroy", G_CALLBACK(window_destroy), g);
+	
+	closure = g_cclosure_new(G_CALLBACK(window_destroy_esc), g, 0);
     accel_group = gtk_accel_group_new();
     gtk_accel_group_connect(accel_group, GDK_KEY_Escape, 0, 0, closure);
 	gtk_window_add_accel_group(GTK_WINDOW(g->win), accel_group);
+	
 	drawing_area = gtk_drawing_area_new();
 	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
 	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);

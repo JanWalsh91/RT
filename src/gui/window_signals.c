@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 17:06:27 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 17:06:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 12:28:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ void on_window_main_destroy()
     gtk_main_quit();
 }
 
-void window_destroy(GtkWidget *widget, void *ouais)
+void window_destroy(GtkWidget *widget, void *g)
 {
-	gtk_widget_destroy (ouais ? GTK_WIDGET(ouais) : widget);
+		printf("window_destroy\n");
+	gtk_widget_destroy (((t_gtk_tools *)g)->win ? GTK_WIDGET(((t_gtk_tools *)g)->win) : widget);
+	((t_gtk_tools *)g)->win = NULL;
 }
 
-void window_destroy_esc(GtkWidget *widget, void *ouais)
+void window_destroy_esc(GtkWidget *widget, void *g)
 {
-	gtk_widget_destroy (GTK_WIDGET(ouais));
+		printf("window_destroy_esc\n");
+	gtk_widget_destroy (GTK_WIDGET(g));
 }
