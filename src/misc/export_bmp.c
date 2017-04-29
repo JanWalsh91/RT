@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 15:15:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 12:02:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,16 @@ void		*export_image(void *data)
 	t_th_export *th_export = (t_th_export*)data;
 
 
-	C(1)
 	if (!(fd = open(th_export->filename, O_WRONLY | O_CREAT | O_TRUNC, 0600)))
 		return (NULL);
 
 	write_header(fd, th_export->g->r->scene->res.x, th_export->g->r->scene->res.y);
-	C(3)
 	i = -1;
 	while (++i < th_export->g->r->scene->res.x * th_export->g->r->scene->res.y)
 	{
-		r = th_export->g->r->scene->cameras->pixel_map[i].r;
-		g = th_export->g->r->scene->cameras->pixel_map[i].g;
-		b = th_export->g->r->scene->cameras->pixel_map[i].b;
+		r = th_export->g->r->d_pixel_map[i].r;
+		g = th_export->g->r->d_pixel_map[i].g;
+		b = th_export->g->r->d_pixel_map[i].b;
 		write(fd, &b, sizeof(BYTE));
 		write(fd, &g, sizeof(BYTE));
 		write(fd, &r, sizeof(BYTE));
@@ -122,7 +120,6 @@ void		*export_image(void *data)
 			// printf("%f\n", th_export->progress);
 		}	
 	}
-	C(3)
 	close(fd);
 	return (NULL);
 }

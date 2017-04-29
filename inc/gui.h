@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 17:11:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 11:59:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void   			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
 
 void 			*sig_render(GtkWidget *widget, t_gtk_tools *g);
 gboolean 		draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g);
+void			*render_wrapper(gpointer data);
+
 
 /*
 ** Save Functions

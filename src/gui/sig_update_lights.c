@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 15:15:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 10:55:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,15 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 	light = g->r->scene->lights;
 	while (light)
 	{
-		C(4)
 		label = gtk_label_new(light->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 		light = light->next;
 	}
-	C(5)
 	if (!g->r->scene->lights)
 		return (NULL);
 	// label = gtk_button_new_with_label("+");
 	// gtk_list_box_insert(widget, label, -1);
 	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_light), g);
-	C(6)
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_lights_info_panel(g, g->r->scene->lights);
 	

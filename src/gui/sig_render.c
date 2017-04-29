@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 16:47:13 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 11:59:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../inc/cuda_call.h"
 
 static void	increment_tile(t_pt2 *tileId, int tile_col);
-static void	*render_wrapper(gpointer data);
 
 void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -58,7 +57,7 @@ static void	increment_tile(t_pt2 *tileId, int tile_col)
 	}
 }
 
-static void	*render_wrapper(gpointer data)
+void	*render_wrapper(gpointer data)
 {
 	t_gtk_tools	*g;
 	t_pt2		tileId;
@@ -68,7 +67,7 @@ static void	*render_wrapper(gpointer data)
 
 	printf("render_wrapper\n");
 	g = (t_gtk_tools *)data;
-	g->r->settings.tile_size = 200;
+	g->r->settings.tile_size = 32*9;
 	if (g->r->update.resolution)
 	{	
 		// g->pixbuf ? g_object_unref(g->pixbuf) : 0;

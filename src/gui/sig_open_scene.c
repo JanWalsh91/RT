@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 17:11:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 10:53:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	populate_list_box_objects(g);
 	update_grid_lights(g);
 	update_grid_cameras(g);
-	// print_scenes(g->r->scene);
-	// rt(g->r);
 	g->r->update.resolution = 2;
 	g->r->update.objects = 2;
 	g->r->update.lights = 2;

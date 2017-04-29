@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 16:09:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 10:53:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	// 	r->scene->cameras->filter = F_RIGHT_CYAN;
 	// 	gpuErrchk((cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice)));
 	// 	gpuErrchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
-	// 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d);
+	// 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
 	// 	gpuErrchk((cudaDeviceSynchronize()));
 	// 	r->scene->cameras->pos.x -= 0.2;
 	// 	create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->scene->res.x, r->scene->res.y);

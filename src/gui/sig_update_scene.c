@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 15:31:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 11:56:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void *update_grid_scene(t_gtk_tools *g)
 	GdkRGBA		color;
 
 	printf("update_grid_scene\n");
-	print_scenes(g->r->scene);
+	// print_scenes(g->r->scene);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
@@ -69,8 +69,8 @@ void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
-	// gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y);
 	(g->updating_gui) ? 0 : scene_render_sig(g);
+	gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y);
 	return (NULL);
 }
 
@@ -78,6 +78,9 @@ void	*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	g->r->scene->res.y = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
+	g->r->update.resolution = 2;
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y);
 	return (NULL);
 }
 
