@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_shadow.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:15:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/30 16:32:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		shadow_ray->dir = v_scale(light->dir, -1);
 	shadow_ray->dir = v_norm(shadow_ray->dir);
 	i = -1;
-	// while (r->scene->objects[++i].type != T_INVALID_TOKEN)
-	// {
-	// 	if (intersects(r, shadow_ray, i) &&
-	// 		shadow_ray->t < max && shadow_ray->t > 0)
-	// 		return (true);
-	// }
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
 		if (intersects(r, shadow_ray, i) &&
