@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/01 12:46:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/02 14:31:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,6 +334,7 @@ typedef struct	s_scene
 	bool			is_diffuse;
 	bool			is_specular;
 	uint8_t			is_3d;
+	bool			is_fresnel;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -439,6 +440,7 @@ typedef struct	s_raytracing_tools
 	t_update		update;
 	uint8_t			rendering;
 	t_rt_settings	settings;
+	float			*ior_list;
 }				t_raytracing_tools;
 
 
@@ -613,13 +615,13 @@ t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 CUDA_DEV
 t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);	
 CUDA_DEV
-float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior);				
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
 t_color			get_ambient(t_scene *scene);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
-t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ior);
+t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ray_ior, float new_ior);
 
 /*
 ** Intersection functions.
