@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/27 17:03:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/02 11:07:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,8 @@ typedef struct	s_object
 	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
+	t_color			*texture;
+	t_pt2			texture_dim;
 	float			rad;
 	float			height;
 	float			angle;
@@ -665,6 +667,24 @@ CUDA_DEV
 t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
+t_color			*read_bmp(char *file_name, t_pt2 *dim);
+
+
+
+/*
+** Textures Functions
+*/
+CUDA_DEV
+t_pt2			get_uv_sphere(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_plane(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_cone(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_color			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
+
 
 /*
 ** Free Functions
