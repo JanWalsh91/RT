@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/23 10:20:46 by tgros            ###   ########.fr        #
+#    Updated: 2017/04/28 17:08:28 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,6 @@ LIB_PATH = Libft/
 LIBMATH_PATH = Libmathft/
 
 SRC = 		main \
-			rt
-
-SDL = 		handle_sdl_events \
-			init_sdl
 
 PARSING = 	get_color \
 			get_file \
@@ -43,7 +39,7 @@ PARSING = 	get_color \
 			parse_value_8 \
 			parse_value_9 \
 			parse_vector \
-			parse_double \
+			parse_float \
 			reset_attributes \
 			set_attributes_1 \
 			set_attributes_2 \
@@ -99,7 +95,8 @@ MISC = 		debug \
 			rt_error \
 			export_bmp
 
-GUI =		sig_open_scene \
+GUI =		window_signals \
+			sig_open_scene \
 			sig_update_scene \
 			sig_update_objects \
 			sig_update_lights \
@@ -113,6 +110,8 @@ GUI =		sig_open_scene \
 			sig_save \
 			sig_open_settings \
 			sig_export_scene_bmp \
+			sig_print_scenes \
+			sig_render
 
 CUDA_MEM =	cuda_malloc \
 			cuda_free
@@ -123,7 +122,6 @@ EXT_C = .c
 EXT_CU = .cu
 
 SRC_SRC = $(addsuffix $(EXT_C), $(SRC))
-SRC_SDL = $(addsuffix $(EXT_C), $(SDL))
 SRC_PARSING = $(addsuffix $(EXT_C), $(PARSING))
 SRC_DATA = $(addsuffix $(EXT_C), $(DATA_PREP))
 SRC_RT = $(addsuffix $(EXT_CU), $(RAY_TRACING))
@@ -133,7 +131,6 @@ SRC_GUI = $(addsuffix $(EXT_C), $(GUI))
 SRC_CUDA_MEM = $(addsuffix $(EXT_CU), $(CUDA_MEM))
 
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_SRC:.c=.o))
-OBJ_SDL = $(addprefix $(OBJ_DIR)/, $(SRC_SDL:.c=.o))
 OBJ_PARSING = $(addprefix $(OBJ_DIR)/, $(SRC_PARSING:.c=.o))
 OBJ_DATA = $(addprefix $(OBJ_DIR)/, $(SRC_DATA:.c=.o))
 OBJ_RT = $(addprefix $(OBJ_DIR)/, $(SRC_RT:.cu=.o))
@@ -144,10 +141,8 @@ OBJ_CUDA_MEM = $(addprefix $(OBJ_DIR)/, $(SRC_CUDA_MEM:.cu=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -arch=sm_30
+CUFLAGS = -gencode=arch=compute_30,code=sm_30#-arch=sm_30
 FLG = $(CUFLAGS) #-Werror -Wextra -Wall
-SDL_PATH = sdl2/
-SDL2 = `$(SDL_PATH)/sdl2-config --cflags --libs`
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`
 
@@ -166,61 +161,47 @@ ECHO = echo
 
 all: $(NAME)
 
-$(NAME): $(OBJ_SRC) $(OBJ_SDL) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM)
-	@if [ ! -d "$(SDL_PATH)lib" ]; then \
-		/bin/mkdir $(SDL_PATH)lib; \
-		cd $(SDL_PATH) ; ./configure --prefix=`pwd`/lib; \
-	fi
-	@make -C $(SDL_PATH)
-	@make -C $(SDL_PATH) install >/dev/null
-	@$(ECHO) "$(C_CYAN)SDL2 compilation done.$(C_NONE)"
+$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM)
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	@$(NVCC) $(CUFLAGS) $(SDL2) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_SDL) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
-
-$(OBJ_DIR)/%.o : ./src/sdl/%.c
-	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/parsing/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/list/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/data_prep/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(NVCC) $(CUFLAGS) -I./inc -I./$(SDL_PATH)/include -dc $< -o $@
+	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/misc/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/gui/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -I./$(SDL_PATH)/include -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(NVCC) $(CUFLAGS) -I./inc -I./$(SDL_PATH)/include -dc $< -o $@
+	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
 
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)
-	# @/bin/rm -Rf $(SDL_PATH)lib
-	# @/bin/rm -Rf $(SDL_PATH)build
-	@$(ECHO) "$(C_CYAN)SDL2 clean done.$(C_NONE)"
 	# @make -C $(LIB_PATH) clean
 	# @make -C $(LIBMATH_PATH) clean
 	@$(ECHO) "$(C_GREEN)$(NAME) clean done.$(C_NONE)"

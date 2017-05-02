@@ -30,7 +30,7 @@ scene: spheres fantaisie
 	}
 	sphere: sphere 3
 	{
-		position: 8.0000, 5.0000, -15.0000
+		position: 8.0000, 5.0000, -5.0000
 		color: 250.0000, 250.0000, 250.0000
 		radius: 4.0000
 		kd: 1.0000

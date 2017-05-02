@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/24 15:56:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/02 14:38:56 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <cuda.h>
-# include "../SDL2/include/sdl.h"
 # include "../Libft/inc/libft.h"
 
 # include "../Libmathft/inc/libmathft.cuh"
@@ -125,7 +124,9 @@ typedef enum	e_filter
 	F_NONE,
 	F_BW,
 	F_SEPIA,
-	F_DEUTAN
+	F_DEUTAN,
+	F_LEFT_RED,
+	F_RIGHT_CYAN
 }				t_filter;
 
 /*
@@ -179,23 +180,23 @@ typedef struct	s_attributes
 	t_pt2		res;
 	int			ray_depth;
 	t_vec3		ambient_light_color;
-	double		ka;
-	double		intensity;
-	double		fov;
+	float		ka;
+	float		intensity;
+	float		fov;
 	t_vec3		pos;
 	t_vec3		dir;
 	t_vec3		rot;
 	t_vec3		look_at;
 	t_vec3		col;
 	t_filter	filter;
-	double		rad;
-	double		height;
-	double		ks;
-	double		specular_exp;
-	double		kd;
-	double		ior;
-	double		reflection;
-	double		transparency;
+	float		rad;
+	float		height;
+	float		ks;
+	float		specular_exp;
+	float		kd;
+	float		ior;
+	float		reflection;
+	float		transparency;
 }				t_attributes;
 
 /*
@@ -227,14 +228,14 @@ typedef	struct	s_ray
 	t_ray_type		type;
 	t_vec3			origin;
 	t_vec3			dir;
-	double			t;
+	float			t;
 	t_vec3			hit;
 	int				hit_obj; //index of hit obj
 	t_token			hit_type;
 	int				n_dir;
 	t_vec3			nhit;
 	t_color			col;
-	double			ior; //current index of refraction
+	float			ior; //current index of refraction
 	int				depth;
 }				t_ray;
 
@@ -255,15 +256,17 @@ typedef struct	s_object
 	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
-	double			rad;
-	double			height;
-	double			angle;
-	double			kd;
-	double			ks;
-	double			ior;
-	double			reflection;
-	double			specular_exp;
-	double			transparency; // TODO
+	t_color			*texture;
+	t_pt2			texture_dim;
+	float			rad;
+	float			height;
+	float			angle;
+	float			kd;
+	float			ks;
+	float			ior;
+	float			reflection;
+	float			specular_exp;
+	float			transparency; // TODO
 	struct s_object	*next;
 }				t_object;
 
@@ -281,7 +284,7 @@ typedef struct	s_light
 	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
-	double			intensity;
+	float			intensity;
 	struct s_light	*next;
 }				t_light;
 
@@ -304,8 +307,8 @@ typedef struct	s_camera
 	t_color			*pixel_map;
 	t_matrix		ctw;
 	t_filter		filter;
-	double			scale;
-	double			fov;
+	float			scale;
+	float			fov;
 	struct s_camera	*prev;
 	struct s_camera	*next;
 }				t_camera;
@@ -327,11 +330,12 @@ typedef struct	s_scene
 	int				ray_depth;
 	t_vec3			background_color;
 	t_vec3			ambient_light_color;
-	double			ka;
-	double			image_aspect_ratio;
+	float			ka;
+	float			image_aspect_ratio;
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;
+	uint8_t			is_3d;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -382,22 +386,22 @@ typedef struct	s_parse_tools
 ** r1, r2 - quadratic equation solutions/roots
 ** t - distance to closest intersection
 ** v1, v2, v3, p - extra temporary vectors
-** d1, d2, d3 - extra temporary doubles
+** d1, d2, d3 - extra temporary floats
 ** n_dir - direction of normal at point
 */
 
 typedef struct	s_intersection_tools
 {
 	t_vec3			q;
-	double			r1;
-	double			r2;
-	double			t;
+	float			r1;
+	float			r2;
+	float			t;
 	t_vec3			v1;
 	t_vec3			v2;
 	t_vec3			v3;
 	t_vec3			p;
-	double			d1;
-	double			d2;
+	float			d1;
+	float			d2;
 	int				n_dir;
 }				t_intersection_tools;
 
@@ -412,17 +416,6 @@ typedef struct	s_update
 	uint8_t		render;
 }				t_update;
 
-/*
-** Structure to handle SDL events.
-*/
-
-typedef struct	s_env
-{
-	
-	SDL_Window		*win;
-	SDL_Renderer	*ren;
-	SDL_Event		e;
-}				t_env;
 
 /*
 ** Structure with tools to help with raytracing
@@ -431,21 +424,29 @@ typedef struct	s_env
 ** t - distance to closest intersection
 */
 
+typedef	struct	s_rt_settings
+{
+	int		tile_size;
+}				t_rt_settings;
+
 typedef struct	s_raytracing_tools
 {
 	t_scene			*scene;
 	t_scene			*d_scene;
 	t_scene			*h_d_scene;
 	t_color			*d_pixel_map;
+	t_color			*d_pixel_map_3d;
 	t_pt2			pix;
-	double			t;
+	float			t;
 	t_update		update;
+	uint8_t			rendering;
+	t_rt_settings	settings;
 }				t_raytracing_tools;
 
 
 typedef struct	s_th_export
 {
-	double	progress;
+	float	progress;
 	char	*filename;
 	struct s_gtk_tools *g;
 }				t_th_export;
@@ -453,7 +454,6 @@ typedef struct	s_th_export
 // int		cuda_malloc(struct s_raytracing_tools *r);
 // int		cuda_free(struct s_raytracing_tools *r);
 
-void	*main_sdl(void *g);
 void	*main_gtk(struct s_gtk_tools *g);
 
 /*
@@ -519,7 +519,7 @@ t_vec3			parse_hexadecimal(char *value);
 bool			valid_hex_format(char *value, int *i);
 t_vec3			parse_color_name(t_parse_tools *t, char *value);
 t_vec3			parse_vector(char *value);
-double			parse_double(char *value);
+float			parse_float(char *value);
 char			*can_add_new_scene(t_parse_tools *t);
 char				*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
@@ -570,11 +570,11 @@ void			set_default_pos(t_scene *scene, int type, void *obj,
 void			set_default_col(t_scene *scene, int type, void *obj,
 					t_vec3 *col);
 void			set_default_intensity(t_scene *scene, int type, void *obj,
-					double *intensity);
+					float *intensity);
 void			set_default_radius(t_scene *scene, int type, void *obj,
-					double *radius);
+					float *radius);
 void			set_default_height(t_scene *scene, int type, void *obj,
-					double *height);
+					float *height);
 void			set_default_cam_dir(t_scene *scene, int type, void *cam,
 					t_vec3 *dir);
 void			set_default_obj_dir(t_scene *scene, int type, void *obj,
@@ -582,14 +582,14 @@ void			set_default_obj_dir(t_scene *scene, int type, void *obj,
 void			set_default_light_dir(t_scene *scene, int type, void *obj,
 					t_vec3 *dir);
 void			set_default_fov(t_scene *scene, int type, void *obj,
-					double *fov);
-void			set_default_ks(t_scene *scene, int type, void *obj, double *ks);
-void			set_default_kd(t_scene *scene, int type, void *obj, double *kd);
+					float *fov);
+void			set_default_ks(t_scene *scene, int type, void *obj, float *ks);
+void			set_default_kd(t_scene *scene, int type, void *obj, float *kd);
 void			set_default_specular_exp(t_scene *scene, int type, void *obj,
-					double *specular_exp);
-void	set_default_ior(t_scene *scene, int type, void *obj, double *ior);					
-void	set_default_reflection(t_scene *scene, int type, void *obj, double *reflection);
-void	set_default_transparency(t_scene *scene, int type, void *obj, double *transparency);
+					float *specular_exp);
+void	set_default_ior(t_scene *scene, int type, void *obj, float *ior);					
+void	set_default_reflection(t_scene *scene, int type, void *obj, float *reflection);
+void	set_default_transparency(t_scene *scene, int type, void *obj, float *transparency);
 
 /*
 ** Ray Tracing Functions
@@ -605,7 +605,7 @@ CUDA_DEV
 void			get_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
 int				in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-					t_ray *shadow_ray, t_light *light, t_color *dim_light);
+					t_ray *shadow_ray, t_light *light, t_vec3 *dim_light);
 CUDA_DEV
 t_color			get_diffuse(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
@@ -615,13 +615,13 @@ t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 CUDA_DEV
 t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);	
 CUDA_DEV
-double			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, double ior);				
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior);				
 CUDA_DEV
 t_color			get_ambient(t_scene *scene);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
-t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, double ior);
+t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ior);
 
 /*
 ** Intersection functions.
@@ -645,7 +645,7 @@ CUDA_DEV
 bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
-bool			solve_quadratic(t_vec3 q, double *r1, double *r2);
+bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
 
 /*
 ** Filters functions
@@ -661,16 +661,29 @@ CUDA_DEV
 t_color			sepia_filter(t_color c);
 CUDA_DEV
 t_color			deutan_filter(t_color c);
+CUDA_DEV
+t_color			right_cyan_filter(t_color c);
+CUDA_DEV
+t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
+t_color			*read_bmp(char *file_name, t_pt2 *dim);
+
 
 
 /*
-** SDL2 Functions
+** Textures Functions
 */
-
-int				init_sdl(t_scene *scene, t_env *env);
-int				handle_sdl_events(struct s_gtk_tools *g);
+CUDA_DEV
+t_pt2			get_uv_sphere(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_plane(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_cone(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_color			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
 
 
 /*

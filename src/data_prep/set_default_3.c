@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:29:45 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:09:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** - direction (light)
 */
 
-void	set_default_height(t_scene *scene, int type, void *obj, double *height)
+void	set_default_height(t_scene *scene, int type, void *obj, float *height)
 {
 	if (type == T_CONE || type == T_CYLINDER)
 		data_warning(scene, type, ((t_object *)obj),

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 17:36:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/01 12:54:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 ** Returns true if there is an intersection between a light and the origin of
 ** the ray, else returns false.
 */
+__device__
+static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k);
+__device__
+static void	filter_color(float *dim, float obj_col, float k);
 
 __device__
 int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-		t_ray *shadow_ray, t_light *light, t_color *dim_light)
+		t_ray *shadow_ray, t_light *light, t_vec3 *dim_light)
 {
 	int			i;
-	double		max;
+	float		max;
 	int			is_transparent;
 
 	is_transparent = 0;
@@ -41,12 +45,6 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		shadow_ray->dir = v_scale(light->dir, -1);
 	shadow_ray->dir = v_norm(shadow_ray->dir);
 	i = -1;
-	// while (r->scene->objects[++i].type != T_INVALID_TOKEN)
-	// {
-	// 	if (intersects(r, shadow_ray, i) &&
-	// 		shadow_ray->t < max && shadow_ray->t > 0)
-	// 		return (true);
-	// }
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
 		if (intersects(r, shadow_ray, i) &&
@@ -54,8 +52,7 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		{
 			if (r->scene->objects[i].transparency > 0.01)
 			{
-				*dim_light = c_min(c_scale(vec_to_col(r->scene->objects[i].col), r->scene->objects[i].transparency),
-				*dim_light);
+				filter_for_transparency(dim_light, r->scene->objects[i].col, r->scene->objects[i].transparency);
 				is_transparent = 1;
 			}
 			else
@@ -63,4 +60,18 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		}
 	}
 	return (is_transparent);
+}
+
+__device__
+static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k)
+{
+	filter_color(&dim_light->x, obj_col.x, k);
+	filter_color(&dim_light->y, obj_col.y, k);
+	filter_color(&dim_light->z, obj_col.z, k);
+}
+
+__device__
+static void	filter_color(float *dim, float obj_col, float k)
+{
+	*dim *= (1 - (255 - obj_col) / 255 * (1 - k)) * k;				
 }

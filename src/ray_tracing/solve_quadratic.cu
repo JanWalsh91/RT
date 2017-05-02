@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/11 13:25:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:15:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 */
 
 __device__
-bool	solve_quadratic(t_vec3 q, double *r1, double *r2)
+bool	solve_quadratic(t_vec3 q, float *r1, float *r2)
 {
-	double	d;
+	float	d;
 
 	*r1 = -1;
 	*r2 = -1;

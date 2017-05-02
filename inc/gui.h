@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/24 15:30:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/04/29 11:59:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GUI_H
 # define GUI_H
 
-# define SAVE_DOUBLE_PRECISION 4
+# define SAVE_FLOAT_PRECISION 4
 
 
 #include "rt.cuh"
@@ -27,25 +27,38 @@ typedef struct	s_gtk_tools
 {
 	struct s_parse_tools 		*t;
 	struct s_raytracing_tools 	*r;
-	struct s_env				env;
+	GtkWidget					*win;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
-	int							sdl;
-	int							quit;
 	int							ac;
 	char						**av;
+	GdkPixbuf					*pixbuf;
+	cairo_t						*cr;
 	size_t						stack_size;
+	bool						updating_gui;
 }				t_gtk_tools;
 
 /*
-** Menu Item Signals
+** Menu Item
 */
-
+void			*main_gtk(t_gtk_tools *g);
+void			init_window(t_gtk_tools *g);
+void			build_gui(t_gtk_tools *g);
+int				clean_exit(t_gtk_tools *g);
 int				open_scene(t_gtk_tools *g, GtkWidget *filechooser);
 void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g);
 void   			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
+
+/*
+** Render Functions
+*/
+
+void 			*sig_render(GtkWidget *widget, t_gtk_tools *g);
+gboolean 		draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g);
+void			*render_wrapper(gpointer data);
+
 
 /*
 ** Save Functions
@@ -58,7 +71,7 @@ void			save_camera(int fd, t_camera *cam);
 void			save_light(int fd, t_light *light);
 void			write_vector(int fd, t_vec3 vec);
 void			write_int(int fd, int i);
-void			write_double(int fd, double d);
+void			write_float(int fd, float d);
 void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g);
 
 /*
@@ -79,7 +92,7 @@ void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
 ** Objects GUI panel
 */
 
-void			*update_grid_objects(t_gtk_tools *g); //Camel
+void			*populate_list_box_objects(t_gtk_tools *g); //Camel
 void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 void			update_objects_info_panel(t_gtk_tools *g, t_object *obj);
 void			init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
@@ -180,6 +193,20 @@ void    		*sig_new_camera(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_delete_object(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_delete_light(GtkWidget *widget, t_gtk_tools *g);
 void 	  	 	*sig_delete_camera(GtkWidget *widget, t_gtk_tools *g);
+
+/*
+** Window Signals
+*/
+
+void 			on_window_main_destroy();
+void 			window_destroy(GtkWidget *widget, void *ouais);
+void 			window_destroy_esc(GtkWidget *widget, void *ouais);
+
+/*
+** Error
+*/
+
+int				display_error_popup(GtkWidget *filechooser, t_gtk_tools *g, char *ret);
 
 /*
 ** Debugging signals -- Remove

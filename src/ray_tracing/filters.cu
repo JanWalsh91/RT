@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 10:41:42 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 12:10:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 16:03:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,21 @@ t_color		deutan_filter(t_color c)
 }
 
 __device__
+t_color		left_red_filter(t_color c)
+{
+	c.g = 0;
+	c.b = 0;
+	return (c);
+}
+
+__device__
+t_color		right_cyan_filter(t_color c)
+{
+	c.r = 0;
+	return (c);
+}
+
+__device__
 t_color		filter(t_color orig, t_filter filter)
 {
 	t_color		new_col;
@@ -69,5 +84,9 @@ t_color		filter(t_color orig, t_filter filter)
 		new_col = sepia_filter(orig);
 	else if (filter == F_DEUTAN)
 		new_col = deutan_filter(orig);
+	else if (filter == F_LEFT_RED)
+		new_col = left_red_filter(orig);
+	else if (filter == F_RIGHT_CYAN)
+		new_col = right_cyan_filter(orig);
 	return (new_col);
 }

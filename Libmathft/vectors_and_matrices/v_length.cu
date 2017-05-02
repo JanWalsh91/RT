@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 13:24:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:26:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:17:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 __host__ __device__
-double	v_length(t_vec3 v)
+float	v_length(t_vec3 v)
 {
 	return (sqrt(v_dot(v, v)));
 }

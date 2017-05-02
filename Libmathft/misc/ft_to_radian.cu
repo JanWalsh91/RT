@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 17:30:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/03/31 15:26:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/26 11:32:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 __host__ __device__
-double	to_radian(double a)
+float	to_radian(float a)
 {
 	return (a * M_PI / 180);
 }
