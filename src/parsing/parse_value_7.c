@@ -6,11 +6,12 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/02 15:47:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
+#include "objparser.h"
 
 /*
 ** Contains functions for parsing each value based on token.
@@ -78,5 +79,12 @@ char	*read_rt_file(t_parse_tools *t)
 char	*read_obj_file(t_parse_tools *t)
 {
 	rt_file_warning(t, "Read obj file: feature not yet available.");
+	t_obj	*obj;
+	char	*ret;
+
+	if ((ret = objparser(t->input->value, obj)))
+		return (ret);
+	
+	
 	return (NULL);
 }

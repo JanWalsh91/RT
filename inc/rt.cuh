@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/02 14:38:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/02 15:54:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,7 @@ typedef struct	s_object
 	t_vec3			col;
 	t_color			*texture;
 	t_pt2			texture_dim;
+	struct s_obj	*obj;
 	float			rad;
 	float			height;
 	float			angle;

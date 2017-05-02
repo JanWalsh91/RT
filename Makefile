@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/28 17:08:28 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/02 15:45:11 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,13 +87,15 @@ RAY_TRACING = cast_primary_ray \
 			refract \
 			filters \
 			get_reflected_and_refracted \
-			get_fresnel_ratio
+			get_fresnel_ratio \
+			get_texture \
 
 MISC = 		debug \
 			free_parse_tools \
 			free_scenes \
 			rt_error \
-			export_bmp
+			export_bmp \
+			read_bmp \
 
 GUI =		window_signals \
 			sig_open_scene \
@@ -116,6 +118,13 @@ GUI =		window_signals \
 CUDA_MEM =	cuda_malloc \
 			cuda_free
 
+OBJ_PARSER = 	ft_freetab \
+				ft_isnumeric \
+				get_number \
+				objparser \
+				set_obj
+
+
 OBJ_DIR = obj
 
 EXT_C = .c
@@ -129,6 +138,7 @@ SRC_LST = $(addsuffix $(EXT_C), $(LIST))
 SRC_MISC = $(addsuffix $(EXT_C), $(MISC))
 SRC_GUI = $(addsuffix $(EXT_C), $(GUI))
 SRC_CUDA_MEM = $(addsuffix $(EXT_CU), $(CUDA_MEM))
+SRC_OBJ_PARSER = $(addsuffix $(EXT_C), $(OBJ_PARSER))
 
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_SRC:.c=.o))
 OBJ_PARSING = $(addprefix $(OBJ_DIR)/, $(SRC_PARSING:.c=.o))
@@ -138,6 +148,7 @@ OBJ_LST = $(addprefix $(OBJ_DIR)/, $(SRC_LST:.c=.o))
 OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
 OBJ_GUI = $(addprefix $(OBJ_DIR)/, $(SRC_GUI:.c=.o))
 OBJ_CUDA_MEM = $(addprefix $(OBJ_DIR)/, $(SRC_CUDA_MEM:.cu=.o))
+OBJ_OBJ_PARSER = $(addprefix $(OBJ_DIR)/, $(SRC_OBJ_PARSER:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
@@ -161,10 +172,10 @@ ECHO = echo
 
 all: $(NAME)
 
-$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM)
+$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER)
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
@@ -198,6 +209,10 @@ $(OBJ_DIR)/%.o : ./src/gui/%.c
 $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
 	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
+
+$(OBJ_DIR)/%.o : ./src/objparser/%.c
+	@/bin/mkdir -p $(OBJ_DIR)
+	$(CC) $(FLG) -I./inc -dc $< -o $@
 
 
 clean:
