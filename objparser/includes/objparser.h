@@ -6,14 +6,14 @@
 /*   By: talemari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 11:14:02 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/02 14:41:02 by talemari         ###   ########.fr       */
+/*   Updated: 2017/04/29 13:20:10 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJPARSER_H
 # define OBJPARSER_H
 
-# include "../../Libft/inc/libft.h"
+# include "libft/inc/libft.h"
 # include <stdbool.h>
 
 typedef struct		s_ti
