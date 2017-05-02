@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/02 12:32:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/02 14:38:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 ** - returns the calculated color, or background color if no intersections
 ** are found.
 */
+// __device__
+// static t_color	apply_filter(t_color o, t_color light_color, t_color dim_light);
+
 __device__
-static t_color	filtered(t_color o, t_color light_color, t_color dim_light);
+static t_color	apply_filter(t_vec3 dim_light, t_color light_color);
 __device__
-t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
+t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
 
 __device__
 static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
@@ -37,8 +40,6 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	int			i;
 	t_color 	col;
 	
-	// if (r->pix.x == 300 && r->pix.y == 500)
-		// printf("r: [%i]\n", ray->depth);
 	if (ray->depth == 0)
 		return (c_new(0, 0, 0));
 	--ray->depth;
@@ -54,7 +55,6 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
 	col = get_color_at_hitpoint(r, ray, &shadow_ray);
-	// printf("col: %f, %f, %f\n", col.x, col.y, col.z);
 	return (col);
 }
 
@@ -64,7 +64,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 {
 	t_color	color;
 	t_color light_color;
-	t_color	dim_light;
+	t_vec3	dim_light;
 	int		i;
 	int		ret;
 
@@ -75,7 +75,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
-		dim_light = vec_to_col(r->scene->lights[i].col);
+		dim_light = v_new(1, 1, 1);
 		light_color = c_new(0, 0, 0);
 		if ((ret = in_shadow(r, ray, shadow_ray, &r->scene->lights[i], &dim_light) != 2) || !r->scene->is_shadow)
 		{
@@ -84,7 +84,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 			if (r->scene->is_specular)
 				light_color = c_add(light_color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
 			if (ret == 1)
-				color = c_add(color, filtered(vec_to_col(r->scene->lights[i].col), light_color, dim_light));
+				color = c_add(color, apply_filter(dim_light, light_color));
 			else
 				color = c_add(color, light_color);
 		}
@@ -92,22 +92,34 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
 	color = c_add(color, get_ambient(r->scene));
 	return (color);
-	// return (v_clamp(color, 0, 255));
 }
 
 __device__
-static t_color	filtered(t_color o, t_color light_color, t_color dim_light)
+static t_color	apply_filter(t_vec3 dim_light, t_color light_color)
 {
-	t_color	result;
+	t_color new_col;
 
-
-	result.r = (!o.r || (light_color.r * dim_light.r) / (float)o.r > 255) ? 255 :
-			((light_color.r * dim_light.r) / (float)o.r);
-	result.g = (!o.g || (light_color.g * dim_light.g) / (float)o.g > 255) ? 255 :
-			((light_color.g * dim_light.g) / (float)o.g);
-	result.b = (!o.b || (light_color.b * dim_light.b) / (float)o.b > 255) ? 255 :
-			((light_color.b * dim_light.b) / (float)o.b);
-	// printf("%f\n", (light_color.r * dim_light.r) / (float)o.r );
-	// printf("%d\n\n", result.r );
-	return (result);
+	new_col.r = (uint8_t)(dim_light.x * (float)light_color.r);
+	new_col.g = (uint8_t)(dim_light.y * (float)light_color.g);
+	new_col.b = (uint8_t)(dim_light.z * (float)light_color.b);
+	return (new_col);
 }
+
+
+
+// __device__
+// static t_color	filter(t_color o, t_color light_color, t_color dim_light)
+// {
+// 	t_color	result;
+
+
+// 	result.r = (!o.r || (light_color.r * dim_light.r) / (float)o.r > 255) ? 255 :
+// 			((light_color.r * dim_light.r) / (float)o.r);
+// 	result.g = (!o.g || (light_color.g * dim_light.g) / (float)o.g > 255) ? 255 :
+// 			((light_color.g * dim_light.g) / (float)o.g);
+// 	result.b = (!o.b || (light_color.b * dim_light.b) / (float)o.b > 255) ? 255 :
+// 			((light_color.b * dim_light.b) / (float)o.b);
+// 	// printf("%f\n", (light_color.r * dim_light.r) / (float)o.r );
+// 	// printf("%d\n\n", result.r );
+// 	return (result);
+// }

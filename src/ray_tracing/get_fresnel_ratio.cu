@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 14:25:09 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 13:40:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/01 12:37:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior)
 	etat = ior;
 	if (cosi  > 0)
 		ft_swapf(&etai, &etat);
-	sint = etai / etat * sqrtf(1 - cosi * cosi > 0.0 ? 1 - cosi * cosi > 0.0 : 0.0);
+	sint = etai / etat * sqrtf(1 - cosi * cosi > 0.0 ? 1 - cosi * cosi : 0.0);
 	if (sint >= 1) 
 		return (1);
 	else
