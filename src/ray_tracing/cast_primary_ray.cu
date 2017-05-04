@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/05/03 12:23:04 by jwalsh           ###   ########.fr       */
+=======
+/*   Updated: 2017/05/02 14:38:43 by tgros            ###   ########.fr       */
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +75,13 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
+<<<<<<< HEAD
 	// if (r->scene->objects[ray->hit_obj].texture)
 	// 	color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+=======
+	if (r->scene->objects[ray->hit_obj].texture)
+		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		dim_light = v_new(1, 1, 1);
