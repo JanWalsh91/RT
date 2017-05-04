@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 15:59:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:28:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void			*sig_update_cam_dir_y(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_cam_dir_z(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g);
 void			*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g);
-
+void			*sig_update_cam_ior(GtkWidget *spin_button, t_gtk_tools *g);
 
 /*
 ** New Object GUI

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_cameras.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 12:40:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 16:12:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ void	update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraFov"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->fov);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraIOR"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->ior);
 }
 
 void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
@@ -430,6 +433,14 @@ void	*sig_update_camera_filter(GtkWidget *list_box, t_gtk_tools *g)
 {
 	printf("%d\n", gtk_combo_box_get_active(GTK_COMBO_BOX(list_box)));
 	g->r->scene->cameras->filter = gtk_combo_box_get_active(GTK_COMBO_BOX(list_box));
+	(g->updating_gui) ? 0 : camera_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_cam_ior(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	printf("sig_update_cam_ior\n");
+	g->r->scene->cameras->ior = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : camera_render_sig(g);
 	return (NULL);
 }

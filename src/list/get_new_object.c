@@ -6,7 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/04/30 12:11:51 by tgros            ###   ########.fr       */
+=======
+/*   Updated: 2017/05/04 13:32:26 by jwalsh           ###   ########.fr       */
+>>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +50,7 @@ void		set_non_values(t_object *new_object)
 	ft_bzero(new_object, sizeof(t_object));
 	new_object->name = NULL;
 	new_object->next = NULL;
+	new_object->obj = NULL;
 	new_object->pos = v_new(NAN, NAN, NAN);
 	new_object->dir = v_new(NAN, NAN, NAN);
 	new_object->rot = v_new(NAN, NAN, NAN);

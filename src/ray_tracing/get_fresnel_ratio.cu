@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 14:25:09 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/01 12:37:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/01 15:47:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ __device__
 static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint);
 
 __device__
-float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior)
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2)
 {
 	float	cosi;
 	float	etai;
@@ -28,19 +28,18 @@ float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior)
 	float	sint;
 
 	cosi = ft_clampf(v_dot(ray_dir, normal), -1, 1);
-	etai = 1;
-	etat = ior;
-	if (cosi  > 0)
+	etai = n1;
+	etat = n2;
+	if (cosi > 0)
 		ft_swapf(&etai, &etat);
-	sint = etai / etat * sqrtf(1 - cosi * cosi > 0.0 ? 1 - cosi * cosi : 0.0);
+	sint = (etai / etat) * (1 - cosi * cosi > 0.0 ? sqrtf(1 - cosi * cosi) : 0.0);
 	if (sint >= 1) 
 		return (1);
 	else
 		return (get_fresnel_ratio2(cosi, etai, etat, sint));
-	
 }
 
-__device__
+__device__ 
 static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint)
 {
 	float	cost;

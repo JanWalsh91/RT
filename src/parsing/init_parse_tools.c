@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 11:30:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 13:13:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_SPHERE] = &parse_sphere;
 	t->parse[T_CYLINDER] = &parse_cylinder;
 	t->parse[T_CONE] = &parse_cone;
+	t->parse[T_OBJ] = &parse_obj;
 	t->parse[T_RESOLUTION] = &parse_resolution;
 	t->parse[T_RAY_DEPTH] = &parse_ray_depth;
 	t->parse[T_BACKGROUND_COLOR] = &parse_background_color;

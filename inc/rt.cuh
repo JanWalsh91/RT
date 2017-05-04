@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 12:32:11 by tgros            ###   ########.fr       */
+/*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
+/*   Updated: 2017/05/04 14:28:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef enum	e_token
 	T_SPHERE,
 	T_CYLINDER,
 	T_CONE,
+	T_OBJ,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
 	T_BACKGROUND_COLOR,
@@ -177,26 +178,27 @@ typedef struct	s_color_list
 
 typedef struct	s_attributes
 {
-	t_pt2		res;
-	int			ray_depth;
-	t_vec3		ambient_light_color;
-	float		ka;
-	float		intensity;
-	float		fov;
-	t_vec3		pos;
-	t_vec3		dir;
-	t_vec3		rot;
-	t_vec3		look_at;
-	t_vec3		col;
-	t_filter	filter;
-	float		rad;
-	float		height;
-	float		ks;
-	float		specular_exp;
-	float		kd;
-	float		ior;
-	float		reflection;
-	float		transparency;
+	t_pt2			res;
+	int				ray_depth;
+	t_vec3			ambient_light_color;
+	float			ka;
+	float			intensity;
+	float			fov;
+	t_vec3			pos;
+	t_vec3			dir;
+	t_vec3			rot;
+	t_vec3			look_at;
+	t_vec3			col;
+	t_filter		filter;
+	float			rad;
+	float			height;
+	float			ks;
+	float			specular_exp;
+	float			kd;
+	float			ior;
+	float			reflection;
+	float			transparency;
+	struct s_obj	*obj;
 }				t_attributes;
 
 /*
@@ -251,6 +253,8 @@ typedef struct	s_object
 {
 	t_token			type;
 	char			*name;
+	//poitner to obj file which contains all info about obj, including paths
+	struct s_obj	*obj;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			rot;
@@ -313,6 +317,7 @@ typedef struct	s_camera
 	float			fov;
 	struct s_camera	*prev;
 	struct s_camera	*next;
+	float			ior; //ior where the camera is located.
 }				t_camera;
 
 /*
@@ -338,6 +343,7 @@ typedef struct	s_scene
 	bool			is_diffuse;
 	bool			is_specular;
 	uint8_t			is_3d;
+	bool			is_fresnel;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -443,6 +449,7 @@ typedef struct	s_raytracing_tools
 	t_update		update;
 	uint8_t			rendering;
 	t_rt_settings	settings;
+	float			*ior_list;
 }				t_raytracing_tools;
 
 
@@ -476,6 +483,7 @@ void			set_attributes_plane(t_parse_tools *t, t_attributes *a);
 void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
+void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
 char			*parse_open_bracket(t_parse_tools *t);
 char			*parse_close_bracket(t_parse_tools *t);
@@ -523,8 +531,9 @@ t_vec3			parse_color_name(t_parse_tools *t, char *value);
 t_vec3			parse_vector(char *value);
 float			parse_float(char *value);
 char			*can_add_new_scene(t_parse_tools *t);
-char				*can_add_new_object(t_parse_tools *t);
+char			*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
+char			*parse_obj(t_parse_tools *t);
 
 /*
 ** List management Functions
@@ -589,9 +598,9 @@ void			set_default_ks(t_scene *scene, int type, void *obj, float *ks);
 void			set_default_kd(t_scene *scene, int type, void *obj, float *kd);
 void			set_default_specular_exp(t_scene *scene, int type, void *obj,
 					float *specular_exp);
-void	set_default_ior(t_scene *scene, int type, void *obj, float *ior);					
-void	set_default_reflection(t_scene *scene, int type, void *obj, float *reflection);
-void	set_default_transparency(t_scene *scene, int type, void *obj, float *transparency);
+void			set_default_ior(t_scene *scene, int type, void *obj, float *ior);					
+void			set_default_reflection(t_scene *scene, int type, void *obj, float *reflection);
+void			set_default_transparency(t_scene *scene, int type, void *obj, float *transparency);
 
 /*
 ** Ray Tracing Functions
@@ -617,13 +626,13 @@ t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 CUDA_DEV
 t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);	
 CUDA_DEV
-float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float ior);				
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
 t_color			get_ambient(t_scene *scene);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
-t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ior);
+t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ray_ior, float new_ior);
 
 /*
 ** Intersection functions.

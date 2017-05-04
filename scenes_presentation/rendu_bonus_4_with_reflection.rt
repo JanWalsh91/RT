@@ -1,68 +1,125 @@
-resolution: 1000, 1000
 scene: spheres fantaisie
 {
-	reflection: 0
-	ior: 1.2
-	sphere:
+	resolution: 1000, 1000
+	ray depth: 4
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	sphere: sphere 1
 	{
-		position: 0, 20, -10
-		radius: 4
-		color: 250, 250, 250
-		transparency: 0
-		reflection: 1
+		position: 5.0000, 20.0000, -10.0000
+		color: 250.0000, 250.0000, 250.0000
+		radius: 9.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.2000
+		transparency: 0.0000
+		reflection: 0.8000
 	}
-	sphere:
+	sphere: sphere 2
 	{
-		position: -12, 5, 0
-		radius: 4
-		color: 250, 250, 250
+		position: -12.0000, 5.0000, 0.0000
+		color: 250.0000, 250.0000, 250.0000
+		radius: 4.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.2000
+		transparency: 0.0000
+		reflection: 0.0000
 	}
-	sphere:
+	sphere: sphere 3
 	{
-		position: 8, 5, -15
-		radius: 4
-		color: 250, 250, 250
+		position: 8.0000, 5.0000, -15.0000
+		color: 250.0000, 250.0000, 250.0000
+		radius: 4.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.2000
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	plane: GREY
+	{
+		position: 0.0000, -1.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 250.0000, 250.0000, 250.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.3294
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	plane: GREY
+	{
+		position: 0.0000, -1.0000, 20.0000
+		direction: 0.0000, 0.0000, -1.0000
+		color: 250.0000, 250.0000, 250.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.3294
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	cylinder: New Object
+	{
+		position: -20.0000, -41.0000, -27.0000
+		direction: 0.3717, 0.9283, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 4.0000
+		height: 100.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 2.8297
+		transparency: 0.5000
+		reflection: 0.0000
+	}
+	sphere: New Object
+	{
+		position: -9.0000, 15.0000, -40.0000
+		color: 255.0000, 0.0000, 0.0000
+		radius: 4.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.1000
+		transparency: 0.0000
+		reflection: 0.0000
 	}
 	light: red
 	{
-		position: 20, 40, -20
+		position: 20.0000, 40.0000, -20.0000
+		color:200.0000, 50.0000, 50.0000
 		intensity: 50
-		color: 200, 50, 50
 	}
 	light: blue
 	{
-		position: -25, 10, 10
+		position: -25.0000, 10.0000, 10.0000
+		color:20.0000, 20.0000, 250.0000
 		intensity: 100
-		color: 20, 20, 250
 	}
 	light: cyan
 	{
-		position: 0, 10, -40
-		intensity: 20
-		color: 50, 150, 150
-	}
-	plane: GREY
-	{
-		position: 0, -1, 0
-		direction: 0, 1, 0
-		color: 250, 250, 250
-		transparency: 0.5
-		reflection: 0.5
-	}
-	plane: GREY
-	{
-		position: 0, -1, 20
-		direction: 0, 0, -1
-		color: 250, 250, 250
+		position: 0.0000, 10.0000, -40.0000
+		color:50.0000, 150.0000, 150.0000
+		intensity: 2
 	}
 	camera: cam1
 	{
-		position: 0, 20, -100
-		look at: 0, 0, 0
+		position: 0.0000, 20.0000, -100.0000
+		direction: 0.0000, -0.1961, 0.9805
+		filter: none
+		fov: 45
 	}
 	camera: cam2
 	{
-		position: 50, 20, -50
-		look at: 0, 0, 0
+		position: 50.0000, 20.0000, -50.0000
+		direction: -0.6804, -0.2721, 0.6804
+		filter: none
+		fov: 45
 	}
 }

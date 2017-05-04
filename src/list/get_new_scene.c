@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_scene.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 14:51:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/01 14:46:33 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ static void		set_scene_non_values(t_scene *new_scene)
 	new_scene->is_diffuse = true;
 	new_scene->is_shadow = true;
 	new_scene->is_specular = true;
-
+	new_scene->is_fresnel = true;
 }

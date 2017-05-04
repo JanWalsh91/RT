@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/21 18:18:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/02 15:47:19 by tgros            ###   ########.fr       */
+/*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
+/*   Updated: 2017/05/04 14:25:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,26 @@ char	*read_rt_file(t_parse_tools *t)
 char	*read_obj_file(t_parse_tools *t)
 {
 	rt_file_warning(t, "Read obj file: feature not yet available.");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+	t_obj	*new_obj;
+	char	*ret;
+
+	//check if right place, 
+	if ((ret = objparser(t->input->value, new_obj)))
+		return (ret);
+	if (!t->in_scene)
+		t->global_attributes->obj = new_obj;
+	else if (!t->in_object)
+		t->scene_attributes->obj = new_obj;
+	else if (t->in_object)
+		t->object_attributes->obj = new_obj;
+=======
+=======
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
+>>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
 	t_obj	*obj;
 	char	*ret;
 
@@ -86,5 +106,24 @@ char	*read_obj_file(t_parse_tools *t)
 		return (ret);
 	
 	
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
+=======
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
+>>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
+	return (NULL);
+}
+
+char	*parse_obj(t_parse_tools *t)
+{
+	can_add_new_object(t);
+	t->current_object = get_new_object(t);
+	t->current_type = T_OBJ;
+	push_object(&t->current_scene->objects, t->current_object);
+	set_attributes(t, t->global_attributes);
+	set_attributes(t, t->scene_attributes);
+	t->input = t->input->next;
 	return (NULL);
 }

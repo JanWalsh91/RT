@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/03 12:13:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:25:35 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,23 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
+<<<<<<< HEAD
 	if (r->scene->objects[ray->hit_obj].texture)
 		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_coord(&r->scene->objects[ray->hit_obj], ray));
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+	// if (r->scene->objects[ray->hit_obj].texture)
+	// 	color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+=======
+	if (r->scene->objects[ray->hit_obj].texture)
+		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
+=======
+	if (r->scene->objects[ray->hit_obj].texture)
+		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
+>>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		dim_light = v_new(1, 1, 1);
@@ -104,22 +119,3 @@ static t_color	apply_filter(t_vec3 dim_light, t_color light_color)
 	new_col.b = (uint8_t)(dim_light.z * (float)light_color.b);
 	return (new_col);
 }
-
-
-
-// __device__
-// static t_color	filter(t_color o, t_color light_color, t_color dim_light)
-// {
-// 	t_color	result;
-
-
-// 	result.r = (!o.r || (light_color.r * dim_light.r) / (float)o.r > 255) ? 255 :
-// 			((light_color.r * dim_light.r) / (float)o.r);
-// 	result.g = (!o.g || (light_color.g * dim_light.g) / (float)o.g > 255) ? 255 :
-// 			((light_color.g * dim_light.g) / (float)o.g);
-// 	result.b = (!o.b || (light_color.b * dim_light.b) / (float)o.b > 255) ? 255 :
-// 			((light_color.b * dim_light.b) / (float)o.b);
-// 	// printf("%f\n", (light_color.r * dim_light.r) / (float)o.r );
-// 	// printf("%d\n\n", result.r );
-// 	return (result);
-// }

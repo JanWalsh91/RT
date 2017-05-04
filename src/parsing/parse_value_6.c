@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_6.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 15:43:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*parse_ior(t_parse_tools *t)
 	float	new_ior;
 
 	new_ior = NAN;
-	if (isnan(new_ior = parse_float(t->input->value)) || new_ior <= 0)
+	if (isnan(new_ior = parse_float(t->input->value)) || new_ior < 1)
 		return ("Ior formatting error.");
 	if (!t->in_scene)
 		t->global_attributes->ior = new_ior;
@@ -74,8 +74,9 @@ char	*parse_ior(t_parse_tools *t)
 		t->scene_attributes->ior = new_ior;
 	else if (t->in_object)
 		t->object_attributes->ior = new_ior;
-	if (t->in_object && (t->current_type == T_LIGHT ||
-		t->current_type == T_CAMERA))
+	// else if (t->current_type == T_CAMERA)
+	// 	t->current_camera->ior = new_ior;
+	if (t->in_object && t->current_type == T_LIGHT)
 		return ("Ior attribute only applicable to objects.");
 	return (NULL);
 }

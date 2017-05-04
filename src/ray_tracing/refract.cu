@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refract.cu                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 15:37:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:30:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 15:10:11 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 
 __device__
-t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, float ior)
+t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, float ray_ior, float new_ior)
 {
 	float	cosi;
 	float	etai;
@@ -28,8 +28,8 @@ t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, float ior)
 	t_vec3	n;
 
 	cosi = ft_clampf(v_dot(ray_dir, nhit), -1, 1);
-	etai = 1;
-	etat = ior;
+	etai = ray_ior;
+	etat = new_ior;
 	n = nhit;
 	if (cosi < 0)
 		cosi = -cosi;
@@ -41,7 +41,7 @@ t_vec3	refract(t_vec3 ray_dir, t_vec3 nhit, float ior)
 	eta = etai / etat;
 	k = 1 - eta * eta * (1 - cosi * cosi);
 	//if k < 0, there is no refracted ray;
-	return (k < 0 ? v_new(0, 0, 0) : v_add(v_scale(ray_dir, eta), v_scale(n, (eta * cosi - __dsqrt_rn(k))))); 
+	return (k < 0 ? v_new(NAN, NAN, NAN) : v_add(v_scale(ray_dir, eta), v_scale(n, (eta * cosi - sqrtf(k))))); 
 }
 // Vec3f refract(const Vec3f &I, const Vec3f &N, const float &ior) 
 // { 

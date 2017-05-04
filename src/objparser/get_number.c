@@ -6,14 +6,14 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 14:17:37 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/02 15:46:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:27:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Libft/inc/libft.h"
 #include <stdbool.h>
+
 /*
- * Get the n number from the string str
+** Get the n number from the string str
 */
 
 int		get_number(char *str, int n)

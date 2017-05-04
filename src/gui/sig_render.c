@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/03 11:39:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:27:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	*render_wrapper(gpointer data)
 	if (g->r->update.resolution)
 	{	
 		// g->pixbuf ? g_object_unref(g->pixbuf) : 0;
-		printf("Res render wrapper: %d - %d\n", g->r->scene->res.x, g->r->scene->res.y);
+		// printf("Res render wrapper: %d - %d\n", g->r->scene->res.x, g->r->scene->res.y);
 		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
 	}
 	tileId.x = 0;
@@ -109,7 +109,7 @@ gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 	}
 	if (g->r->update.render == 1 && !g->r->rendering)
 	{
-		printf("Create a new thread\n");
+		// printf("Create a new thread\n");
 		g->r->update.render = 0;
 		g->r->rendering = 1;
 		g_thread_new ("Swaggy_turkey", render_wrapper, g);

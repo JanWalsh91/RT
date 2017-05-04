@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/02 15:27:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:25:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void		init_tokens(t_parse_tools *t)
 		(!(t->tokens[T_SPHERE] = ft_strdup("sphere"))) ||
 		(!(t->tokens[T_CYLINDER] = ft_strdup("cylinder"))) ||
 		(!(t->tokens[T_CONE] = ft_strdup("cone"))) ||
+		(!(t->tokens[T_OBJ] = ft_strdup("obj"))) ||		
 		(!(t->tokens[T_RESOLUTION] = ft_strdup("resolution"))) ||
 		(!(t->tokens[T_RAY_DEPTH] = ft_strdup("ray depth"))) ||
 		(!(t->tokens[T_BACKGROUND_COLOR] = ft_strdup("background color"))) ||
@@ -63,8 +64,13 @@ static void	init_tokens2(t_parse_tools *t)
 		(!(t->tokens[T_INTENSITY] = ft_strdup("intensity"))) ||
 		(!(t->tokens[T_FILTER] = ft_strdup("filter"))) ||
 		(!(t->tokens[T_READ_RT_FILE] = ft_strdup("read rt file"))) ||
+<<<<<<< HEAD
 		(!(t->tokens[T_READ_OBJ_FILE] = ft_strdup("obj"))) ||
 		(!(t->tokens[T_READ_TEXTURE_FILE] = ft_strdup("texture"))) ||
+=======
+		(!(t->tokens[T_READ_OBJ_FILE] = ft_strdup("source"))) ||
+		(!(t->tokens[T_READ_TEXTURE_FILE] = ft_strdup("read texture file"))) ||
+>>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
 		(!(t->tokens[T_READ_MATERIAL_FILE] =
 			ft_strdup("read material file"))) ||
 		(!(t->tokens[T_HASHTAG] = ft_strdup("#"))) ||

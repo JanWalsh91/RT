@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/27 11:30:06 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/02 15:46:59 by tgros            ###   ########.fr       */
+/*   Created: 2017/05/04 14:26:15 by tgros             #+#    #+#             */
+/*   Updated: 2017/05/04 14:26:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void			set_vec(char *line, t_list **vertex, int *i)
 	char		**tab;
 
 	tab = ft_strsplit(line, ' ');
+	// will segfault if obj file improperly informatted?
 	vec = (t_vec3d){ft_atof(tab[1]), ft_atof(tab[2]), ft_atof(tab[3])};
 	if (vertex == NULL)
 		*vertex = ft_lstnew(&vec, sizeof(vec));
@@ -58,6 +59,8 @@ char			*objparser(char *file, t_obj *obj)
 	t_ti		ind;
 	t_objlist	olist;
 
+	//check file extension.
+	//in general, check formatting and manage errors gracefully (no segfault).
 	olist = (t_objlist){NULL, NULL, NULL};
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (NULL);
@@ -66,9 +69,9 @@ char			*objparser(char *file, t_obj *obj)
 	{
 		if (ft_strncmp(l, "v ", 2) == 0)
 			set_vec(l, &olist.vertex, &ind.i);
-		if (ft_strncmp(l, "vn", 2) == 0)
+		else if (ft_strncmp(l, "vn", 2) == 0)
 			set_vec(l, &olist.normal, &ind.j);
-		if (ft_strncmp(l, "f ", 2) == 0)
+		else if (ft_strncmp(l, "f ", 2) == 0)
 			set_triangle(l, &olist.triangle, &ind);
 		ft_strdel(&l);
 	}
