@@ -7,7 +7,11 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2017/05/03 12:23:04 by jwalsh           ###   ########.fr       */
+=======
+/*   Updated: 2017/05/02 14:38:43 by tgros            ###   ########.fr       */
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 =======
 /*   Updated: 2017/05/02 14:38:43 by tgros            ###   ########.fr       */
 >>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
@@ -76,8 +80,13 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// if (r->scene->objects[ray->hit_obj].texture)
 	// 	color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+=======
+	if (r->scene->objects[ray->hit_obj].texture)
+		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 =======
 	if (r->scene->objects[ray->hit_obj].texture)
 		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));

@@ -7,7 +7,11 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:11 by jwalsh            #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2017/05/04 14:08:05 by jwalsh           ###   ########.fr       */
+=======
+/*   Updated: 2017/05/02 15:47:19 by tgros            ###   ########.fr       */
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 =======
 /*   Updated: 2017/05/02 15:47:19 by tgros            ###   ########.fr       */
 >>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
@@ -84,6 +88,7 @@ char	*read_obj_file(t_parse_tools *t)
 {
 	rt_file_warning(t, "Read obj file: feature not yet available.");
 <<<<<<< HEAD
+<<<<<<< HEAD
 	t_obj	*new_obj;
 	char	*ret;
 
@@ -97,6 +102,8 @@ char	*read_obj_file(t_parse_tools *t)
 	else if (t->in_object)
 		t->object_attributes->obj = new_obj;
 =======
+=======
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 	t_obj	*obj;
 	char	*ret;
 
@@ -104,6 +111,9 @@ char	*read_obj_file(t_parse_tools *t)
 		return (ret);
 	
 	
+<<<<<<< HEAD
+>>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
+=======
 >>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
 	return (NULL);
 }
