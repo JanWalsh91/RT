@@ -6,11 +6,12 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 14:17:37 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/04 14:27:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:33:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include "../Libft/inc/libft.h"
 
 /*
 ** Get the n number from the string str

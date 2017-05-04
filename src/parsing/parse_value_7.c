@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 14:25:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:31:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,6 @@ char	*read_rt_file(t_parse_tools *t)
 char	*read_obj_file(t_parse_tools *t)
 {
 	rt_file_warning(t, "Read obj file: feature not yet available.");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
 	t_obj	*new_obj;
 	char	*ret;
 
@@ -95,24 +91,6 @@ char	*read_obj_file(t_parse_tools *t)
 		t->scene_attributes->obj = new_obj;
 	else if (t->in_object)
 		t->object_attributes->obj = new_obj;
-=======
-=======
->>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
->>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
-	t_obj	*obj;
-	char	*ret;
-
-	if ((ret = objparser(t->input->value, obj)))
-		return (ret);
-	
-	
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
-=======
->>>>>>> d12f993f5bfd6b90b3b45642e86e8c2bf9348a0a
->>>>>>> 09e85f5ceaac61fc1f49ebc4f59c624c1c53ee24
 	return (NULL);
 }
 
