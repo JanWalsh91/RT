@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/02 15:54:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 12:32:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,7 @@ typedef struct	s_object
 	t_vec3			col;
 	t_color			*texture;
 	t_pt2			texture_dim;
+	char			*texture_name;
 	struct s_obj	*obj;
 	float			rad;
 	float			height;
@@ -675,6 +676,9 @@ t_color			*read_bmp(char *file_name, t_pt2 *dim);
 /*
 ** Textures Functions
 */
+
+CUDA_DEV
+t_pt2			get_uv_coord(t_object *obj, t_ray *ray);
 CUDA_DEV
 t_pt2			get_uv_sphere(t_object *obj, t_ray *ray);
 CUDA_DEV

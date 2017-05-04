@@ -6,45 +6,13 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 12:02:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/04/29 13:55:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
-
-#define WORD uint16_t
-#define DWORD uint32_t
-#define LONG int32_t
-#define BYTE uint8_t
-
-typedef struct	s_bmp_header
-{
-	WORD	dummy;
-	WORD	signature; // const = 0x4D42
-	DWORD	file_size;
-	WORD	reserv_1; // = 0
-	WORD	reserv_2; // = 0
-	DWORD	offset; // Size before the pixel infos
-	DWORD	chunk; // size of image description (=40)
-	DWORD	width;
-	DWORD	height; // If positive, the picture will be upside-down. Set it to -height
-	WORD	plans;
-	WORD	nb_bits; // because 8 bit is for your grand ma
-	DWORD	compression; // No compression (=0)
-	DWORD	x_size;
-	DWORD	xpm;
-	DWORD	ypm;
-	DWORD	clr_nbr;
-	DWORD	clr_imprt;
-}				t_bmp_header;
-
-typedef struct	s_rgb
-{
-	BYTE r;
-	BYTE g;
-	BYTE b;
-}				t_rgb;
+#include "bmp_infos.h"
 
 /*
 **	Writes the header at the very beginning of the file

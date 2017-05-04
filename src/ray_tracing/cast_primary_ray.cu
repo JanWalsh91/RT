@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/02 14:38:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 12:13:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
 	if (r->scene->objects[ray->hit_obj].texture)
-		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_cone(&r->scene->objects[ray->hit_obj], ray));
+		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_coord(&r->scene->objects[ray->hit_obj], ray));
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		dim_light = v_new(1, 1, 1);

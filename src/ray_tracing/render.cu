@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/29 10:53:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 11:39:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,29 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 }
 
 //'dis is wonderful
-__global__ void create_anaglyph(t_color *left, t_color *right, int res_x, int res_y)
+__global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, int tile_size, t_pt2 tileId)
 {
-	int	idx;
+	// int	idx;
 
-	// printf("Debut du deuxieme kernel\n");
+	// // printf("Debut du deuxieme kernel\n");
 
-	idx = res_x * ((blockDim.y * blockIdx.y) + threadIdx.y) + ((blockDim.x * blockIdx.x) + threadIdx.x);
+	// idx = scene->res.x * ((blockDim.y * blockIdx.y) + threadIdx.y) + ((blockDim.x * blockIdx.x) + threadIdx.x);
 
-	if (idx == 10)
-	{
-		printf("Other kernel\n");
-		printf("%d, %d, %d\n", right[10].r, right[10].g, right[10].b);
-	}
+	// if (idx == 10)
+	// {
+	// 	printf("Other kernel\n");
+	// 	printf("%d, %d, %d\n", right[10].r, right[10].g, right[10].b);
+	// }
 
-	if (idx < res_x * res_y)
+
+	int		idx;
+	t_pt2	pixel;
+
+	pixel.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
+	pixel.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
+    idx = scene->res.x * pixel.y + pixel.x;
+
+	if (pixel.x < scene->res.x && pixel.y < scene->res.y)
 	{
 		left[idx].g = right[idx].g;
 		left[idx].b = right[idx].b;
@@ -114,14 +122,17 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	gpuErrchk((cudaDeviceSynchronize()));
 	// if (r->scene->is_3d)
 	// {
+	// 	printf("3d\n");
 	// 	r->scene->cameras->pos.x += 0.2;
 	// 	r->scene->cameras->filter = F_RIGHT_CYAN;
 	// 	gpuErrchk((cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice)));
 	// 	gpuErrchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
-	// 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
+	// 	// render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
 	// 	gpuErrchk((cudaDeviceSynchronize()));
 	// 	r->scene->cameras->pos.x -= 0.2;
-	// 	create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->scene->res.x, r->scene->res.y);
+
+	// 	// create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, r->settings.tile_size, tileId);
+
 	// 	gpuErrchk((cudaDeviceSynchronize()));
 	// }
 }

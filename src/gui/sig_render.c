@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 12:25:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/03 11:39:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ void	*render_wrapper(gpointer data)
 		// printf("[%d, %d]\n", tileId.x, tileId.y);
 		render(g->r, tileId); 
 		// usleep(100000);
-		printf("gdk_pixbuf_get_rowstride (g->pixbuf): [%d]\n", g->r->scene->res.x * 3);
+		// printf("gdk_pixbuf_get_rowstride (g->pixbuf): [%d]\n", g->r->scene->res.x * 3);
 		increment_tile(&tileId, tile_col);
 		ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, /*gdk_pixbuf_get_rows(g->pixbuf)*/ g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}
-	printf("size copied: %d\n", gdk_pixbuf_get_rowstride(g->pixbuf) * g->r->scene->res.y);
+	// printf("size copied: %d\n", gdk_pixbuf_get_rowstride(g->pixbuf) * g->r->scene->res.y);
 	g->r->rendering = 0;
 	return (FALSE);
 }
