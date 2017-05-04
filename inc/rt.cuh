@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 14:36:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 17:24:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define DEFAULT_RES_W 1000
 # define DEFAULT_RES_H 1000
 # define DEFAULT_RAY_DEPTH 5
+# define MAX_RAY_DEPTH 10
 # define DEFAULT_KA 0.1
 # define DEFAULT_AMBIENT_LIGHT_COLOR_R 255
 # define DEFAULT_AMBIENT_LIGHT_COLOR_G 255
@@ -63,7 +64,7 @@
 # define DEFAULT_KS 0.1
 # define DEFAULT_KD 1
 # define DEFAULT_SPECULAR_EXP 200
-# define DEFAULT_IOR 1.1
+# define DEFAULT_IOR 1.01
 # define DEFAULT_REFLECTION 0
 # define DEFAULT_TRANSPARENCY 0
 # define CAM_IMG_PANE_DIST 1
@@ -262,6 +263,7 @@ typedef struct	s_object
 	t_vec3			col;
 	t_color			*texture;
 	t_pt2			texture_dim;
+	t_pt2			texture_ratio;
 	char			*texture_name;
 	float			rad;
 	float			height;
@@ -448,7 +450,7 @@ typedef struct	s_raytracing_tools
 	t_update		update;
 	uint8_t			rendering;
 	t_rt_settings	settings;
-	float			*ior_list;
+	float			ior_list[MAX_RAY_DEPTH + 1];
 }				t_raytracing_tools;
 
 
@@ -696,7 +698,9 @@ t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray);
 CUDA_DEV
 t_pt2			get_uv_cone(t_object *obj, t_ray *ray);
 CUDA_DEV
-t_color			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
+t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
+CUDA_DEV
+t_vec3			get_object_color(t_object *obj, t_ray *ray);
 
 
 /*

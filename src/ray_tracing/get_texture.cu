@@ -6,21 +6,21 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/30 13:00:35 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 11:27:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 16:27:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 
 __device__
-t_color		get_texture_at_uv_coord(t_object *obj, t_pt2 coord)
+t_vec3		get_texture_at_uv_coord(t_object *obj, t_pt2 coord)
 {
-	t_color		ret;
+	t_vec3		ret;
 
-	ret = c_new(0, 0, 0);
+	ret = v_new(0, 0, 0);
 	if (coord.x == -1 || coord.y == -1)
 		return (ret);
-	return (obj->texture[obj->texture_dim.x * coord.y + coord.x]);
+	return (col_to_vec(obj->texture[obj->texture_dim.x * coord.y + coord.x]));
 }
 
 __device__
@@ -39,4 +39,13 @@ t_pt2		get_uv_coord(t_object *obj, t_ray *ray)
 	else if (obj->type == T_CYLINDER)
 		return (get_uv_cylinder(obj, ray));
 	return (ret);
+}
+
+__device__
+t_vec3		get_object_color(t_object *obj, t_ray *ray)
+{
+	if (obj->texture)
+		return (get_texture_at_uv_coord(obj, get_uv_coord(obj, ray)));
+	else
+		return (obj->col);
 }

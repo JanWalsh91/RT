@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 14:31:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 15:45:06 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char	*read_rt_file(t_parse_tools *t)
 
 char	*read_obj_file(t_parse_tools *t)
 {
-	rt_file_warning(t, "Read obj file: feature not yet available.");
 	t_obj	*new_obj;
 	char	*ret;
 

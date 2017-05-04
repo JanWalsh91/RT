@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/04 14:29:02 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/04 17:12:10 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -212,8 +212,7 @@ $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 
 $(OBJ_DIR)/%.o : ./src/objparser/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	$(CC) $(FLG) -I./inc -dc $< -o $@
-
+	@$(CC) $(FLG) -I./inc -dc $< -o $@
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)

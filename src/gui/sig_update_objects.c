@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 13:31:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 17:25:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -683,6 +683,28 @@ void	*sig_delete_obj_texture(GtkWidget *button, t_gtk_tools *g)
 		obj->texture_name = NULL;
 		(g->updating_gui) ? 0 : obj_render_sig(g);
 	}
+	return (NULL);
+}
+
+void	*sig_uptate_obj_texture_ratio_x(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	t_object	*obj;
+
+	printf("sig_update_obj_texture_ratio\n");
+	obj = get_selected_object(g);
+	obj->texture_ratio.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	(g->updating_gui) ? 0 : obj_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_uptate_obj_texture_ratio_y(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	t_object	*obj;
+	
+	printf("sig_update_obj_texture_ratio\n");
+	obj = get_selected_object(g);
+	obj->texture_ratio.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 

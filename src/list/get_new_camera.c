@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 14:42:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/21 11:31:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 17:04:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ static void	set_cam_non_values(t_camera *new_camera)
 	new_camera->fov = NAN;
 	new_camera->name = NULL;
 	new_camera->filter = 0;
+	new_camera->ior = NAN;
 }

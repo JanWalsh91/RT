@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 13:18:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 16:25:34 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ CUDA_HOSTDEV
 t_color			c_scale(t_color v, float i);
 CUDA_HOSTDEV
 t_color			vec_to_col(t_vec3 vec);
+CUDA_HOSTDEV
+t_vec3			col_to_vec(t_color col);
+
 /*
 ** 3 x 3 Vector functions
 */

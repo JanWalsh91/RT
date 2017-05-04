@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 12:04:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 17:06:06 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	check_cameras(t_scene *scene, t_camera *cameras)
 			T_CAMERA, c_ptr, &c_ptr->pos) : 0;
 		isnan(c_ptr->fov) ? set_default_fov(scene,
 			T_CAMERA, c_ptr, &c_ptr->fov) : 0;
+		isnan(c_ptr->ior) ? set_default_ior(scene, T_CAMERA, c_ptr, &c_ptr->ior) : 0;
 		get_cam_direction(scene, c_ptr);
 		init_camera(scene, c_ptr);
 		c_ptr = c_ptr->next;

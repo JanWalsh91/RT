@@ -284,6 +284,20 @@
     <property name="step_increment">10</property>
     <property name="page_increment">100</property>
   </object>
+  <object class="GtkAdjustment" id="AdjTextureX">
+    <property name="lower">1</property>
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="AdjTextureY">
+    <property name="lower">1</property>
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkListStore" id="ListStoreComboBoxObjLookAtName">
     <columns>
       <!-- column-name ObjectNames -->
@@ -1470,10 +1484,28 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkSpinButton" id="SpinButtonObjectTextureX">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjTextureX</property>
+                                <signal name="value-changed" handler="sig_uptate_obj_texture_ratio_x" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">13</property>
+                              </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkSpinButton" id="SpinButtonObjectTextureY">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjTextureY</property>
+                                <signal name="value-changed" handler="sig_uptate_obj_texture_ratio_y" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">4</property>
+                                <property name="top_attach">13</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>

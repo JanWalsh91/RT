@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 14:31:57 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 16:45:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,12 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	int		i;
 	int		ret;
 
-	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
 	if (r->scene->objects[ray->hit_obj].texture)
-		color = get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_coord(&r->scene->objects[ray->hit_obj], ray));
+		color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_coord(&r->scene->objects[ray->hit_obj], ray)));
+	else
+		color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		dim_light = v_new(1, 1, 1);

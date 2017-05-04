@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 14:37:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 16:05:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
     idx = scene->res.x * r.pix.y + r.pix.x;
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
-		//initialize ior list
-		r.ior_list = (float *)malloc(sizeof(float) * (scene->ray_depth + 1));
-		memset(r.ior_list, 0, sizeof(float) * (scene->ray_depth + 1));
+		// initialize ior list
+		// r.ior_list = (float *)malloc(sizeof(float) * (scene->ray_depth + 1));
+		memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 		cam_ray = init_camera_ray(&r);
 		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
 		free(r.ior_list);
