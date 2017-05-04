@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 11:59:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 16:12:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void			*sig_update_cam_dir_y(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_cam_dir_z(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g);
 void			*sig_update_cam_fov(GtkWidget *spin_button, t_gtk_tools *g);
-
+void			*sig_update_cam_ior(GtkWidget *spin_button, t_gtk_tools *g);
 
 /*
 ** New Object GUI

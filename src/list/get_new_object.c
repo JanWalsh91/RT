@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 15:01:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/04 13:32:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void		set_non_values(t_object *new_object)
 	ft_bzero(new_object, sizeof(t_object));
 	new_object->name = NULL;
 	new_object->next = NULL;
+	new_object->obj = NULL;
 	new_object->pos = v_new(NAN, NAN, NAN);
 	new_object->dir = v_new(NAN, NAN, NAN);
 	new_object->rot = v_new(NAN, NAN, NAN);

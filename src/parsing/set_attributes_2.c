@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_attributes_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:07:02 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 13:36:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ void	set_attributes_cone(t_parse_tools *t, t_attributes *a)
 		t->current_object->rad = a->rad;
 	if (!isnan(a->height))
 		t->current_object->height = a->height;
+}
+
+void	set_attributes_obj(t_parse_tools *t, t_attributes *a)
+{
+	if (a->obj)
+		t->current_object->obj = a->obj;
 }

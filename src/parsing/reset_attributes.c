@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:41:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 14:51:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/04 13:33:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	reset_attributes(t_attributes *att)
 	att->kd = NAN;
 	att->ks = NAN;
 	att->transparency = NAN;
+	att->obj = NULL;
 	return (1);
 }

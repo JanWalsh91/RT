@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_7.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:40:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 14:08:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
+#include "objparser.h"
 
 /*
 ** Contains functions for parsing each value based on token.
@@ -78,5 +79,29 @@ char	*read_rt_file(t_parse_tools *t)
 char	*read_obj_file(t_parse_tools *t)
 {
 	rt_file_warning(t, "Read obj file: feature not yet available.");
+	t_obj	*new_obj;
+	char	*ret;
+
+	//check if right place, 
+	if ((ret = objparser(t->input->value, new_obj)))
+		return (ret);
+	if (!t->in_scene)
+		t->global_attributes->obj = new_obj;
+	else if (!t->in_object)
+		t->scene_attributes->obj = new_obj;
+	else if (t->in_object)
+		t->object_attributes->obj = new_obj;
+	return (NULL);
+}
+
+char	*parse_obj(t_parse_tools *t)
+{
+	can_add_new_object(t);
+	t->current_object = get_new_object(t);
+	t->current_type = T_OBJ;
+	push_object(&t->current_scene->objects, t->current_object);
+	set_attributes(t, t->global_attributes);
+	set_attributes(t, t->scene_attributes);
+	t->input = t->input->next;
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/29 10:53:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 12:11:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,20 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
 	int					idx;
-
+	
 	r.pix.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
+	
     idx = scene->res.x * r.pix.y + r.pix.x;
-
-
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
-		cam_ray = init_camera_ray(&r);	
+		//initialize ior list
+		r.ior_list = (float *)malloc(sizeof(float) * (scene->ray_depth + 1));
+		memset(r.ior_list, 0, sizeof(float) * (scene->ray_depth + 1));
+		cam_ray = init_camera_ray(&r);
 		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+		free(r.ior_list);
 	}
 }
 

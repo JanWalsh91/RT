@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 11:56:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 12:47:07 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,4 +185,10 @@ void	*sig_update_is_specular(GtkWidget *check_box, t_gtk_tools *g)
 	return (NULL);
 }
 
-
+void	*sig_update_is_fresnel(GtkWidget *check_box, t_gtk_tools *g)
+{
+	printf("sig_update_is_fresnel\n");
+	g->r->scene->is_fresnel = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box));
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	return (NULL);
+}

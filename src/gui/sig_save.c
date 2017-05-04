@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 12:02:13 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 16:15:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,9 @@ void	save_camera(int fd, t_camera *cam)
 		write(fd, "deutan\n", 7);
 	write(fd, "\t\tfov: ", 7);
 	write_int(fd, cam->fov);
+	write(fd, "\n", 1);
+	write(fd, "\t\tior: ", 7);
+	write_float(fd, cam->ior);
 	write(fd, "\n\t}\n", 4);
 }
 
