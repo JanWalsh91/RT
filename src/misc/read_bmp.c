@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 16:04:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/05 12:35:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	if (cudaMalloc((void**)&texture_d, header.width * header.height * 3) != 0)
 	{
 		on_gpu = false;
-		if (cudaMallocHost((void**)&texture_h, header.width * header.height * 3) != 0)
+		if (cudaMallocHost(&texture_h, header.width * header.height * 3) != 0)
 			return (NULL);
 	}
 	else
@@ -84,10 +84,12 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 			texture_h[i.x * header.width + i.y].b = ignore[0];
 		}
 	}
+	// printf("========================\n");
 	// printf("Je suis sur le %s\n", on_gpu ? " GPU !" : " CPU !");
+	// printf("========================\n");
 	if (on_gpu)
-	{
 		cudaMemcpy(texture_d, texture_h, header.width * header.height * sizeof(t_color), 1);
-	}
+	else
+		return (texture_h);
 	return (texture_d);
 }

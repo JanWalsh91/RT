@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/04 17:12:10 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/05 13:02:21 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,7 @@ MISC = 		debug \
 			rt_error \
 			export_bmp \
 			read_bmp \
+			get_file_name \
 
 GUI =		window_signals \
 			sig_open_scene \
