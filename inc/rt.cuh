@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 17:24:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/05 13:03:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ typedef struct	s_object
 	t_color			*texture;
 	t_pt2			texture_dim;
 	t_pt2			texture_ratio;
+	t_pt2			texture_translate;
 	char			*texture_name;
 	float			rad;
 	float			height;
@@ -535,6 +536,7 @@ char			*can_add_new_scene(t_parse_tools *t);
 char			*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
 char			*parse_obj(t_parse_tools *t);
+char			*get_file_name(char *absolute_path);
 
 /*
 ** List management Functions

@@ -460,8 +460,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -1488,6 +1488,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjTextureX</property>
+                                <signal name="value-changed" handler="sig_uptate_obj_texture_ratio_x" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1499,6 +1500,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">AdjTextureY</property>
+                                <signal name="value-changed" handler="sig_uptate_obj_texture_ratio_y" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>

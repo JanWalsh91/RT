@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 16:05:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/05 12:20:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	r.scene = scene;
 	
     idx = scene->res.x * r.pix.y + r.pix.x;
+
+
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		// initialize ior list
@@ -121,7 +123,6 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	// printf("=============== EXECUTION ================== \n");
 	// printf("Kernel duration: %f milliseconds\n", milliseconds);
 	// printf("============================================ \n");
-
 	gpuErrchk((cudaDeviceSynchronize()));
 	// if (r->scene->is_3d)
 	// {
