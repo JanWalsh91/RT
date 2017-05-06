@@ -6,7 +6,7 @@ scene: rendu4
 	ka: 0.1000
 	plane: New Object
 	{
-		position: 0.0000, 2.0000, 9.0000
+		position: 0.0000, 2.0000, 67.0000
 		direction: 0.0000, 0.0000, 1.0000
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
@@ -17,24 +17,78 @@ scene: rendu4
 		reflection: 0.0000
 
 	}
-	sphere: New Object
+	cylinder: New Object
 	{
 		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 9.0000
+		height: 30.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: /Users/tgros/gitlab/RT/textures/earth.bmp
+		texture: Perlin 100.0000, 100.0000, 3.0000
+	}
+	disk: New Object cap
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	disk: New Object cap
+	{
+		position: 0.0000, 30.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	disk: New Object cap
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	disk: New Object cap
+	{
+		position: 0.0000, 30.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 0.0000
+
 	}
 	light: light 1
 	{
-		position: 15.0000, 9.0000, -13.0000
+		position: 15.0000, 100.0000, -100.0000
 		color:255.0000, 255.0000, 255.0000
-		intensity: 23
+		intensity: 700
 	}
 	camera: cam
 	{

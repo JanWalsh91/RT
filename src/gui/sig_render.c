@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/05 12:01:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/06 11:57:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
 	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);
 	g_signal_connect(G_OBJECT(drawing_area), "draw", G_CALLBACK(draw_callback), g);
+	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), FALSE);
 	gtk_widget_show_all(g->win);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/05 13:02:21 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/06 13:20:29 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,6 +97,7 @@ MISC = 		debug \
 			export_bmp \
 			read_bmp \
 			get_file_name \
+			generate_perlin_noise
 
 GUI =		window_signals \
 			sig_open_scene \
@@ -201,7 +202,7 @@ $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 
 $(OBJ_DIR)/%.o : ./src/misc/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/gui/%.c
 	@/bin/mkdir -p $(OBJ_DIR)

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/05 12:35:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/06 11:01:50 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 int	cudaMallocHost(void **ptr, size_t size);
 int	cudaMalloc(void **ptr, size_t size);
 int cudaMemcpy(void *dst, const void *src, size_t count, int cuda);	
+
+/*
+** Opens, allocates memory and reads the content of a bmp file.
+** If available GPU memory > size of the file, malloc on the GPU.
+** Otherwise, malloc on the pinned memory.
+** @param file_name: 	absolute or relative path to the file
+** @param dim: 			the dimension of the pixelmap (set in the function)
+*/
 
 t_color		*read_bmp(char *file_name, t_pt2 *dim)
 {

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/05 13:05:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/06 14:03:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,15 @@ void	save_object(int fd, t_object *obj)
 	{
 		write(fd, "\t\ttexture: ", 11);
 		write(fd, obj->texture_name, ft_strlen(obj->texture_name));
+		if (ft_strcmp(obj->texture_name, "Perlin") == 0)
+		{
+			write(fd, " ", 1);
+			write_float(fd, obj->texture_dim.x);
+			write(fd, ", ", 2);
+			write_float(fd, obj->texture_dim.y);
+			write(fd, ", ", 2);
+			write_float(fd, 100);
+		}
 	}
 	write(fd, "\n\t}\n", 4);
 }

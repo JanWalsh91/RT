@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/05 13:03:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/06 10:53:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -689,6 +689,7 @@ t_color			*read_bmp(char *file_name, t_pt2 *dim);
 ** Textures Functions
 */
 
+t_color			*generate_perlin_noise(t_vec3 *res);
 CUDA_DEV
 t_pt2			get_uv_coord(t_object *obj, t_ray *ray);
 CUDA_DEV
@@ -703,6 +704,7 @@ CUDA_DEV
 t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
 CUDA_DEV
 t_vec3			get_object_color(t_object *obj, t_ray *ray);
+
 
 
 /*
