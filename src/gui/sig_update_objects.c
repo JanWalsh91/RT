@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 11:04:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 13:31:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->texture_name ? get_file_name(obj->texture_name) : "");
-
-
 	if (obj->texture)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
@@ -172,7 +170,8 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 		gtk_widget_set_sensitive(widget, false);
 	}
-
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
+	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ? get_file_name(obj->normal_map_name) : "");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
 	gtk_widget_set_sensitive(widget, TRUE);
 	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK) ?
@@ -711,6 +710,71 @@ void	*sig_delete_obj_texture(GtkWidget *button, t_gtk_tools *g)
 	}
 	return (NULL);
 }
+void	*sig_delete_obj_normal_map(GtkWidget *button, t_gtk_tools *g)
+{
+	t_object	*obj;
+	GtkWidget	*widget;
+
+	obj = get_selected_object(g);
+	if (obj->normal_map)
+	{
+		cudaFreeHost(obj->normal_map);
+		obj->normal_map = NULL;
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserNormalMap"));
+		gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
+		gtk_label_set_text(GTK_LABEL(widget), "");
+		free(obj->normal_map_name);
+		obj->normal_map_name = NULL;
+		update_objects_info_panel(g, obj);
+		(g->updating_gui) ? 0 : obj_render_sig(g);
+	}
+	return (NULL);
+}
+
+void	*sig_update_obj_normal_map(GtkWidget *file_chooser, t_gtk_tools *g)
+{
+	t_object	*obj;
+	GtkWidget	*widget;
+
+	obj = get_selected_object(g);
+	if (obj->normal_map) // set to NULL?
+		cudaFreeHost(obj->normal_map);
+	if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)) == NULL)
+		return (NULL);
+	if (!(obj->normal_map = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->normal_map_dim))) // check dim diff
+		exit (0); // Hehe TODO! ><
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
+	gtk_label_set_text(GTK_LABEL(widget), get_file_name(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser))));
+	
+	// t_pt2 dim = obj->normal_map_dim;
+	// printf("Normal map dim: %d, %d\n", dim.x, dim.y);
+	// obj->normal_map_dim = obj->texture_dim;
+
+	obj->texture_dim = obj->normal_map_dim;
+
+	printf("text dim: %d, %d, text ratio : %d, %d \n", obj->texture_dim.x, obj->texture_dim.y, obj->texture_ratio.x, obj->texture_ratio.y);
+
+	// if existe deja ?
+	free(obj->normal_map_name);
+	obj->normal_map_name = ft_strdup(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)));
+
+	// Only sensitive if texture loaded
+	/*
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
+	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureY"));
+	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateX"));
+	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
+	gtk_widget_set_sensitive(widget, true);
+	*/
+	
+	// update_objects_info_panel(g, obj);
+	(g->updating_gui) ? 0 : obj_render_sig(g);
+	return (NULL);
+}
 
 void	*sig_uptate_obj_texture_ratio_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
@@ -718,6 +782,7 @@ void	*sig_uptate_obj_texture_ratio_x(GtkWidget *spin_button, t_gtk_tools *g)
 
 	printf("sig_update_obj_texture_ratio\n");
 	obj = get_selected_object(g);
+	obj->texture_ratio.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	obj->texture_ratio.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);

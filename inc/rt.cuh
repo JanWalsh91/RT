@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 10:53:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 13:25:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef enum	e_token
 	T_FOV,
 	T_INTENSITY,
 	T_FILTER,
-	T_READ_RT_FILE,
+	T_READ_NORMAL_MAP,
 	T_READ_OBJ_FILE,
 	T_READ_TEXTURE_FILE,
 	T_READ_MATERIAL_FILE,
@@ -266,6 +266,9 @@ typedef struct	s_object
 	t_pt2			texture_ratio;
 	t_pt2			texture_translate;
 	char			*texture_name;
+	t_color			*normal_map;
+	t_pt2			normal_map_dim;
+	char			*normal_map_name;
 	float			rad;
 	float			height;
 	float			angle;
@@ -519,7 +522,7 @@ char			*parse_transparency(t_parse_tools *t);
 char			*parse_fov(t_parse_tools *t);
 char			*parse_intensity(t_parse_tools *t);
 char			*parse_filter(t_parse_tools *t);
-char			*read_rt_file(t_parse_tools *t);
+char			*read_normal_map(t_parse_tools *t);
 char			*read_obj_file(t_parse_tools *t);
 char			*read_texture_file(t_parse_tools *t);
 char			*read_material_file(t_parse_tools *t);
@@ -691,15 +694,15 @@ t_color			*read_bmp(char *file_name, t_pt2 *dim);
 
 t_color			*generate_perlin_noise(t_vec3 *res);
 CUDA_DEV
-t_pt2			get_uv_coord(t_object *obj, t_ray *ray);
+t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV
-t_pt2			get_uv_sphere(t_object *obj, t_ray *ray);
+t_pt2			get_uv_sphere(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV
-t_pt2			get_uv_plane(t_object *obj, t_ray *ray);
+t_pt2			get_uv_plane(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV
-t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray);
+t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV
-t_pt2			get_uv_cone(t_object *obj, t_ray *ray);
+t_pt2			get_uv_cone(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV
 t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
 CUDA_DEV

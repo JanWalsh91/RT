@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_7.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 15:45:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 13:26:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,15 @@ char	*parse_filter(t_parse_tools *t)
 	return (NULL);
 }
 
-char	*read_rt_file(t_parse_tools *t)
+char	*read_normal_map(t_parse_tools *t)
 {
-	rt_file_warning(t, ".rt file name not provided.");
+	// rt_file_warning(t, ".rt file name not provided.");
+	t_color			*normal_map;
+
+	if (!(normal_map = read_bmp(t->input->value, &t->current_object->normal_map_dim)))
+		return (strerror(errno));
+	t->current_object->normal_map_name = ft_strdup(t->input->value); // free?
+	t->current_object->normal_map = normal_map;
 	return (NULL);
 }
 

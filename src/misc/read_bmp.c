@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   read_bmp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 11:01:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 13:29:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "bmp_infos.h"
-#include <cuda.h>
-
-int	cudaMallocHost(void **ptr, size_t size);
-int	cudaMalloc(void **ptr, size_t size);
-int cudaMemcpy(void *dst, const void *src, size_t count, int cuda);	
+#include <cuda_runtime.h>
 
 /*
 ** Opens, allocates memory and reads the content of a bmp file.
@@ -63,14 +59,17 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 		return (NULL);
 		// No valid file / no texture provided. Test if file != bmp or whatever
 	}
-	dim->x = header.width;
-	dim->y = header.height;
+	if (dim)
+	{
+		dim->x = header.width;
+		dim->y = header.height;
+	}
 	read(fd, &ignore, header.offset);
 
-	if (cudaMalloc((void**)&texture_d, header.width * header.height * 3) != 0)
+	if (cudaMalloc((void **)&texture_d, header.width * header.height * 3) != 0)
 	{
 		on_gpu = false;
-		if (cudaMallocHost(&texture_h, header.width * header.height * 3) != 0)
+		if (cudaMallocHost((void **)&texture_h, header.width * header.height * 3) != 0)
 			return (NULL);
 	}
 	else

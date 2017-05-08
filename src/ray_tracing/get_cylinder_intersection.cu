@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cylinder_intersection.cu                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:27:49 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/03 14:57:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 13:27:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,15 @@ static void	get_finite_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-t_pt2	get_uv_cylinder(t_object *obj, t_ray *ray)
+t_pt2	get_uv_cylinder(t_object *obj, t_ray *ray, t_pt2 *dim)
 {
 	t_pt2	coord;
 	t_vec3	hit_center;
 
 	hit_center = v_scale(ray->nhit, -1);
-	coord.x = (0.5 + (atan2f(hit_center.z, hit_center.x) / (float)(2 * M_PI))) * obj->texture_dim.x;
-	coord.y = (sqrtf(v_dist(ray->hit, obj->pos) * v_dist(ray->hit, obj->pos) - (obj->rad * obj->rad)) / obj->height) * obj->texture_dim.y;
-	
-	coord.x %= obj->texture_dim.x;
-	coord.y %= obj->texture_dim.y;
-
+	coord.x = (0.5 + (atan2f(hit_center.z, hit_center.x) / (float)(2 * M_PI))) * dim->x;
+	coord.y = (sqrtf(v_dist(ray->hit, obj->pos) * v_dist(ray->hit, obj->pos) - (obj->rad * obj->rad)) / obj->height) * dim->y;
+	coord.x %= dim->x;
+	coord.y %= dim->y;
 	return (coord);
 }

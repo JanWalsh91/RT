@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 13:13:03 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/06 17:10:14 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_FOV] = &parse_fov;
 	t->parse[T_INTENSITY] = &parse_intensity;
 	t->parse[T_FILTER] = &parse_filter;
-	t->parse[T_READ_RT_FILE] = &read_rt_file;
+	t->parse[T_READ_NORMAL_MAP] = &read_normal_map;
 	t->parse[T_READ_OBJ_FILE] = &read_obj_file;
 	t->parse[T_READ_TEXTURE_FILE] = &read_texture_file;
 	t->parse[T_READ_MATERIAL_FILE] = &read_material_file;
