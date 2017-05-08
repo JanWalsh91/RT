@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 15:11:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/07 09:56:35 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 		return (NULL);
 		// No valid file / no texture provided. Test if file != bmp or whatever
 	}
-	dim->x = header.width;
-	dim->y = header.height;
+	if (dim)
+	{
+		dim->x = header.width;
+		dim->y = header.height;
+	}
 	read(fd, &ignore, header.offset);
 
 	if (cudaMalloc((void **)&texture_d, header.width * header.height * 3) != 0)

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:55 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 13:29:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/06 15:24:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ t_color		*generate_perlin_noise(t_vec3 *res)
 	if (cudaMallocHost((void **)&map, (3 * res->x * res->y)) != 0)
 		return (NULL);
 	i.y = -1;
+	C(1)
 	while (++i.y < res->y)
 	{
 		i.x = -1;
@@ -135,6 +136,7 @@ t_color		*generate_perlin_noise(t_vec3 *res)
 			map[i.y * (int)res->x + i.x].b = color;
 		}
 	}
+	C(3)
 	free(perm);
 	return (map);
 }

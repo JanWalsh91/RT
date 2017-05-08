@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 12:47:07 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/06 15:45:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
-	gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y);
+	g->win ? gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
 	return (NULL);
 }
 
@@ -80,7 +80,7 @@ void	*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g)
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
-	gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y);
+	g->win ? gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
 	return (NULL);
 }
 

@@ -14,6 +14,7 @@ officielle fait foi.
 parcimonie (c'est pas un membre du staff).
 Si cette serie d'elements n'est pas OK, la notation s'arrete.
   Yes No
+
 LA PARTIE OBLIGATOIRE ELIMINATOIRE
 Cette partie correspond au RTv1. Elle est obligatoire et eliminatoire.
 Si il manque des morceaux, la notation s'arrete, le projet vaut 0. En
@@ -22,6 +23,7 @@ les options ne rapportent des points que si la partie obligatoire est
 complète à 100%." Le sujet demande enfin 3 scenes (celles dont il y a
 les images) a realiser pour justement valider facilement la partie
 obligatoire. C'est le moment ou le groupe doit les raytracer.
+
 EXPOSE SANS RE-CALCUL
 Passez une fenêtre devant celle du rt, changez le focus clavier d'une
 fenetre a l'autre. Ça retrace ? Avec ou sans calculs ?
@@ -34,6 +36,7 @@ Verifier que les calculs ne sont pas refaits une nouvelle fois.
 sans re-calcul. Dans le doute, voir le code. Le grand classique est
 l'utilisation des images de la minilibX.
   Yes No
+
 LES OBJETS
 Verifier que les 4 objets de base sont presents, qu'ils peuvent etre
 dans une meme scene, et que plusieurs objets du meme type peuvent
@@ -45,6 +48,7 @@ quelconque (subir donc translation et rotations).
 Enfin, les intersections entre les objets doivent avoir l'air coherents
 (un plan et une sphere, ca doit faire comme dans la video de demo/intro)
   Yes No
+
 LE SAVIEZ-VOUS ?
 REM sont les initiales de Rapid Eye Movement.
 Peut-on placer l'oeil n'importe ou dans la scene ? et regardant vers
@@ -52,6 +56,7 @@ n'importe quelle direction ?
 Verifiez que l'image 2 a realiser est bien la meme scene que l'image 1,
 qui a seulement subit un deplacement de l'oeil.
   Yes No
+
 LUMIERES
 La luminosite est-elle presente sur les objets ? (presence d'un degrade
 de couleur sur l'objet, du plus lumineux face au spot, jusqu'au plus
@@ -66,6 +71,7 @@ degrades sont multiples selon la position des spots, les ombres sont
 nuancees selon le nombre de sources lumineuses visibles/cachees.
 L'image 3 permet de verifier ces aspects.
   Yes No
+
 LES OPTIONS
 Il y a tout un tas d'options a faire. Compte tenu de la grande diversite
 et variete des options, la validation du RT est plutot basse. Donc avec
@@ -79,13 +85,15 @@ Le fichier est en XML, ou en tout cas dispose d'une structure spéciale,
 d'une hiérarchie.. Bref, pas un simple fichier avec 1 objet par ligne
 ou des blocs basiques par objet séparés par une ligne vide.
   Yes No
-LUMIERE D&#39;AMBIANCE
+
+LUMIERE D'AMBIANCE
 Vos objets ne tombent jamais dans le noir total.
   Yes No
 AMBIANCE ++
 Si la lumiere d'ambiance est pas en dur dans le code mais reglable dans
 le fichier de conf.
   Yes No
+
 OBJETS LIMITES
 Indiquez le nombre de points suivants qui sont OK :
 - on peut decouper basiquement les objets selon les axes x,y,z
@@ -99,6 +107,7 @@ dupliqué pour chaque type d'objet.
 faites une limite sur x et y, ca vous fait deja un carre) : un triangle,
 et/ou un disque par ex.
 Rate it from 0 (failed) through 5 (excellent)
+
 PERTURBATIONS
 Indiquez le nombre de points suivants qui sont OK
 - perturbation de la normale : genre avec un sinus, ca donne
@@ -111,13 +120,16 @@ changer la couleur de l'objet
 Perlin : comptez 2 points, et si il n'y a que celui-la, ne comptez pas
 le point precedent.
 Rate it from 0 (failed) through 5 (excellent)
+
 LUMIERE DIRECTE
 on est ébloui par les spots en face de nous.
   Yes No
+
 LUMIERE PARALLELE
 Une lumiere parallèle eclaire la scene, selon une direction precise.
 (a contrario d'un spot qui emet de la lumiere d'un point precis)
   Yes No
+
 REFLEXION ET TRANSPARENCE
 Indiquez le nombre de points qui sont OK :
 - la reflexion marche, on a bien un effet mirroir
@@ -127,10 +139,12 @@ Indiquez le nombre de points qui sont OK :
 formule de Descartes dans le code)
 - on peut changer le % de transparence
 Rate it from 0 (failed) through 5 (excellent)
+
 OMBRES ET TRANSPARENCE
 Selon la transparence d'un objet, est-ce que son ombre
 s'éclaircit/s'assombrit ?
   Yes No
+
 TEXTURES
 Indiquez le nombre de points qui sont OK :
 - On peut appliquer une texture sur au moins un des 4 objets
@@ -140,6 +154,7 @@ Indiquez le nombre de points qui sont OK :
 - Utilisation d'une lib autre que la minilibX et ses xpm pour charger
 les textures (jpeg, png, ...)
 Rate it from 0 (failed) through 5 (excellent)
+
 AUTRES APPLICATIONS DES TEXTURES
 On compte ici le nombre de points qui sont OK :
 - la texture sert a modifier la normale d'un objet (du bump mapping en
@@ -150,6 +165,7 @@ endroits
 - la texture sur un objet semi-transparent sert de diapositive et se
 trouve projetee sur d'autres objets (2 points)
 Rate it from 0 (failed) through 5 (excellent)
+
 OBJETS COMPOSES
 On peut définir un objet composé d'autres objets :
 un cube == 6 plan limités
@@ -158,6 +174,7 @@ Et il est possible de definir notre scene avec plusieurs fois le meme
 objet composé mais a des positions et avec des orientations diverses
 (si c'est pas le cas, en fait il sert a rien l'objet compose...)
   Yes No
+
 OBJETS NEGATIFS
 On peut soustraire un objet a un autre ou deformer un objet par un
 autre.
@@ -165,12 +182,14 @@ autre.
 => un cylindre vient deformer un autre cylindre perpendiculaire jusqu'au
 centre.
   Yes No
+
 OBJETS NATIFS SIMPLES
 principalement ce qui peut se resoudre avec un degre de complexite
 inferieur ou egal a la sphere/cylindre/cone (qui sont de degres 2)
 => principalement paraboloide et hyperboloide.
 Si il y a au moins un objet de cette nature, alors c'est OK.
   Yes No
+
 EFFETS VISUELS CLASSIQUES
 Hop, un point par effet present.
 - Antialiasing
@@ -179,6 +198,7 @@ Hop, un point par effet present.
 - sepia ou autre filtre de couleur
 - stereoscopie simple (genre lunettes rouges/vertes)
 Rate it from 0 (failed) through 5 (excellent)
+
 EFFETS TECHNIQUES
 Encore ici, un point par effet present :
 - calcul cluster sur plusieurs machines (2pt)
@@ -186,6 +206,7 @@ Encore ici, un point par effet present :
 - c'est PARTICULIEREMENT rapide comme rendu
 - sauvegarde de l'image integree au RT
 Rate it from 0 (failed) through 5 (excellent)
+
 ENVIRONNEMENT
 5 propositions pour 5 points :
 - il y a une interface sommaire : un message d'attente graphique, ou une
@@ -204,6 +225,7 @@ tout seuls)
 realise avec tout plein de spheres, une helice genre de l'ADN avec des
 spheres et des cylindres..
 Rate it from 0 (failed) through 5 (excellent)
+
 INTERMEDE
 Faisons une pause pour evaluer le groupe de travail.
 ORGANISATION ET GESTION DU GROUPE
@@ -218,6 +240,7 @@ comptabilisee comme telle. Mais le jugement subjectif d'une hierarchie
 fait partie de votre avenir professionnel, et meme si vous ne vous en
 rendez pas encore tous compte, vous pouvez agir dessus.
   Yes No
+
 ENCORE DES OPTIONS
 On peut encore faire tout un tas de choses chouettes pour votre RT.
 OBJETS EXOTIQUES
@@ -230,6 +253,7 @@ Un point par type d'objet exotique rencontre :
 - autre (objets fractals, etc...) autant de fois que necessaire jusqu'a
 5 max bien sur
 Rate it from 0 (failed) through 5 (excellent)
+
 EN VRAC
 une fois de plus, un point pour chaque :
 - une sequence video realisee avec votre RT ! (mettez le lien dans le
@@ -241,12 +265,15 @@ les rendez dans votre RT.
 n'est pas ponctuelle, et du coup les ombres n'ont pas un contour net.
 - d'autres trucs delirants
 Rate it from 0 (failed) through 5 (excellent)
+
 LE RUBAN DE MOEBIUS
 Un joli ruban de Moebius !!
   Yes No
+
 CAUSTICS ET/OU GLOBAL ILLUMINATION
 Ca c'est cool. Mailez-moi, postez des images dans le forum, tout ca.
   Yes No
+
 THE LAST.... AND THE LEAST
 C'est beau ?
 C'est complètement subjectif, mais chacun ses gouts.
