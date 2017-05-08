@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/06 14:03:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 17:12:32 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,10 +187,9 @@ void	save_object(int fd, t_object *obj)
 	write(fd, "\n", 1);
 	write(fd, "\t\treflection: ", 14);
 	write_float(fd, obj->reflection);
-	write(fd, "\n", 1);
 	if (obj->texture_name)
 	{
-		write(fd, "\t\ttexture: ", 11);
+		write(fd, "\n\t\ttexture: ", 12);
 		write(fd, obj->texture_name, ft_strlen(obj->texture_name));
 		if (ft_strcmp(obj->texture_name, "Perlin") == 0)
 		{
@@ -201,6 +200,11 @@ void	save_object(int fd, t_object *obj)
 			write(fd, ", ", 2);
 			write_float(fd, 100);
 		}
+	}
+	if (obj->normal_map_name)
+	{
+		write(fd, "\n\t\tnormal map: ", 15);
+		write(fd, obj->normal_map_name, ft_strlen(obj->normal_map_name));
 	}
 	write(fd, "\n\t}\n", 4);
 }
