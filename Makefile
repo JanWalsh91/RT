@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/06 13:20:29 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/08 17:19:16 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,8 @@ MISC = 		debug \
 			export_bmp \
 			read_bmp \
 			get_file_name \
-			generate_perlin_noise
+			generate_perlin_noise \
+			check_file_ext \
 
 GUI =		window_signals \
 			sig_open_scene \

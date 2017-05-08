@@ -4,7 +4,7 @@ scene: rendu4
 	ray depth: 5
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000
-	sphere: sphere texture
+	cylinder: sphere texture
 	{
 		position: -5.0000, -5.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
@@ -15,7 +15,6 @@ scene: rendu4
 		ior: 1.0099
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: textures/earth.bmp
 	}
 	sphere: New Object
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:25:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/08 17:19:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -540,6 +540,8 @@ char			*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
 char			*parse_obj(t_parse_tools *t);
 char			*get_file_name(char *absolute_path);
+int				check_file_ext(char *file_name, char *ext);
+
 
 /*
 ** List management Functions

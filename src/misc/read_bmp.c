@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_bmp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:29:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/08 17:35:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	bool			on_gpu;
 
 	if ((fd = open(file_name, O_RDONLY)) == -1)
-	{	
-		printf("%s\n", strerror(errno));
-		// No valid file / no texture provided. Test if file != bmp or whatever
-	}
+		return (NULL);
 
+	// verify each read, if not size of word or DWORD
+	// check the signature. Need to be the default value for a bmp file. If not, STOP.
+	// check width and height: if 1231354564647684364136846741684768741647 then that file sucks
 	read(fd, &header.signature, sizeof(WORD));
 	read(fd, &header.file_size, sizeof(DWORD));
 	read(fd, &header.reserv_1, sizeof(WORD));
@@ -55,10 +55,7 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	printf("file_size: %d\n", header.file_size);
 	close(fd);
 	if ((fd = open(file_name, O_RDONLY)) == -1)
-	{
 		return (NULL);
-		// No valid file / no texture provided. Test if file != bmp or whatever
-	}
 	if (dim)
 	{
 		dim->x = header.width;
@@ -81,6 +78,7 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	i.x = -1;
 	while (++i.x < header.height)
 	{
+		// if read error, then quit properly
 		read(fd, &texture_h[i.x * header.width], sizeof(t_color) * header.width);
 		read(fd, &ignore, header.width % 4);
 		i.y = -1;
