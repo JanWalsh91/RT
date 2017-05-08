@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/03 15:31:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/06 11:57:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
 	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);
 	g_signal_connect(G_OBJECT(drawing_area), "draw", G_CALLBACK(draw_callback), g);
+	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), FALSE);
 	gtk_widget_show_all(g->win);
 	return (NULL);
 }
@@ -70,7 +71,7 @@ void	*render_wrapper(gpointer data)
 
 	printf("render_wrapper\n");
 	g = (t_gtk_tools *)data;
-	g->r->settings.tile_size = 32*9;
+	g->r->settings.tile_size = 32 * 9;
 	if (g->r->update.resolution)
 	{	
 		// g->pixbuf ? g_object_unref(g->pixbuf) : 0;
@@ -95,7 +96,7 @@ void	*render_wrapper(gpointer data)
 		ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, /*gdk_pixbuf_get_rows(g->pixbuf)*/ g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}
-	printf("size copied: %d\n", gdk_pixbuf_get_rowstride(g->pixbuf) * g->r->scene->res.y);
+	// printf("size copied: %d\n", gdk_pixbuf_get_rowstride(g->pixbuf) * g->r->scene->res.y);
 	g->r->rendering = 0;
 	return (FALSE);
 }

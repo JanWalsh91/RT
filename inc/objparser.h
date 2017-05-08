@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   objparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/27 11:14:02 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/04 13:02:13 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/05/04 14:28:17 by tgros             #+#    #+#             */
+/*   Updated: 2017/05/04 14:28:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef OBJPARSER_H
 # define OBJPARSER_H

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:29:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:09:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/04 17:09:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 
 void	set_default_ior(t_scene *scene, int type, void *obj, float *ior)
 {
-	data_warning(scene, type, ((t_object *)obj),
+	if (type == T_CAMERA)
+		data_warning(scene, type, (t_camera *)obj,
+		"Providing default index of refraction.");
+	else
+		data_warning(scene, type, (t_object *)obj,
 		"Providing default index of refraction.");
 	*ior = DEFAULT_IOR;
 }

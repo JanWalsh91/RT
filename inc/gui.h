@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/03 16:12:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/04 14:28:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ void			init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
 void			*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 t_camera		*get_selected_camera(t_gtk_tools *g);
 void			*sig_update_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g);
-void			*sig_check_cam_name(GtkWidget *GtkEntry, t_gtk_tools *g);
 void			*sig_update_cam_pos_x(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_cam_pos_y(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_cam_pos_z(GtkWidget *spin_button, t_gtk_tools *g);

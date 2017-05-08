@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 14:15:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/04 14:30:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static void	init_tokens2(t_parse_tools *t)
 		(!(t->tokens[T_INTENSITY] = ft_strdup("intensity"))) ||
 		(!(t->tokens[T_FILTER] = ft_strdup("filter"))) ||
 		(!(t->tokens[T_READ_RT_FILE] = ft_strdup("read rt file"))) ||
+		(!(t->tokens[T_READ_TEXTURE_FILE] = ft_strdup("texture"))) ||
 		(!(t->tokens[T_READ_OBJ_FILE] = ft_strdup("source"))) ||
-		(!(t->tokens[T_READ_TEXTURE_FILE] = ft_strdup("read texture file"))) ||
 		(!(t->tokens[T_READ_MATERIAL_FILE] =
 			ft_strdup("read material file"))) ||
 		(!(t->tokens[T_HASHTAG] = ft_strdup("#"))) ||

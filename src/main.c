@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/28 17:11:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/06 11:56:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	init_window(t_gtk_tools *g)
 	gtk_adjustment_set_upper(adj, res.height);
     window = GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main"));
 	gtk_widget_show(window);
+	gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);
 }
 
 void	build_gui(t_gtk_tools *g)

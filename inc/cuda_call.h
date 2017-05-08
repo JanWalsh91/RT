@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/28 16:52:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/03 11:39:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ void	render(struct s_raytracing_tools *r, struct s_pt2 tileId);
 extern "C"
 #endif
 int		cuda_free(struct s_raytracing_tools *r, int all);
+
 #endif

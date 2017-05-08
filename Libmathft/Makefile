@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/04/26 11:25:56 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/04 16:25:53 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ VECTORS_AND_MATRICES = c_add \
 		v_scale \
 		v_clamp \
 		v_isnan \
-		vec_to_col
+		vec_to_col \
+		col_to_vec
 
 MISC = 	ft_abs \
 		ft_power \

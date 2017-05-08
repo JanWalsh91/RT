@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/02 16:01:51 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/05/06 13:20:29 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,15 +87,17 @@ RAY_TRACING = cast_primary_ray \
 			refract \
 			filters \
 			get_reflected_and_refracted \
-			get_fresnel_ratio
-			# get_texture \
+			get_fresnel_ratio \
+			get_texture \
 
 MISC = 		debug \
 			free_parse_tools \
 			free_scenes \
 			rt_error \
 			export_bmp \
-			# read_bmp
+			read_bmp \
+			get_file_name \
+			generate_perlin_noise
 
 GUI =		window_signals \
 			sig_open_scene \
@@ -200,7 +202,7 @@ $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 
 $(OBJ_DIR)/%.o : ./src/misc/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/gui/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
@@ -212,8 +214,7 @@ $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 
 $(OBJ_DIR)/%.o : ./src/objparser/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	$(CC) $(FLG) -I./inc -dc $< -o $@
-
+	@$(CC) $(FLG) -I./inc -dc $< -o $@
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)

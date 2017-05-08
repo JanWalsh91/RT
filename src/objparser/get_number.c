@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_number.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 14:17:37 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/04 13:00:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/04 14:33:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Libft/inc/libft.h"
 #include <stdbool.h>
+#include "../Libft/inc/libft.h"
 
 /*
 ** Get the n number from the string str

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/05 12:07:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 13:37:13 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
+/*   Updated: 2017/05/06 10:53:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define DEFAULT_RES_W 1000
 # define DEFAULT_RES_H 1000
 # define DEFAULT_RAY_DEPTH 5
+# define MAX_RAY_DEPTH 10
 # define DEFAULT_KA 0.1
 # define DEFAULT_AMBIENT_LIGHT_COLOR_R 255
 # define DEFAULT_AMBIENT_LIGHT_COLOR_G 255
@@ -63,7 +64,7 @@
 # define DEFAULT_KS 0.1
 # define DEFAULT_KD 1
 # define DEFAULT_SPECULAR_EXP 200
-# define DEFAULT_IOR 1.1
+# define DEFAULT_IOR 1.01
 # define DEFAULT_REFLECTION 0
 # define DEFAULT_TRANSPARENCY 0
 # define CAM_IMG_PANE_DIST 1
@@ -260,6 +261,11 @@ typedef struct	s_object
 	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
+	t_color			*texture;
+	t_pt2			texture_dim;
+	t_pt2			texture_ratio;
+	t_pt2			texture_translate;
+	char			*texture_name;
 	float			rad;
 	float			height;
 	float			angle;
@@ -445,7 +451,7 @@ typedef struct	s_raytracing_tools
 	t_update		update;
 	uint8_t			rendering;
 	t_rt_settings	settings;
-	float			*ior_list;
+	float			ior_list[MAX_RAY_DEPTH + 1];
 }				t_raytracing_tools;
 
 
@@ -530,6 +536,7 @@ char			*can_add_new_scene(t_parse_tools *t);
 char			*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
 char			*parse_obj(t_parse_tools *t);
+char			*get_file_name(char *absolute_path);
 
 /*
 ** List management Functions
@@ -674,6 +681,31 @@ CUDA_DEV
 t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
+t_color			*read_bmp(char *file_name, t_pt2 *dim);
+
+
+
+/*
+** Textures Functions
+*/
+
+t_color			*generate_perlin_noise(t_vec3 *res);
+CUDA_DEV
+t_pt2			get_uv_coord(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_sphere(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_plane(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_pt2			get_uv_cone(t_object *obj, t_ray *ray);
+CUDA_DEV
+t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
+CUDA_DEV
+t_vec3			get_object_color(t_object *obj, t_ray *ray);
+
+
 
 /*
 ** Free Functions
