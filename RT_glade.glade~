@@ -284,8 +284,6 @@
     <property name="step_increment">10</property>
     <property name="page_increment">100</property>
   </object>
-<<<<<<< HEAD
-=======
   <object class="GtkAdjustment" id="AdjTextureTranslateX">
     <property name="upper">1000</property>
     <property name="step_increment">1</property>
@@ -296,7 +294,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
->>>>>>> 8352f5ecc297dc50891b08c825978f806af7cf24
   <object class="GtkAdjustment" id="AdjTextureX">
     <property name="lower">1</property>
     <property name="upper">100</property>
@@ -1056,7 +1053,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">14</property>
+                                <property name="top_attach">16</property>
                               </packing>
                             </child>
                             <child>
@@ -1298,14 +1295,15 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkFileChooserButton">
+                              <object class="GtkFileChooserButton" id="FileChooserNormalMap">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="title" translatable="yes"/>
+                                <signal name="selection-changed" handler="sig_update_obj_normal_map" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">14</property>
+                                <property name="top_attach">16</property>
                               </packing>
                             </child>
                             <child>
@@ -1495,8 +1493,6 @@
                                 <property name="left_attach">2</property>
                                 <property name="top_attach">13</property>
                               </packing>
-<<<<<<< HEAD
-=======
                             </child>
                             <child>
                               <object class="GtkSpinButton" id="SpinButtonObjectTextureX">
@@ -1620,31 +1616,12 @@
                             </child>
                             <child>
                               <placeholder/>
->>>>>>> 8352f5ecc297dc50891b08c825978f806af7cf24
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectTextureX">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjTextureX</property>
-                                <signal name="value-changed" handler="sig_uptate_obj_texture_ratio_x" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">3</property>
-                                <property name="top_attach">13</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectTextureY">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjTextureY</property>
-                                <signal name="value-changed" handler="sig_uptate_obj_texture_ratio_y" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">4</property>
-                                <property name="top_attach">13</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                             <child>
                               <placeholder/>
