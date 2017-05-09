@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/08 17:19:16 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/09 15:02:20 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ PARSING = 	get_color \
 			parse_value_7 \
 			parse_value_8 \
 			parse_value_9 \
+			parse_value_10 \
 			parse_vector \
 			parse_float \
 			reset_attributes \
@@ -73,12 +74,15 @@ RAY_TRACING = cast_primary_ray \
 			get_normal \
 			init_camera_ray \
 			solve_quadratic \
+			solve_cubic \
+			solve_quartic \
 			intersects \
 			get_plane_intersection \
 			get_sphere_intersection \
 			get_disk_intersection \
 			get_cylinder_intersection \
 			get_cone_intersection \
+			get_torus_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \

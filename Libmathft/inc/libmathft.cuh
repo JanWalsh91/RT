@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 16:25:34 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/09 14:27:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ typedef struct	s_vec3
 	float		y;
 	float		z;
 }				t_vec3;
+
+typedef struct	s_vec4
+{
+	float		w;
+	float		x;
+	float		y;
+	float		z;
+}				t_vec4;
 
 typedef float	t_matrix[4][4];
 

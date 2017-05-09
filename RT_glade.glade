@@ -355,6 +355,9 @@
       <row>
         <col id="0" translatable="yes">Cone</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Torus</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="liststore2">
@@ -470,8 +473,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>

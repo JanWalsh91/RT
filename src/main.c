@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/06 11:56:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/09 16:04:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	*main_gtk(t_gtk_tools *g)
 	build_gui(g);
 	init_window(g);
 	(g->filename) ? open_scene(g, NULL) : 0;
+	// print_scenes(g->r->scene);
     gtk_main();
 	clean_exit(g);
 	return (NULL);

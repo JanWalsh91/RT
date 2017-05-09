@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/08 13:26:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/09 15:43:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,6 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 
 	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
-	// if (r->scene->objects[ray->hit_obj].texture)
-		// color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_coord(&r->scene->objects[ray->hit_obj], ray)));
-	// else
 		color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	while (!v_isnan(r->scene->lights[++i].col))
 	{

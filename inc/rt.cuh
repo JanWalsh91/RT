@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 17:19:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/09 15:46:12 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef enum	e_token
 	T_SPHERE,
 	T_CYLINDER,
 	T_CONE,
+	T_TORUS,
 	T_OBJ,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
@@ -192,6 +193,7 @@ typedef struct	s_attributes
 	t_vec3			col;
 	t_filter		filter;
 	float			rad;
+	float			rad_torus;
 	float			height;
 	float			ks;
 	float			specular_exp;
@@ -270,6 +272,7 @@ typedef struct	s_object
 	t_pt2			normal_map_dim;
 	char			*normal_map_name;
 	float			rad;
+	float			rad_torus;
 	float			height;
 	float			angle;
 	float			kd;
@@ -465,6 +468,20 @@ typedef struct	s_th_export
 	struct s_gtk_tools *g;
 }				t_th_export;
 
+typedef struct	s_quartic
+{
+	float	a;
+	float	b;
+	float	c;
+	float	d;
+	float	e;
+	float	m;
+	float	n;
+	float	o;
+	float	p;
+	float	q;
+}				t_quartic;
+
 // int		cuda_malloc(struct s_raytracing_tools *r);
 // int		cuda_free(struct s_raytracing_tools *r);
 
@@ -488,6 +505,7 @@ void			set_attributes_plane(t_parse_tools *t, t_attributes *a);
 void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
+void			set_attributes_torus(t_parse_tools *t, t_attributes *a);
 void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
 char			*parse_open_bracket(t_parse_tools *t);
@@ -501,6 +519,7 @@ char			*parse_disk(t_parse_tools *t);
 char			*parse_sphere(t_parse_tools *t);
 char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
+char			*parse_torus(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
 char			*parse_background_color(t_parse_tools *t);
@@ -664,7 +683,17 @@ CUDA_DEV
 bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
+bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
+
+CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
+
+CUDA_DEV
+bool			solve_cubic(t_vec3 q, float x, t_vec3 *sol);
+
+CUDA_DEV
+bool			solve_quartic(t_quartic *qua, t_vec4 *sol);
+
 
 /*
 ** Filters functions

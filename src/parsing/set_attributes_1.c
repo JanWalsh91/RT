@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:47:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 17:04:52 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/09 15:06:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	set_attributes(t_parse_tools *t, t_attributes *a)
 	t->current_type == T_SPHERE ? set_attributes_sphere(t, a) : 0;
 	t->current_type == T_CYLINDER ? set_attributes_cylinder(t, a) : 0;
 	t->current_type == T_CONE ? set_attributes_cone(t, a) : 0;
+	t->current_type == T_TORUS ? set_attributes_torus(t, a) : 0;
 }
 
 void	set_attributes_camera(t_parse_tools *t, t_attributes *a)
