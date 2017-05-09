@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 17:35:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/09 10:59:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	char			ignore[256];
 	t_pt2			i;
 	bool			on_gpu;
+	int				ret;
 
 	if ((fd = open(file_name, O_RDONLY)) == -1)
 		return (NULL);
@@ -38,14 +39,24 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	// verify each read, if not size of word or DWORD
 	// check the signature. Need to be the default value for a bmp file. If not, STOP.
 	// check width and height: if 1231354564647684364136846741684768741647 then that file sucks
-	read(fd, &header.signature, sizeof(WORD));
-	read(fd, &header.file_size, sizeof(DWORD));
-	read(fd, &header.reserv_1, sizeof(WORD));
-	read(fd, &header.reserv_2, sizeof(WORD));
-	read(fd, &header.offset, sizeof(DWORD));
-	read(fd, &header.chunk, sizeof(DWORD));
-	read(fd, &header.width, sizeof(DWORD));
-	read(fd, &header.height, sizeof(DWORD));
+	if ((ret = read(fd, &header.signature, sizeof(WORD))) != sizeof(WORD) ||
+		(ret = read(fd, &header.file_size, sizeof(DWORD)) != sizeof(DWORD)) ||
+		(ret = read(fd, &header.reserv_1, sizeof(WORD))!= sizeof(WORD)) ||
+		(ret = read(fd, &header.reserv_2, sizeof(WORD))!= sizeof(WORD)) ||
+		(ret = read(fd, &header.offset, sizeof(DWORD))!= sizeof(DWORD)) ||
+		(ret = read(fd, &header.chunk, sizeof(DWORD))!= sizeof(DWORD)) ||
+		(ret = read(fd, &header.width, sizeof(DWORD))!= sizeof(DWORD)) ||
+		(ret = read(fd, &header.height, sizeof(DWORD))!= sizeof(DWORD)))
+	{
+		errno = EIO;
+		return (NULL);
+	}
+	if (header.signature != 0x4D42 ||
+		header.file_size > 10485760)
+	{
+		errno = EILSEQ;
+		return (NULL);
+	}
 	if ((int)header.height < 0)
 		header.height = -header.height;
 	printf("Signature : %x\n", header.signature);
@@ -61,8 +72,8 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 		dim->x = header.width;
 		dim->y = header.height;
 	}
-	read(fd, &ignore, header.offset);
-
+	if ((ret = read(fd, &ignore, header.offset)) != header.offset)
+		return (NULL);
 	if (cudaMalloc((void **)&texture_d, header.width * header.height * 3) != 0)
 	{
 		on_gpu = false;
