@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:46:42 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/09 16:12:20 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 14:20:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@
 __device__
 bool	solve_quartic(t_quartic *qua, t_vec4 *sol)
 {
-	t_vec3	fgh;
-	t_vec3	sol_cubic;
+	t_vec3		fgh;
+	t_vec3im	sol_cubic;
+	float p, q, r, s;
 	// divide all members by a
-	printf("Before simplification : %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e);
 	qua->b /= qua->a;
 	qua->c /= qua->a;
 	qua->d /= qua->a;
 	qua->e /= qua->a;
 	qua->a = 1.0;
 
-	printf("After simplification : %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e);
+	// printf("After simplification : %f, %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e);
 
 	fgh.x = qua->c - (3 * qua->b * qua->b / 8);
 	fgh.y = qua->d + ((qua->b * qua->b * qua->b) / 8) - (qua->b * qua->c / 2);
@@ -47,17 +47,32 @@ bool	solve_quartic(t_quartic *qua, t_vec4 *sol)
 
 	printf("Sols cubics : %f, %f, %f\n", sol_cubic.x, sol_cubic.y, sol_cubic.z);
 
-	float p = sol_cubic.x > 0 ? sqrt(sol_cubic.x) : 0;
-	float q = sqrt(sol_cubic.z);
-	float r = -fgh.y / (8 * p * q);
-	float s = qua->b / (4 * qua->a);
+	if (!isnan(sol_cubic.y.i) || !isnan(sol_cubic.z.i))
+	{
+		p = ft_sqrtfi(sol_cubic.y).r;
+		q = ft_sqrtfi(sol_cubic.z).r;
+		r = -fgh.y / (8 * p * q);
+		s = qua->b / (4 * qua->a);
+		sol->w = p + q + r - s; 
+		sol->x = NAN;
+		sol->y = NAN;
+		sol->z = -p -q + r - s;
+	}
+	else
+	{
+		p = sqrt(sol_cubic.x.r);
+		q = sqrt(sol_cubic.z.r);
+		r = -fgh.y / (8 * p * q);
+		s = qua->b / (4 * qua->a);
+		sol->w = p + q + r -s;
+		sol->x = p - q - r -s;
+		sol->y = -p + q - r -s;
+		sol->z = -p - q + r -s;
+	}
 
 	printf("pqrs : %f, %f, %f, %f\n", p, q, r, s);
 
-	sol->w = p + q + r -s;
-	sol->x = p - q - r -s;
-	sol->y = -p + q - r -s;
-	sol->z = -p - q + r -s;
+	printf("Before simplification : %f, %f, %f, %f, %f sols : %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e, sol->w, sol->x, sol->y, sol->z);
 
 	if (sol->w < 0 && sol->x < 0 && sol->y < 0 && sol->z < 0)
 		return (false);

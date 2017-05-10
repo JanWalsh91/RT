@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/04 16:25:53 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/10 13:56:16 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ MISC = 	ft_abs \
 		ft_to_radian \
 		ft_swap \
 		ft_swapf \
-		ft_clampf
+		ft_clampf \
+		ft_sqrtfi
 
 OBJ_DIR = obj
 

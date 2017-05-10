@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/09 14:27:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 14:02:47 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,20 @@ typedef struct	s_vec3
 	float		z;
 }				t_vec3;
 
+
+typedef struct	s_im
+{
+	float		r;
+	float		i;
+}				t_im;
+
+typedef struct	s_vec3im
+{
+	t_im		x;
+	t_im		y;
+	t_im		z;
+}				t_vec3im;
+
 typedef struct	s_vec4
 {
 	float		w;
@@ -81,6 +95,9 @@ CUDA_HOSTDEV
 void			ft_swapf(float *a, float *b);
 CUDA_HOSTDEV
 float			ft_clampf(float i, float min, float max);
+CUDA_HOSTDEV
+t_im			ft_sqrtfi(t_im i);
+
 
 /*
 ** Colors

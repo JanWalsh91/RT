@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/09 15:46:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 14:04:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -689,7 +689,7 @@ CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
 
 CUDA_DEV
-bool			solve_cubic(t_vec3 q, float x, t_vec3 *sol);
+bool			solve_cubic(t_vec3 q, float x, t_vec3im *sol);
 
 CUDA_DEV
 bool			solve_quartic(t_quartic *qua, t_vec4 *sol);
