@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 11:57:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 11:47:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 	GtkWidget		*widget2;
 	GtkAccelGroup 	*accel_group;
 	GClosure		*closure;
-	GtkWidget 		*drawing_area;
+	GdkRectangle	res;
 
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
@@ -43,18 +43,23 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
     gtk_accel_group_connect(accel_group, GDK_KEY_Escape, 0, 0, closure);
 	gtk_window_add_accel_group(GTK_WINDOW(g->win), accel_group);
 	
-	drawing_area = gtk_drawing_area_new();
-	gtk_container_add (GTK_CONTAINER (g->win), drawing_area);
-	gtk_widget_set_size_request(drawing_area, g->r->scene->res.x, g->r->scene->res.y);
-	g_signal_connect(G_OBJECT(drawing_area), "draw", G_CALLBACK(draw_callback), g);
+	g->drawing_area = gtk_drawing_area_new();
+	gtk_container_add (GTK_CONTAINER (g->win), g->drawing_area);
+	gtk_widget_set_size_request(g->drawing_area, g->r->scene->res.x, g->r->scene->res.y);
+	gtk_window_set_resizable (GTK_WINDOW(g->win), false);
+	g_signal_connect(G_OBJECT(g->drawing_area), "draw", G_CALLBACK(draw_callback), g);
 	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), FALSE);
+	gdk_monitor_get_geometry(gdk_display_get_monitor(gdk_display_get_default(), 0), &res);
+	gtk_window_set_gravity (GTK_WINDOW(g->win), GDK_GRAVITY_EAST);
+	gtk_window_move (GTK_WINDOW(g->win), res.width - g->r->scene->res.x - 100, res.height - g->r->scene->res.y - 150);
+	// printf("%d, %d\n", res.width, res.height);
 	gtk_widget_show_all(g->win);
 	return (NULL);
 }
 
-static void	increment_tile(t_pt2 *tileId, int tile_col)
+static void	increment_tile(t_pt2 *tileId, int tile_row)
 {
-	if (++tileId->x >= tile_col)
+	if (++tileId->x >= tile_row)
 	{
 		tileId->x = 0;
 		++tileId->y;
@@ -92,7 +97,7 @@ void	*render_wrapper(gpointer data)
 		render(g->r, tileId); 
 		// usleep(100000);
 		// printf("gdk_pixbuf_get_rowstride (g->pixbuf): [%d]\n", g->r->scene->res.x * 3);
-		increment_tile(&tileId, tile_col);
+		increment_tile(&tileId, tile_row);
 		ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, /*gdk_pixbuf_get_rows(g->pixbuf)*/ g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}

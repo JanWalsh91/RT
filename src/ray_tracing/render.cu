@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/09 16:11:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 10:58:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,28 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	
     idx = scene->res.x * r.pix.y + r.pix.x;
 
-	if (idx < 1)
-	{
+	// if (idx < 1)
+	// {
 
-		t_quartic 	qua;
-		t_vec4		sol;
+	// 	t_quartic 	qua;
+	// 	t_vec4		sol;
 
-		qua.a = 1;
-		qua.b = 2;
-		qua.c = 3;
-		qua.d = 4;
-		qua.e = 5;
+	// 	qua.a = 1;
+	// 	qua.b = 2;
+	// 	qua.c = 3;
+	// 	qua.d = 4;
+	// 	qua.e = 5;
 
-		sol.w = -1;
-		sol.x = -1;
-		sol.y = -1;
-		sol.z = -1;
+	// 	sol.w = -1;
+	// 	sol.x = -1;
+	// 	sol.y = -1;
+	// 	sol.z = -1;
 
-		solve_quartic(&qua, &sol);
+	// 	solve_quartic(&qua, &sol);
 
-		printf("Sols : %f, %f, %f, %f\n", sol.w, sol.x, sol.y, sol.z);
+	// 	printf("Sols : %f, %f, %f, %f\n", sol.w, sol.x, sol.y, sol.z);
 
-	}
+	// }
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{

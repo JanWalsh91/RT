@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 15:45:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 11:29:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,29 @@ void	scene_render_sig(t_gtk_tools *g)
 void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	printf("sig_update_res_x\n");
+	while (g->r->rendering);
 	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
+	g->r->scene->res.x += g->r->scene->res.x % 4;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(SpinButton), g->r->scene->res.x);
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
+	g->win ? gtk_widget_set_size_request(g->drawing_area, g->r->scene->res.x, g->r->scene->res.y) : 0;
 	g->win ? gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
 	return (NULL);
 }
 
 void	*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
+	while (g->r->rendering);
 	g->r->scene->res.y = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
+	g->r->scene->res.y += g->r->scene->res.y % 4;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(SpinButton), g->r->scene->res.y);
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
-	g->win ? gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
+	g->win ? gtk_widget_set_size_request(g->drawing_area, g->r->scene->res.x, g->r->scene->res.y) : 0;
+	g->win ? gtk_window_resize(GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
 	return (NULL);
 }
 

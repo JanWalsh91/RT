@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/09 16:04:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 11:17:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int main(int ac, char **av)
 	g.ac = ac;
 	g.av = av;
 	g.win = NULL;
+	g.drawing_area = NULL;
 	g.cr = NULL;
 	g.updating_gui = 0;
 	g.t = &t;

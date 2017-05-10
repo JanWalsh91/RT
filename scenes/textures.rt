@@ -17,7 +17,7 @@ scene: rendu4
 		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: Perlin 300, 300, 10
+		texture: Perlin 800, 800, 100
 	}
 	sphere: Sphere
 	{
@@ -31,7 +31,7 @@ scene: rendu4
 		transparency: 0.0000
 		reflection: 0.0000
 
-		texture: Perlin 300, 300, 10
+		texture: Perlin 800, 800, 100
 	}
 	cone: Cone
 	{
@@ -47,7 +47,7 @@ scene: rendu4
 		transparency: 0.0000
 		reflection: 0.0000
 
-		texture: Perlin 300, 300, 10
+		texture: Perlin 800, 800, 100
 	}
 	plane: Plane
 	{
@@ -61,7 +61,7 @@ scene: rendu4
 		transparency: 0.0000
 		reflection: 0.0000
 
-		texture: Perlin 300, 300, 10
+		texture: Perlin 800, 800, 100
 	}
 	light: light 1
 	{

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/04 14:28:29 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 11:17:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_gtk_tools
 	struct s_parse_tools 		*t;
 	struct s_raytracing_tools 	*r;
 	GtkWidget					*win;
+	GtkWidget					*drawing_area;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
 	int							ac;
