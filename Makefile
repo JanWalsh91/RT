@@ -6,6 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
+#    Updated: 2017/05/10 16:24:41 by talemari         ###   ########.fr        #
 #    Updated: 2017/05/09 15:02:20 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -67,7 +68,7 @@ LIST = 		get_new_camera \
 			remove_object \
 			remove_camera \
 			remove_light \
-			push_scene 
+			push_scene
 
 RAY_TRACING = cast_primary_ray \
 			render \
@@ -128,7 +129,10 @@ CUDA_MEM =	cuda_malloc \
 OBJ_PARSER = 	ft_freetab \
 				ft_isnumeric \
 				get_number \
+				get_float \
 				objparser \
+				get_vector_i \
+				get_vector_f \
 				set_obj
 
 
