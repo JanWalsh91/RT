@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/10 10:58:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:37:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	// 	t_vec4		sol;
 
 	// 	qua.a = 1;
-	// 	qua.b = 2;
-	// 	qua.c = 3;
-	// 	qua.d = 4;
-	// 	qua.e = 5;
+	// 	qua.b = -116.837563;
+	// 	qua.c = 1801.999756;
+	// 	qua.d = -105036.960938;
+	// 	qua.e = 808200.812500;
 
 	// 	sol.w = -1;
 	// 	sol.x = -1;
@@ -85,7 +85,6 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 		memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 		cam_ray = init_camera_ray(&r);
 		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
-		free(r.ior_list);
 	}
 }
 

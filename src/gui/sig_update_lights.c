@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 10:55:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 11:09:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_light		*get_selected_light(t_gtk_tools *g)
 void	light_render_sig(t_gtk_tools *g)
 {
 	g->r->update.render = 1;
-	g->r->update.lights = 1;
+	g->r->update.lights = g->r->update.lights > 1 ? 2 : 1;
 	if (g->win)
 		gtk_widget_queue_draw(g->win);
 }

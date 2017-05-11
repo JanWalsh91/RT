@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:31:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/11 12:47:56 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,8 +269,10 @@ t_object	*get_selected_object(t_gtk_tools *g)
 
 void	obj_render_sig(t_gtk_tools *g)
 {
+	GtkWidget	*widget;
+
 	g->r->update.render = 1;
-	g->r->update.objects = 1;
+	g->r->update.objects = g->r->update.objects > 1 ? 2 : 1;
 	if (g->win)
 		gtk_widget_queue_draw(g->win);
 }
@@ -299,6 +301,8 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
+	if ((obj->type == T_PLANE || obj->type == T_DISK) && v_isnan(obj->dir))
+		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
 	update_objects_info_panel(g, obj);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);

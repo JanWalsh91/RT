@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/09 15:43:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:38:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,8 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	int		i;
 	int		ret;
 
-	// printf("%d, %d, %d\n", color.r, color.g, color.b);
 	i = -1;
-		color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
+	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		dim_light = v_new(1, 1, 1);

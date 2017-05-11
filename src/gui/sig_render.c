@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 11:47:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 16:57:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 	if (gtk_widget_get_sensitive (widget2))
 	{
 		obj = get_selected_object(g);
-		obj->dir = v_norm(obj->dir);
-		update_objects_info_panel(g, obj);
-		gtk_widget_set_sensitive (widget2, FALSE);
+		if (obj != NULL)
+		{
+			obj->dir = v_norm(obj->dir);
+			update_objects_info_panel(g, obj);
+			gtk_widget_set_sensitive (widget2, FALSE);
+		}
 	}
 	g->win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
 	g_signal_connect(g->win, "destroy", G_CALLBACK(window_destroy), g);
-	
 	closure = g_cclosure_new(G_CALLBACK(window_destroy_esc), g, 0);
     accel_group = gtk_accel_group_new();
     gtk_accel_group_connect(accel_group, GDK_KEY_Escape, 0, 0, closure);

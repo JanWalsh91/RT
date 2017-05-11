@@ -6,12 +6,13 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:42:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 10:49:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 13:34:32 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+#include "cuda_call.h"
 
 void	*sig_delete_light(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -27,6 +28,7 @@ void	*sig_delete_light(GtkWidget *widget, t_gtk_tools *g)
 	light = get_selected_light(g);
 	gtk_container_remove(GTK_CONTAINER(list_box), GTK_WIDGET(list_box_row));
 	remove_light(&g->r->scene->lights, light);
+	g->r->update.lights = 2;
 	if (g->r->scene->lights)
 	{
 		gtk_list_box_select_row(GTK_LIST_BOX(list_box), gtk_list_box_get_row_at_index(GTK_LIST_BOX(list_box), id - 1 >= 0 ? id - 1 : 0));
@@ -38,6 +40,10 @@ void	*sig_delete_light(GtkWidget *widget, t_gtk_tools *g)
 		gtk_widget_set_sensitive(list_box, false);
 		list_box = GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteLight"));
 		gtk_widget_set_sensitive(list_box, false);
+		cuda_malloc(g->r);
+		g->r->update.render = 1;
+		if (g->win)
+			gtk_widget_queue_draw(g->win);
 	}
 	return (NULL);
 }

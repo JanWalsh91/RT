@@ -409,6 +409,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">New project</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_new_scene" swapped="no"/>
+                        <accelerator key="n" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -473,8 +475,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/09 16:05:09 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:21:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,27 @@ int	cuda_malloc(t_raytracing_tools *r)
 		gpuErrchk(cudaSetDevice(0));
 		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * r->scene->ray_depth);
 	}
+	printf("Objects: %d\n", r->update.objects);
 	if (r->update.objects >= 1)
 	{
 		h_scene_to_array.objects = list_to_array_objects(r->scene->objects);
-		printf("%d\n", r->update.objects);
 		if (r->update.objects == 2)
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array.objects)));
+		printf("Cuda memcpy avec %lu bytes\n", get_objects_array_length(h_scene_to_array.objects));
 		gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array.objects, get_objects_array_length(h_scene_to_array.objects), cudaMemcpyHostToDevice)));
 		free(h_scene_to_array.objects);
 	}
+	printf("Lights: %d\n", r->update.lights);
 	if (r->update.lights >= 1)
 	{
 		h_scene_to_array.lights = list_to_array_lights(r->scene->lights);
 		if (r->update.lights == 2)
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->lights), get_lights_array_length(h_scene_to_array.lights)));
+		printf("Cuda memcpy avec %lu bytes\n", get_lights_array_length(h_scene_to_array.lights));
 		gpuErrchk((cudaMemcpy(r->h_d_scene->lights, h_scene_to_array.lights, get_lights_array_length(h_scene_to_array.lights), cudaMemcpyHostToDevice)));
 		free(h_scene_to_array.lights);
 	}
+	printf("Cameras : %d\n", r->update.cameras);
 	if (r->update.cameras >= 1)
 	{
 		if (r->update.cameras == 2)
@@ -127,6 +131,8 @@ size_t			get_objects_array_length(t_object *objects)
 	size_t	size;
 
 	size = 0;
+	if (!objects)
+		return (0);
 	while (objects[size].type != T_INVALID_TOKEN)
 		++size;
 	return ((size + 1) * sizeof(t_object));
@@ -145,6 +151,7 @@ t_light		*list_to_array_lights(t_light *light)
 		++size;
 		light = light->next;
 	}
+	printf("Size of light array : %d\n", size);
 	array = (t_light *)malloc(sizeof(t_light) * (size + 1)); // malloc error
 	// bzero(array, sizeof(t_light) * (size + 1));
 	array[size].col = v_new(NAN, NAN, NAN);

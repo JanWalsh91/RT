@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 11:29:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 17:18:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void *update_grid_scene(t_gtk_tools *g)
 	// print_scenes(g->r->scene);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera")); // doublon, to delete ? dunno
 	gtk_widget_set_sensitive(widget, TRUE);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera")); // doublon, to delete ? dunno
 	gtk_widget_set_sensitive(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonRender"));
 	gtk_widget_set_sensitive(widget, TRUE);
@@ -45,13 +45,13 @@ void *update_grid_scene(t_gtk_tools *g)
 	color.alpha = 1;
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
-	(g->r->scene->cameras->prev == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
+	(g->r->scene->cameras && g->r->scene->cameras->prev == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
 		gtk_widget_set_sensitive (widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));
-	(g->r->scene->cameras->next == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
+	(g->r->scene->cameras && g->r->scene->cameras->next == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
 		gtk_widget_set_sensitive (widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
-	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
+	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras ? g->r->scene->cameras->name : "None");
 	return (NULL);
 }
 
