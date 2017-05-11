@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 11:09:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 16:38:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,43 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 	return (NULL);
 }
 
+void	switch_light_type(t_gtk_tools *g, bool is_pos)
+{
+	GtkWidget	*widget;
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosX"));
+	gtk_widget_set_sensitive(widget, is_pos);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosY"));
+	gtk_widget_set_sensitive(widget, is_pos);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosZ"));
+	gtk_widget_set_sensitive(widget, is_pos);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
+	gtk_widget_set_sensitive(widget, !is_pos);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
+	gtk_widget_set_sensitive(widget, !is_pos);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
+	gtk_widget_set_sensitive(widget, !is_pos);
+}
+
 void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 {
 	GtkWidget	*widget;
 	GdkRGBA		color;
 
 	printf("update_lights_info_panel\n");
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxLightType"));
+	if (v_isnan(light->dir))
+	{
+		switch_light_type(g, 1);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
+	}
+	else
+	{
+		switch_light_type(g, 0);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 1);
+	}
+
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryLightName"));
 	gtk_entry_set_text (GTK_ENTRY(widget), light->name);
 
@@ -156,6 +187,32 @@ void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools 
 	g->updating_gui = 1;
 	update_lights_info_panel(g, l_ptr);
 	g->updating_gui = 0;
+	return (NULL);
+}
+
+void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
+{
+	int			id;
+	t_light 	*light;
+	GtkWidget	*widget;
+
+	printf("sig_update_light_type\n");
+	light = get_selected_light(g);
+	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
+	if (id == 0) // Position light
+	{
+		light->dir = v_new(NAN, NAN, NAN);
+		light->pos = v_new(0, 0, 0);
+		switch_light_type(g, 1);
+	}
+	else if (id == 1) // Directionnal light
+	{
+		light->pos = v_new(NAN, NAN, NAN);
+		light->dir = v_new(0.71, -0.71, 0);
+		switch_light_type(g, 0);
+	}
+	update_lights_info_panel(g, light);
+	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
 

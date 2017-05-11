@@ -1950,10 +1950,11 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="ComboBoxLightType">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="model">liststore2</property>
+                        <signal name="changed" handler="sig_update_light_type" swapped="no"/>
                         <child>
                           <object class="GtkCellRendererText"/>
                           <attributes>
