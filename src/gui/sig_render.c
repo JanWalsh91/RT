@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 16:57:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:52:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 	gtk_widget_set_size_request(g->drawing_area, g->r->scene->res.x, g->r->scene->res.y);
 	gtk_window_set_resizable (GTK_WINDOW(g->win), false);
 	g_signal_connect(G_OBJECT(g->drawing_area), "draw", G_CALLBACK(draw_callback), g);
-	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), FALSE);
 	gdk_monitor_get_geometry(gdk_display_get_monitor(gdk_display_get_default(), 0), &res);
 	gtk_window_set_gravity (GTK_WINDOW(g->win), GDK_GRAVITY_EAST);
 	gtk_window_move (GTK_WINDOW(g->win), res.width - g->r->scene->res.x - 100, res.height - g->r->scene->res.y - 150);

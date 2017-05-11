@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/10 11:17:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 14:48:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	r->h_d_scene = (t_scene *)malloc(sizeof(t_scene));
 }
 
+void	*sig_button_pressed_window(GtkWidget *widget, GdkEvent *event, t_gtk_tools *g)
+{
+	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), false);
+	g_signal_handlers_disconnect_by_func(GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main")), sig_button_pressed_window, g);
+	return (NULL);
+}
 
 int main(int ac, char **av)
 {

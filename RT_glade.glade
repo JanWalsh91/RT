@@ -382,6 +382,7 @@
     <property name="title" translatable="yes">RT</property>
     <property name="default_width">925</property>
     <property name="default_height">765</property>
+    <signal name="button-press-event" handler="sig_button_pressed_window" swapped="no"/>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <child>
       <object class="GtkBox">
@@ -475,8 +476,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
