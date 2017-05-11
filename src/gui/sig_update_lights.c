@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 16:38:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 17:02:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 
 	printf("update_lights_info_panel\n");
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxLightType"));
-	if (v_isnan(light->dir))
-	{
-		switch_light_type(g, 1);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
-	}
-	else
-	{
-		switch_light_type(g, 0);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 1);
-	}
+	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxLightType"));
+	// if (!g->updating_gui && v_isnan(light->dir))
+	// {
+	// 	// switch_light_type(g, 1);
+	// 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 1);
+	// }
+	// else if (!g->updating_gui)
+	// {
+	// 	// switch_light_type(g, 0);
+	// 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
+	// }
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryLightName"));
 	gtk_entry_set_text (GTK_ENTRY(widget), light->name);
@@ -199,16 +199,23 @@ void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
 	printf("sig_update_light_type\n");
 	light = get_selected_light(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
+	printf("type : %d\n", id);
 	if (id == 0) // Position light
 	{
 		light->dir = v_new(NAN, NAN, NAN);
-		light->pos = v_new(0, 0, 0);
+		if (v_isnan(light->pos))
+			light->pos = v_new(DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
+		else	
+			light->pos = v_new(light->pos.x, light->pos.y, light->pos.z);
 		switch_light_type(g, 1);
 	}
 	else if (id == 1) // Directionnal light
 	{
 		light->pos = v_new(NAN, NAN, NAN);
-		light->dir = v_new(0.71, -0.71, 0);
+		if (v_isnan(light->dir))
+			light->dir = v_new(DEFAULT_DIR_X, -DEFAULT_DIR_Y, DEFAULT_DIR_Z);
+		else
+			light->dir = v_new(light->dir.x, light->dir.y, light->dir.z);
 		switch_light_type(g, 0);
 	}
 	update_lights_info_panel(g, light);
