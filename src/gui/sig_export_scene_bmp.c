@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 11:58:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/12 13:19:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	pthread_t		export_thread;
 	GtkFileChooser	*chooser;
 
+	if (!g->pixbuf)
+	{
+		display_error_popup(NULL, g, "Please render the scene once before exporting.");
+		return (NULL);
+	}
 	th_export.progress = 0;
 	th_export.g = g;
 	dialog = gtk_file_chooser_dialog_new("Save as .bmp", NULL, GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -31,7 +36,6 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	{
 		chooser = GTK_FILE_CHOOSER (dialog);
 		th_export.filename = gtk_file_chooser_get_filename (chooser);
-
 
 		loading_bar = gtk_progress_bar_new();
 		gtk_widget_destroy(dialog);
