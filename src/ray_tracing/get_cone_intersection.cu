@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/09 12:42:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/12 12:42:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,11 @@ t_pt2	get_uv_cone(t_object *obj, t_ray *ray, t_pt2 *dim)
 	hit_center = v_scale(ray->nhit, -1);
 	coord.x = (0.5 + (atan2f(hit_center.z, hit_center.x) / (float)(2 * M_PI))) * dim->x;
 	coord.y = (v_dist(obj->pos, ray->hit) / sqrtf(obj->height * obj->height + obj->rad * obj->rad)) * dim->y;
+	// printf("Heigh : %f. Percenage : %f. Dim.y = %d. Coord.y = %d\n", sqrtf(obj->height * obj->height + obj->rad * obj->rad),v_dist(obj->pos, ray->hit), dim->y, coord.y);
+	// if (coord.y > dim->y)
+	// {
+		// printf("pos: %f %f %f\n", ray->hit.x, ray->hit.y, ray->hit.z);
+	// }
 	coord.x %= dim->x;
 	coord.y %= dim->y;
 	return (coord);

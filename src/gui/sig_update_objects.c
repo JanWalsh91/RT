@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 12:47:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/12 12:48:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -850,6 +850,8 @@ void	*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_height\n");
 	obj = get_selected_object(g);
 	obj->height = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (obj->type == T_CONE)
+		obj->angle = atan(obj->rad / obj->height);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }

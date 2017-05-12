@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 14:04:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 17:15:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -655,7 +655,7 @@ t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_r
 CUDA_DEV
 float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
-t_color			get_ambient(t_scene *scene);
+t_color			get_ambient(t_scene *scene, t_vec3 obj_col);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
