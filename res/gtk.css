@@ -50,3 +50,6 @@ viewport > list {
 	border: 5px;
 }
 
+menubar > *:hover {
+	color: #e0e0e0;
+}

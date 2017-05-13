@@ -382,7 +382,6 @@
     <property name="title" translatable="yes">RT</property>
     <property name="default_width">925</property>
     <property name="default_height">765</property>
-    <signal name="button-press-event" handler="sig_button_pressed_window" swapped="no"/>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <signal name="focus-in-event" handler="sig_button_pressed_window" swapped="no"/>
     <child>
@@ -2799,20 +2798,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="PrintScenes">
-                <property name="label" translatable="yes">PrintScenes</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="ButtonRender">
                 <property name="label" translatable="yes">Render</property>
                 <property name="visible">True</property>
@@ -2827,19 +2812,33 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="padding">30</property>
-                <property name="pack_type">end</property>
                 <property name="position">3</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="CamPaddingFart">
+              <object class="GtkButton" id="PrintScenes">
+                <property name="label" translatable="yes">PrintScenes</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">4</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="LabelAvailableCudaMemory">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes"> ///</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
               </packing>
             </child>
           </object>

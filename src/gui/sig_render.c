@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 14:52:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/13 11:26:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*render_wrapper(gpointer data)
 
 	printf("render_wrapper\n");
 	g = (t_gtk_tools *)data;
-	g->r->settings.tile_size = 32 * 9;
+	// g->r->settings.tile_size = 32 * 9;
 	if (g->r->update.resolution)
 	{	
 		// g->pixbuf ? g_object_unref(g->pixbuf) : 0;
