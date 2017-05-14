@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/11 15:47:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/14 10:25:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
 	if (!g->filename)
 		return (NULL);
 	if (fd == -1)
-		fd = open(g->filename, O_CREAT | O_WRONLY);
+		fd = open(g->filename, O_CREAT | O_WRONLY, 0600);
 	save_scene(fd, g->r->scene);
 	close(fd);
     return (NULL);
