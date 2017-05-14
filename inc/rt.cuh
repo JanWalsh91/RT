@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/13 11:28:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/13 16:26:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@
 # define DEFAULT_IOR 1.01
 # define DEFAULT_REFLECTION 0
 # define DEFAULT_TRANSPARENCY 0
-# define DEFAULT_TILE_SIZE 128
+# define DEFAULT_TILE_SIZE 288
 # define CAM_IMG_PANE_DIST 1
 # define BIAS 0.01
 # define INIT_IOR 1.0003 // initial index of refraction (air)
@@ -351,8 +351,9 @@ typedef struct	s_scene
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;
-	uint8_t			is_3d;
+	bool			is_3d;
 	bool			is_fresnel;
+	char			is_aa;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -637,7 +638,7 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 CUDA_DEV
 void			*rt(struct s_gtk_tools *r);
 CUDA_DEV
-t_ray			init_camera_ray(t_raytracing_tools *r);
+t_ray			init_camera_ray(t_raytracing_tools *r, t_dpt2 current_pos_pix);
 CUDA_DEV
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/11 14:37:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/13 14:26:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,55 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
 	int					idx;
-	
+	t_dpt2				aa_i;
+	float				sample_size;
+	int					i;
+	t_vec3				moyenne;
+
 	r.pix.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
-	
     idx = scene->res.x * r.pix.y + r.pix.x;
-
-	// if (idx < 1)
-	// {
-
-	// 	t_quartic 	qua;
-	// 	t_vec4		sol;
-
-	// 	qua.a = 1;
-	// 	qua.b = -116.837563;
-	// 	qua.c = 1801.999756;
-	// 	qua.d = -105036.960938;
-	// 	qua.e = 808200.812500;
-
-	// 	sol.w = -1;
-	// 	sol.x = -1;
-	// 	sol.y = -1;
-	// 	sol.z = -1;
-
-	// 	solve_quartic(&qua, &sol);
-
-	// 	printf("Sols : %f, %f, %f, %f\n", sol.w, sol.x, sol.y, sol.z);
-
-	// }
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		// initialize ior list
 		// r.ior_list = (float *)malloc(sizeof(float) * (scene->ray_depth + 1));
-		memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
-		cam_ray = init_camera_ray(&r);
-		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+		// printf("AA de la scene : %d\n", scene->is_aa);
+		if (scene->is_aa == 1)
+		{
+			aa_i.x = 0.5;
+			aa_i.y = 0.5;
+			memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
+			cam_ray = init_camera_ray(&r, aa_i);
+			d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+		}
+		else
+		{
+			sample_size =  1 / (float)scene->is_aa;
+			aa_i.x = 0.0;
+			aa_i.y = 0.0;
+			i = -1;
+			moyenne.x = 0;
+			moyenne.y = 0;
+			moyenne.z = 0;
+			while (++i < scene->is_aa * scene->is_aa)
+			{
+				aa_i.x += sample_size;
+				if (i % (scene->is_aa - 1) == 0)
+				{
+					aa_i.x = 0.0;
+					aa_i.y += sample_size;
+				}
+				memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
+				cam_ray = init_camera_ray(&r, aa_i);
+				moyenne = v_add(moyenne, col_to_vec(cast_primary_ray(&r, &cam_ray)));
+			}
+			moyenne.x /= (scene->is_aa * scene->is_aa);
+			moyenne.y /= (scene->is_aa * scene->is_aa);
+			moyenne.z /= (scene->is_aa * scene->is_aa);
+			d_pixel_map[idx] = filter(vec_to_col(moyenne), scene->cameras->filter);
+		}
 	}
 }
 

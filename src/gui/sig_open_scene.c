@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 10:57:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/13 16:25:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	g->r->scene->is_shadow = true;
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
+	g->r->scene->is_aa = 1;
 
 	g->r->scene->cameras = (t_camera *)ft_memalloc(sizeof(t_camera));
 
@@ -132,6 +133,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->update.cameras = 2;
 	g->r->update.scene = 2;
 	g->r->update.ray_depth = 2;
+	g->r->scene->is_aa = 1;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
 	return (0);

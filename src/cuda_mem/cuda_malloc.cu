@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 14:21:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/14 10:17:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,26 @@ int	cuda_malloc(t_raytracing_tools *r)
 		gpuErrchk(cudaSetDevice(0));
 		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * r->scene->ray_depth);
 	}
-	printf("Objects: %d\n", r->update.objects);
+	// printf("Objects: %d\n", r->update.objects);
 	if (r->update.objects >= 1)
 	{
 		h_scene_to_array.objects = list_to_array_objects(r->scene->objects);
 		if (r->update.objects == 2)
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array.objects)));
-		printf("Cuda memcpy avec %lu bytes\n", get_objects_array_length(h_scene_to_array.objects));
+		// printf("Cuda memcpy avec %lu bytes\n", get_objects_array_length(h_scene_to_array.objects));
 		gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array.objects, get_objects_array_length(h_scene_to_array.objects), cudaMemcpyHostToDevice)));
 		free(h_scene_to_array.objects);
 	}
-	printf("Lights: %d\n", r->update.lights);
+	// printf("Lights: %d\n", r->update.lights);
 	if (r->update.lights >= 1)
 	{
 		h_scene_to_array.lights = list_to_array_lights(r->scene->lights);
 		if (r->update.lights == 2)
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->lights), get_lights_array_length(h_scene_to_array.lights)));
-		printf("Cuda memcpy avec %lu bytes\n", get_lights_array_length(h_scene_to_array.lights));
+		// printf("Cuda memcpy avec %lu bytes\n", get_lights_array_length(h_scene_to_array.lights));
 		gpuErrchk((cudaMemcpy(r->h_d_scene->lights, h_scene_to_array.lights, get_lights_array_length(h_scene_to_array.lights), cudaMemcpyHostToDevice)));
 		free(h_scene_to_array.lights);
 	}
-	printf("Cameras : %d\n", r->update.cameras);
 	if (r->update.cameras >= 1)
 	{
 		if (r->update.cameras == 2)
@@ -94,7 +93,7 @@ int	cuda_malloc(t_raytracing_tools *r)
 	r->update.scene = 0;
 	r->update.ray_depth = 0;
 	r->update.render = 0;
-	printf("Resolution: %d\n", r->update.resolution);
+	// printf("Resolution: %d\n", r->update.resolution);
 	// printf("RENDER ADDR %p\n", &r->update.render);
 	return (1);
 }

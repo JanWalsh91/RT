@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/13 11:39:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/13 11:54:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "gui.h"
 #include <cuda_runtime.h>
 
-void *update_grid_settings(t_gtk_tools *g, GtkBuilder *builder)
+void    *update_grid_settings(t_gtk_tools *g, GtkBuilder *builder)
 {
 	GtkWidget	*widget;
 

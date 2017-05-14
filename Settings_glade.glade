@@ -16,6 +16,9 @@
     </columns>
     <data>
       <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
         <col id="0" translatable="yes">x2</col>
       </row>
       <row>
@@ -57,20 +60,6 @@
         <child internal-child="action_area">
           <object class="GtkButtonBox">
             <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">Close</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -115,6 +104,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="model">ListAA</property>
+                <property name="active">0</property>
+                <signal name="changed" handler="sig_update_aa" swapped="no"/>
                 <child>
                   <object class="GtkCellRendererText"/>
                   <attributes>
@@ -201,6 +192,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="model">ListFontSize</property>
+                <property name="active">1</property>
+                <signal name="changed" handler="sig_update_font_size" swapped="no"/>
                 <child>
                   <object class="GtkCellRendererText"/>
                   <attributes>

@@ -53,3 +53,11 @@ viewport > list {
 menubar > *:hover {
 	color: #e0e0e0;
 }
+
+.bigfont {
+	font-size: 2rem;
+}
+
+.smallfont {
+	font-size: 0.7rem;
+}

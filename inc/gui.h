@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 11:17:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/13 12:06:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct	s_gtk_tools
 	cairo_t						*cr;
 	size_t						stack_size;
 	bool						updating_gui;
+	GtkCssProvider				*font_size;
 }				t_gtk_tools;
 
 /*
