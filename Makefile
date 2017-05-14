@@ -6,10 +6,10 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/13 11:25:36 by tgros            ###   ########.fr        #
-#    Updated: 2017/05/09 15:02:20 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/14 13:13:33 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = RT
 LIBFT_NAME = libft.a
@@ -122,7 +122,8 @@ GUI =		window_signals \
 			sig_open_settings \
 			sig_export_scene_bmp \
 			sig_print_scenes \
-			sig_render
+			sig_render \
+			sig_set_full_screen \
 
 CUDA_MEM =	cuda_malloc \
 			cuda_free
