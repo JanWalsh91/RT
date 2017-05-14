@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/14 13:13:33 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/14 18:04:23 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,7 +103,9 @@ MISC = 		debug \
 			read_bmp \
 			get_file_name \
 			generate_perlin_noise \
+			generate_checkerboard \
 			check_file_ext \
+			is_texture_loaded \
 
 GUI =		window_signals \
 			sig_open_scene \
@@ -124,6 +126,7 @@ GUI =		window_signals \
 			sig_print_scenes \
 			sig_render \
 			sig_set_full_screen \
+			sig_generate_texture \
 
 CUDA_MEM =	cuda_malloc \
 			cuda_free

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/13 16:26:23 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/14 18:04:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -718,6 +718,7 @@ t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
 t_color			*read_bmp(char *file_name, t_pt2 *dim);
+t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_name, t_pt2 dim);
 
 
 
@@ -726,6 +727,7 @@ t_color			*read_bmp(char *file_name, t_pt2 *dim);
 */
 
 t_color			*generate_perlin_noise(t_vec3 *res);
+t_color			*generate_checkerboard(t_vec3 *res);
 CUDA_DEV
 t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/14 13:16:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/14 17:47:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScaleObjectKR"));
 	gtk_range_set_value(GTK_RANGE(widget), obj->reflection);
 
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
-	if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)))
-		gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
+	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
+	// if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)))
+		// gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->texture_name ? get_file_name(obj->texture_name) : "");
@@ -153,6 +153,10 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 		
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 		gtk_widget_set_sensitive(widget, true);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
+		gtk_widget_set_sensitive(widget, false);
+
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->texture_translate.x);
 	}
 	else
@@ -169,6 +173,9 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 		
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 		gtk_widget_set_sensitive(widget, false);
+		
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
+		gtk_widget_set_sensitive(widget, true);
 	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ? get_file_name(obj->normal_map_name) : "");
@@ -662,6 +669,7 @@ void	*sig_update_obj_kreflection(GtkWidget *scale, t_gtk_tools *g)
 void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 {
 	t_object 	*obj;
+	t_object	*tmp;
 	GtkWidget	*widget;
 
 	printf("sig_update_obj_texture\n");
@@ -671,13 +679,23 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 		cudaFreeHost(obj->texture);
 	if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)) == NULL)
 		return (NULL);
-	if (!(obj->texture = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->texture_dim)))
-		exit (0); // Hehe TODO! ><
+	free(obj->texture_name);
+	obj->texture_name = ft_strdup(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)));
+	tmp = is_texture_loaded(g->r->scene->objects, obj, obj->texture_name, obj->texture_dim);
+	if (!tmp)
+	{
+		if (!(obj->texture = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->texture_dim)))
+			exit (0); // Hehe TODO! ><
+	}
+	else
+	{
+		obj->texture = tmp->texture;
+		obj->texture_dim = tmp->texture_dim;
+		printf("===\nRecyclage\n===\n");
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 	gtk_label_set_text(GTK_LABEL(widget), get_file_name(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser))));
 	
-	free(obj->texture_name);
-	obj->texture_name = ft_strdup(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)));
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
 	gtk_widget_set_sensitive(widget, true);
@@ -687,6 +705,8 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, true);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
+	gtk_widget_set_sensitive(widget, false);
 
 	// update_objects_info_panel(g, obj);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
@@ -697,16 +717,37 @@ void	*sig_delete_obj_texture(GtkWidget *button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
+	t_object	*tmp;
 
 	obj = get_selected_object(g);
 	if (obj->texture)
 	{
-		cudaFreeHost(obj->texture);
-		obj->texture = NULL;
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
-		gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
+		// gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 		gtk_label_set_text(GTK_LABEL(widget), "");
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
+		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
+		gtk_widget_set_sensitive(widget, true);
+		tmp = g->r->scene->objects;
+		while (tmp)
+		{
+			if (tmp != obj)
+			{
+				if (tmp->texture == obj->texture)
+				{
+					free(tmp->texture_name);
+					tmp->texture_name = 0;
+					ft_bzero(&tmp->texture_dim, sizeof(t_pt2));
+					ft_bzero(&tmp->texture_ratio, sizeof(t_pt2));
+					ft_bzero(&tmp->texture_translate, sizeof(t_pt2));
+					tmp->texture = NULL;
+				}
+			}
+			tmp = tmp->next;
+		}
+		cudaFreeHost(obj->texture);
+		obj->texture = NULL;
 		free(obj->texture_name);
 		obj->texture_name = NULL;
 		update_objects_info_panel(g, obj);
@@ -725,7 +766,7 @@ void	*sig_delete_obj_normal_map(GtkWidget *button, t_gtk_tools *g)
 		cudaFreeHost(obj->normal_map);
 		obj->normal_map = NULL;
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserNormalMap"));
-		gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
+		// gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
 		gtk_label_set_text(GTK_LABEL(widget), "");
 		free(obj->normal_map_name);

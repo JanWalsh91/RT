@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/13 12:06:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/14 18:09:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ typedef struct	s_gtk_tools
 	GtkWidget					*drawing_area;
 	char						*filename; //current open file
 	struct _GtkBuilder 			*builder;
+	struct _GtkBuilder 			*builder_texture;
 	int							ac;
 	char						**av;
 	GdkPixbuf					*pixbuf;
 	cairo_t						*cr;
 	size_t						stack_size;
 	bool						updating_gui;
+	char						generate_id;
 	GtkCssProvider				*font_size;
 }				t_gtk_tools;
 

@@ -1,0 +1,104 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	plane: Background
+	{
+		position: 0.0000, -1.0000, 20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		texture: /Users/tgros/gitlab/RT/textures/texture_wall.bmp
+	}
+	plane: Ground
+	{
+		position: 0.0000, -3.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	cylinder: Podium
+	{
+		position: 0.0000, -3.0000, -10.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 21.0000
+		height: 5.0000
+		kd: 0.7000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.3000
+	}
+	disk: Cap 1
+	{
+		position: 0.0000, 2.0000, -10.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.2000
+	}
+	cylinder: New Object
+	{
+		position: 0.0000, 0.0000, -10.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 0.5000
+		height: 150.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	light: Blue
+	{
+		position: 14.0000, 30.0000, 0.0000
+		look at: 0.0000, 0.0000, 0.0000
+		color:0.0000, 0.0000, 255.0000
+		intensity: 20
+	}
+	light: Red
+	{
+		position: -19.0000, 24.0000, 0.0000
+		direction: 0.0000, 0.0000, 0.0000
+		look at: 0.0000, 0.0000, 0.0000
+		color:239.0000, 41.0000, 41.0000
+		intensity: 20
+	}
+	light: Green
+	{
+		position: 0.0000, 10.0000, -48.0000
+		direction: 0.0000, 0.0000, 0.0000
+		look at: 0.0000, 0.0000, 0.0000
+		color:255.0000, 0.0000, 153.0000
+		intensity: 4
+	}
+	camera: New Camera
+	{
+		position: -13.0000, 20.0000, -100.0000
+		direction: 0.1288, -0.1981, 0.9716
+		filter: none
+		fov: 45
+		ior: 1.0098
+	}
+}

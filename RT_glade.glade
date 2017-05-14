@@ -308,6 +308,23 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkListStore" id="ListGeneratedTexture">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Perlin</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Checkerboard</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="ListStoreComboBoxObjLookAtName">
     <columns>
       <!-- column-name ObjectNames -->
@@ -1497,7 +1514,7 @@
                                 </child>
                               </object>
                               <packing>
-                                <property name="left_attach">2</property>
+                                <property name="left_attach">3</property>
                                 <property name="top_attach">13</property>
                               </packing>
                             </child>
@@ -1611,15 +1628,39 @@
                                 </child>
                               </object>
                               <packing>
-                                <property name="left_attach">2</property>
+                                <property name="left_attach">3</property>
                                 <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBox" id="ComboBoxGeneratedTexture">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="model">ListGeneratedTexture</property>
+                                <property name="active">0</property>
+                                <signal name="changed" handler="sig_generate_texture" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">13</property>
+                              </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBox" id="ComboBoxGeneratedNormal">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="model">ListGeneratedTexture</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">14</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>
