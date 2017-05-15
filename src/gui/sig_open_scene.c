@@ -6,13 +6,14 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/13 16:25:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/15 09:52:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 #include "../inc/cuda_call.h"
+#include <cuda_runtime.h>
 
 
 void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
@@ -23,7 +24,8 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	if (g->filename)
 		g_free(g->filename);
 	if (g->r->scene)
-		cuda_free(g->r, 0);
+		cudaDeviceReset();
+		// cuda_free(g->r, 0);
 	if (!(g->r->scene = (t_scene *)malloc(sizeof(t_scene))))
 		return (NULL);
 	g->r->scene->res.x = DEFAULT_RES_W;
@@ -55,12 +57,6 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	g->r->scene->cameras->filter = 0;
 	g->r->scene->cameras->ior = 1.01;
 
-	// g->r->update.resolution = 2;
-	// g->r->update.objects = 2;
-	// g->r->update.lights = 2;
-	// g->r->update.scene = 2;
-	// g->r->update.ray_depth = 2;
-
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
 
@@ -69,9 +65,13 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	g->r->update.scene = 2;
 	cuda_malloc(g->r);
 	update_grid_scene(g);
-	// populate_list_box_objects(g);
+	gtk_container_foreach (GTK_CONTAINER(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects")), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
 	update_grid_lights(g);
 	update_grid_cameras(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject"));
+	gtk_widget_set_sensitive(widget, false);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
+	gtk_widget_set_sensitive(widget, false);
 	return (NULL);
 }
 

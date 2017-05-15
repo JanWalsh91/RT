@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/14 18:16:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/15 09:24:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ char	*read_texture_file(t_parse_tools *t)
 			return ("Position formatting error.");
 		t->current_object->texture_name = ft_strdup("Perlin");
 		t->current_object->texture = generate_perlin_noise(&resolution);
+		t->current_object->texture_dim.x = (int)resolution.x;
+		t->current_object->texture_dim.y = (int)resolution.y;
+	}
+	else if (ft_strcmp(res[0], "CHECKERBOARD") == 0)
+	{
+		if (v_isnan(resolution = parse_vector(t->input->value + ft_strlen(res[0]))))
+			return ("Position formatting error.");
+		t->current_object->texture_name = ft_strdup("Checkerboard");
+		t->current_object->texture = generate_checkerboard(&resolution);
 		t->current_object->texture_dim.x = (int)resolution.x;
 		t->current_object->texture_dim.y = (int)resolution.y;
 	}
