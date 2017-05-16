@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/14 18:04:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 11:46:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -728,6 +728,7 @@ t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_nam
 
 t_color			*generate_perlin_noise(t_vec3 *res);
 t_color			*generate_checkerboard(t_vec3 *res);
+t_color			*generate_noise(t_vec3	*res);
 CUDA_DEV
 t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV

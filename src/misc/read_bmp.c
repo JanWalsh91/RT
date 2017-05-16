@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/09 10:59:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/15 10:16:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_color		*read_bmp(char *file_name, t_pt2 *dim)
 	// printf("========================\n");
 	// printf("Je suis sur le %s\n", on_gpu ? " GPU !" : " CPU !");
 	// printf("========================\n");
+	close(fd);
 	if (on_gpu)
 		cudaMemcpy(texture_d, texture_h, header.width * header.height * sizeof(t_color), 1);
 	else

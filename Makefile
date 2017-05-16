@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/14 18:04:23 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/16 11:38:43 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,7 @@ MISC = 		debug \
 			get_file_name \
 			generate_perlin_noise \
 			generate_checkerboard \
+			generate_noise \
 			check_file_ext \
 			is_texture_loaded \
 

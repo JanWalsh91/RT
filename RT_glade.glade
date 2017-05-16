@@ -323,6 +323,9 @@
       <row>
         <col id="0" translatable="yes">Checkerboard</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Noise</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="ListStoreComboBoxObjLookAtName">

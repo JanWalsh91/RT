@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/15 09:13:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 11:55:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,29 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 		obj->texture_name = ft_strdup("Checkerboard");
 		tmp = is_texture_loaded(g->r->scene->objects, obj, "Checkerboard", dim_tmp);
 		C(2)
+		while ((int)dim.x % (int)dim.z != 0)
+			dim.x++;
+		if (((int)dim.x / (int)dim.z) % 2 == 1)
+			dim.x += dim.z;
+		while ((int)dim.y % (int)dim.z != 0)
+			dim.y++;
+		if (((int)dim.y / (int)dim.z) % 2 == 1)
+			dim.y += dim.z;
+		printf("Generate checkerboard with res : %f, %f, %f\n", dim.x, dim.y, dim.z);			
 		if (!obj->texture)
 			obj->texture = generate_checkerboard(&dim);
 		else
 			obj->texture = tmp->texture;
 		C(3)
+	}
+	else if (g->generate_id == 3)
+	{
+		obj->texture_name = ft_strdup("Noise");
+		tmp = is_texture_loaded(g->r->scene->objects, obj, "Noise", dim_tmp);
+		if (!tmp)
+			obj->texture = generate_noise(&dim);
+		else
+			obj->texture = tmp->texture;
 	}
 	obj->texture_dim.x = (int)dim.x;
 	obj->texture_dim.y = (int)dim.y;

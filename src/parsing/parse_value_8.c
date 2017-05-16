@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/15 09:24:23 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 11:49:20 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*read_texture_file(t_parse_tools *t)
 	int				i;
 	t_vec3			resolution;
 
+	printf("read_texture_file\n");
 	if (!t->input->value)
 		return ("Invalid texture name");
 	res = ft_strsplit(t->input->value, ' ');
@@ -33,6 +34,7 @@ char	*read_texture_file(t_parse_tools *t)
 		if (v_isnan(resolution = parse_vector(t->input->value + ft_strlen(res[0]))))
 			return ("Position formatting error.");
 		t->current_object->texture_name = ft_strdup("Perlin");
+		resolution = v_clamp(resolution, 10, 2000);
 		t->current_object->texture = generate_perlin_noise(&resolution);
 		t->current_object->texture_dim.x = (int)resolution.x;
 		t->current_object->texture_dim.y = (int)resolution.y;
@@ -42,7 +44,29 @@ char	*read_texture_file(t_parse_tools *t)
 		if (v_isnan(resolution = parse_vector(t->input->value + ft_strlen(res[0]))))
 			return ("Position formatting error.");
 		t->current_object->texture_name = ft_strdup("Checkerboard");
+		resolution = v_clamp(resolution, 10, 2000);
+		while ((int)resolution.x % (int)resolution.z != 0)
+			resolution.x++;
+		if (((int)resolution.x / (int)resolution.z) % 2 == 1)
+			resolution.x += resolution.z;
+		while ((int)resolution.y % (int)resolution.z != 0)
+			resolution.y++;
+		if (((int)resolution.y / (int)resolution.z) % 2 == 1)
+			resolution.y += resolution.z;
+		printf("Generate checkerboard with res : %f, %f, %f\n", resolution.x, resolution.y, resolution.z);
 		t->current_object->texture = generate_checkerboard(&resolution);
+		t->current_object->texture_dim.x = (int)resolution.x;
+		t->current_object->texture_dim.y = (int)resolution.y;
+	}
+	else if (ft_strcmp(res[0], "NOISE") == 0)
+	{
+		if (v_isnan(resolution = parse_vector(t->input->value + ft_strlen(res[0]))))
+			return ("Position formatting error.");
+		t->current_object->texture_name = ft_strdup("Noise");
+		resolution.x = ft_clampf(resolution.x, 10, 2000);
+		resolution.y = ft_clampf(resolution.y, 10, 2000);
+		resolution.z = ft_clampf(resolution.z, 0, 100);
+		t->current_object->texture = generate_noise(&resolution);
 		t->current_object->texture_dim.x = (int)resolution.x;
 		t->current_object->texture_dim.y = (int)resolution.y;
 	}
