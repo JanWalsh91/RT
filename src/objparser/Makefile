@@ -6,15 +6,19 @@
 #    By: talemari <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 15:17:33 by talemari          #+#    #+#              #
-#    Updated: 2017/04/29 10:49:04 by talemari         ###   ########.fr        #
+#    Updated: 2017/05/10 16:15:03 by talemari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = 			srcs/ft_freetab.c\
-				srcs/objparser.c\
-				srcs/set_obj.c\
-				srcs/get_number.c
-LIB =			includes/libft/libft.a
+SRC = 			ft_freetab.c\
+				objparser.c\
+				set_obj.c\
+				get_vector_f.c\
+				get_vector_i.c\
+				get_float.c\
+				get_number.c\
+				main.c
+LIB =			../../Libft/libft.a
 OBJ = $(LIB)
 NAME = ObjectParser
 CFLAGS += -Wall -Wextra -Werror -g3
@@ -36,7 +40,7 @@ test : all
 	@printf '#%.0s' {1..$(DLENGHT)}
 	@printf '$(TTEXT)'
 	@printf '\n%0.s' {1..3}
-	@-./$(NAME) testmap
+	@-./$(NAME) teapot.obj
 	@printf '\n%.0s' {1..3}
 	@printf '#%.0s' {1..$(DLENGHT)}
 	@printf '\n%0.s' {1..3}

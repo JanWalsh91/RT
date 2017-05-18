@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:07:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:40:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@
 # define DEFAULT_IOR 1.01
 # define DEFAULT_REFLECTION 0
 # define DEFAULT_TRANSPARENCY 0
+# define DEFAULT_TILE_SIZE 288
 # define CAM_IMG_PANE_DIST 1
 # define BIAS 0.01
 # define INIT_IOR 1.0003 // initial index of refraction (air)
@@ -89,6 +90,7 @@ typedef enum	e_token
 	T_SPHERE,
 	T_CYLINDER,
 	T_CONE,
+	T_TORUS,
 	T_OBJ,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
@@ -191,6 +193,7 @@ typedef struct	s_attributes
 	t_vec3			col;
 	t_filter		filter;
 	float			rad;
+	float			rad_torus;
 	float			height;
 	float			ks;
 	float			specular_exp;
@@ -271,6 +274,7 @@ typedef struct	s_object
 	t_pt2			normal_map_dim;
 	char			*normal_map_name;
 	float			rad;
+	float			rad_torus;
 	float			height;
 	float			angle;
 	float			kd;
@@ -349,9 +353,10 @@ typedef struct	s_scene
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;
-	uint8_t			is_3d;
+	bool			is_3d;
 	bool			is_fresnel;
 	bool			is_photon_mapping;
+	char			is_aa;
 	size_t			photon_count;
 	struct s_photon	**photon_list;
 	struct s_kd_tree		*photon_map;
@@ -478,6 +483,20 @@ typedef struct	s_th_export
 	struct s_gtk_tools *g;
 }				t_th_export;
 
+typedef struct	s_quartic
+{
+	float	a;
+	float	b;
+	float	c;
+	float	d;
+	float	e;
+	float	m;
+	float	n;
+	float	o;
+	float	p;
+	float	q;
+}				t_quartic;
+
 /*
 ** File Parsing Functions
 */
@@ -496,6 +515,7 @@ void			set_attributes_plane(t_parse_tools *t, t_attributes *a);
 void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
+void			set_attributes_torus(t_parse_tools *t, t_attributes *a);
 void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
 char			*parse_open_bracket(t_parse_tools *t);
@@ -509,6 +529,7 @@ char			*parse_disk(t_parse_tools *t);
 char			*parse_sphere(t_parse_tools *t);
 char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
+char			*parse_torus(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
 char			*parse_background_color(t_parse_tools *t);
@@ -548,6 +569,8 @@ char			*can_add_new_object(t_parse_tools *t);
 t_vec3			look_at_object(t_parse_tools *t, char *value);
 char			*parse_obj(t_parse_tools *t);
 char			*get_file_name(char *absolute_path);
+int				check_file_ext(char *file_name, char *ext);
+
 
 /*
 ** List management Functions
@@ -623,7 +646,7 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 CUDA_DEV
 void			*rt(struct s_gtk_tools *r);
 CUDA_DEV
-t_ray			init_camera_ray(t_raytracing_tools *r);
+t_ray			init_camera_ray(t_raytracing_tools *r, t_dpt2 current_pos_pix);
 CUDA_DEV
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
@@ -644,7 +667,7 @@ void			update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
-t_color			get_ambient(t_scene *scene);
+t_color			get_ambient(t_scene *scene, t_vec3 obj_col);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
@@ -675,7 +698,17 @@ CUDA_DEV
 bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
+bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
+
+CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
+
+CUDA_DEV
+bool			solve_cubic(t_vec3 q, float x, t_vec3im *sol);
+
+CUDA_DEV
+bool			solve_quartic(t_quartic *qua, t_vec4im *sol);
+
 
 /*
 ** Filters functions
@@ -698,6 +731,7 @@ t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
 t_color			*read_bmp(char *file_name, t_pt2 *dim);
+t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_name, t_pt2 dim);
 
 
 
@@ -706,6 +740,8 @@ t_color			*read_bmp(char *file_name, t_pt2 *dim);
 */
 
 t_color			*generate_perlin_noise(t_vec3 *res);
+t_color			*generate_checkerboard(t_vec3 *res);
+t_color			*generate_noise(t_vec3	*res);
 CUDA_DEV
 t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV

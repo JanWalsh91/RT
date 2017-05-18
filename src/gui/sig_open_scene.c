@@ -6,21 +6,83 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/17 15:58:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:38:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 #include "../inc/cuda_call.h"
+#include <cuda_runtime.h>
 
 
-void *sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
+void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
+{
+	GtkWidget			*widget;
+
+	// init_raytracing_tools(g->r);
+	if (g->filename)
+		g_free(g->filename);
+	if (g->r->scene)
+		cudaDeviceReset();
+		// cuda_free(g->r, 0);
+	if (!(g->r->scene = (t_scene *)malloc(sizeof(t_scene))))
+		return (NULL);
+	g->r->scene->res.x = DEFAULT_RES_W;
+	g->r->scene->res.y = DEFAULT_RES_H;
+	g->r->scene->ray_depth = DEFAULT_RAY_DEPTH;
+	g->r->scene->objects = NULL;
+	g->r->scene->cameras = NULL;
+	g->r->scene->lights = NULL;
+	g->r->scene->background_color = v_new(0, 0, 0);
+	g->r->scene->ambient_light_color = v_new(255, 255, 255);
+	g->r->scene->ka = 0.1;
+	g->r->scene->image_aspect_ratio = 1;
+	g->r->scene->next = NULL;
+	g->r->scene->prev = NULL;
+	g->r->scene->name = NULL;
+	g->r->scene->is_diffuse = true;
+	g->r->scene->is_shadow = true;
+	g->r->scene->is_specular = true;
+	g->r->scene->is_fresnel = true;
+	g->r->scene->is_aa = 1;
+
+	g->r->scene->cameras = (t_camera *)ft_memalloc(sizeof(t_camera));
+
+	g->r->scene->cameras->name = ft_strdup("New Camera");
+	g->r->scene->cameras->dir.z = 1.0;
+	g->r->scene->cameras->prev = NULL;
+	g->r->scene->cameras->next = NULL;
+	g->r->scene->cameras->fov = 45;
+	g->r->scene->cameras->filter = 0;
+	g->r->scene->cameras->ior = 1.01;
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
+	gtk_widget_set_visible(widget, TRUE);
+
+	// check_scenes(g->r->scene);
+	g->r->update.cameras = 2;
+	g->r->update.scene = 2;
+	cuda_malloc(g->r);
+	update_grid_scene(g);
+	gtk_container_foreach (GTK_CONTAINER(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects")), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
+	update_grid_lights(g);
+	update_grid_cameras(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject"));
+	gtk_widget_set_sensitive(widget, false);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
+	gtk_widget_set_sensitive(widget, false);
+	return (NULL);
+}
+
+void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkFileFilter	*file_filter;
 	GtkWidget 		*dialog;
 	GtkWidget		*widget;
 	char			*ret;
+
+	printf("sig open scene");
 
 	if (g->filename)
 		g_free(g->filename);
@@ -72,6 +134,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->update.scene = 2;
 	g->r->update.ray_depth = 2;
 	g->r->update.photon_map = 0;
+	g->r->scene->is_aa = 1;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
 	return (0);

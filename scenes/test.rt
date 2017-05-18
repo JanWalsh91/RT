@@ -6,110 +6,13 @@ scene: rendu4
 	ka: 0.1000
 	sphere: sphere texture
 	{
-		position: -5.0000, -5.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-		texture: textures/earth.bmp
-	}
-	sphere: New Object
-	{
-		position: 0.0000, -5.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
-		position: 5.0000, -5.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
-		position: -5.0000, 0.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
-		position: 5.0000, 0.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
 		position: 0.0000, 0.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 1.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
-		position: -5.0000, 5.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
-		position: 0.0000, 5.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	sphere: New Object
-	{
-		position: 5.0000, 5.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
 	}

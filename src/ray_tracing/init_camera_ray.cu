@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 16:05:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/10 14:17:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:35:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 */
 
 __device__
-t_ray	init_camera_ray(t_raytracing_tools *r)
+t_ray	init_camera_ray(t_raytracing_tools *r, t_dpt2 current_pos_pix)
 {
 	t_ray		cam_ray;
 	t_camera	*cam;
 	t_vec3		pix;
 
 	cam = &r->scene->cameras[0];
-	pix.x = (2 * (r->pix.x + 0.5) / (float)r->scene->res.x - 1) *
+	pix.x = (2 * (r->pix.x + current_pos_pix.x) / (float)r->scene->res.x - 1) *
 			r->scene->image_aspect_ratio * cam->scale;
-	pix.y = (1 - 2 * (r->pix.y + 0.5) / (float)r->scene->res.y) * cam->scale;
+	pix.y = (1 - 2 * (r->pix.y + current_pos_pix.y) / (float)r->scene->res.y) * cam->scale;
 	pix.z = CAM_IMG_PANE_DIST;
 	// printf("pix: [%f, %f, %f]\n", pix.x, pix.y, pix.z);
 	cam_ray.dir = v_norm(pix);

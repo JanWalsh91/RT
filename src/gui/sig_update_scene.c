@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:14:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:37:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void *update_grid_scene(t_gtk_tools *g)
 	// print_scenes(g->r->scene);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera")); // doublon, to delete ? dunno
 	gtk_widget_set_sensitive(widget, TRUE);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera")); // doublon, to delete ? dunno
 	gtk_widget_set_sensitive(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonRender"));
 	gtk_widget_set_sensitive(widget, TRUE);
@@ -45,13 +45,13 @@ void *update_grid_scene(t_gtk_tools *g)
 	color.alpha = 1;
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera"));
-	(g->r->scene->cameras->prev == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
+	(g->r->scene->cameras && g->r->scene->cameras->prev == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
 		gtk_widget_set_sensitive (widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));
-	(g->r->scene->cameras->next == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
+	(g->r->scene->cameras && g->r->scene->cameras->next == NULL) ? gtk_widget_set_sensitive (widget, FALSE) :
 		gtk_widget_set_sensitive (widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelCurrentCamera"));
-	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
+	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras ? g->r->scene->cameras->name : "None");
 	return (NULL);
 }
 
@@ -66,21 +66,29 @@ void	scene_render_sig(t_gtk_tools *g)
 void	*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	printf("sig_update_res_x\n");
+	while (g->r->rendering);
 	g->r->scene->res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
+	g->r->scene->res.x += g->r->scene->res.x % 4;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(SpinButton), g->r->scene->res.x);
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
+	g->win ? gtk_widget_set_size_request(g->drawing_area, g->r->scene->res.x, g->r->scene->res.y) : 0;
 	g->win ? gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
 	return (NULL);
 }
 
 void	*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
+	while (g->r->rendering);
 	g->r->scene->res.y = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(SpinButton));
+	g->r->scene->res.y += g->r->scene->res.y % 4;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(SpinButton), g->r->scene->res.y);
 	g->r->scene->image_aspect_ratio = (float)g->r->scene->res.x / (float)g->r->scene->res.y;
 	g->r->update.resolution = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
-	g->win ? gtk_window_resize (GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
+	g->win ? gtk_widget_set_size_request(g->drawing_area, g->r->scene->res.x, g->r->scene->res.y) : 0;
+	g->win ? gtk_window_resize(GTK_WINDOW(g->win), g->r->scene->res.x, g->r->scene->res.y) : 0;
 	return (NULL);
 }
 

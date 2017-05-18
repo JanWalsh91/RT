@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 14:04:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/19 13:46:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/12 12:13:24 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 */
 
 __device__
-t_color	get_ambient(t_scene *scene)
+t_color	get_ambient(t_scene *scene, t_vec3 obj_col)
 {
-	return (c_scale(vec_to_col(scene->ambient_light_color), scene->ka));
+	return (vec_to_col(v_sub(v_scale(obj_col, scene->ka),
+			v_scale(v_sub(v_new(255, 255, 255),
+			scene->ambient_light_color), scene->ka))));
 }

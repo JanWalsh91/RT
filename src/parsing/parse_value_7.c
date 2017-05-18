@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_7.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:26:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/09 10:48:51 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ char	*read_normal_map(t_parse_tools *t)
 	// rt_file_warning(t, ".rt file name not provided.");
 	t_color			*normal_map;
 
+	if (!t->input->value)
+		return ("Invalid texture name");
+	if (!check_file_ext(t->input->value, "BMP"))
+		return ("Texture must be a bmp file.");
 	if (!(normal_map = read_bmp(t->input->value, &t->current_object->normal_map_dim)))
 		return (strerror(errno));
 	t->current_object->normal_map_name = ft_strdup(t->input->value); // free?

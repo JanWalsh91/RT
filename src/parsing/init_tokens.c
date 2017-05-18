@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/08 13:25:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/09 15:07:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void		init_tokens(t_parse_tools *t)
 		(!(t->tokens[T_SPHERE] = ft_strdup("sphere"))) ||
 		(!(t->tokens[T_CYLINDER] = ft_strdup("cylinder"))) ||
 		(!(t->tokens[T_CONE] = ft_strdup("cone"))) ||
+		(!(t->tokens[T_TORUS] = ft_strdup("torus"))) ||
 		(!(t->tokens[T_OBJ] = ft_strdup("obj"))) ||		
 		(!(t->tokens[T_RESOLUTION] = ft_strdup("resolution"))) ||
 		(!(t->tokens[T_RAY_DEPTH] = ft_strdup("ray depth"))) ||

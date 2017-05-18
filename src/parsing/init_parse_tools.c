@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/06 17:10:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/09 14:59:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_SPHERE] = &parse_sphere;
 	t->parse[T_CYLINDER] = &parse_cylinder;
 	t->parse[T_CONE] = &parse_cone;
+	t->parse[T_TORUS] = &parse_torus;
 	t->parse[T_OBJ] = &parse_obj;
 	t->parse[T_RESOLUTION] = &parse_resolution;
 	t->parse[T_RAY_DEPTH] = &parse_ray_depth;

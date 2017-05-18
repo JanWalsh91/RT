@@ -6,32 +6,32 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 10:19:19 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/02 15:46:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 16:12:56 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "objparser.h"
+#include "../../inc/objparser.h"
 #include <stdio.h>
 
-void		del(void *c, size_t s)
+static void			del(void *c, size_t s)
 {
 	(void)s;
 	free(c);
 }
 
-t_vec3d		*set_array(t_list **v, int j)
+static t_vec3f		*set_array(t_list **v, int j)
 {
 	t_list		*tmp;
-	t_vec3d		*array;
+	t_vec3f		*array;
 	int			i;
 
 	tmp = *v;
 	i = 0;
-	if (!(array = (t_vec3d *)malloc(sizeof(t_vec3d) * j)))
-		return(NULL);
+	if (!(array = (t_vec3f *)malloc(sizeof(t_vec3d) * j)))
+		return (NULL);
 	while (tmp)
 	{
-		array[i] = *(t_vec3d *)tmp->content;
+		array[i] = *(t_vec3f *)tmp->content;
 		i++;
 		tmp = tmp->next;
 	}
@@ -39,15 +39,13 @@ t_vec3d		*set_array(t_list **v, int j)
 	return (array);
 }
 
-t_obj		*set_obj(t_list **v, t_list **n, t_ti ind)
+char				*set_obj(t_obj *obj, t_list **v, t_list **n, t_ti ind)
 {
-	t_obj		*res;
-
-	if (!(res = (t_obj *)malloc(sizeof(t_obj))))
-		return (NULL);
 	if (ind.i > 0)
-		res->vertex = set_array(v, ind.i);
+		if (!(obj->vertex = set_array(v, ind.i)))
+			return ("Failed to set vertex array");
 	if (ind.j > 0)
-		res->normal = set_array(n, ind.j);
-	return (res);
+		if (!(obj->normal = set_array(n, ind.j)))
+			return ("Failed to set normal array");
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 13:19:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:36:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	int		ret;
 
 	i = -1;
-	// if (r->scene->objects[ray->hit_obj].texture)
-		// color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(get_texture_at_uv_coord(&r->scene->objects[ray->hit_obj], get_uv_coord(&r->scene->objects[ray->hit_obj], ray)));
-	// else
-		color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
+	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		dim_light = v_new(1, 1, 1);
@@ -87,9 +84,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		}
 	}
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
-	color = c_add(color, get_ambient(r->scene));
-	// if (r->idx == 1)
-		// color = c_add(color, get_photon_global(r, ray));
+	color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
 	return (color);
 }
 

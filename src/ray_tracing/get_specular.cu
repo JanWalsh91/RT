@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 14:13:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:29:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 11:30:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ t_color	get_specular(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ray, t_li
 	float	specular_intensity;
 	t_vec3	reflection;
 	float	directional_light_factor;
-
+	float 	r2;
+	
+	r2 = v_dist(primary_ray->hit, light->pos);
 	directional_light_factor = v_isnan(light->pos) ? 1000 : 1;
 	reflection = reflect(primary_ray->dir, v_scale(primary_ray->nhit,
 		primary_ray->n_dir));
 	specular_intensity = pow((ft_clampf(v_dot(reflection,
 		shadow_ray->dir), 0, 1)), scene->objects[primary_ray->hit_obj].specular_exp);
-	specular_intensity *= light->intensity * scene->objects[primary_ray->hit_obj].ks *
+	specular_intensity *= (light->intensity / r2) * scene->objects[primary_ray->hit_obj].ks *
 		directional_light_factor;
 	new_col = c_scale(vec_to_col(light->col), specular_intensity);
 	// new_col = v_clamp(new_col, 0, 255);

@@ -4,102 +4,64 @@ scene: rendu4
 	ray depth: 5
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000
-<<<<<<< HEAD
-	plane: New Object
+	cylinder: Cylinder
 	{
-		position: 0.0000, 2.0000, 67.0000
+		position: 0.0000, -2.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		height: 4.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0094
+		transparency: 0.0000
+		reflection: 0.0000
+		texture: Perlin 800, 800, 100
+	}
+	sphere: Sphere
+	{
+		position: -3.0000, 0.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+
+		texture: Perlin 800, 800, 100
+	}
+	cone: Cone
+	{
+		position: 3.0000, 2.0000, 0.0000
+		direction: 0.0000, -1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 0.5000
+		height: 4.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+
+		texture: Perlin 800, 800, 100
+	}
+	plane: Plane
+	{
+		position: 0.0000, 0.0000, 2.0000
 		direction: 0.0000, 0.0000, 1.0000
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.1000
+		ior: 1.0099
 		transparency: 0.0000
 		reflection: 0.0000
 
-	}
-	cylinder: New Object
-	{
-		position: 0.0000, 0.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		radius: 9.0000
-		height: 30.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0096
-		transparency: 0.0000
-		reflection: 0.0000
-		texture: Perlin 100.0000, 100.0000, 3.0000
-	}
-	disk: New Object cap
-	{
-		position: 0.0000, 0.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0096
-		transparency: 0.0000
-		reflection: 0.0000
-
-	}
-	disk: New Object cap
-	{
-		position: 0.0000, 30.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0096
-		transparency: 0.0000
-		reflection: 0.0000
-
-	}
-	disk: New Object cap
-	{
-		position: 0.0000, 0.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0096
-		transparency: 0.0000
-		reflection: 0.0000
-
-	}
-	disk: New Object cap
-	{
-		position: 0.0000, 30.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0096
-		transparency: 0.0000
-		reflection: 0.0000
-
-=======
-	sphere: New Object
-	{
-		position: 0.0000, 0.0000, 0.0000
-		direction: 0, 0, 1 
-		color: 255.0000, 255.0000, 255.0000
-		#radius: 1.0000
-		kd: 1.0000
-		ks: 0.0000
-		specular exponent: 200.0000
-		ior: 1.0095
-		transparency: 0.0000
-		reflection: 0.0000
-		#normal map: /Users/tgros/gitlab/RT/textures/normal_wall.bmp
-		#texture: textures/texture_wall.bmp
->>>>>>> 8352f5ecc297dc50891b08c825978f806af7cf24
+		texture: Perlin 800, 800, 100
 	}
 	light: light 1
 	{
@@ -109,13 +71,8 @@ scene: rendu4
 	}
 	camera: cam
 	{
-<<<<<<< HEAD
-		position: -5.0000, 7.5000, -100.0000
-		direction: -0.0098, 0.0000, 0.9999
-=======
 		position: 0.0000, 0.0000, -20.0000
-		direction: 0.000, 0.0000, 1
->>>>>>> 8352f5ecc297dc50891b08c825978f806af7cf24
+		direction: 0.0000, 0.0000, 1.0000
 		filter: none
 		fov: 30
 		ior: 1.1000

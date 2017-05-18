@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/11 13:15:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:36:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,12 @@ t_pt2	get_uv_cone(t_object *obj, t_ray *ray, t_pt2 *dim)
 
 	hit_center = v_scale(ray->nhit, -1);
 	coord.x = (0.5 + (atan2f(hit_center.z, hit_center.x) / (float)(2 * M_PI))) * dim->x;
-	coord.y = (sqrtf(v_dist(ray->hit, obj->pos) * v_dist(ray->hit, obj->pos) - (obj->rad * obj->rad)) / (sqrtf(obj->height * obj->height + obj->rad * obj->rad))) * dim->y;
+	coord.y = (v_dist(obj->pos, ray->hit) / sqrtf(obj->height * obj->height + obj->rad * obj->rad)) * dim->y;
+	// printf("Heigh : %f. Percenage : %f. Dim.y = %d. Coord.y = %d\n", sqrtf(obj->height * obj->height + obj->rad * obj->rad),v_dist(obj->pos, ray->hit), dim->y, coord.y);
+	// if (coord.y > dim->y)
+	// {
+		// printf("pos: %f %f %f\n", ray->hit.x, ray->hit.y, ray->hit.z);
+	// }
 	coord.x %= dim->x;
 	coord.y %= dim->y;
 	return (coord);

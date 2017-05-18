@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 13:55:09 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 16:39:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ void	write_header(int fd, int width, int height)
 {
 	t_bmp_header	*header;
 
-	C(11)
 	header = (t_bmp_header *)malloc(sizeof(t_bmp_header));
 	header->signature = 0x4D42;
-	C(12)
 	header->file_size = width * height * sizeof(t_rgb) * sizeof(header);
 	header->reserv_1 = 0;
 	header->reserv_2 = 0;
@@ -44,9 +42,7 @@ void	write_header(int fd, int width, int height)
 	header->ypm = 0;
 	header->clr_nbr = 0;
 	header->clr_imprt = 0;
-	C(13)
 	write(fd, ((BYTE *)header) + 2, 54);
-	C(14)
 	free(header);
 }
 
@@ -58,7 +54,6 @@ void	write_header(int fd, int width, int height)
 **	TODO: auto add .bmp)
 */
 
-// int		export_image(t_color *pixelmap, int width, int height, char *file_name)
 void		*export_image(void *data)
 {
 	int		fd;
@@ -67,7 +62,6 @@ void		*export_image(void *data)
 	int		g;
 	int		b;
 	t_th_export *th_export = (t_th_export*)data;
-
 
 	if (!(fd = open(th_export->filename, O_WRONLY | O_CREAT | O_TRUNC, 0600)))
 		return (NULL);
@@ -84,8 +78,7 @@ void		*export_image(void *data)
 		write(fd, &r, sizeof(BYTE));
 		if (i % th_export->g->r->scene->res.x == 0)
 		{
-			th_export->progress = (float)i / (th_export->g->r->scene->res.x * th_export->g->r->scene->res.y) + 0.1;
-			// printf("%f\n", th_export->progress);
+			th_export->progress = (double)i / (th_export->g->r->scene->res.x * th_export->g->r->scene->res.y) + 0.1;
 		}	
 	}
 	close(fd);

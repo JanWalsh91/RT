@@ -63,7 +63,7 @@ scene: spheres fantaisie
 		ior: 1.1996
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: textures/brick.bmp
+		#texture: textures/brick.bmp
 	}
 	light: red
 	{

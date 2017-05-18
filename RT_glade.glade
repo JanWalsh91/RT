@@ -308,6 +308,26 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkListStore" id="ListGeneratedTexture">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Perlin</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Checkerboard</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Noise</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="ListStoreComboBoxObjLookAtName">
     <columns>
       <!-- column-name ObjectNames -->
@@ -355,6 +375,9 @@
       <row>
         <col id="0" translatable="yes">Cone</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Torus</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="liststore2">
@@ -380,6 +403,7 @@
     <property name="default_width">925</property>
     <property name="default_height">765</property>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
+    <signal name="focus-in-event" handler="sig_button_pressed_window" swapped="no"/>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -406,6 +430,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">New project</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_new_scene" swapped="no"/>
+                        <accelerator key="n" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -489,11 +515,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkMenuItem">
+                      <object class="GtkMenuItem" id="MenuItemFullScreen">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Full Screen</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="sig_set_fullscreen" swapped="no"/>
                         <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
@@ -1082,7 +1109,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
@@ -1332,7 +1359,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
@@ -1519,7 +1546,7 @@
                                 </child>
                               </object>
                               <packing>
-                                <property name="left_attach">2</property>
+                                <property name="left_attach">3</property>
                                 <property name="top_attach">13</property>
                               </packing>
                             </child>
@@ -1633,15 +1660,39 @@
                                 </child>
                               </object>
                               <packing>
-                                <property name="left_attach">2</property>
+                                <property name="left_attach">3</property>
                                 <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBox" id="ComboBoxGeneratedTexture">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="model">ListGeneratedTexture</property>
+                                <property name="active">0</property>
+                                <signal name="changed" handler="sig_generate_texture" swapped="no"/>
+                                <child>
+                                  <object class="GtkCellRendererText"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">13</property>
+                              </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBox" id="ComboBoxGeneratedNormal">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="model">ListGeneratedTexture</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">14</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>
@@ -1979,10 +2030,11 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox">
+                      <object class="GtkComboBox" id="ComboBoxLightType">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="model">liststore2</property>
+                        <signal name="changed" handler="sig_update_light_type" swapped="no"/>
                         <child>
                           <object class="GtkCellRendererText"/>
                           <attributes>
@@ -2826,20 +2878,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="PrintScenes">
-                <property name="label" translatable="yes">PrintScenes</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="ButtonRender">
                 <property name="label" translatable="yes">Render</property>
                 <property name="visible">True</property>
@@ -2854,19 +2892,32 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="padding">30</property>
-                <property name="pack_type">end</property>
                 <property name="position">3</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="CamPaddingFart">
+              <object class="GtkButton" id="PrintScenes">
+                <property name="label" translatable="yes">PrintScenes</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="sig_print_scenes" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="LabelAvailableCudaMemory">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
           </object>

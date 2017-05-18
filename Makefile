@@ -6,9 +6,10 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/18 14:24:25 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/05/18 14:41:38 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = RT
 LIBFT_NAME = libft.a
@@ -38,6 +39,7 @@ PARSING = 	get_color \
 			parse_value_7 \
 			parse_value_8 \
 			parse_value_9 \
+			parse_value_10 \
 			parse_vector \
 			parse_float \
 			reset_attributes \
@@ -66,19 +68,22 @@ LIST = 		get_new_camera \
 			remove_object \
 			remove_camera \
 			remove_light \
-			push_scene 
+			push_scene
 
 RAY_TRACING = cast_primary_ray \
 			render \
 			get_normal \
 			init_camera_ray \
 			solve_quadratic \
+			solve_cubic \
+			solve_quartic \
 			intersects \
 			get_plane_intersection \
 			get_sphere_intersection \
 			get_disk_intersection \
 			get_cylinder_intersection \
 			get_cone_intersection \
+			get_torus_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \
@@ -98,7 +103,11 @@ MISC = 		debug \
 			export_bmp \
 			read_bmp \
 			get_file_name \
-			generate_perlin_noise
+			generate_perlin_noise \
+			generate_checkerboard \
+			generate_noise \
+			check_file_ext \
+			is_texture_loaded \
 
 GUI =		window_signals \
 			sig_open_scene \
@@ -106,6 +115,7 @@ GUI =		window_signals \
 			sig_update_objects \
 			sig_update_lights \
 			sig_update_cameras \
+			sig_update_settings \
 			sig_new_object \
 			sig_new_camera \
 			sig_new_light \
@@ -116,7 +126,9 @@ GUI =		window_signals \
 			sig_open_settings \
 			sig_export_scene_bmp \
 			sig_print_scenes \
-			sig_render
+			sig_render \
+			sig_set_full_screen \
+			sig_generate_texture \
 
 CUDA_MEM =	cuda_malloc \
 			cuda_free
@@ -124,7 +136,10 @@ CUDA_MEM =	cuda_malloc \
 OBJ_PARSER = 	ft_freetab \
 				ft_isnumeric \
 				get_number \
+				get_float \
 				objparser \
+				get_vector_i \
+				get_vector_f \
 				set_obj
 
 PHOTON_MAPPING = create_photon_map \

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 13:54:39 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/29 16:03:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/08 16:36:06 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 #include <stdlib.h>
 
-# define WORD uint16_t
-# define DWORD uint32_t
-# define LONG int32_t
-# define BYTE uint8_t
+#define WORD uint16_t
+#define DWORD uint32_t
+#define LONG int32_t
+#define BYTE uint8_t
 
 typedef struct	s_bmp_header
 {
-	// WORD	dummy;
+	WORD	dummy;
 	WORD	signature; // const = 0x4D42
 	DWORD	file_size;
 	WORD	reserv_1; // = 0
