@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 16:41:23 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:43:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 
 	is_transparent = 0;
 	r->t = INFINITY;
+	shadow_ray->t = INFINITY;
 	shadow_ray->type = R_SHADOW;
 	shadow_ray->origin = v_add(primary_ray->hit,
 		v_scale(primary_ray->nhit, BIAS * primary_ray->n_dir));
@@ -49,7 +50,7 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
 		if (intersects(r, shadow_ray, i) &&
-			shadow_ray->t < max && shadow_ray->t > 0.0f)
+			shadow_ray->t < max && shadow_ray->t > 0.0) 
 		{
 			// if (r->pix.x == 485 && r->pix.y == 577)
 				// printf("Intersect avec : %d\n", r->scene->objects[i].type);

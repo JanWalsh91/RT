@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_camera_ray.cu                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 16:05:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/13 13:58:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 14:35:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ t_ray	init_camera_ray(t_raytracing_tools *r, t_dpt2 current_pos_pix)
 			r->scene->image_aspect_ratio * cam->scale;
 	pix.y = (1 - 2 * (r->pix.y + current_pos_pix.y) / (float)r->scene->res.y) * cam->scale;
 	pix.z = CAM_IMG_PANE_DIST;
+	// printf("pix: [%f, %f, %f]\n", pix.x, pix.y, pix.z);
 	cam_ray.dir = v_norm(pix);
+	// printf("pix: [%f, %f, %f]\n", pix.x, pix.y, pix.z);
 	cam_ray.origin = cam->pos;
 	cam_ray.dir = m_v_mult(cam_ray.dir, &cam->ctw);
 	cam_ray.dir = v_norm(cam_ray.dir);
 	cam_ray.type = R_PRIMARY;
-	cam_ray.n_dir = 1;
+	cam_ray.n_dir = 1;  
 	cam_ray.depth = r->scene->ray_depth;
 	//set first ior to camera's ior
 	cam_ray.ior = r->scene->cameras->ior;

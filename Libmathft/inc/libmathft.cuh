@@ -76,6 +76,24 @@ typedef struct	s_vec4
 	float		z;
 }				t_vec4;
 
+typedef struct	s_vec4im
+{
+	t_im		w;
+	t_im		x;
+	t_im		y;
+	t_im		z;
+}				t_vec4im;
+
+typedef struct	s_squart
+{
+	float		p;
+	float		q;
+	float		r;
+	float		s;
+	t_im		pim;
+	t_im		qim;
+}				t_squart;
+
 typedef float	t_matrix[4][4];
 
 EXT

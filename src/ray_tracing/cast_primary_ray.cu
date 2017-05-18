@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 14:46:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:43:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@
 ** - returns the calculated color, or background color if no intersections
 ** are found.
 */
-// __device__
-// static t_color	apply_filter(t_color o, t_color light_color, t_color dim_light);
 
 __device__
 static t_color	apply_filter(t_vec3 dim_light, t_color light_color);
 __device__
 t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
-
 __device__
 static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray);
@@ -54,7 +51,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
-	col = get_color_at_hitpoint(r, ray, &shadow_ray);
+	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) : update_photon(r, ray);
 	return (col);
 }
 

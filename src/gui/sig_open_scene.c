@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/17 11:21:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:44:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 #include "../inc/cuda_call.h"
 #include <cuda_runtime.h>
 
+/*
+** 
+*/
+
+static void	set_default_values(t_gtk_tools *g);
 
 void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
-	GtkWidget			*widget;
+	GtkWidget	*widget;
 
-	// init_raytracing_tools(g->r);
 	if (g->filename)
 	{
 		g_free(g->filename);
@@ -33,6 +37,26 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		// cuda_free(g->r, 0);
 	if (!(g->r->scene = (t_scene *)malloc(sizeof(t_scene))))
 		return (NULL);
+	if (!(g->r->scene->cameras = (t_camera *)ft_memalloc(sizeof(t_camera))))
+		ft_error_exit("Malloc error.");
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
+	gtk_widget_set_visible(widget, TRUE);
+	g->r->update.cameras = 2;
+	g->r->update.scene = 2;
+	cuda_malloc(g->r);
+	update_grid_scene(g);
+	gtk_container_foreach (GTK_CONTAINER(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects")), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
+	update_grid_lights(g);
+	update_grid_cameras(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject"));
+	gtk_widget_set_sensitive(widget, false);
+	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
+	gtk_widget_set_sensitive(widget, false);
+	return (NULL);
+}
+
+static void	set_default_values(t_gtk_tools *g)
+{
 	g->r->scene->res.x = DEFAULT_RES_W;
 	g->r->scene->res.y = DEFAULT_RES_H;
 	g->r->scene->ray_depth = DEFAULT_RAY_DEPTH;
@@ -51,9 +75,6 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
 	g->r->scene->is_aa = 1;
-
-	g->r->scene->cameras = (t_camera *)ft_memalloc(sizeof(t_camera));
-
 	g->r->scene->cameras->name = ft_strdup("New Camera");
 	g->r->scene->cameras->dir.z = 1.0;
 	g->r->scene->cameras->prev = NULL;
@@ -61,25 +82,7 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	g->r->scene->cameras->fov = 45;
 	g->r->scene->cameras->filter = 0;
 	g->r->scene->cameras->ior = 1.01;
-
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
-	gtk_widget_set_visible(widget, TRUE);
-
-	// check_scenes(g->r->scene);
-	g->r->update.cameras = 2;
-	g->r->update.scene = 2;
-	cuda_malloc(g->r);
-	update_grid_scene(g);
-	gtk_container_foreach (GTK_CONTAINER(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects")), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
-	update_grid_lights(g);
-	update_grid_cameras(g);
-	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject"));
-	gtk_widget_set_sensitive(widget, false);
-	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
-	gtk_widget_set_sensitive(widget, false);
-	return (NULL);
 }
-
 void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkFileFilter	*file_filter;
@@ -138,6 +141,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->update.cameras = 2;
 	g->r->update.scene = 2;
 	g->r->update.ray_depth = 2;
+	g->r->update.photon_map = 0;
 	g->r->scene->is_aa = 1;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;

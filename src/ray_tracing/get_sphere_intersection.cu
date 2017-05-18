@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_sphere_intersection.cu                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:26:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 12:02:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 15:28:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ bool	get_sphere_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	(i.r1 < 0) ? i.r1 = i.r2 : 0;
 	if (i.r1 < 0)
 		return (false);
-	r->t > i.r1 ? ray->t = i.r1 : 0;
-	if (ray->type == R_PRIMARY && r->t > i.r1)
+	r->t > i.r1 ? ray->t = i.r1 : 0.0;
+	if (ray->type != R_SHADOW && r->t > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_SPHERE;

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/03 15:29:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:53:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ __device__
 static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
 __device__
 static t_color	get_reflected(t_raytracing_tools *r, t_scene *scene, t_ray *ray, float f);
-__device__
-static void		update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
+
 
 __device__
 t_color	get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray)
@@ -50,7 +49,7 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray)
 	refracted.dir = refract(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2);
 	if (v_isnan(refracted.dir)) //Total internal refaction
 		return (get_reflected(r, scene, ray, scene->objects[ray->hit_obj].transparency - scene->objects[ray->hit_obj].reflection));
-	f = scene->is_fresnel ? get_fresnel_ratio(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2) : 1;
+	f = scene->is_fresnel ? get_fresnel_ratio(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2) : 0;
 	if (scene->is_fresnel || scene->objects[ray->hit_obj].reflection > 0) // case where reflection is present
 		return (c_add(c_scale(cast_primary_ray(r, &refracted), (1 - f) * scene->objects[ray->hit_obj].transparency), get_reflected(r, scene, ray, f)));
 	else	//no reflection, only refraction 
@@ -71,26 +70,28 @@ static t_color	get_reflected(t_raytracing_tools *r, t_scene *scene, t_ray *ray, 
 	return (c_scale(cast_primary_ray(r, &reflected), f + scene->objects[ray->hit_obj].reflection));
 }
 
+/*
+** Updates the ior list and determines n1 and n2.
+** n1: ior of volume of incoming ray
+** n2: ior of volume of outgoing ray
+*/
+
 __device__
-static void	update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray)
+void	update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray)
 {
 	int	i;
 	float ret;
-	int		enter;
 
 	if (ray->n_dir == 1)
 	{
-		enter = 1;
 		i = -1;
 		*n1 = ray->ior;
 		while (r->ior_list[++i] > 0.001);
 		r->ior_list[i] = r->scene->objects[ray->hit_obj].ior;
 		*n2 = r->scene->objects[ray->hit_obj].ior;
-		// ray->ior = r->scene->objects[ray->hit_obj].ior;
 	}
 	else
 	{
-		enter = 0;
 		i = r->scene->ray_depth;
 		while (i >= 0)
 		{
@@ -99,7 +100,6 @@ static void	update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray)
 				break;
 			--i;
 		}
-		//case: ior not found. exit-only surface
 		if (!(ret < 0.001 && ret > -0.001))
 		{
 			*n1 = ray->ior;
@@ -107,12 +107,8 @@ static void	update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray)
 			while (r->ior_list[i] > 0.001)
 				++i;
 			*n2 = r->ior_list[i - 1];
-			// printf("ior not found: %s n1: [%f] n2: [%f]\n", enter ? "enter" : "exit", *n1, *n2);
 			return ;
 		}
-
-		//if matching ior found update list.
-		// printf("set found ior to 0: [%f] compared to obj ior: [%f]\n", r->ior_list[i], r->scene->objects[ray->hit_obj].ior);
 		r->ior_list[i] = 0;
 		while (i < r->scene->ray_depth && r->ior_list[i] < 0.001)
 		{
@@ -124,10 +120,7 @@ static void	update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray)
 		while (r->ior_list[i] > 0.001)
 			++i;
 		*n2 = r->ior_list[i - 1];
-		// ray->ior = r->ior_list[i - 1];
 		*n1 = ray->ior;
 	}
-	// printf("done updating ior: %s n1: [%f] n2: [%f]\n", enter ? "enter" : "exit", *n1, *n2);
 	i = -1;
-	// printf("%f, %f, %f\n", r->ior_list[0], r->ior_list[1], r->ior_list[2]);
 }

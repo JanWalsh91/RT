@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/13 14:26:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 14:35:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /*
 ** Updates a camera's pixel_map (color of image pixels).
 */
+
 #define N 32
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
@@ -152,11 +153,20 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
+
+	cudaError_t errSync  = cudaGetLastError();
+cudaError_t errAsync = cudaDeviceSynchronize();
+if (errSync != cudaSuccess) 
+  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
+if (errAsync != cudaSuccess)
+  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 	//beautiful....
 	// printf("=============== EXECUTION ================== \n");
 	// printf("Kernel duration: %f milliseconds\n", milliseconds);
 	// printf("============================================ \n");
-	gpuErrchk((cudaDeviceSynchronize()));
+
+	// gpuErrchk((cudaDeviceSynchronize()));
+
 	// if (r->scene->is_3d)
 	// {
 	// 	printf("3d\n");

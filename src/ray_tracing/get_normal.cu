@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 15:33:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:43:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
 __device__
 void		get_normal(t_ray *ray, t_object *obj)
 {
+	// if (ray->type > 1)
+	// 	printf("photon: get_normal. nhit: [%f, %f, %f]\n", ray->nhit.x, ray->nhit.y, ray->nhit.z);
 	if (ray->hit_type == T_SPHERE)
 		get_sphere_normal(ray, obj);
 	if (ray->hit_type == T_PLANE || ray->hit_type == T_DISK)

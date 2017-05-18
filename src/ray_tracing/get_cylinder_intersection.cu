@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cylinder_intersection.cu                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:27:49 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/15 09:57:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 14:35:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool		get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 	if (i.r1 < 0 || isnan(i.r1))
 		return (false);
 	r->t > i.r1 ? ray->t = i.r1 : 0;
-	if (ray->type == R_PRIMARY && r->t > i.r1)
+	if (ray->type != R_SHADOW && r->t > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_CYLINDER;

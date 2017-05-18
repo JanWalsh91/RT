@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/16 13:17:55 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/18 16:44:56 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INC_PATH = inc/
 LIB_PATH = Libft/
 LIBMATH_PATH = Libmathft/
 
-SRC = 		main \
+SRC = 		main
 
 PARSING = 	get_color \
 			get_file \
@@ -89,6 +89,7 @@ RAY_TRACING = cast_primary_ray \
 			get_diffuse \
 			get_specular \
 			get_ambient \
+			get_photon_global \
 			reflect \
 			refract \
 			filters \
@@ -129,8 +130,13 @@ GUI =		window_signals \
 			sig_render \
 			sig_set_full_screen \
 			sig_generate_texture \
+			sig_errors
 
 CUDA_MEM =	cuda_malloc \
+			cuda_malloc_camera \
+			cuda_malloc_lights \
+			cuda_malloc_objects \
+			cuda_malloc_photon_map \
 			cuda_free
 
 OBJ_PARSER = 	ft_freetab \
@@ -142,6 +148,10 @@ OBJ_PARSER = 	ft_freetab \
 				get_vector_f \
 				set_obj
 
+PHOTON_MAPPING = create_photon_map \
+				update_photon \
+				create_kd_tree \
+				sort_kd_tree
 
 OBJ_DIR = obj
 
@@ -157,6 +167,7 @@ SRC_MISC = $(addsuffix $(EXT_C), $(MISC))
 SRC_GUI = $(addsuffix $(EXT_C), $(GUI))
 SRC_CUDA_MEM = $(addsuffix $(EXT_CU), $(CUDA_MEM))
 SRC_OBJ_PARSER = $(addsuffix $(EXT_C), $(OBJ_PARSER))
+SRC_PHOTON_MAPPING = $(addsuffix $(EXT_CU), $(PHOTON_MAPPING))
 
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_SRC:.c=.o))
 OBJ_PARSING = $(addprefix $(OBJ_DIR)/, $(SRC_PARSING:.c=.o))
@@ -167,6 +178,7 @@ OBJ_MISC = $(addprefix $(OBJ_DIR)/, $(SRC_MISC:.c=.o))
 OBJ_GUI = $(addprefix $(OBJ_DIR)/, $(SRC_GUI:.c=.o))
 OBJ_CUDA_MEM = $(addprefix $(OBJ_DIR)/, $(SRC_CUDA_MEM:.cu=.o))
 OBJ_OBJ_PARSER = $(addprefix $(OBJ_DIR)/, $(SRC_OBJ_PARSER:.c=.o))
+OBJ_PHOTON_MAPPING = $(addprefix $(OBJ_DIR)/, $(SRC_PHOTON_MAPPING:.cu=.o))
 
 CC	= nvcc
 NVCC = nvcc
@@ -190,27 +202,27 @@ ECHO = echo
 
 all: $(NAME)
 
-$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER)
+$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) $(OBJ_PHOTON_MAPPING)
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) $(OBJ_PHOTON_MAPPING) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/parsing/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/list/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/data_prep/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
@@ -222,7 +234,7 @@ $(OBJ_DIR)/%.o : ./src/misc/%.c
 
 $(OBJ_DIR)/%.o : ./src/gui/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(CC) $(FLG) $(GTK3_INC)  -dc -I./inc -o $@ $<
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
@@ -231,6 +243,10 @@ $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 $(OBJ_DIR)/%.o : ./src/objparser/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
 	@$(CC) $(FLG) -I./inc -dc $< -o $@
+
+$(OBJ_DIR)/%.o : ./src/photon_mapping/%.cu
+	@/bin/mkdir -p $(OBJ_DIR)
+	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)

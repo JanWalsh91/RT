@@ -27,3 +27,4 @@ t_im	ft_sqrtfi(t_im im)
 	res.i = y;
 	return (res);
 }
+

@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/14 14:20:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 14:45:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/rt.cuh"
 #include "../inc/gui.h"
 #include "../inc/cuda_call.h"
+#include "cuda_runtime.h"
+
 
 static void	increment_tile(t_pt2 *tileId, int tile_col);
 
@@ -78,23 +80,30 @@ void	*render_wrapper(gpointer data)
 	g = (t_gtk_tools *)data;
 	// g->r->settings.tile_size = 32 * 9;
 	if (g->r->update.resolution)
-	{	
-		// g->pixbuf ? g_object_unref(g->pixbuf) : 0;
-		// printf("Res render wrapper: %d - %d\n", g->r->scene->res.x, g->r->scene->res.y);
 		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
-	}
 	tileId.x = 0;
 	tileId.y = 0;
 	tile_row = (g->r->scene->res.x / g->r->settings.tile_size) + ((g->r->scene->res.x % g->r->settings.tile_size) ? 1 : 0);
 	tile_col = (g->r->scene->res.y / g->r->settings.tile_size) + ((g->r->scene->res.y % g->r->settings.tile_size) ? 1 : 0);
 	max_tile = tile_row * tile_col;
-	cuda_malloc(g->r);
 	// printf("rows: %d cols: %d total: %d\n", tile_row, tile_col, max_tile);
+	cuda_malloc(g->r);
+	if (g->r->scene->is_photon_mapping)
+	{
+		update_photon_map(g->r);
+		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+		g->r->h_d_scene->photon_map = g->r->scene->photon_map;
+		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
+		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+	}
 	while (g->win && (tileId.y + 1) <= tile_col)
 	{ 
 		// printf("tileId.x * tile_col + tileId.y: %d\n", tileId.x * tile_col + tileId.y);
-		// printf("[%d, %d]\n", tileId.x, tileId.y);
+// printf("[%d, %d]\n", tileId.x, tileId.y);
+		// printf("pre render\n");
 		render(g->r, tileId); 
+		// printf("post render\n");
 		// usleep(100000);
 		// printf("gdk_pixbuf_get_rowstride (g->pixbuf): [%d]\n", g->r->scene->res.x * 3);
 		increment_tile(&tileId, tile_row);
