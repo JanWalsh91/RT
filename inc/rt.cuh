@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/16 11:46:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 16:21:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef enum	e_token
 	T_SPHERE,
 	T_CYLINDER,
 	T_CONE,
+	T_PARABOLOID,
 	T_TORUS,
 	T_OBJ,
 	T_RESOLUTION,
@@ -282,6 +283,7 @@ typedef struct	s_object
 	float			reflection;
 	float			specular_exp;
 	float			transparency; // TODO
+	char			texture_color_style;
 	struct s_object	*next;
 }				t_object;
 
@@ -507,6 +509,7 @@ void			set_attributes_plane(t_parse_tools *t, t_attributes *a);
 void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
+void			set_attributes_paraboloid(t_parse_tools *t, t_attributes *a);
 void			set_attributes_torus(t_parse_tools *t, t_attributes *a);
 void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
@@ -521,6 +524,7 @@ char			*parse_disk(t_parse_tools *t);
 char			*parse_sphere(t_parse_tools *t);
 char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
+char			*parse_paraboloid(t_parse_tools *t);
 char			*parse_torus(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
@@ -685,6 +689,9 @@ CUDA_DEV
 bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
+bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
+					int index);
+CUDA_DEV
 bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 
 CUDA_DEV
@@ -728,7 +735,7 @@ t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_nam
 
 t_color			*generate_perlin_noise(t_vec3 *res);
 t_color			*generate_checkerboard(t_vec3 *res);
-t_color			*generate_noise(t_vec3	*res);
+t_color			*generate_noise(t_vec3 *res);
 CUDA_DEV
 t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV

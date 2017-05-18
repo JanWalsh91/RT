@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/12 12:17:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 14:46:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		{
 			if (r->scene->is_diffuse)
 				light_color = c_add(light_color, get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]));
+			// if (r->pix.x == 485 && r->pix.y == 577)
+			// 	printf("Mauvaise speculaire : Ret = %d\n", ret);
+			// if (r->pix.x == 527 && r->pix.y == 303)
+			// 	printf("Bonne  speculaire : Ret = %d\n", ret);	
 			if (r->scene->is_specular)
 				light_color = c_add(light_color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
 			if (ret == 1)
@@ -87,7 +91,8 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		}
 	}
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
-	color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
+	if (ray->depth == r->scene->ray_depth - 1)
+		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
 	return (color);
 }
 

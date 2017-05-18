@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/16 11:38:43 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/16 13:17:55 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ RAY_TRACING = cast_primary_ray \
 			get_cylinder_intersection \
 			get_cone_intersection \
 			get_torus_intersection \
+			get_paraboloid_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/10 14:02:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 16:23:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ t_im			ft_sqrtfi(t_im i);
 
 CUDA_HOSTDEV
 t_color			c_add(t_color col1, t_color col2);
+CUDA_HOSTDEV
+t_color			c_sub(t_color col1, t_color col2);
 CUDA_HOSTDEV
 t_color			c_min(t_color col1, t_color col2);
 CUDA_HOSTDEV

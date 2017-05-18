@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_texture.cu                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/30 13:00:35 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:28:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/16 16:38:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,17 @@ __device__
 t_vec3		get_object_color(t_object *obj, t_ray *ray)
 {
 	if (obj->texture)
-		return (get_texture_at_uv_coord(obj, get_uv_coord(obj, ray, &obj->texture_dim)));
+	{
+		t_vec3	color;
+
+		color = get_texture_at_uv_coord(obj, get_uv_coord(obj, ray, &obj->texture_dim));
+		if (obj->texture_color_style == 0)
+			color = v_sub(color, v_sub(v_new(255, 255, 255), obj->col));
+		else
+			color = v_add(color, obj->col);
+		color = v_clamp(color, 0, 255);
+		return (color);
+	}
 	else
 		return (obj->col);
 }
