@@ -694,7 +694,7 @@ CUDA_DEV
 bool			solve_cubic(t_vec3 q, float x, t_vec3im *sol);
 
 CUDA_DEV
-bool			solve_quartic(t_quartic *qua, t_vec4 *sol);
+bool			solve_quartic(t_quartic *qua, t_vec4im *sol);
 
 
 /*
