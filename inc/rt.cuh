@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:40:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 16:27:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -638,6 +638,15 @@ void			set_default_specular_exp(t_scene *scene, int type, void *obj,
 void			set_default_ior(t_scene *scene, int type, void *obj, float *ior);					
 void			set_default_reflection(t_scene *scene, int type, void *obj, float *reflection);
 void			set_default_transparency(t_scene *scene, int type, void *obj, float *transparency);
+
+/*
+** Cuda Malloc Functions
+*/
+
+void			cuda_malloc_photon_map(t_raytracing_tools *r);
+void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
+void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
+void			cuda_malloc_camera(t_raytracing_tools *r);
 
 /*
 ** Ray Tracing Functions

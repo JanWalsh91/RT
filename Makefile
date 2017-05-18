@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/18 14:41:38 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/05/18 16:26:45 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,8 +129,13 @@ GUI =		window_signals \
 			sig_render \
 			sig_set_full_screen \
 			sig_generate_texture \
+			sig_errors
 
 CUDA_MEM =	cuda_malloc \
+			cuda_malloc_camera \
+			cuda_malloc_lights \
+			cuda_malloc_objects \
+			cuda_malloc_photon_map \
 			cuda_free
 
 OBJ_PARSER = 	ft_freetab \

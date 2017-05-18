@@ -8,12 +8,36 @@ scene: rendu4
 	{
 		position: 0.0000, 0.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
-		radius: 6.0000
+		radius: 4.0000
 		kd: 0.0000
-		ks: 0.1399
+		ks: 0.1398
 		specular exponent: 200.0000
 		ior: 1.0000
 		transparency: 0.6000
+		reflection: 0.0000
+	}
+	plane: New Object
+	{
+		position: -1.0000, 2.0000, 0.0000
+		direction: 0.4472, 0.8944, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 1.0000
+		reflection: 0.0000
+	}
+	plane: New Object
+	{
+		position: -1.0000, 0.0000, 0.0000
+		direction: 0.4521, 0.8919, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.1500
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 1.0000
 		reflection: 0.0000
 	}
 	light: light

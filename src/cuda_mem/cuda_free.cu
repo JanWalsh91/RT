@@ -6,12 +6,16 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 14:56:48 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/17 12:38:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 16:02:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 #include "../inc/cuda_call.h"
+
+/*
+**
+*/
 
 int	cuda_free(t_raytracing_tools *r, int all)
 {

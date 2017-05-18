@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 13:24:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:53:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray)
 	refracted.dir = refract(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2);
 	if (v_isnan(refracted.dir)) //Total internal refaction
 		return (get_reflected(r, scene, ray, scene->objects[ray->hit_obj].transparency - scene->objects[ray->hit_obj].reflection));
-	f = scene->is_fresnel ? get_fresnel_ratio(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2) : 1;
+	f = scene->is_fresnel ? get_fresnel_ratio(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2) : 0;
 	if (scene->is_fresnel || scene->objects[ray->hit_obj].reflection > 0) // case where reflection is present
 		return (c_add(c_scale(cast_primary_ray(r, &refracted), (1 - f) * scene->objects[ray->hit_obj].transparency), get_reflected(r, scene, ray, f)));
 	else	//no reflection, only refraction 

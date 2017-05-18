@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   sig_generate_texture.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/16 11:55:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:32:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+
+/*
+**
+*/
 
 void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 {

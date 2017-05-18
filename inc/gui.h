@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:41:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 15:58:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ typedef struct	s_gtk_tools
 /*
 ** Menu Item
 */
+
 void			*main_gtk(t_gtk_tools *g);
-void			init_window(t_gtk_tools *g);
 void			build_gui(t_gtk_tools *g);
 int				clean_exit(t_gtk_tools *g);
 int				open_scene(t_gtk_tools *g, GtkWidget *filechooser);
@@ -54,7 +54,7 @@ void 			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g);
 void   			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
-
+gboolean		update_available_memory(gpointer data);
 /*
 ** Render Functions
 */
