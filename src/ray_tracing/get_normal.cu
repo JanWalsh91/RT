@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 16:43:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:50:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,27 +115,10 @@ static void	get_cone_normal(t_ray *ray, t_object *obj)
 __device__
 static void	get_paraboloid_normal(t_ray *ray, t_object *obj)
 {
-	t_vec3	x;
 	float	m;
 
-	x = v_sub(ray->origin, obj->pos);
-	//m = v_dot(ray->dir, v_scale(obj->dir, ray->t)) + v_dot(x, obj->dir);
 	m = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
-	// m = (P-C)|V
-
-	// N = nrm( P-C-V*(m+k) )
-	x = v_add(obj->pos, v_scale(obj->dir, (m * obj->rad)));
-	// ray->nhit = v_norm(v_sub(ray->hit, x));
-
-	t_vec3	p = ray->hit;
-	t_vec3	c = obj->pos;
-	t_vec3	v = obj->dir;
-	float	k = obj->height;
-
-	
-
-	ray->nhit = v_norm(v_scale(v_sub(v_sub(p, c), v), k + m));
-
+	ray->nhit = v_norm(v_scale(v_sub(v_sub(ray->hit, obj->pos), obj->dir), obj->height + m));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
