@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_open_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/03 11:40:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/17 15:58:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->update.cameras = 2;
 	g->r->update.scene = 2;
 	g->r->update.ray_depth = 2;
+	g->r->update.photon_map = 0;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
 	return (0);

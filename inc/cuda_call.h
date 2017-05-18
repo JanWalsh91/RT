@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_call.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/03 11:39:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/10 15:34:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,9 @@ void	render(struct s_raytracing_tools *r, struct s_pt2 tileId);
 extern "C"
 #endif
 int		cuda_free(struct s_raytracing_tools *r, int all);
+#ifdef __cplusplus
+extern "C"
+#endif
+void	update_photon_map(struct s_raytracing_tools *r);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/08 13:28:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/11 13:15:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool		get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
 	if (i.r1 < 0 || isnan(i.r1))
 		return (false);
 	r->t > i.r1 ? ray->t = i.r1 : 0;
-	if (ray->type == R_PRIMARY && r->t > i.r1)
+	if (ray->type != R_SHADOW && r->t > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_CONE;

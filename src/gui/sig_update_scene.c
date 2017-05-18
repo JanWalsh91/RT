@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/06 15:45:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 14:14:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,16 @@ void	*sig_update_is_fresnel(GtkWidget *check_box, t_gtk_tools *g)
 {
 	printf("sig_update_is_fresnel\n");
 	g->r->scene->is_fresnel = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box));
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_is_photon_mapping(GtkWidget *check_box, t_gtk_tools *g)
+{
+	printf("sig_update_is_photon_mapping\n");
+	g->r->scene->is_photon_mapping = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box));
+	if (g->r->scene->is_photon_mapping)
+		g->r->update.photon_map = 2;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	return (NULL);
 }

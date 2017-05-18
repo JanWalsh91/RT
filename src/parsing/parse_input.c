@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/29 12:25:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 13:45:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 13:19:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
+
+/*
+** Loops over token-value pairs and prepares the scene.
+*/
 
 char		*parse_input(t_parse_tools *t)
 {
@@ -24,7 +28,6 @@ char		*parse_input(t_parse_tools *t)
 		t->input = t->input->next;
 	}
 	if (t->in_scene || t->in_object)
-		// rt_file_error_exit(NULL, "Brackets error.");
 		return ("Brackets error");
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/05 12:20:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/17 14:20:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /*
 ** Updates a camera's pixel_map (color of image pixels).
 */
+
 #define N 32
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
@@ -47,13 +48,12 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 {
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
-	int					idx;
 	
 	r.pix.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
 	
-    idx = scene->res.x * r.pix.y + r.pix.x;
+    r.idx = scene->res.x * r.pix.y + r.pix.x;
 
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
@@ -62,8 +62,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 		// r.ior_list = (float *)malloc(sizeof(float) * (scene->ray_depth + 1));
 		memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 		cam_ray = init_camera_ray(&r);
-		d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
-		free(r.ior_list);
+		d_pixel_map[r.idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
 	}
 }
 
@@ -119,11 +118,20 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
+
+	cudaError_t errSync  = cudaGetLastError();
+cudaError_t errAsync = cudaDeviceSynchronize();
+if (errSync != cudaSuccess) 
+  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
+if (errAsync != cudaSuccess)
+  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 	//beautiful....
 	// printf("=============== EXECUTION ================== \n");
 	// printf("Kernel duration: %f milliseconds\n", milliseconds);
 	// printf("============================================ \n");
-	gpuErrchk((cudaDeviceSynchronize()));
+
+	// gpuErrchk((cudaDeviceSynchronize()));
+
 	// if (r->scene->is_3d)
 	// {
 	// 	printf("3d\n");

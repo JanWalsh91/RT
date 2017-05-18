@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_normal.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/08 13:04:29 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/11 13:16:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	get_cone_normal(t_ray *ray, t_object *obj);
 __device__
 void		get_normal(t_ray *ray, t_object *obj)
 {
+	// if (ray->type > 1)
+	// 	printf("photon: get_normal. nhit: [%f, %f, %f]\n", ray->nhit.x, ray->nhit.y, ray->nhit.z);
 	if (ray->hit_type == T_SPHERE)
 		get_sphere_normal(ray, obj);
 	if (ray->hit_type == T_PLANE || ray->hit_type == T_DISK)

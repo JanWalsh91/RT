@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/06 11:56:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 13:25:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	init_raytracing_tools(t_raytracing_tools *r)
 	r->update.cameras = 2;
 	r->update.scene = 2;
 	r->update.ray_depth = 2;
+	r->update.photon_map = 0;
 	r->update.render = 0;
 	r->rendering = 0;
 	r->scene = NULL;

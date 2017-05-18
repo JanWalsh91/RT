@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:25:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 14:07:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdbool.h>
 # include <cuda.h>
 # include "../Libft/inc/libft.h"
-
 # include "../Libmathft/inc/libmathft.cuh"
 
 #ifndef CUDA_DEV
@@ -209,7 +208,9 @@ typedef struct	s_attributes
 typedef enum	e_ray_type
 {
 	R_PRIMARY,
-	R_SHADOW
+	R_SHADOW,
+	R_DIRECT_PHOTON,
+	R_INDIRECT_PHOTON
 }				t_ray_type;
 
 /*
@@ -335,6 +336,7 @@ typedef struct	s_camera
 ** (see t_attributes for more information)
 */
 
+
 typedef struct	s_scene
 {
 	t_pt2			res;
@@ -349,6 +351,11 @@ typedef struct	s_scene
 	bool			is_specular;
 	uint8_t			is_3d;
 	bool			is_fresnel;
+	bool			is_photon_mapping;
+	size_t			photon_count;
+	struct s_photon	**photon_list;
+	struct s_kd_tree		*photon_map;
+	struct s_selected_photon **selected_photons;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -427,6 +434,7 @@ typedef struct	s_update
 	uint8_t		cameras;
 	uint8_t		scene;
 	uint8_t		render;
+	uint8_t		photon_map;
 }				t_update;
 
 
@@ -440,21 +448,26 @@ typedef struct	s_update
 typedef	struct	s_rt_settings
 {
 	int		tile_size;
+	int		photon_count;
+	int		k; //photon search count
 }				t_rt_settings;
 
 typedef struct	s_raytracing_tools
 {
-	t_scene			*scene;
-	t_scene			*d_scene;
-	t_scene			*h_d_scene;
-	t_color			*d_pixel_map;
-	t_color			*d_pixel_map_3d;
-	t_pt2			pix;
-	float			t;
-	t_update		update;
-	uint8_t			rendering;
-	t_rt_settings	settings;
-	float			ior_list[MAX_RAY_DEPTH + 1];
+	t_scene					*scene;
+	t_scene					*d_scene;
+	t_scene					*h_d_scene;
+	t_color					*d_pixel_map;
+	t_color					*d_pixel_map_3d;
+	t_pt2					pix;
+	float					t;
+	t_update				update;
+	uint8_t					rendering;
+	t_rt_settings			settings;
+	float					ior_list[MAX_RAY_DEPTH + 1];
+	int						idx; // thread index
+	struct curandStateXORWOW	*devStates;
+	// struct s_kd_tree		*photon_map;
 }				t_raytracing_tools;
 
 
@@ -464,11 +477,6 @@ typedef struct	s_th_export
 	char	*filename;
 	struct s_gtk_tools *g;
 }				t_th_export;
-
-// int		cuda_malloc(struct s_raytracing_tools *r);
-// int		cuda_free(struct s_raytracing_tools *r);
-
-void	*main_gtk(struct s_gtk_tools *g);
 
 /*
 ** File Parsing Functions
@@ -630,7 +638,9 @@ CUDA_DEV
 t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
-t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);	
+t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
+CUDA_DEV
+void			update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
@@ -639,7 +649,10 @@ CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
 t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ray_ior, float new_ior);
-
+CUDA_DEV
+t_color			update_photon(t_raytracing_tools *r, t_ray *ray);
+CUDA_DEV
+t_color			get_photon_global(t_raytracing_tools *r, t_ray *ray);
 /*
 ** Intersection functions.
 */
@@ -738,5 +751,6 @@ void			print_scenes(t_scene *scenes_head);
 void			print_attributes(t_attributes att);
 void			print_vec(t_vec3 vec);
 void			print_matrix(t_matrix m);
+void			print_photons(struct s_kd_tree *tree);
 
 #endif

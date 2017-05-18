@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_malloc.cu                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/05 11:11:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/17 15:53:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 #include "../inc/cuda_call.h"
+#include "photon_mapping.h"
 
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
@@ -28,17 +29,34 @@ t_object		*list_to_array_objects(t_object *object);
 size_t			get_objects_array_length(t_object *objects);
 size_t			get_lights_array_length(t_light *lights);
 
-
-
-
 int	cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
+	int			i;
 
-	if (!(memcpy(&h_scene_to_array, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  )))
+	if (!(memcpy(&h_scene_to_array, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 6)  )))
 		exit (0);
-	memcpy(r->h_d_scene, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 5)  );
+	memcpy(r->h_d_scene, r->scene, sizeof ( t_scene ) - (sizeof ( void * ) * 6)  );
 	// sleep(2);
+	if (r->scene->is_photon_mapping && r->update.photon_map == 2 ) 
+	{
+		r->scene->photon_count = 1000;
+		gpuErrchk(cudaMallocHost(&(r->h_d_scene->photon_list), sizeof(t_photon *) * (r->scene->photon_count + 1)));
+		i = -1;
+		while (++i < r->scene->photon_count)
+			gpuErrchk(cudaMallocHost(&(r->h_d_scene->photon_list[i]), sizeof(t_photon) * r->scene->ray_depth));
+		//allocated pinned mem list in h_d_scene
+		//SWICTH 10 WITH K (NUM OF PHOTONS TO GATHER)
+		gpuErrchk(cudaMallocHost(&(r->h_d_scene->selected_photons), sizeof(t_selected_photon *) * (r->scene->res.x * r->scene->res.y)));
+		i = -1;
+		while (++i < r->scene->res.x * r->scene->res.y)
+			gpuErrchk(cudaMallocHost(&(r->h_d_scene->selected_photons[i]), sizeof(t_selected_photon) * (10 + 1)));
+		r->scene->photon_map = r->h_d_scene->photon_map;
+		printf("selected_photons: [%p]\n", r->h_d_scene->selected_photons);
+		printf("selected_photons: [%p]\n", r->h_d_scene->selected_photons[1]);
+	}
+	// printf("-----%p and %p\n", r->scene->photon_map, r->h_d_scene->photon_map);
+	// exit(0);
 	if (r->update.resolution == 2)
 	{
 		gpuErrchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
@@ -53,7 +71,7 @@ int	cuda_malloc(t_raytracing_tools *r)
 	if (r->update.objects >= 1)
 	{
 		h_scene_to_array.objects = list_to_array_objects(r->scene->objects);
-		printf("%d\n", r->update.objects);
+		// printf("%d\n", r->update.objects);
 		if (r->update.objects == 2)
 			gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array.objects)));
 		gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array.objects, get_objects_array_length(h_scene_to_array.objects), cudaMemcpyHostToDevice)));
@@ -90,7 +108,8 @@ int	cuda_malloc(t_raytracing_tools *r)
 	r->update.scene = 0;
 	r->update.ray_depth = 0;
 	r->update.render = 0;
-	printf("Resolution: %d\n", r->update.resolution);
+	r->update.photon_map = 0;
+	// printf("Resolution: %d\n", r->update.resolution);
 	// printf("RENDER ADDR %p\n", &r->update.render);
 	return (1);
 }
@@ -139,7 +158,7 @@ t_light		*list_to_array_lights(t_light *light)
 	t_light	*array;
 
 	size = 0;
-	head = light;
+	head = light; 
 	while (light)
 	{
 		++size;

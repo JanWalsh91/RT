@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_global.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 15:18:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 11:29:57 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 13:20:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
+
+// INCOMPLETE / NOT USED
 
 /*
 ** Calculates and returns the global lighting value of the color at hitpoint.
