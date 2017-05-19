@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/10 14:02:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 16:23:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ typedef struct	s_squart
 	t_im		qim;
 }				t_squart;
 
+typedef struct	s_triangle
+{
+	t_vec3		v1;
+	t_vec3		v2;
+	t_vec3		v3;
+}				t_triangle;
+
 typedef float	t_matrix[4][4];
 
 EXT
@@ -123,6 +130,8 @@ t_im			ft_sqrtfi(t_im i);
 
 CUDA_HOSTDEV
 t_color			c_add(t_color col1, t_color col2);
+CUDA_HOSTDEV
+t_color			c_sub(t_color col1, t_color col2);
 CUDA_HOSTDEV
 t_color			c_min(t_color col1, t_color col2);
 CUDA_HOSTDEV

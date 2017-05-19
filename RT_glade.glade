@@ -376,6 +376,9 @@
         <col id="0" translatable="yes">Cone</col>
       </row>
       <row>
+        <col id="0" translatable="yes">Paraboloid</col>
+      </row>
+      <row>
         <col id="0" translatable="yes">Torus</col>
       </row>
     </data>
@@ -1695,7 +1698,38 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkSwitch" id="SwitchObjectNegativeTexture">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <signal name="state-set" handler="sig_update_obj_texture_negative" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Negative</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">15</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>

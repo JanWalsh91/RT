@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 16:27:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 16:44:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <cuda.h>
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
+# include "objparser.h"
 
 #ifndef CUDA_DEV
 #ifdef __CUDACC__
@@ -90,6 +91,7 @@ typedef enum	e_token
 	T_SPHERE,
 	T_CYLINDER,
 	T_CONE,
+	T_PARABOLOID,
 	T_TORUS,
 	T_OBJ,
 	T_RESOLUTION,
@@ -119,7 +121,8 @@ typedef enum	e_token
 	T_READ_MATERIAL_FILE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
-	T_COUNT
+	T_COUNT,
+	T_TRIANGLE
 }				t_token;
 
 typedef enum	e_filter
@@ -283,6 +286,7 @@ typedef struct	s_object
 	float			reflection;
 	float			specular_exp;
 	float			transparency; // TODO
+	char			texture_color_style;
 	struct s_object	*next;
 }				t_object;
 
@@ -515,6 +519,7 @@ void			set_attributes_plane(t_parse_tools *t, t_attributes *a);
 void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
+void			set_attributes_paraboloid(t_parse_tools *t, t_attributes *a);
 void			set_attributes_torus(t_parse_tools *t, t_attributes *a);
 void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
@@ -529,6 +534,7 @@ char			*parse_disk(t_parse_tools *t);
 char			*parse_sphere(t_parse_tools *t);
 char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
+char			*parse_paraboloid(t_parse_tools *t);
 char			*parse_torus(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
@@ -707,7 +713,15 @@ CUDA_DEV
 bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
+bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
+					int index);
+CUDA_DEV
 bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
+CUDA_DEV
+bool			get_triangle_intersection(t_triangle *t, t_ray *ray, int index,
+				t_vec3 *norm);
+CUDA_DEV
+bool			get_obj_intersection(t_obj *o, t_ray *ray, int index, t_vec3 *norm);
 
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
@@ -750,7 +764,7 @@ t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_nam
 
 t_color			*generate_perlin_noise(t_vec3 *res);
 t_color			*generate_checkerboard(t_vec3 *res);
-t_color			*generate_noise(t_vec3	*res);
+t_color			*generate_noise(t_vec3 *res);
 CUDA_DEV
 t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
 CUDA_DEV

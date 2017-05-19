@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 17:49:17 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/14 18:04:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/16 16:05:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ t_color		*generate_checkerboard(t_vec3 *res)
 			tile.x = i.x / res->z;
 			tile.y = i.y / res->z;
 			if ((tile.x + tile.y) % 2 == 0)
-				color = 255;
-			else
 				color = 0;
-			map[i.y * (int)res->x + i.x].r = 255;
-			map[i.y * (int)res->x + i.x].g = 255 - color;
-			map[i.y * (int)res->x + i.x].b = 255 - color;
+			else
+				color = 255;
+			map[i.y * (int)res->x + i.x].r = color;
+			map[i.y * (int)res->x + i.x].g = color;
+			map[i.y * (int)res->x + i.x].b = color;
 		}
 	}
 	return (map);

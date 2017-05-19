@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_normal.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 14:35:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 16:50:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ __device__
 static void	get_cylinder_normal(t_ray *ray, t_object *obj);
 __device__
 static void	get_cone_normal(t_ray *ray, t_object *obj);
+__device__
+static void	get_paraboloid_normal(t_ray *ray, t_object *obj);
 
 __device__
 t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
@@ -60,6 +62,8 @@ void		get_normal(t_ray *ray, t_object *obj)
 		get_cylinder_normal(ray, obj);
 	if (obj->type == T_CONE)
 		get_cone_normal(ray, obj);
+	if (obj->type == T_CONE)
+		get_paraboloid_normal(ray, obj);
 	ray->n_dir = v_dot(ray->nhit, ray->dir) < 0 ? 1 : -1;
 }
 
@@ -76,6 +80,8 @@ __device__
 static void	get_plane_normal(t_ray *ray, t_object *obj)
 {
 	ray->nhit = v_norm(obj->dir);
+	// Perturbation de la normale ?
+	// ray->nhit = v_scale(ray->nhit, sinf(ray->hit.x));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
@@ -102,6 +108,17 @@ static void	get_cone_normal(t_ray *ray, t_object *obj)
 	x = v_sub(ray->hit, obj->pos);
 	ray->nhit = v_sub(x, v_scale(obj->dir, (v_length(x) / cos(obj->angle))));
 	ray->nhit = v_norm(ray->nhit);
+	if (obj->normal_map)
+		ray->nhit = get_normal_at_normal_map(obj, ray);
+}
+
+__device__
+static void	get_paraboloid_normal(t_ray *ray, t_object *obj)
+{
+	float	m;
+
+	m = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
+	ray->nhit = v_norm(v_scale(v_sub(v_sub(ray->hit, obj->pos), obj->dir), obj->height + m));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }

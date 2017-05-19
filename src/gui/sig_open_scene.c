@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 17:31:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 15:04:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,15 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	if (g->filename)
+	{
 		g_free(g->filename);
+		g->filename = NULL;
+	}
 	if (g->r->scene)
 		cudaDeviceReset();
+	if (g->win)
+		gtk_widget_destroy(g->win);
+		// cuda_free(g->r, 0);
 	if (!(g->r->scene = (t_scene *)malloc(sizeof(t_scene))))
 		return (NULL);
 	set_default_values_scene(g);

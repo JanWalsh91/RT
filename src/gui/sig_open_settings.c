@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/13 11:54:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 17:09:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,9 @@ void    *sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g)
     free(tmp);
     ft_strcat(graphic_card_label, " MB available");
     gtk_label_set_text(GTK_LABEL(widget), graphic_card_label);
+
+    widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder), "SpinButtonTileSize"));
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), g->r->settings.tile_size);
+
     return (NULL);
 }
