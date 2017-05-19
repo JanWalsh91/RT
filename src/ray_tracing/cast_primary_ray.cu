@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 15:09:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 14:32:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	if (ray->depth == 0)
 		return (c_new(0, 0, 0));
 	--ray->depth;
-	r->t = INFINITY;
+	r->t = INFINITY; 
 	i = -1;
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
@@ -71,16 +71,16 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	{
 		dim_light = v_new(1, 1, 1);
 		light_color = c_new(0, 0, 0);
-		if ((ret = in_shadow(r, ray, shadow_ray, &r->scene->lights[i], &dim_light) != 2) || !r->scene->is_shadow)
+		if ((ret = in_shadow(r, ray, shadow_ray, &r->scene->lights[i], &dim_light)) != 2 || !r->scene->is_shadow)
 		{
 			if (r->scene->is_diffuse)
 				light_color = c_add(light_color, get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			if (r->scene->is_specular)
+			if (r->scene->is_specular && !ret)
 				light_color = c_add(light_color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			if (ret == 1)
-				color = c_add(color, apply_filter(dim_light, light_color));
-			else
-				color = c_add(color, light_color);
+			// if (ret == 1)
+				color = c_add(color, ret ? apply_filter(dim_light, light_color) : light_color);
+			// else
+			// 	color = c_add(color, light_color);
 		}
 	}
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));

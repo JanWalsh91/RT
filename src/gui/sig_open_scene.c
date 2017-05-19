@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 16:37:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 17:31:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 ** 
 */
 
-static void	set_default_values(t_gtk_tools *g);
+static void	set_default_values_scene(t_gtk_tools *g);
+static void	set_default_values_camera(t_gtk_tools *g);
 
 void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
@@ -31,8 +32,10 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 		cudaDeviceReset();
 	if (!(g->r->scene = (t_scene *)malloc(sizeof(t_scene))))
 		return (NULL);
+	set_default_values_scene(g);
 	if (!(g->r->scene->cameras = (t_camera *)ft_memalloc(sizeof(t_camera))))
 		ft_error_exit("Malloc error.");
+	set_default_values_camera(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
 	g->r->update.cameras = 2;
@@ -46,10 +49,11 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, false);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
 	gtk_widget_set_sensitive(widget, false);
+	C(100)
 	return (NULL);
 }
 
-static void	set_default_values(t_gtk_tools *g)
+static void	set_default_values_scene(t_gtk_tools *g)
 {
 	g->r->scene->res.x = DEFAULT_RES_W;
 	g->r->scene->res.y = DEFAULT_RES_H;
@@ -69,6 +73,10 @@ static void	set_default_values(t_gtk_tools *g)
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
 	g->r->scene->is_aa = 1;
+}
+
+static void	set_default_values_camera(t_gtk_tools *g)
+{
 	g->r->scene->cameras->name = ft_strdup("New Camera");
 	g->r->scene->cameras->dir.z = 1.0;
 	g->r->scene->cameras->prev = NULL;
@@ -77,6 +85,7 @@ static void	set_default_values(t_gtk_tools *g)
 	g->r->scene->cameras->filter = 0;
 	g->r->scene->cameras->ior = 1.01;
 }
+
 void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkFileFilter	*file_filter;

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 15:26:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 14:24:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		{
 			if (r->scene->objects[i].transparency > 0.01)
 			{
-				filter_for_transparency(dim_light, get_object_color(&r->scene->objects[i], primary_ray), r->scene->objects[i].transparency);
+				filter_for_transparency(dim_light, 
+					get_object_color(&r->scene->objects[i], primary_ray),
+					r->scene->objects[i].transparency);
 				is_transparent = 1;
 			}
 			else

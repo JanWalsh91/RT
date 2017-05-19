@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:37:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 12:21:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,8 +262,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	int			i;
 	t_object	*obj;
 
-	printf("get_selected_object\n");
-	// C(1)
+	printf("get_selected_object: ");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));
 	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index (listBoxRow);
@@ -271,6 +270,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	obj = g->r->scene->objects;
 	while (++i != id && obj)
 		obj = obj->next;
+	printf("[%s]\n", (obj && id == i) ? obj->name : "no obj found");
 	return ((obj && id == i) ? obj : NULL);
 }
 
