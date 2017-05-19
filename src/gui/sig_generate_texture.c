@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_generate_texture.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 16:32:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/18 17:05:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 	}
 	else if (g->generate_id == 2)
 	{
-		C(1)
 		obj->texture_name = ft_strdup("Checkerboard");
 		tmp = is_texture_loaded(g->r->scene->objects, obj, "Checkerboard", dim_tmp);
-		C(2)
 		while ((int)dim.x % (int)dim.z != 0)
 			dim.x++;
 		if (((int)dim.x / (int)dim.z) % 2 == 1)
@@ -63,12 +61,11 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 			dim.y++;
 		if (((int)dim.y / (int)dim.z) % 2 == 1)
 			dim.y += dim.z;
-		printf("Generate checkerboard with res : %f, %f, %f\n", dim.x, dim.y, dim.z);			
+		// printf("Generate checkerboard with res : %f, %f, %f\n", dim.x, dim.y, dim.z);			
 		if (!obj->texture)
 			obj->texture = generate_checkerboard(&dim);
 		else
 			obj->texture = tmp->texture;
-		C(3)
 	}
 	else if (g->generate_id == 3)
 	{
@@ -89,6 +86,14 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 	if (g->win)
 		gtk_widget_queue_draw(g->win);
 	g->generate_id = 0;
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
+	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureY"));
+	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateX"));
+	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
+	gtk_widget_set_sensitive(widget, true);
 	return (NULL);
 }
 
@@ -102,7 +107,6 @@ void	*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 	printf("sig_generate_texture\n");
 	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
-
 	if (id == 0)
 		return (NULL);
 	g->generate_id = id;
