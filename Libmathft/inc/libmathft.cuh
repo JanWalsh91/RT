@@ -94,6 +94,13 @@ typedef struct	s_squart
 	t_im		qim;
 }				t_squart;
 
+typedef struct	s_triangle
+{
+	t_vec3		v1;
+	t_vec3		v2;
+	t_vec3		v3;
+}				t_triangle;
+
 typedef float	t_matrix[4][4];
 
 EXT

@@ -20,6 +20,7 @@
 # include <cuda.h>
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
+# include "objparser.h"
 
 #ifndef CUDA_DEV
 #ifdef __CUDACC__
@@ -120,7 +121,8 @@ typedef enum	e_token
 	T_READ_MATERIAL_FILE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
-	T_COUNT
+	T_COUNT,
+	T_TRIANGLE
 }				t_token;
 
 typedef enum	e_filter
@@ -715,6 +717,11 @@ bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
 CUDA_DEV
 bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
+CUDA_DEV
+bool			get_triangle_intersection(t_triangle *t, t_ray *ray, int index,
+				t_vec3 *norm);
+CUDA_DEV
+bool			get_obj_intersection(t_obj *o, t_ray *ray, int index, t_vec3 *norm);
 
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
