@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_cubic.cu                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 14:16:04 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 14:04:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:32:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 ** Solves a cubic equation.
 ** Returns true if the cubic has at least one solution.
 */
+
 __device__
 void	solve_third_case(t_vec3 q, float d, t_vec3 res, t_vec3im *sol)
 {

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/08 17:52:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/19 15:27:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ __device__
 static void	get_cone_normal(t_ray *ray, t_object *obj);
 __device__
 static void	get_torus_normal(t_ray *ray, t_object *obj);
+__device__
+static void	get_paraboloid_normal(t_ray *ray, t_object *obj);
 
 __device__
 t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
@@ -52,6 +54,8 @@ t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
 __device__
 void		get_normal(t_ray *ray, t_object *obj)
 {
+	// if (ray->type > 1)
+	// 	printf("photon: get_normal. nhit: [%f, %f, %f]\n", ray->nhit.x, ray->nhit.y, ray->nhit.z);
 	if (ray->hit_type == T_SPHERE)
 		get_sphere_normal(ray, obj);
 	if (ray->hit_type == T_PLANE || ray->hit_type == T_DISK)
@@ -62,6 +66,8 @@ void		get_normal(t_ray *ray, t_object *obj)
 		get_cone_normal(ray, obj);
 	if(obj->type == T_TORUS)
 		get_torus_normal(ray, obj);
+	if (obj->type == T_PARABOLOID)
+		get_paraboloid_normal(ray, obj);
 	ray->n_dir = v_dot(ray->nhit, ray->dir) < 0 ? 1 : -1;
 }
 
@@ -95,6 +101,8 @@ __device__
 static void	get_plane_normal(t_ray *ray, t_object *obj)
 {
 	ray->nhit = v_norm(obj->dir);
+	// Perturbation de la normale ?
+	// ray->nhit = v_scale(ray->nhit, sinf(ray->hit.x));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
@@ -125,4 +133,13 @@ static void	get_cone_normal(t_ray *ray, t_object *obj)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
 
+__device__
+static void	get_paraboloid_normal(t_ray *ray, t_object *obj)
+{
+	float	m;
 
+	m = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
+	ray->nhit = v_norm(v_scale(v_sub(v_sub(ray->hit, obj->pos), obj->dir), obj->height + m));
+	if (obj->normal_map)
+		ray->nhit = get_normal_at_normal_map(obj, ray);
+}

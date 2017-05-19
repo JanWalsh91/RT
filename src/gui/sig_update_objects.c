@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/16 12:01:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/19 15:04:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ? get_file_name(obj->normal_map_name) : "");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
 	gtk_widget_set_sensitive(widget, TRUE);
-	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK || obj->type == T_TORUS) ?
+	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK || obj->type == T_TORUS || obj->type == T_PARABOLOID) ?
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad) :
 		gtk_widget_set_sensitive(widget, FALSE);
 
@@ -262,8 +262,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	int			i;
 	t_object	*obj;
 
-	printf("get_selected_object\n");
-	// C(1)
+	printf("get_selected_object: ");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));
 	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index (listBoxRow);
@@ -271,6 +270,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	obj = g->r->scene->objects;
 	while (++i != id && obj)
 		obj = obj->next;
+	printf("[%s]\n", (obj && id == i) ? obj->name : "no obj found");
 	return ((obj && id == i) ? obj : NULL);
 }
 
@@ -302,7 +302,7 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
-	if (obj->type == T_DISK || obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE)
+	if (obj->type == T_DISK || obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_PARABOLOID)
 		gtk_widget_set_sensitive(widget, TRUE);
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
@@ -902,6 +902,17 @@ void	*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->height = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
+	(g->updating_gui) ? 0 : obj_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_obj_texture_negative(GtkWidget *toggle_button, gboolean state, t_gtk_tools *g)
+{
+	t_object 	*obj;
+
+	printf("sig_update_obj_texture_negative\n");
+	obj = get_selected_object(g);
+	obj->texture_color_style = state;
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }

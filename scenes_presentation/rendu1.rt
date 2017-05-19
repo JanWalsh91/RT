@@ -12,9 +12,10 @@ scene: rendu1
 		kd: 0.0000
 		ks: 0.0000
 		specular exponent: 40.0000
-		ior: 1.1000
+		ior: 1.3300
 		transparency: 1.0000
 		reflection: 0.0000
+
 	}
 	plane: New Object
 	{
@@ -27,6 +28,7 @@ scene: rendu1
 		ior: 1.1000
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: New Object
 	{
@@ -39,6 +41,7 @@ scene: rendu1
 		ior: 1.1000
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: New Object
 	{
@@ -51,6 +54,7 @@ scene: rendu1
 		ior: 1.1000
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: New Object
 	{
@@ -63,6 +67,7 @@ scene: rendu1
 		ior: 1.1000
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	light: light
 	{
@@ -76,6 +81,6 @@ scene: rendu1
 		direction: 0.0000, 0.0000, 1.0000
 		filter: none
 		fov: 45
-		ior: 1.2999
+		ior: 1.0000
 	}
 }

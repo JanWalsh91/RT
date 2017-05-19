@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/12 12:17:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/19 15:04:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@
 ** - returns the calculated color, or background color if no intersections
 ** are found.
 */
-// __device__
-// static t_color	apply_filter(t_color o, t_color light_color, t_color dim_light);
 
 __device__
 static t_color	apply_filter(t_vec3 dim_light, t_color light_color);
 __device__
 t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
-
 __device__
 static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray);
@@ -43,7 +40,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	if (ray->depth == 0)
 		return (c_new(0, 0, 0));
 	--ray->depth;
-	r->t = INFINITY;
+	r->t = INFINITY; 
 	i = -1;
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
@@ -54,7 +51,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
-	col = get_color_at_hitpoint(r, ray, &shadow_ray);
+	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) : update_photon(r, ray);
 	return (col);
 }
 
@@ -74,20 +71,19 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	{
 		dim_light = v_new(1, 1, 1);
 		light_color = c_new(0, 0, 0);
-		if ((ret = in_shadow(r, ray, shadow_ray, &r->scene->lights[i], &dim_light) != 2) || !r->scene->is_shadow)
+		if ((ret = in_shadow(r, ray, shadow_ray, &r->scene->lights[i], &dim_light)) != 2 || !r->scene->is_shadow)
 		{
 			if (r->scene->is_diffuse)
 				light_color = c_add(light_color, get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			if (r->scene->is_specular)
+			if (r->scene->is_specular && !ret)
 				light_color = c_add(light_color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			if (ret == 1)
-				color = c_add(color, apply_filter(dim_light, light_color));
-			else
-				color = c_add(color, light_color);
+			color = c_add(color, ret ? apply_filter(dim_light, light_color) : light_color);
+			
 		}
 	}
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
-	color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
+	if (ray->depth == r->scene->ray_depth - 1)
+		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
 	return (color);
 }
 

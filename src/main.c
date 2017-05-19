@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/13 11:29:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:31:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,58 +16,10 @@
 #include <cuda_runtime.h>
 #include <time.h>
 
-void	gtk_popup_dialog(char *mesg, t_gtk_tools *g)
-{
-	GtkWidget		*dialog;
-	char			error_mesg[512];
-	char			*line_number;
+static void		init_raytracing_tools(t_raytracing_tools *r);
+static void		init_window(t_gtk_tools *g);
 
-	ft_bzero(error_mesg, 512);
-	ft_strcat(error_mesg, "Error in the file:\n");
-	ft_strcat(error_mesg, g->filename);
-	ft_strcat(error_mesg, ".\n\n");
-	ft_strcat(error_mesg, mesg);
-	if (g->t->input)
-	{
-		line_number = ft_itoa((int)g->t->input->line_number);
-		ft_strcat(error_mesg, "\nLine: ");
-		ft_strcat(error_mesg, line_number);
-		free(line_number);
-	}
-	dialog = gtk_message_dialog_new (GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")),
-									GTK_DIALOG_MODAL,
-									GTK_MESSAGE_ERROR,
-									GTK_BUTTONS_CLOSE,
-									"%s", error_mesg);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-}
-
-void	init_raytracing_tools(t_raytracing_tools *r)
-{
-	r->update.resolution = 2;
-	r->update.objects = 2;
-	r->update.lights = 2;
-	r->update.cameras = 2;
-	r->update.scene = 2;
-	r->update.ray_depth = 2;
-	r->update.render = 0;
-	r->rendering = 0;
-	r->scene = NULL;
-	r->d_scene = NULL;
-	r->h_d_scene = NULL;
-	r->d_pixel_map = NULL;
-	r->h_d_scene = (t_scene *)malloc(sizeof(t_scene));
-}
-
-void	*sig_button_pressed_window(GtkWidget *widget, GdkEvent *event, t_gtk_tools *g)
-{
-	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), false);
-	g_signal_handlers_disconnect_by_func(GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main")), sig_button_pressed_window, g);
-	return (NULL);
-}
-
-int main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_gtk_tools			g;
 	t_parse_tools		t;
@@ -87,9 +39,8 @@ int main(int ac, char **av)
 	return (0);
 }
 
-void	*main_gtk(t_gtk_tools *g)
+void			*main_gtk(t_gtk_tools *g)
 {
-
 	gtk_init(&g->ac, &g->av);
 	init_raytracing_tools(g->r);
 	build_gui(g);
@@ -101,30 +52,26 @@ void	*main_gtk(t_gtk_tools *g)
 	return (NULL);
 }
 
-gboolean	update_available_memory(gpointer data)
+static void		init_raytracing_tools(t_raytracing_tools *r)
 {
-	GtkWidget	*widget;
-	size_t		free_bytes;
-	size_t		total_bytes;
-	char		gpu_infos[127];
-	char		*tmp;
-
-	ft_bzero(&gpu_infos, 127);
-	widget = GTK_WIDGET(gtk_builder_get_object(((t_gtk_tools *)data)->builder, "LabelAvailableCudaMemory"));
-    cudaMemGetInfo(&free_bytes, &total_bytes);
-    tmp = ft_itoa(free_bytes / (1024 * 1024));
-    ft_strcat(gpu_infos, tmp);
-    free(tmp);
-    ft_strcat(gpu_infos, " / ");
-    tmp = ft_itoa(total_bytes / (1024 * 1024));
-    ft_strcat(gpu_infos, tmp);
-    free(tmp);
-    ft_strcat(gpu_infos, " MB available");
-    gtk_label_set_text(GTK_LABEL(widget), gpu_infos);
-	return (true);
+	r->update.resolution = 2;
+	r->update.objects = 2;
+	r->update.lights = 2;
+	r->update.cameras = 2;
+	r->update.scene = 2;
+	r->update.ray_depth = 2;
+	r->update.photon_map = 0;
+	r->update.render = 0;
+	r->rendering = 0;
+	r->scene = NULL;
+	r->d_scene = NULL;
+	r->h_d_scene = NULL;
+	r->d_pixel_map = NULL;
+	if (!(r->h_d_scene = (t_scene *)malloc(sizeof(t_scene))))
+		ft_error_exit("Malloc error.");
 }
 
-void	init_window(t_gtk_tools *g)
+static void	init_window(t_gtk_tools *g)
 {
 	GtkWidget       *window;
 	GtkWidget		*widget;
@@ -165,9 +112,3 @@ int	clean_exit(t_gtk_tools *g)
 	return (1);
 }
 
-int		display_error_popup(GtkWidget *filechooser, t_gtk_tools *g, char *ret)
-{
-	filechooser ? gtk_widget_destroy(filechooser) : 0;
-	gtk_popup_dialog(ret, g);
-	return (1);
-}

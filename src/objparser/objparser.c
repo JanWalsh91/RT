@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:26:15 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 16:11:56 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/19 09:57:50 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 static char			*set_triangle(char *line, t_list **triangle, t_ti *ti)
 {
-	t_triangle	tri;
-	char		*err;
+	t_obj_triangle	tri;
+	char			*err;
 
 	if ((err = get_vector_i(line, &tri.v, 0)) != NULL)
 		return (err);

@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/10 13:56:16 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/16 16:23:56 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = libmathft.a
 
 VECTORS_AND_MATRICES = c_add \
 		c_min \
+		c_sub \
 		c_mult \
 		c_new \
 		c_scale \

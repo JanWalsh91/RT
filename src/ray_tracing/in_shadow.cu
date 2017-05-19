@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_shadow.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 16:19:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/19 15:02:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 
 	is_transparent = 0;
 	r->t = INFINITY;
+	shadow_ray->t = INFINITY;
 	shadow_ray->type = R_SHADOW;
 	shadow_ray->origin = v_add(primary_ray->hit,
 		v_scale(primary_ray->nhit, BIAS * primary_ray->n_dir));
+	// shadow_ray->t = 0.f; ??
 	if (!v_isnan(light->pos))
 		max = v_length(v_sub(light->pos, shadow_ray->origin));
 	else
@@ -48,11 +50,19 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
 		if (intersects(r, shadow_ray, i) &&
-			shadow_ray->t < max && shadow_ray->t > 0)
+			shadow_ray->t < max && shadow_ray->t > 0.0) 
 		{
+			// if (r->pix.x == 485 && r->pix.y == 577)
+				// printf("Intersect avec : %d\n", r->scene->objects[i].type);
+			// if (r->pix.x == 527 && r->pix.y == 303)
+			// {
+				// printf("Intersect avec : %d et t = %f\n", r->scene->objects[i].type, shadow_ray->t);
+			// }
 			if (r->scene->objects[i].transparency > 0.01)
 			{
-				filter_for_transparency(dim_light, get_object_color(&r->scene->objects[i], primary_ray), r->scene->objects[i].transparency);
+				filter_for_transparency(dim_light, 
+					get_object_color(&r->scene->objects[i], primary_ray),
+					r->scene->objects[i].transparency);
 				is_transparent = 1;
 			}
 			else

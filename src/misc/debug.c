@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/14 17:35:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 14:36:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 #include <stdio.h>
+#include "photon_mapping.h"
 
 void	print_scenes(t_scene *scenes_head)
 {
@@ -108,3 +109,13 @@ void	print_matrix(t_matrix m)
 		printf("\n");
 	}
 }
+
+// void	print_photons(t_kd_tree *tree)
+// {
+// 	//print in-order
+// 	if (!tree)
+// 		return ;
+// 	print_photons(tree->left);
+// 	printf("photon pos: [%f, %f, %f]\n", tree->dir.x, tree->dir.y, tree->dir.z);
+// 	print_photons(tree->right);
+// }

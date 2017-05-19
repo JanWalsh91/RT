@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   get_torus_intersection.cu                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:52:47 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 13:04:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:28:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "rt.cuh"
 
 #include "rt.cuh"
 

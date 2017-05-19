@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_quartic.cu                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:46:42 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 14:20:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/18 16:31:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** Solves a quartic equation.
-** Updates r1 and r2 if at least a solution exists.
+** Updates r1 and r2 if at least a solution exists. ?????????????????????????????
 ** Returns true if the quartic has at least one solution.
 */
 
@@ -63,7 +63,7 @@ bool	solve_quartic(t_quartic *qua, t_vec4im *sol)
 {
 	t_vec3		fgh;
 	t_vec3im	sol_cubic;
-	t_squart	q;
+	
 	// divide all members by a
 	// qua->a = 1; 
 	// qua->b = -0.25;
@@ -75,7 +75,7 @@ bool	solve_quartic(t_quartic *qua, t_vec4im *sol)
 	qua->d /= qua->a;
 	qua->e /= qua->a;
 	qua->a /= qua->a;
-	//printf("After simplification : %f, %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e);
+	//printf("After complication : %f, %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e);
 	fgh.x = qua->c - (3 * qua->b * qua->b / 8); // f
 	fgh.y = qua->d + ((qua->b * qua->b * qua->b) / 8) - (qua->b * qua->c / 2); // g
 	fgh.z = qua->e - (3 * pow(qua->b, 4) / 256) + (qua->b * qua->b * qua->c / 16) - (qua->b * qua->d / 4); // h
