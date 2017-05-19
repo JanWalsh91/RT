@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 16:50:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/19 15:27:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		get_normal(t_ray *ray, t_object *obj)
 		get_cylinder_normal(ray, obj);
 	if (obj->type == T_CONE)
 		get_cone_normal(ray, obj);
-	if (obj->type == T_CONE)
+	if (obj->type == T_PARABOLOID)
 		get_paraboloid_normal(ray, obj);
 	ray->n_dir = v_dot(ray->nhit, ray->dir) < 0 ? 1 : -1;
 }
