@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 10:19:19 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/10 16:12:56 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/19 11:47:30 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ static void			del(void *c, size_t s)
 	free(c);
 }
 
-static t_vec3f		*set_array(t_list **v, int j)
+static t_vec3		*set_array(t_list **v, int j)
 {
 	t_list		*tmp;
-	t_vec3f		*array;
+	t_vec3		*array;
 	int			i;
 
 	tmp = *v;
 	i = 0;
-	if (!(array = (t_vec3f *)malloc(sizeof(t_vec3d) * j)))
+	if (!(array = (t_vec3 *)malloc(sizeof(t_vec3d) * j)))
 		return (NULL);
 	while (tmp)
 	{
-		array[i] = *(t_vec3f *)tmp->content;
+		array[i] = *(t_vec3 *)tmp->content;
 		i++;
 		tmp = tmp->next;
 	}

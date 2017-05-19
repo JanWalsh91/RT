@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:17 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/10 14:53:42 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/19 11:29:59 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define OBJPARSER_H
 
 # include "../Libft/inc/libft.h"
+# include "../Libmathft/inc/libmathft.cuh"
 # include <stdbool.h>
 # include <stdio.h>
 
@@ -46,16 +47,16 @@ typedef struct		s_vec3f
 	float			z;
 }					t_vec3f;
 
-typedef struct		s_triangle
+typedef struct		s_obj_triangle
 {
 	t_vec3i			v;
 	t_vec3i			n;
-}					t_triangle;
+}					t_obj_triangle;
 
 typedef struct		s_obj
 {
-	t_vec3f			*vertex;
-	t_vec3f			*normal;
+	t_vec3			*vertex;
+	t_vec3			*normal;
 	t_list			*triangle;
 }					t_obj;
 
