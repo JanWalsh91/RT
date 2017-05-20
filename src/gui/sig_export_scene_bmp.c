@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/12 15:34:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 12:49:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	}
 	th_export.progress = 0;
 	th_export.g = g;
-	dialog = gtk_file_chooser_dialog_new("Save as .bmp", NULL, GTK_FILE_CHOOSER_ACTION_SAVE,
+	dialog = gtk_file_chooser_dialog_new("Save as .bmp", GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), GTK_FILE_CHOOSER_ACTION_SAVE,
 											"_Cancel", GTK_RESPONSE_CANCEL, "_Save", GTK_RESPONSE_ACCEPT, NULL);
 	gtk_window_set_attached_to (GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), dialog);
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)

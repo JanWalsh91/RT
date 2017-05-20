@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 10:02:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 12:48:07 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
 	if (!g->filename)
 		return (NULL);
 	if (fd == -1)
-		fd = open(g->filename, O_CREAT | O_WRONLY, 0600);
+		fd = open(g->filename, O_CREAT | O_WRONLY, 0644);
 	save_scene(fd, g->r->scene);
 	close(fd);
     return (NULL);
@@ -60,7 +60,7 @@ char       *get_new_filename(t_gtk_tools *g)
 
 	printf("get_new_filename\n");
 	filename = NULL;
-    dialog = gtk_file_chooser_dialog_new("Save as .rt", NULL, GTK_FILE_CHOOSER_ACTION_SAVE,
+	dialog = gtk_file_chooser_dialog_new("Save as .rt", GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), GTK_FILE_CHOOSER_ACTION_SAVE,
     "_Cancel", GTK_RESPONSE_CANCEL, "_Save", GTK_RESPONSE_ACCEPT, NULL);
     gtk_window_set_attached_to(GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), dialog);
     if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
