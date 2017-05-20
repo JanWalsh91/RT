@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/19 15:04:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 14:36:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static void	set_default_values_scene(t_gtk_tools *g)
 	g->r->scene->ambient_light_color = v_new(255, 255, 255);
 	g->r->scene->ka = 0.1;
 	g->r->scene->image_aspect_ratio = 1;
-	g->r->scene->next = NULL;
-	g->r->scene->prev = NULL;
 	g->r->scene->name = NULL;
 	g->r->scene->is_diffuse = true;
 	g->r->scene->is_shadow = true;
@@ -133,11 +131,11 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	}
 	else
 		return (display_error_popup(filechooser, g, "Invalid file format."));
-	if ((ret = parse_input(g->t)) || (ret = check_scenes(g->t->scenes)))
+	if ((ret = parse_input(g->t)) || (ret = check_scene(g->t->scene)))
 		return (display_error_popup(filechooser, g, ret));
 	if (g->r->scene)
 		cuda_free(g->r, 0);
-	g->r->scene = g->t->scenes;
+	g->r->scene = g->t->scene;
 	// g->r->scene->is_3d = 1;
 	cuda_malloc(g->r);
 	update_grid_scene(g);

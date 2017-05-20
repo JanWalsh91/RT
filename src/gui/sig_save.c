@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 10:02:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 13:34:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,12 +258,6 @@ void	save_light(int fd, t_light *light)
 	{
 		write(fd, "\t\tdirection: ", 13);
 		write_vector(fd, light->dir);
-		write(fd, "\n", 1);
-	}
-	if (!v_isnan(light->look_at))
-	{
-		write(fd, "\t\tlook at: ", 11);
-		write_vector(fd, light->look_at);
 		write(fd, "\n", 1);
 	}
 	write(fd, "\t\tcolor: ", 8);
