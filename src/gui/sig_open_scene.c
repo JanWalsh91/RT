@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 12:46:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 13:28:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,15 @@ void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	GtkWidget 		*dialog;
 	GtkWidget		*widget;
 	char			*ret;
+	int				dialog_ret;
 
 	printf("sig open scene\n");
 
 	if (g->filename)
+	{
 		g_free(g->filename);
+		g->filename = NULL;
+	}
 	dialog = gtk_file_chooser_dialog_new ("Open File", NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
 										"_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT, NULL);
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")));
@@ -110,12 +114,15 @@ void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	gtk_file_filter_add_pattern(file_filter, "*.rt");
 	gtk_file_filter_set_name(file_filter, "RT files");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), file_filter);
-	if (gtk_dialog_run(GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	dialog_ret = gtk_dialog_run(GTK_DIALOG (dialog));
+	if (dialog_ret == GTK_RESPONSE_ACCEPT)
 	{
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 		g->filename = gtk_file_chooser_get_filename (chooser);
 		open_scene(g, dialog);
 	}
+	else
+		gtk_widget_destroy(dialog);
 	return (NULL);
 }
 
