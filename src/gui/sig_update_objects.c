@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 16:43:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 17:04:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -714,7 +714,10 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 	if (!tmp)
 	{
 		if (!(obj->texture = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->texture_dim)))
-			exit (0); // Hehe TODO! ><
+		{
+			display_error_popup(NULL, g, "Invalid .bmp file");
+			return (NULL);
+		}
 	}
 	else
 	{
@@ -817,7 +820,10 @@ void	*sig_update_obj_normal_map(GtkWidget *file_chooser, t_gtk_tools *g)
 	if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)) == NULL)
 		return (NULL);
 	if (!(obj->normal_map = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->normal_map_dim))) // check dim diff
-		exit (0); // Hehe TODO! ><
+	{
+		display_error_popup(NULL, g, "Invalid .bmp file");
+		return (NULL);
+	}	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
 	gtk_label_set_text(GTK_LABEL(widget), get_file_name(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser))));
 	

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 12:47:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 16:57:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 #include "gui.h"
 #include <cuda_runtime.h>
 
-void    *update_grid_settings(t_gtk_tools *g, GtkBuilder *builder)
+void    update_grid_settings(t_gtk_tools *g, GtkBuilder *builder)
 {
 	GtkWidget	*widget;
 
 	printf("update_grid_settings\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder), "SpinButtonTileSize"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), g->r->settings.tile_size);
-	return (NULL);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder), "ComboBoxAAType"));
+   	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), g->r->scene->is_aa - 1);
+
+    widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder), "SpinButtonPhotonCount"));
+   	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), g->r->scene->photon_count);
+       
 }
 
 void    *sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g)
@@ -43,7 +49,9 @@ void    *sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g)
     widget = GTK_WIDGET(gtk_builder_get_object(builder, "window_settings"));
     gtk_window_set_transient_for(GTK_WINDOW(widget), GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")));
     gtk_widget_show(widget);
+    g->updating_gui = 1;
     update_grid_settings(g, builder);
+    g->updating_gui = 0;
     widget = GTK_WIDGET(gtk_builder_get_object(builder, "LabelGraphicCard"));
     ft_strcat(graphic_card_label, props.name);
     ft_strcat(graphic_card_label, ": ");

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:28:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 15:37:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 		dialog = gtk_dialog_new();
 		gtk_window_set_attached_to (GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), dialog);
  		gtk_container_add(GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog))), loading_bar);
-		if (!g->win)
+		if (!g->win) 
 			render_wrapper(g);
 		gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(loading_bar), TRUE);
 		gtk_widget_show_all(dialog);
