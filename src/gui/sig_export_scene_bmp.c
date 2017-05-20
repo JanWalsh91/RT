@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 12:49:18 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 15:28:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,9 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 		gtk_widget_destroy(dialog);
 		dialog = gtk_dialog_new();
 		gtk_window_set_attached_to (GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), dialog);
-		// dialog = gtk_dialog_new_with_buttons ("My dialog",
-		// 							  GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), 0, NULL);
-		// gtk_box_pack_start(GTK_BOX(), loading_bar, TRUE, TRUE, 0);
-
  		gtk_container_add(GTK_CONTAINER (gtk_dialog_get_content_area(GTK_DIALOG(dialog))), loading_bar);
-		// render(g->r, );
-		render_wrapper(g);
+		if (!g->win)
+			render_wrapper(g);
 		gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(loading_bar), TRUE);
 		gtk_widget_show_all(dialog);
 		pthread_create(&export_thread, NULL, export_image, &th_export);
