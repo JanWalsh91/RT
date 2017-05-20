@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:07:02 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:43:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:49:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	set_attributes_cylinder(t_parse_tools *t, t_attributes *a)
 }
 
 void	set_attributes_cone(t_parse_tools *t, t_attributes *a)
-{t;
+{
 	if (!v_isnan(a->look_at))
 		t->current_object->look_at = a->look_at;
 	if (!isnan(a->rad))

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:56:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraIOR"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->ior);
-	// exit(0);
 }
 
 void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
@@ -96,7 +95,7 @@ void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 	t_camera	*camera;
 	int			id;
 
-	printf("init_cam_look_at_combo_box\n");
+	printf("init_cam_look_at_combo_box(check for segfault)\n");
 	id = (gtk_combo_box_get_has_entry (GTK_COMBO_BOX(widget))) ?
 		gtk_combo_box_get_active (GTK_COMBO_BOX(widget)) : 0;
 	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
