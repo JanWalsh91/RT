@@ -19,17 +19,41 @@ scene: rendu4
 	cylinder: New Object
 	{
 		position: 0.0000, 0.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 138.0000, 226.0000, 52.0000
 		radius: 9.0000
+		height: 30.0000
 		kd: 1.0000
 		ks: 0.1000
-		height: 30
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
-		#texture: /Users/tgros/gitlab/RT/textures/earth.bmp
-		texture: PERLIN 2000, 2000, 400 
+		texture: Perlin 1000.0000, 1000.0000, 100.0000
+	}
+	disk: New Object cap
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 0.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	disk: New Object cap
+	{
+		position: 0.0000, 30.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 0.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
 	}
 	light: light 1
 	{

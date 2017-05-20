@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/14 10:25:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 10:02:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,14 +191,17 @@ void	save_object(int fd, t_object *obj)
 	{
 		write(fd, "\n\t\ttexture: ", 12);
 		write(fd, obj->texture_name, ft_strlen(obj->texture_name));
-		if (ft_strcmp(obj->texture_name, "Perlin") == 0)
+		if (ft_strcmp(obj->texture_name, "Perlin") == 0 ||
+			ft_strcmp(obj->texture_name, "Checkerboard") == 0 ||
+			ft_strcmp(obj->texture_name, "Noise") == 0)
 		{
 			write(fd, " ", 1);
-			write_float(fd, obj->texture_dim.x);
-			write(fd, ", ", 2);
-			write_float(fd, obj->texture_dim.y);
-			write(fd, ", ", 2);
-			write_float(fd, 100);
+			write_vector(fd, obj->texture_dim);
+			// write_float(fd, obj->texture_dim.x);
+			// write(fd, ", ", 2);
+			// write_float(fd, obj->texture_dim.y);
+			// write(fd, ", ", 2);
+			// write_float(fd, 100);
 		}
 	}
 	if (obj->normal_map_name)

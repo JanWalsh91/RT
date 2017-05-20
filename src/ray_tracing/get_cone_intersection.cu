@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cone_intersection.cu                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:30:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 14:36:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 09:56:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static bool	higher_than_max(float r, t_intersection_tools *i, t_object *obj,
 }
 
 __device__
-t_pt2	get_uv_cone(t_object *obj, t_ray *ray, t_pt2 *dim)
+t_pt2	get_uv_cone(t_object *obj, t_ray *ray, t_vec3 *dim)
 {
 	t_pt2	coord;
 	t_vec3	hit_center;
@@ -124,7 +124,7 @@ t_pt2	get_uv_cone(t_object *obj, t_ray *ray, t_pt2 *dim)
 	// {
 		// printf("pos: %f %f %f\n", ray->hit.x, ray->hit.y, ray->hit.z);
 	// }
-	coord.x %= dim->x;
-	coord.y %= dim->y;
+	coord.x %= (int)dim->x;
+	coord.y %= (int)dim->y;
 	return (coord);
 }

@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/18 16:44:56 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/20 10:19:24 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,12 +101,6 @@ MISC = 		debug \
 			free_parse_tools \
 			free_scenes \
 			rt_error \
-			export_bmp \
-			read_bmp \
-			get_file_name \
-			generate_perlin_noise \
-			generate_checkerboard \
-			generate_noise \
 			check_file_ext \
 			is_texture_loaded \
 
@@ -153,6 +147,13 @@ PHOTON_MAPPING = create_photon_map \
 				create_kd_tree \
 				sort_kd_tree
 
+TEXTURE =	export_bmp \
+			read_bmp \
+			get_file_name \
+			generate_perlin_noise \
+			generate_checkerboard \
+			generate_noise \
+
 OBJ_DIR = obj
 
 EXT_C = .c
@@ -168,6 +169,7 @@ SRC_GUI = $(addsuffix $(EXT_C), $(GUI))
 SRC_CUDA_MEM = $(addsuffix $(EXT_CU), $(CUDA_MEM))
 SRC_OBJ_PARSER = $(addsuffix $(EXT_C), $(OBJ_PARSER))
 SRC_PHOTON_MAPPING = $(addsuffix $(EXT_CU), $(PHOTON_MAPPING))
+SRC_TEXTURE = $(addsuffix $(EXT_C), $(TEXTURE))
 
 OBJ_SRC = $(addprefix $(OBJ_DIR)/, $(SRC_SRC:.c=.o))
 OBJ_PARSING = $(addprefix $(OBJ_DIR)/, $(SRC_PARSING:.c=.o))
@@ -179,6 +181,7 @@ OBJ_GUI = $(addprefix $(OBJ_DIR)/, $(SRC_GUI:.c=.o))
 OBJ_CUDA_MEM = $(addprefix $(OBJ_DIR)/, $(SRC_CUDA_MEM:.cu=.o))
 OBJ_OBJ_PARSER = $(addprefix $(OBJ_DIR)/, $(SRC_OBJ_PARSER:.c=.o))
 OBJ_PHOTON_MAPPING = $(addprefix $(OBJ_DIR)/, $(SRC_PHOTON_MAPPING:.cu=.o))
+OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
@@ -202,10 +205,10 @@ ECHO = echo
 
 all: $(NAME)
 
-$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) $(OBJ_PHOTON_MAPPING)
+$(NAME): $(OBJ_SRC) $(OBJ_PARSING) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) $(OBJ_PHOTON_MAPPING) $(OBJ_TEXTURE)
 	@make -C $(LIB_PATH)
 	@make -C $(LIBMATH_PATH)
-	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) $(OBJ_PHOTON_MAPPING) -o $(NAME)
+	@$(NVCC) $(CUFLAGS) $(GTK3_LIBS) $(LIB_PATH)$(LIBFT_NAME) $(LIBMATH_PATH)$(LIBMATHFT_NAME) $(OBJ_PARSING) $(OBJ_SRC) $(OBJ_LST) $(OBJ_DATA) $(OBJ_RT) $(OBJ_MISC) $(OBJ_GUI) $(OBJ_CUDA_MEM) $(OBJ_OBJ_PARSER) $(OBJ_PHOTON_MAPPING) $(OBJ_TEXTURE) -o $(NAME)
 	@$(ECHO) "$(C_GREEN)$(NAME) compilation done.$(C_NONE)"
 
 $(OBJ_DIR)/%.o : ./src/%.c
@@ -247,6 +250,10 @@ $(OBJ_DIR)/%.o : ./src/objparser/%.c
 $(OBJ_DIR)/%.o : ./src/photon_mapping/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
 	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
+
+$(OBJ_DIR)/%.o : ./src/texture/%.c
+	@/bin/mkdir -p $(OBJ_DIR)
+	@$(CC) $(FLG) $(GTK3_INC) -dc -I./inc -o $@ $<
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 16:44:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 09:54:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,12 +269,12 @@ typedef struct	s_object
 	t_vec3			look_at;
 	t_vec3			col;
 	t_color			*texture;
-	t_pt2			texture_dim;
+	t_vec3			texture_dim;
 	t_pt2			texture_ratio;
 	t_pt2			texture_translate;
 	char			*texture_name;
 	t_color			*normal_map;
-	t_pt2			normal_map_dim;
+	t_vec3			normal_map_dim;
 	char			*normal_map_name;
 	float			rad;
 	float			rad_torus;
@@ -753,8 +753,8 @@ CUDA_DEV
 t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
-t_color			*read_bmp(char *file_name, t_pt2 *dim);
-t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_name, t_pt2 dim);
+t_color			*read_bmp(char *file_name, t_vec3 *dim);
+t_object		*is_texture_loaded(t_object *head, t_object *to_cmp, char *texture_name, t_vec3 dim);
 
 
 
@@ -766,15 +766,15 @@ t_color			*generate_perlin_noise(t_vec3 *res);
 t_color			*generate_checkerboard(t_vec3 *res);
 t_color			*generate_noise(t_vec3 *res);
 CUDA_DEV
-t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim);
+t_pt2			get_uv_coord(t_object *obj, t_ray *ray, t_vec3 *dim);
 CUDA_DEV
-t_pt2			get_uv_sphere(t_object *obj, t_ray *ray, t_pt2 *dim);
+t_pt2			get_uv_sphere(t_object *obj, t_ray *ray, t_vec3 *dim);
 CUDA_DEV
-t_pt2			get_uv_plane(t_object *obj, t_ray *ray, t_pt2 *dim);
+t_pt2			get_uv_plane(t_object *obj, t_ray *ray, t_vec3 *dim);
 CUDA_DEV
-t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray, t_pt2 *dim);
+t_pt2			get_uv_cylinder(t_object *obj, t_ray *ray, t_vec3 *dim);
 CUDA_DEV
-t_pt2			get_uv_cone(t_object *obj, t_ray *ray, t_pt2 *dim);
+t_pt2			get_uv_cone(t_object *obj, t_ray *ray, t_vec3 *dim);
 CUDA_DEV
 t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
 CUDA_DEV

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 15:27:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 09:52:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
 	tangente = v_norm(v_cross(ray->dir, ray->nhit));
 	bitangente = v_norm(v_cross(ray->nhit, tangente));
 	coord = get_uv_coord(obj, ray, &obj->normal_map_dim);
-	color = col_to_vec(obj->normal_map[obj->normal_map_dim.x * coord.y + coord.x]);
+	color = col_to_vec(obj->normal_map[(int)obj->normal_map_dim.x * coord.y + coord.x]);
 	color.x = (color.x / 255.0f) * 2.0 - 1;
 	color.y = (color.y / 255.0f) * 2.0 - 1;
 	color.z = (color.z / 255.0f) * 2.0 - 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_sphere_intersection.cu                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:26:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 14:55:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 09:52:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	get_sphere_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 }
 
 __device__
-t_pt2	get_uv_sphere(t_object *obj, t_ray *ray, t_pt2 *dim)
+t_pt2	get_uv_sphere(t_object *obj, t_ray *ray, t_vec3 *dim)
 {
 	t_pt2	coord;
 	t_vec3	hit_center;
@@ -51,8 +51,8 @@ t_pt2	get_uv_sphere(t_object *obj, t_ray *ray, t_pt2 *dim)
 	coord.x = (0.5 + (atan2f(hit_center.z, hit_center.x) / (float)(2 * M_PI))) * dim->x + obj->texture_translate.x;
 	coord.y = (0.5 - (asinf(hit_center.y) / M_PI)) * dim->y + obj->texture_translate.y;
 
-	coord.x %= obj->texture_dim.x;
-	coord.y %= obj->texture_dim.y;
+	coord.x %= (int)obj->texture_dim.x;
+	coord.y %= (int)obj->texture_dim.y;
 
 	return (coord);
 }

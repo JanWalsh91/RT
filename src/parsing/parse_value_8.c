@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 11:49:20 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 10:06:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ char	*read_texture_file(t_parse_tools *t)
 		t->current_object->texture_name = ft_strdup("Perlin");
 		resolution = v_clamp(resolution, 10, 2000);
 		t->current_object->texture = generate_perlin_noise(&resolution);
-		t->current_object->texture_dim.x = (int)resolution.x;
-		t->current_object->texture_dim.y = (int)resolution.y;
+		t->current_object->texture_dim = resolution;
 	}
 	else if (ft_strcmp(res[0], "CHECKERBOARD") == 0)
 	{
@@ -55,8 +54,7 @@ char	*read_texture_file(t_parse_tools *t)
 			resolution.y += resolution.z;
 		printf("Generate checkerboard with res : %f, %f, %f\n", resolution.x, resolution.y, resolution.z);
 		t->current_object->texture = generate_checkerboard(&resolution);
-		t->current_object->texture_dim.x = (int)resolution.x;
-		t->current_object->texture_dim.y = (int)resolution.y;
+		t->current_object->texture_dim = resolution;
 	}
 	else if (ft_strcmp(res[0], "NOISE") == 0)
 	{
@@ -67,8 +65,7 @@ char	*read_texture_file(t_parse_tools *t)
 		resolution.y = ft_clampf(resolution.y, 10, 2000);
 		resolution.z = ft_clampf(resolution.z, 0, 100);
 		t->current_object->texture = generate_noise(&resolution);
-		t->current_object->texture_dim.x = (int)resolution.x;
-		t->current_object->texture_dim.y = (int)resolution.y;
+		t->current_object->texture_dim = resolution;
 	}
 	else
 	{

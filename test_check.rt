@@ -1,0 +1,36 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	plane: New Object
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		#texture: Checkerboard 500,500,100
+	}
+	light: New light
+	{
+		position: 0.0000, 50.0000, 0.0000
+		look at: 0.0000, 0.0000, 0.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 70
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 11.0000, 0.0000
+		direction: 0.0000, -0.2800, 0.9599
+		filter: none
+		fov: 45
+		ior: 1.0097
+	}
+}

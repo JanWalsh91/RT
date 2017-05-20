@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 14:36:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 10:06:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	print_scenes(t_scene *scenes_head)
 			printf("		object reflection: [%f]\n", o_ptr->reflection);
 			printf("		object texture: [%p]\n", o_ptr->texture);
 			printf("		object texture name: [%s]\n", o_ptr->texture_name);
+			printf("		object texture dim: [%f] [%f] [%f]\n", o_ptr->texture_dim.x, o_ptr->texture_dim.y, o_ptr->texture_dim.z);
 			o_ptr = o_ptr->next;
 		}
 		c_ptr = s_ptr->cameras;

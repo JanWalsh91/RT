@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 17:05:57 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 09:55:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 	t_object	*tmp;
 	GtkWidget	*widget;
 	t_vec3		dim;
-	t_pt2		dim_tmp;
+	t_vec3		dim_tmp;
 
 	printf("Getting dimensions of generated texture");
 	obj = get_selected_object(g);

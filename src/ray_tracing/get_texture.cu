@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/30 13:00:35 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/16 16:38:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 09:53:06 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_vec3		get_texture_at_uv_coord(t_object *obj, t_pt2 coord)
 	ret = v_new(0, 0, 0);
 	if (coord.x == -1 || coord.y == -1)
 		return (ret);
-	return (col_to_vec(obj->texture[obj->texture_dim.x * coord.y + coord.x]));
+	return (col_to_vec(obj->texture[(int)obj->texture_dim.x * coord.y + coord.x]));
 }
 
 __device__
-t_pt2		get_uv_coord(t_object *obj, t_ray *ray, t_pt2 *dim)
+t_pt2		get_uv_coord(t_object *obj, t_ray *ray, t_vec3 *dim)
 {
 	t_pt2	ret;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_plane_intersection.cu                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:25:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 15:29:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 09:59:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	get_plane_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 }
 
 __device__
-t_pt2	get_uv_plane(t_object *obj, t_ray *ray, t_pt2 *dim)
+t_pt2	get_uv_plane(t_object *obj, t_ray *ray, t_vec3 *dim)
 {
 	t_pt2	coord;
 	t_vec3	ortho_x;
@@ -53,8 +53,8 @@ t_pt2	get_uv_plane(t_object *obj, t_ray *ray, t_pt2 *dim)
 	ortho_x = v_dot(ortho_x, v_new(0, 0, 1)) > 0 ? ortho_x : v_scale(ortho_x, -1);
 	ortho_y = v_cross(ray->nhit, ortho_x);
 
-	coord.x = (int)(v_dot(ortho_x, ray->hit) * obj->texture_ratio.x + obj->texture_translate.x) % dim->x;
-	coord.y = (int)(v_dot(ortho_y, ray->hit) * obj->texture_ratio.y + obj->texture_translate.y) % dim->y;
+	coord.x = (int)(v_dot(ortho_x, ray->hit) * obj->texture_ratio.x + obj->texture_translate.x) % (int)dim->x;
+	coord.y = (int)(v_dot(ortho_y, ray->hit) * obj->texture_ratio.y + obj->texture_translate.y) % (int)dim->y;
 	if (coord.x < 0)
 		coord.x += -(coord.x / dim->x) * dim->x +  dim->x;
 	if (coord.y < 0)
