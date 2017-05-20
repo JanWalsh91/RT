@@ -21,6 +21,8 @@ static void	get_cylinder_normal(t_ray *ray, t_object *obj);
 __device__
 static void	get_cone_normal(t_ray *ray, t_object *obj);
 __device__
+static void	get_torus_normal(t_ray *ray, t_object *obj);
+__device__
 static void	get_paraboloid_normal(t_ray *ray, t_object *obj);
 
 __device__
@@ -62,9 +64,28 @@ void		get_normal(t_ray *ray, t_object *obj)
 		get_cylinder_normal(ray, obj);
 	if (obj->type == T_CONE)
 		get_cone_normal(ray, obj);
+	if(obj->type == T_TORUS)
+		get_torus_normal(ray, obj);
 	if (obj->type == T_PARABOLOID)
 		get_paraboloid_normal(ray, obj);
 	ray->n_dir = v_dot(ray->nhit, ray->dir) < 0 ? 1 : -1;
+}
+
+__device__
+static void	get_torus_normal(t_ray *ray, t_object *obj)
+{
+	t_vec3	A;
+	float	k;
+	float	m;
+
+	k = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
+	m = sqrt((obj->rad * obj->rad) - (k * k));
+	A = v_sub(ray->hit, v_scale(obj->dir, k));
+	t_vec3	tmp = v_scale(v_sub(obj->pos, A), m);
+	ray->nhit = v_norm(v_sub(v_sub(ray->hit, A), v_scale(tmp, (1 / (obj->rad_torus + m)))));
+	// printf("Ray nhit = %f, %f, %f\n", ray->nhit.x,ray->nhit.y, ray->nhit.z);
+	if (obj->normal_map)
+		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
 
 __device__

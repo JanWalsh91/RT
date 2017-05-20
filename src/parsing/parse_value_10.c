@@ -17,7 +17,7 @@ char	*parse_torus(t_parse_tools *t)
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
 	t->current_type = T_TORUS;
-	t->current_object->rad_torus = 1.5;
+	t->current_object->rad_torus = 0.1;
 	push_object(&t->current_scene->objects, t->current_object);
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);

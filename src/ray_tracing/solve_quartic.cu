@@ -65,11 +65,11 @@ bool	solve_quartic(t_quartic *qua, t_vec4im *sol)
 	t_vec3im	sol_cubic;
 	
 	// divide all members by a
-	qua->a = 1; 
-	qua->b = -0.25;
-	qua->c = -0.85;
-	qua->d = 1.45;
-	qua->e = -4.35;
+	// qua->a = 1; 
+	// qua->b = -0.25;
+	// qua->c = -0.85;
+	// qua->d = 1.45;
+	// qua->e = -4.35;
 	qua->b /= qua->a;
 	qua->c /= qua->a;
 	qua->d /= qua->a;
@@ -94,8 +94,8 @@ bool	solve_quartic(t_quartic *qua, t_vec4im *sol)
 	else
 		solve_four_root(qua, fgh, sol_cubic, sol);
 	//printf("pim %f %f\n qim %f %f\n", pim.r, pim.i, qim.r, qim.i);
-	printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol->w.r, sol->w.i,
-		sol->x.r, sol->x.i, sol->y.r, sol->y.i, sol->z.r, sol->z.i);
+	// printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol->w.r, sol->w.i,
+	// 	sol->x.r, sol->x.i, sol->y.r, sol->y.i, sol->z.r, sol->z.i);
 	//printf("rs : %f, %f,\n",r, s);
 
 	//printf("Before simplification : %f, %f, %f, %f, %f sols : %f, %f, %f, %f\n", qua->a, qua->b, qua->c, qua->d, qua->e, sol->w, sol->x, sol->y, sol->z);

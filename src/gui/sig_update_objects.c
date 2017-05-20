@@ -181,7 +181,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ? get_file_name(obj->normal_map_name) : "");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
 	gtk_widget_set_sensitive(widget, TRUE);
-	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK || obj->type == T_PARABOLOID) ?
+	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK || obj->type == T_TORUS || obj->type == T_PARABOLOID) ?
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad) :
 		gtk_widget_set_sensitive(widget, FALSE);
 
