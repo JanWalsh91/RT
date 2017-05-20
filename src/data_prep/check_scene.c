@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:33:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:22:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	get_cam_direction(t_scene *scene, t_camera *cam);
 static void	get_light_direction(t_scene *scene, t_light *light);
 
 /*
-** Checks the validity of scenes, objects, lights, camera and their attributes.
+** Checks the validity of the scene, objects, lights, camera and their attributes.
 ** Sets default values if necessary.
 */
 

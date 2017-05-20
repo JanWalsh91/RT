@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 17:02:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,6 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.x);
-	gtk_widget_set_sensitive (widget, FALSE);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.y);
-	gtk_widget_set_sensitive (widget, FALSE);
-	
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightRotZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->rot.z);
-	gtk_widget_set_sensitive (widget, FALSE);
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightIntensity"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->intensity);
@@ -314,41 +302,6 @@ void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
-	(g->updating_gui) ? 0 : light_render_sig(g);
-	return (NULL);
-}
-
-void	*sig_update_light_rot_x(GtkWidget *SpinButton, t_gtk_tools *g)
-{
-	t_light		*l_ptr;
-
-	if (!(l_ptr = get_light_from_list_box(g)))
-		return (NULL);
-	l_ptr->rot.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
-	(g->updating_gui) ? 0 : light_render_sig(g);
-	return (NULL);
-}
-
-
-void	*sig_update_light_rot_y(GtkWidget *SpinButton, t_gtk_tools *g)
-{
-	t_light		*l_ptr;
-
-	if (!(l_ptr = get_light_from_list_box(g)))
-		return (NULL);
-	l_ptr->rot.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
-	(g->updating_gui) ? 0 : light_render_sig(g);
-	return (NULL);
-}
-
-
-void	*sig_update_light_rot_z(GtkWidget *SpinButton, t_gtk_tools *g)
-{
-	t_light		*l_ptr;
-
-	if (!(l_ptr = get_light_from_list_box(g)))
-		return (NULL);
-	l_ptr->rot.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }

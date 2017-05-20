@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 14:42:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:26:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	set_cam_non_values(t_camera *new_camera)
 	new_camera->next = NULL;
 	new_camera->pos = v_new(NAN, NAN, NAN);
 	new_camera->dir = v_new(NAN, NAN, NAN);
-	new_camera->rot = v_new(NAN, NAN, NAN);
 	new_camera->look_at = v_new(NAN, NAN, NAN);
 	new_camera->fov = NAN;
 	new_camera->name = NULL;

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 13:28:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:22:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** Casts a primary ray:
-** - checks for intersections with all objects in the scenes
+** - checks for intersections with all objects in the scene
 ** - checks for intersections between hit point and all light sources
 ** - evaluates color at hitpoint based on diffuse, specular and ambient
 ** lighting.

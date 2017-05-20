@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:20:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:22:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	free_objects(t_object *objs);
 // static void	free_matrix(t_matrix *m);
 
 /*
-** Frees the t_scenes linked list and all substructures.
+** Frees the t_scene linked list and all substructures.
 */
 
 void		free_scene(t_scene *scene)

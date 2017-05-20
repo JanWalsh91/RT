@@ -72,24 +72,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="AdjCamRotX">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjCamRotY">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjCamRotZ">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <object class="GtkAdjustment" id="AdjLightDirX">
     <property name="lower">-100000</property>
     <property name="upper">100000</property>
@@ -128,24 +110,6 @@
   <object class="GtkAdjustment" id="AdjLightPosZ">
     <property name="lower">-100000</property>
     <property name="upper">100000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjLightRotX">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjLightRotY">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjLightRotZ">
-    <property name="lower">-180</property>
-    <property name="upper">180</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -240,24 +204,6 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="AdjObjRadius">
-    <property name="upper">100000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjObjRotX">
-    <property name="lower">-100000</property>
-    <property name="upper">100000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjObjRotY">
-    <property name="lower">-100000</property>
-    <property name="upper">100000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="AdjObjRotZ">
-    <property name="lower">-100000</property>
     <property name="upper">100000</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
@@ -869,7 +815,6 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
-                    <property name="active">True</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="sig_update_is_photon_mapping" swapped="no"/>
                   </object>
@@ -989,7 +934,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="label" translatable="yes">Rotation</property>
+                                <property name="label" translatable="yes">Color</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1001,31 +946,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="label" translatable="yes">Color</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">6</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Specular Coefficient</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">8</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label" translatable="yes">Specular Exponent</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -1037,11 +958,23 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
+                                <property name="label" translatable="yes">Specular Exponent</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
                                 <property name="label" translatable="yes">Diffuse Coefficient</property>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">9</property>
+                                <property name="top_attach">8</property>
                               </packing>
                             </child>
                             <child>
@@ -1065,7 +998,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">10</property>
+                                <property name="top_attach">9</property>
                               </packing>
                             </child>
                             <child>
@@ -1077,7 +1010,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">12</property>
+                                <property name="top_attach">11</property>
                               </packing>
                             </child>
                             <child>
@@ -1089,7 +1022,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">11</property>
+                                <property name="top_attach">10</property>
                               </packing>
                             </child>
                             <child>
@@ -1101,7 +1034,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">13</property>
+                                <property name="top_attach">12</property>
                               </packing>
                             </child>
                             <child>
@@ -1113,7 +1046,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">13</property>
                               </packing>
                             </child>
                             <child>
@@ -1125,7 +1058,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">17</property>
+                                <property name="top_attach">16</property>
                               </packing>
                             </child>
                             <child>
@@ -1137,7 +1070,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">18</property>
+                                <property name="top_attach">17</property>
                               </packing>
                             </child>
                             <child>
@@ -1270,42 +1203,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectRotationX">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjRotX</property>
-                                <property name="digits">2</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectRotationY">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjRotY</property>
-                                <property name="digits">2</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkSpinButton" id="SpinButtonObjectRotationZ">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="adjustment">AdjObjRotZ</property>
-                                <property name="digits">2</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">3</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkColorButton" id="ColorButtonObject">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -1314,7 +1211,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">6</property>
+                                <property name="top_attach">5</property>
                               </packing>
                             </child>
                             <child>
@@ -1326,7 +1223,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">7</property>
+                                <property name="top_attach">6</property>
                               </packing>
                             </child>
                             <child>
@@ -1339,7 +1236,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">12</property>
+                                <property name="top_attach">11</property>
                               </packing>
                             </child>
                             <child>
@@ -1351,7 +1248,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">13</property>
+                                <property name="top_attach">12</property>
                               </packing>
                             </child>
                             <child>
@@ -1363,7 +1260,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">13</property>
                               </packing>
                             </child>
                             <child>
@@ -1377,7 +1274,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">17</property>
+                                <property name="top_attach">16</property>
                               </packing>
                             </child>
                             <child>
@@ -1390,7 +1287,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">18</property>
+                                <property name="top_attach">17</property>
                               </packing>
                             </child>
                             <child>
@@ -1461,7 +1358,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">8</property>
+                                <property name="top_attach">7</property>
                               </packing>
                             </child>
                             <child>
@@ -1477,7 +1374,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">9</property>
+                                <property name="top_attach">8</property>
                               </packing>
                             </child>
                             <child>
@@ -1493,7 +1390,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">10</property>
+                                <property name="top_attach">9</property>
                               </packing>
                             </child>
                             <child>
@@ -1508,7 +1405,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">11</property>
+                                <property name="top_attach">10</property>
                               </packing>
                             </child>
                             <child>
@@ -1551,7 +1448,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
-                                <property name="top_attach">13</property>
+                                <property name="top_attach">12</property>
                               </packing>
                             </child>
                             <child>
@@ -1563,7 +1460,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">15</property>
+                                <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
@@ -1575,7 +1472,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
-                                <property name="top_attach">15</property>
+                                <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
@@ -1587,7 +1484,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">15</property>
+                                <property name="top_attach">14</property>
                               </packing>
                             </child>
                             <child>
@@ -1599,7 +1496,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">15</property>
                               </packing>
                             </child>
                             <child>
@@ -1611,7 +1508,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">15</property>
                               </packing>
                             </child>
                             <child>
@@ -1623,7 +1520,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
-                                <property name="top_attach">16</property>
+                                <property name="top_attach">15</property>
                               </packing>
                             </child>
                             <child>
@@ -1665,7 +1562,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
-                                <property name="top_attach">14</property>
+                                <property name="top_attach">13</property>
                               </packing>
                             </child>
                             <child>
@@ -1684,7 +1581,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
-                                <property name="top_attach">13</property>
+                                <property name="top_attach">12</property>
                               </packing>
                             </child>
                             <child>
@@ -1695,7 +1592,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
-                                <property name="top_attach">14</property>
+                                <property name="top_attach">13</property>
                               </packing>
                             </child>
                             <child>
@@ -1706,6 +1603,7 @@
                                   <object class="GtkSwitch" id="SwitchObjectNegativeTexture">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <signal name="state-set" handler="sig_update_obj_texture_negative" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1728,11 +1626,8 @@
                               </object>
                               <packing>
                                 <property name="left_attach">3</property>
-                                <property name="top_attach">15</property>
+                                <property name="top_attach">14</property>
                               </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
                             </child>
                             <child>
                               <placeholder/>
@@ -2026,7 +1921,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="label" translatable="yes">Rotation</property>
+                        <property name="label" translatable="yes">Color</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -2038,23 +1933,11 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="label" translatable="yes">Color</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">5</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Intensity</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">6</property>
+                        <property name="top_attach">5</property>
                       </packing>
                     </child>
                     <child>
@@ -2166,45 +2049,6 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinButton" id="SpinButtonLightRotX">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">AdjLightRotX</property>
-                        <property name="digits">2</property>
-                        <signal name="value-changed" handler="sig_update_light_rot_x" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="SpinButtonLightRotY">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">AdjLightRotY</property>
-                        <property name="digits">2</property>
-                        <signal name="value-changed" handler="sig_update_light_rot_y" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="SpinButtonLightRotZ">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">AdjLightRotZ</property>
-                        <property name="digits">2</property>
-                        <signal name="value-changed" handler="sig_update_light_rot_z" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">3</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkColorButton" id="ColorButtonLight">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2213,7 +2057,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">5</property>
+                        <property name="top_attach">4</property>
                       </packing>
                     </child>
                     <child>
@@ -2225,7 +2069,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">6</property>
+                        <property name="top_attach">5</property>
                       </packing>
                     </child>
                     <child>
@@ -2574,7 +2418,6 @@
                       <object class="GtkSpinButton" id="SpinButtonCameraRotationX">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">AdjCamRotX</property>
                         <property name="digits">2</property>
                       </object>
                       <packing>
@@ -2586,7 +2429,6 @@
                       <object class="GtkSpinButton" id="SpinButtonCameraRotationY">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">AdjCamRotY</property>
                         <property name="digits">2</property>
                       </object>
                       <packing>
@@ -2598,7 +2440,6 @@
                       <object class="GtkSpinButton" id="SpinButtonCameraRotationZ">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">AdjCamRotZ</property>
                         <property name="digits">2</property>
                       </object>
                       <packing>

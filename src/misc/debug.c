@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:35:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	print_scene(t_scene *scene)
 		printf("	----camera name: [%s]\n", c_ptr->name);
 		printf("		camera pos: [%f] [%f] [%f]\n", c_ptr->pos.x, c_ptr->pos.y, c_ptr->pos.z);
 		printf("		camera dir: [%f] [%f] [%f]\n", c_ptr->dir.x, c_ptr->dir.y, c_ptr->dir.z);
-		printf("		camera rot: [%f] [%f] [%f]\n", c_ptr->rot.x, c_ptr->rot.y, c_ptr->rot.z);
 		printf("		camera look at: [%f] [%f] [%f]\n", c_ptr->look_at.x, c_ptr->look_at.y, c_ptr->look_at.z);
 		printf("		camera scale: [%f]\n", c_ptr->scale);
 		printf("		camera fov: [%f]\n", c_ptr->fov);

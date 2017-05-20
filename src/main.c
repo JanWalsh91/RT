@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:17:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:20:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int				main(int ac, char **av)
 	t_parse_tools		t;
 	t_raytracing_tools	r;
 
+	if (ac > 2)
+		ft_error_exit(USAGE);
 	g.ac = ac;
 	g.av = av;
 	g.win = NULL;

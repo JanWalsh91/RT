@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:35:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ typedef enum	e_token
 	T_AMBIENT_LIGHT_COLOR,
 	T_POSITION,
 	T_DIRECTION,
-	T_ROTATION,
 	T_LOOK_AT,
 	T_COLOR,
 	T_RADIUS,
@@ -168,7 +167,6 @@ typedef struct	s_color_list
 ** fov - field of view (camera)
 ** pos - position
 ** dir - direction
-** rot - rotation (pending feature)
 ** look_at - defines direction by position and a target
 ** col - color
 ** rad - radius
@@ -191,7 +189,6 @@ typedef struct	s_attributes
 	float			fov;
 	t_vec3			pos;
 	t_vec3			dir;
-	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
 	t_filter		filter;
@@ -265,7 +262,6 @@ typedef struct	s_object
 	struct s_obj	*obj;
 	t_vec3			pos;
 	t_vec3			dir;
-	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
 	float			rad;
@@ -301,7 +297,6 @@ typedef struct	s_light
 	char			*name;
 	t_vec3			pos;
 	t_vec3			dir;
-	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
 	float			intensity;
@@ -322,7 +317,6 @@ typedef struct	s_camera
 	char			*name;
 	t_vec3			pos;
 	t_vec3			dir;
-	t_vec3			rot;
 	t_vec3			look_at;
 	t_color			*pixel_map;
 	t_matrix		ctw;
@@ -373,7 +367,7 @@ typedef struct	s_scene
 /*
 ** Structure with tools for parsing input files.
 ** input - linked list with info about each line
-** scenes - linked list with info about all scenes
+** scene - contains info about the scene
 ** current_* - pointers to relevant objects
 ** fd - current fd
 ** file_name - current file name
@@ -446,7 +440,7 @@ typedef struct	s_update
 
 /*
 ** Structure with tools to help with raytracing
-** scenes - contains info about all scenes
+** scene - contains info about the scene
 ** pix - coordinates of current pixel
 ** t - distance to closest intersection
 */
@@ -540,7 +534,6 @@ char			*parse_ambient_light_color(t_parse_tools *t);
 char			*parse_ka(t_parse_tools *t);
 char			*parse_position(t_parse_tools *t);
 char			*parse_direction(t_parse_tools *t);
-char			*parse_rotation(t_parse_tools *t);
 char			*parse_look_at(t_parse_tools *t);
 char			*parse_color(t_parse_tools *t);
 char			*parse_radius(t_parse_tools *t);
@@ -784,7 +777,7 @@ t_vec3			get_object_color(t_object *obj, t_ray *ray);
 */
 
 void			free_parse_tools(t_parse_tools *t);
-void			free_scene(t_scene *scenes);
+void			free_scene(t_scene *scene);
 
 /*
 ** Error Functions

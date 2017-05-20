@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:27:11 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static void	init_parse_functions2(t_parse_tools *t)
 {
 	t->parse[T_POSITION] = &parse_position;
 	t->parse[T_DIRECTION] = &parse_direction;
-	t->parse[T_ROTATION] = &parse_rotation;
 	t->parse[T_LOOK_AT] = &parse_look_at;
 	t->parse[T_COLOR] = &parse_color;
 	t->parse[T_RADIUS] = &parse_radius;
