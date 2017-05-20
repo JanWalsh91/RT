@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:20:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:57:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void			*main_gtk(t_gtk_tools *g)
 	// print_scene(g->r->scene);
     gtk_main();
 	clean_exit(g);
+	while (g->r->rendering);
 	return (NULL);
 }
 

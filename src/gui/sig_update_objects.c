@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:57:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 17:04:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 			gtk_widget_set_sensitive(widget, false);
 
 		}
+		
 	}
 	else
 	{
@@ -503,7 +504,6 @@ void	*sig_update_obj_lookat_name(GtkWidget *ComboBox, t_gtk_tools *g)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.y);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), look_at.z);
-
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -525,6 +525,14 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_x\n");
 	obj = get_selected_object(g);
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
+		obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionZ"));
+		obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		obj->dir = v_norm(obj->dir);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
@@ -539,6 +547,14 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_y\n");
 	obj = get_selected_object(g);
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
+		obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionZ"));
+		obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		obj->dir = v_norm(obj->dir);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
@@ -553,6 +569,14 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_z\n");
 	obj = get_selected_object(g);
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
+		obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
+		obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		obj->dir = v_norm(obj->dir);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
