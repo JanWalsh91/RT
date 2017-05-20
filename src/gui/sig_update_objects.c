@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 09:55:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 11:31:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->texture_name ? get_file_name(obj->texture_name) : "");
-	if (obj->texture)
+	if (obj->texture || obj->normal_map)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
 		gtk_widget_set_sensitive(widget, true);
@@ -153,11 +153,17 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 		
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 		gtk_widget_set_sensitive(widget, true);
+		
+		if (obj->texture)
+		{
 
-		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
-		gtk_widget_set_sensitive(widget, false);
+			widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
+			gtk_widget_set_sensitive(widget, false);
 
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->texture_translate.x);
+			widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
+			gtk_widget_set_sensitive(widget, false);
+
+		}
 	}
 	else
 	{
@@ -176,7 +182,11 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 		
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
 		gtk_widget_set_sensitive(widget, true);
+
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
+		gtk_widget_set_sensitive(widget, true);
 	}
+	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ? get_file_name(obj->normal_map_name) : "");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
@@ -308,8 +318,12 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
-	if ((obj->type == T_PLANE || obj->type == T_DISK) && v_isnan(obj->dir))
+	// if ((obj->type == T_PLANE || obj->type == T_DISK) && v_isnan(obj->dir))
+	if ((obj->type != T_SPHERE) && v_isnan(obj->dir))
+	{
 		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
+		obj->height = DEFAULT_HEIGHT;
+	}
 	update_objects_info_panel(g, obj);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);

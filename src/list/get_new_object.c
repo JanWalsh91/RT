@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_object.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/08 13:26:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 10:27:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void		set_non_values(t_object *new_object)
 	new_object->look_at = v_new(NAN, NAN, NAN);
 	new_object->col = v_new(NAN, NAN, NAN);
 	new_object->texture = NULL;
-	new_object->texture_ratio.x = 10; // TODO
-	new_object->texture_ratio.y = 10; // TODO
+	new_object->texture_ratio.x = 1; // TODO
+	new_object->texture_ratio.y = 1; // TODO
 	new_object->texture_translate.x = 0; // TODO
 	new_object->texture_translate.y = 0; // TODO
 	new_object->rad = NAN;

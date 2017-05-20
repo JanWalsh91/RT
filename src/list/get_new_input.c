@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/24 15:04:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/06 17:07:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 11:40:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ t_input		*get_new_input(char *line, char *file_name, int fd,
 			t_parse_tools *t)
 {
 	t_input		*new_input;
-	static int	line_number = 0;
 	char		**key_value;
 
 	if (!line || !(new_input = (t_input *)ft_memalloc(sizeof(t_input))))
 		return (NULL);
 	new_input->value = NULL;
-	new_input->line_number = ++line_number;
 	new_input->next = NULL;
 	key_value = split_trim(line, ':');
 	new_input->token = ft_charcount(line, ':') < 2 ?
