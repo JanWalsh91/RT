@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 13:00:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 15:25:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,18 @@ void	*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 	g->generate_id = id;
 	builder = gtk_builder_new_from_file("GenerateTexture.glade");
 	gtk_builder_connect_signals(builder, g);
+	widget = GTK_WIDGET(gtk_builder_get_object(builder, "AdjTexturePrecision"));
+	if (id == 3)
+	{
+		gtk_adjustment_set_lower(GTK_ADJUSTMENT(widget), 0.01);
+		gtk_adjustment_set_upper(GTK_ADJUSTMENT(widget), 100);
+	}
+	else
+	{
+		printf("Else =(\n");
+		gtk_adjustment_set_lower(GTK_ADJUSTMENT(widget), 10);
+		gtk_adjustment_set_upper(GTK_ADJUSTMENT(widget), 2000);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(builder, "window_generate"));
 	gtk_window_set_transient_for(GTK_WINDOW(widget), GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")));
 	g->builder_texture = builder;
