@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/20 10:19:24 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ PARSING = 	get_color \
 			set_attributes_2 \
 			split_trim
 
-DATA_PREP = check_scenes \
+DATA_PREP = check_scene \
 			check_objects \
 			init_cameras \
 			set_default_1 \
@@ -67,8 +67,7 @@ LIST = 		get_new_camera \
 			push_object \
 			remove_object \
 			remove_camera \
-			remove_light \
-			push_scene
+			remove_light
 
 RAY_TRACING = cast_primary_ray \
 			render \
@@ -99,7 +98,7 @@ RAY_TRACING = cast_primary_ray \
 
 MISC = 		debug \
 			free_parse_tools \
-			free_scenes \
+			free_scene \
 			rt_error \
 			check_file_ext \
 			is_texture_loaded \
@@ -120,7 +119,7 @@ GUI =		window_signals \
 			sig_save \
 			sig_open_settings \
 			sig_export_scene_bmp \
-			sig_print_scenes \
+			sig_print_scene \
 			sig_render \
 			sig_set_full_screen \
 			sig_generate_texture \

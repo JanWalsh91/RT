@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:45:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 16:45:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	*render_wrapper(gpointer data)
 	cuda_malloc(g->r);
 	if (g->r->scene->is_photon_mapping)
 	{
-		update_photon_map(g->r);
+		update_photon_map(g->r); //CAUSES INVALID DEVICE POINTER ERROR
 		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
 		g->r->h_d_scene->photon_map = g->r->scene->photon_map;
 		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);

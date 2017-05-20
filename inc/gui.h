@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 15:58:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,6 @@ int				display_error_popup(GtkWidget *filechooser, t_gtk_tools *g, char *ret);
 ** Debugging signals -- Remove
 */
 
-void			 *sig_print_scenes(GtkWidget *button, t_gtk_tools *g);
+void			 *sig_print_scene(GtkWidget *button, t_gtk_tools *g);
 
 #endif

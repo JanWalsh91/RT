@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 14:35:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 15:53:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 {
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
-	int					idx;
 	t_dpt2				aa_i;
 	float				sample_size;
 	int					i;
@@ -57,7 +56,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	r.pix.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
-    idx = scene->res.x * r.pix.y + r.pix.x;
+    r.idx = scene->res.x * r.pix.y + r.pix.x;
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
@@ -70,7 +69,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 			aa_i.y = 0.5;
 			memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 			cam_ray = init_camera_ray(&r, aa_i);
-			d_pixel_map[idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+			d_pixel_map[r.idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
 		}
 		else
 		{
@@ -96,7 +95,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 			moyenne.x /= (scene->is_aa * scene->is_aa);
 			moyenne.y /= (scene->is_aa * scene->is_aa);
 			moyenne.z /= (scene->is_aa * scene->is_aa);
-			d_pixel_map[idx] = filter(vec_to_col(moyenne), scene->cameras->filter);
+			d_pixel_map[r.idx] = filter(vec_to_col(moyenne), scene->cameras->filter);
 		}
 	}
 }

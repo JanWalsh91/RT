@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:24:44 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 14:28:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 13:27:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,6 @@ static int	get_length(t_kd_tree *root)
 
 static t_kd_tree	*get_median(t_kd_tree *root, int length)
 {
-	t_kd_tree	*median;
 	int			i;
 
 	i = 0;

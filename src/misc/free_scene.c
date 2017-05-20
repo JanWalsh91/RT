@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_scenes.c                                      :+:      :+:    :+:   */
+/*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/19 14:12:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/05/20 14:20:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,16 @@ static void	free_objects(t_object *objs);
 ** Frees the t_scenes linked list and all substructures.
 */
 
-void		free_scenes(t_scene *scenes)
+void		free_scene(t_scene *scene)
 {
-	t_scene *tmp;
-
-	while (scenes->prev)
-		scenes = scenes->prev;
-	while (scenes)
-	{
-		tmp = scenes;
-		free(scenes->name);
-		free_cameras(scenes->cameras, scenes->res);
-		scenes->cameras = NULL;
-		free_lights(scenes->lights);
-		scenes->lights = NULL;
-		free_objects(scenes->objects);
-		scenes->objects = NULL;
-		scenes = scenes->next;
-		free(tmp);
-		tmp = NULL;
-	}
+	free(scene->name);
+	free_cameras(scene->cameras, scene->res);
+	scene->cameras = NULL;
+	free_lights(scene->lights);
+	scene->lights = NULL;
+	free_objects(scene->objects);
+	scene->objects = NULL;
+	scene = NULL;
 }
 
 static void	free_cameras(t_camera *cams, t_pt2 res)
@@ -91,14 +81,3 @@ static void	free_objects(t_object *objs)
 		tmp = NULL;
 	}
 }
-
-// static void	free_matrix(t_matrix *m)
-// {
-// 	int	y;
-
-// 	y = -1;
-// 	while (++y < 4)
-// 		free((*m)[y]);
-// 	free(*m);
-// 	*m = NULL;
-// }

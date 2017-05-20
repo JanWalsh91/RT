@@ -6,13 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 17:06:27 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 15:51:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 13:24:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 #include "../inc/cuda_call.h"
+#include <cuda_runtime.h>
 
 // called when window is closed
 void 		on_window_main_destroy()

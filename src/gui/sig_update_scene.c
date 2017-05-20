@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 14:37:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void *update_grid_scene(t_gtk_tools *g)
 	GdkRGBA		color;
 
 	printf("update_grid_scene\n");
-	// print_scenes(g->r->scene);
+	// print_scene(g->r->scene);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "NoteBookMenu"));
 	gtk_widget_set_visible(widget, TRUE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonPreviousCamera")); // doublon, to delete ? dunno

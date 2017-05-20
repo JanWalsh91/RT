@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_9.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:35:28 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/20 14:59:53 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:19:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char				*can_add_new_scene(t_parse_tools *t)
 		t->in_scene = true;
 	else
 		return ("Cannot add new scene within a scene.");
+	if (t->scene)
+		return ("Only one scene per file.");
 		// rt_file_error_exit(t, "Cannot add new scene within a scene.");
 	if (!t->input->next)
 		return ("New scene must be followed by open bracket.");
@@ -61,14 +63,14 @@ t_vec3			look_at_object(t_parse_tools *t, char *value)
 	t_object	*o_ptr;
 	t_light		*l_ptr;
 
-	o_ptr = t->scenes->objects;
+	o_ptr = t->scene->objects;
 	while (o_ptr)
 	{
 		if (!ft_strcmp(value, o_ptr->name))
 			return (o_ptr->pos);
 		o_ptr = o_ptr->next;
 	}
-	l_ptr = t->scenes->lights;
+	l_ptr = t->scene->lights;
 	while (l_ptr)
 	{
 		if (!ft_strcmp(value, l_ptr->name))
@@ -82,7 +84,7 @@ static t_vec3	look_at_object2(t_parse_tools *t, char *value)
 {
 	t_camera	*c_ptr;
 
-	c_ptr = t->scenes->cameras;
+	c_ptr = t->scene->cameras;
 	while (c_ptr)
 	{
 		if (!ft_strcmp(value, c_ptr->name))

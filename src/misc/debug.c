@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 10:06:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:35:15 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,91 @@
 #include <stdio.h>
 #include "photon_mapping.h"
 
-void	print_scenes(t_scene *scenes_head)
+void	print_scene(t_scene *scene)
 {
-	t_scene		*s_ptr;
 	t_object	*o_ptr;
 	t_light		*l_ptr;
 	t_camera	*c_ptr;
 
-	ft_printf("%{u}%{red}print_scenes%{}\n");
-	s_ptr = scenes_head;
-	while (s_ptr)
+	ft_printf("%{u}%{red}print_scene%{}\n");
+	printf("scene: %s\n", scene->name);
+	printf("	res: [%i, %i]\n", scene->res.x, scene->res.y);
+	printf("	ray_depth: [%i]\n", scene->ray_depth);
+	printf("	background col: [%f] [%f] [%f]\n", scene->background_color.x, scene->background_color.y, scene->background_color.z);
+	printf("	ambient coef: [%f]\n", scene->ka);
+	printf("	ambient col: [%f] [%f] [%f]\n", scene->ambient_light_color.x, scene->ambient_light_color.y, scene->ambient_light_color.z);
+	printf("	image aspect ratio: [%f]\n", scene->image_aspect_ratio);
+	printf("	is_shadow: %d\n", scene->is_shadow);
+	printf("	is_diffuse: %d\n", scene->is_diffuse);
+	printf("	is_specular: %d\n", scene->is_specular);
+	printf("	is_3d: %d\n", scene->is_3d);
+	printf("	is_fresnel: %d\n", scene->is_fresnel);
+	printf("	is_photon_mapping: %d\n", scene->is_photon_mapping);
+	printf("	is_aa: %d\n", scene->is_aa);
+	printf("	photon_count: %zu\n", scene->photon_count);
+	printf("	photon_list address: %p\n", scene->photon_list);
+	printf("	photon_map address: %p\n", scene->photon_map);
+	o_ptr = scene->objects;
+	printf("	OBJECTS:\n");
+	while (o_ptr)
 	{
-		printf("scene: %s\n", s_ptr->name);
-		printf("	res: [%i, %i]\n", s_ptr->res.x, s_ptr->res.y);
-		printf("	ray_depth: [%i]\n", s_ptr->ray_depth);
-		printf("	ambient coef: [%f]\n", s_ptr->ka);
-		printf("	ambient col: [%f] [%f] [%f]\n", s_ptr->ambient_light_color.x, s_ptr->ambient_light_color.y, s_ptr->ambient_light_color.z);
-		printf("	image aspect ratio: [%f]\n", s_ptr->image_aspect_ratio);
-		o_ptr = s_ptr->objects;
-		printf("	objects:\n");
-		while (o_ptr)
-		{
-			printf("	object name: [%s]\n", o_ptr->name);
-			printf("		object type: [%i]\n", o_ptr->type);
-			printf("		object pos: [%f] [%f] [%f]\n", o_ptr->pos.x, o_ptr->pos.y, o_ptr->pos.z);
-			printf("		object col: [%f] [%f] [%f]\n", o_ptr->col.x, o_ptr->col.y, o_ptr->col.z);
-			printf("		object lookat: [%f] [%f] [%f]\n", o_ptr->look_at.x, o_ptr->look_at.y, o_ptr->look_at.z);
-			printf("		object dir: [%f] [%f] [%f]\n", o_ptr->dir.x, o_ptr->dir.y, o_ptr->dir.z);
-			printf("		object rad: [%f]\n", o_ptr->rad);
-			printf("		object height: [%f]\n", o_ptr->height);
-			printf("		object kd: [%f]\n", o_ptr->kd);
-			printf("		object ks: [%f]\n", o_ptr->ks);
-			printf("		object specular exponent: [%f]\n", o_ptr->specular_exp);
-			printf("		object ior: [%f]\n", o_ptr->ior);
-			printf("		object transparency: [%f]\n", o_ptr->transparency);
-			printf("		object reflection: [%f]\n", o_ptr->reflection);
-			printf("		object texture: [%p]\n", o_ptr->texture);
-			printf("		object texture name: [%s]\n", o_ptr->texture_name);
-			printf("		object texture dim: [%f] [%f] [%f]\n", o_ptr->texture_dim.x, o_ptr->texture_dim.y, o_ptr->texture_dim.z);
-			o_ptr = o_ptr->next;
-		}
-		c_ptr = s_ptr->cameras;
-		printf("	cameras:\n");
-		while (c_ptr)
-		{
-			printf("	camera name: [%s]\n", c_ptr->name);
-			printf("		camera pos: [%f] [%f] [%f]\n", c_ptr->pos.x, c_ptr->pos.y, c_ptr->pos.z);
-			printf("		camera dir: [%f] [%f] [%f]\n", c_ptr->dir.x, c_ptr->dir.y, c_ptr->dir.z);
-			printf("		camera rot: [%f] [%f] [%f]\n", c_ptr->rot.x, c_ptr->rot.y, c_ptr->rot.z);
-			printf("		camera look at: [%f] [%f] [%f]\n", c_ptr->look_at.x, c_ptr->look_at.y, c_ptr->look_at.z);
-			printf("		camera scale: [%f]\n", c_ptr->scale);
-			printf("		camera fov: [%f]\n", c_ptr->fov);
-			c_ptr = c_ptr->next;
-		}
-		printf("	lights:\n");
-		l_ptr = s_ptr->lights;
-		while (l_ptr)
-		{
-			printf("	light name: [%s]\n", l_ptr->name);
-			printf("		light pos: [%f] [%f] [%f]\n", l_ptr->pos.x, l_ptr->pos.y, l_ptr->pos.z);
-			printf("		light dir: [%f] [%f] [%f]\n", l_ptr->dir.x, l_ptr->dir.y, l_ptr->dir.z);			
-			printf("		light col: [%f] [%f] [%f]\n", l_ptr->col.x, l_ptr->col.y, l_ptr->col.z);
-			printf("		light intensity: [%f]\n", l_ptr->intensity);
-			l_ptr = l_ptr->next;
-		}
-		s_ptr = s_ptr->next;
+		printf("	----object name: [%s]\n", o_ptr->name);
+		printf("		object type: [%i]\n", o_ptr->type);
+		printf("		obj file address: [%p]\n", o_ptr->obj);
+		printf("		object pos: [%f] [%f] [%f]\n", o_ptr->pos.x, o_ptr->pos.y, o_ptr->pos.z);
+		printf("		object dir: [%f] [%f] [%f]\n", o_ptr->dir.x, o_ptr->dir.y, o_ptr->dir.z);
+		printf("		object lookat: [%f] [%f] [%f]\n", o_ptr->look_at.x, o_ptr->look_at.y, o_ptr->look_at.z);
+		printf("		object col: [%f] [%f] [%f]\n", o_ptr->col.x, o_ptr->col.y, o_ptr->col.z);
+		printf("		object rad: [%f]\n", o_ptr->rad);
+		printf("		object rad_torus: [%f]\n", o_ptr->rad_torus);
+		printf("		object height: [%f]\n", o_ptr->height);
+		printf("		object angle: [%f]\n", o_ptr->angle);
+		printf("		object kd: [%f]\n", o_ptr->kd);
+		printf("		object ks: [%f]\n", o_ptr->ks);
+		printf("		object specular exponent: [%f]\n", o_ptr->specular_exp);
+		printf("		object reflection: [%f]\n", o_ptr->reflection);
+		printf("		object transparency: [%f]\n", o_ptr->transparency);
+		printf("		object ior: [%f]\n", o_ptr->ior);
+		
+		printf("		object texture: [%p]\n", o_ptr->texture);
+		printf("		object texture name: [%s]\n", o_ptr->texture_name);
+		printf("		object texture dim: [%f] [%f] [%f]\n", o_ptr->texture_dim.x, o_ptr->texture_dim.y, o_ptr->texture_dim.z);
+		printf("		object texture ratio: [%d] [%d]\n", o_ptr->texture_ratio.x, o_ptr->texture_ratio.y);
+		printf("		object texture translate: [%d] [%d]\n", o_ptr->texture_translate.x, o_ptr->texture_translate.y);
+		printf("		object texture_color_style: [%c](ascii: %i)\n", o_ptr->texture_color_style, o_ptr->texture_color_style);
+
+		printf("		object normal map: [%p]\n", o_ptr->normal_map);
+		printf("		object normal name: [%s]\n", o_ptr->normal_map_name);
+		printf("		object normal map dim: [%f] [%f] [%f]\n", o_ptr->normal_map_dim.x, o_ptr->normal_map_dim.y, o_ptr->normal_map_dim.z);
+
+		o_ptr = o_ptr->next;
+	}
+	c_ptr = scene->cameras;
+	printf("	CAMERAS:\n");
+	while (c_ptr)
+	{
+		printf("	----camera name: [%s]\n", c_ptr->name);
+		printf("		camera pos: [%f] [%f] [%f]\n", c_ptr->pos.x, c_ptr->pos.y, c_ptr->pos.z);
+		printf("		camera dir: [%f] [%f] [%f]\n", c_ptr->dir.x, c_ptr->dir.y, c_ptr->dir.z);
+		printf("		camera rot: [%f] [%f] [%f]\n", c_ptr->rot.x, c_ptr->rot.y, c_ptr->rot.z);
+		printf("		camera look at: [%f] [%f] [%f]\n", c_ptr->look_at.x, c_ptr->look_at.y, c_ptr->look_at.z);
+		printf("		camera scale: [%f]\n", c_ptr->scale);
+		printf("		camera fov: [%f]\n", c_ptr->fov);
+		printf("		camera ior: [%f]\n", c_ptr->ior);
+		printf("		camera filter: [%d]\n", c_ptr->filter);
+		c_ptr = c_ptr->next;
+	}
+	printf("	LIGHTS:\n");
+	l_ptr = scene->lights;
+	while (l_ptr)
+	{
+		printf("	----light name: [%s]\n", l_ptr->name);
+		printf("		light pos: [%f] [%f] [%f]\n", l_ptr->pos.x, l_ptr->pos.y, l_ptr->pos.z);
+		printf("		light dir: [%f] [%f] [%f]\n", l_ptr->dir.x, l_ptr->dir.y, l_ptr->dir.z);	
+		printf("		light look_at: [%f] [%f] [%f]\n", l_ptr->look_at.x, l_ptr->look_at.y, l_ptr->look_at.z);		
+		printf("		light col: [%f] [%f] [%f]\n", l_ptr->col.x, l_ptr->col.y, l_ptr->col.z);
+		printf("		light intensity: [%f]\n", l_ptr->intensity);
+		l_ptr = l_ptr->next;
 	}
 	printf("\n");
 }
