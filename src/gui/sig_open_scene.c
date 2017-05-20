@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 13:28:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 13:29:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,6 @@ void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 
 	printf("sig open scene\n");
 
-	if (g->filename)
-	{
-		g_free(g->filename);
-		g->filename = NULL;
-	}
 	dialog = gtk_file_chooser_dialog_new ("Open File", NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
 										"_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT, NULL);
 	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")));
@@ -118,6 +113,11 @@ void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	if (dialog_ret == GTK_RESPONSE_ACCEPT)
 	{
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+		if (g->filename)
+		{
+			g_free(g->filename);
+			g->filename = NULL;
+		}
 		g->filename = gtk_file_chooser_get_filename (chooser);
 		open_scene(g, dialog);
 	}
