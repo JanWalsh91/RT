@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:56:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 17:00:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,6 +356,14 @@ void	*sig_update_cam_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_cam_dir_x\n");
 	cam = get_selected_camera(g);
 	cam->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionY"));
+		cam->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionZ"));
+		cam->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		cam->dir = v_norm(cam->dir);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	update_camera_ctw(cam);
@@ -371,6 +379,14 @@ void	*sig_update_cam_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_cam_dir_y\n");
 	cam = get_selected_camera(g);
 	cam->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionX"));
+		cam->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionZ"));
+		cam->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		cam->dir = v_norm(cam->dir);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	update_camera_ctw(cam);
@@ -386,6 +402,14 @@ void	*sig_update_cam_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_cam_dir_z\n");
 	cam = get_selected_camera(g);
 	cam->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionX"));
+		cam->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraDirectionY"));
+		cam->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		cam->dir = v_norm(cam->dir);
+	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	update_camera_ctw(cam);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 16:58:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,11 +271,20 @@ void	*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g)
 void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
+	GtkWidget	*widget;
 
 	printf("sig_update_light_dir_x\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
+		l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
+		l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		l_ptr->dir = v_norm(l_ptr->dir);
+	}
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
@@ -284,11 +293,20 @@ void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
+	GtkWidget	*widget;
 
 	printf("sig_update_light_dir_y\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
+		l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
+		l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		l_ptr->dir = v_norm(l_ptr->dir);
+	}
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
@@ -297,11 +315,20 @@ void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
-
+	GtkWidget	*widget;
+	
 	printf("sig_update_light_dir_z\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	if (!g->updating_gui)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
+		l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
+		l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
+		l_ptr->dir = v_norm(l_ptr->dir);
+	}
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
