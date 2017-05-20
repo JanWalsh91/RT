@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_7.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/09 10:48:51 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:27:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	*parse_obj(t_parse_tools *t)
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
 	t->current_type = T_OBJ;
-	push_object(&t->current_scene->objects, t->current_object);
+	push_object(&t->scene->objects, t->current_object);
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;

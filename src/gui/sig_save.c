@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:08:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:11:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
 	close(fd);
     return (NULL);
 }
-
 
 //ADD OPEN PROTECTIONS
 void	*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g)

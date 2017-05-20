@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/03 16:12:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 12:37:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraIOR"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->ior);
+	// exit(0);
 }
 
 void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
@@ -113,12 +114,14 @@ void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), "");
 	obj = g->r->scene->objects;
+	C(1)
 	while (obj)
 	{
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)obj->name);
 		obj = obj->next;
 	}
 	light = g->r->scene->lights;
+	C(2)
 	while (light)
 	{
 		if (!v_isnan(light->pos))
@@ -126,11 +129,13 @@ void	init_cam_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 		light = light->next;
 	}
 	camera = get_first_camera(g);
+	C(3)
 	while (camera)
 	{
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)camera->name);
 		camera = camera->next;
 	}
+	C(4)
 	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), id);
 	gtk_widget_show_all(widget);
 }

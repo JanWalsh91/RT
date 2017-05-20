@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_camera.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 14:42:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 17:04:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:26:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,18 @@ t_camera	*get_new_camera(t_parse_tools *t)
 {
 	t_camera	*new_camera;
 	static int	i = 1;
-	static char	*current_scene_name = NULL;
 
 	if (!(new_camera = (t_camera *)ft_memalloc(sizeof(t_camera))))
 		ft_errno_exit();
 	set_cam_non_values(new_camera);
 	if (!t->input->value || !*t->input->value)
 	{
-		if (!current_scene_name)
-			current_scene_name = t->current_scene->name;
-		else if (ft_strcmp(current_scene_name, t->current_scene->name))
-			i = 1;
 		new_camera->name = ft_strjoin(t->tokens[t->input->token], " ");
 		new_camera->name = ft_strjoinfree(new_camera->name, ft_itoa(i), 'b');
-		++i;
 	}
 	else
 		new_camera->name = ft_strdup(t->input->value);
+	++i;
 	return (new_camera);
 }
 

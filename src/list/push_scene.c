@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   push_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 11:53:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:31:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// DEPRECATED
 
 /*
 ** Adds new_scene to the end of list t_scene.

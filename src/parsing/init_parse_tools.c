@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 14:37:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:27:11 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void		init_parse_tools(t_parse_tools *t)
 	t->in_object = false;
 	t->input = NULL;
 	t->input_head = NULL;
-	t->scenes = NULL;
-	t->current_scene = NULL;
+	t->scene = NULL;
 	t->current_object = NULL;
 	t->current_camera = NULL;
 	t->current_light = NULL;

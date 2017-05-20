@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_scenes.c                                     :+:      :+:    :+:   */
+/*   check_scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 17:06:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:33:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,25 @@ static void	get_light_direction(t_scene *scene, t_light *light);
 ** Sets default values if necessary.
 */
 
-char		*check_scenes(t_scene *scenes)
+char		*check_scene(t_scene *scene)
 {
-	t_scene		*s_ptr;
-
-	if (!scenes)
+	if (!scene)
 		return ("No scene provided");
-		// data_error_exit(NULL, 0, NULL, "No scenes provided.");
-	s_ptr = scenes;
-	// check one scene ?
-	while (s_ptr)
-	{
-		// print_scenes(s_ptr);
-		if (!s_ptr->cameras)
-			return ("No camera provided.");
-		if (!s_ptr->lights)
-			return ("No light provided.");
-		if (!s_ptr->objects)
-			return ("No objects provided.");
-		(s_ptr->res.x == -1) ? set_default_resolution(s_ptr) : 0;
-		isnan(s_ptr->ka) ? set_default_ka(s_ptr) : 0;
-		v_isnan(s_ptr->ambient_light_color) ?
-			set_default_ambient_light_color(s_ptr) : 0;
-		s_ptr->image_aspect_ratio = (float)s_ptr->res.x / (float)s_ptr->res.y;
-		(s_ptr->ray_depth == -1) ? set_default_ray_depth(s_ptr) : 0;
-		check_cameras(s_ptr, s_ptr->cameras);
-		check_lights(s_ptr, s_ptr->lights);
-		check_objects(s_ptr, s_ptr->objects);
-		s_ptr = s_ptr->next;
-	}
+	if (!scene->cameras)
+		return ("No camera provided.");
+	if (!scene->lights)
+		return ("No light provided.");
+	if (!scene->objects)
+		return ("No objects provided.");
+	(scene->res.x == -1) ? set_default_resolution(scene) : 0;
+	isnan(scene->ka) ? set_default_ka(scene) : 0;
+	v_isnan(scene->ambient_light_color) ?
+		set_default_ambient_light_color(scene) : 0;
+	scene->image_aspect_ratio = (float)scene->res.x / (float)scene->res.y;
+	(scene->ray_depth == -1) ? set_default_ray_depth(scene) : 0;
+	check_cameras(scene, scene->cameras);
+	check_lights(scene, scene->lights);
+	check_objects(scene, scene->objects);
 	return (NULL);
 }
 

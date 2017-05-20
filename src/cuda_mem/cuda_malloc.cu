@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 16:29:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 14:30:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ int				cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
 
-	if (!(memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 6))))
+	r->scene->photon_count = 1000;
+	if (!(memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3))))
 		exit (0);
-	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 6));
+	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
 	cuda_malloc_photon_map(r);
 	cuda_malloc_objects(r, &h_scene_to_array);
 	cuda_malloc_lights(r, &h_scene_to_array);

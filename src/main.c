@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 16:31:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:17:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void			*main_gtk(t_gtk_tools *g)
 	build_gui(g);
 	init_window(g);
 	(g->filename) ? open_scene(g, NULL) : 0;
-	// print_scenes(g->r->scene);
+	// print_scene(g->r->scene);
     gtk_main();
 	clean_exit(g);
 	return (NULL);
@@ -60,7 +60,7 @@ static void		init_raytracing_tools(t_raytracing_tools *r)
 	r->update.cameras = 2;
 	r->update.scene = 2;
 	r->update.ray_depth = 2;
-	r->update.photon_map = 0;
+	r->update.photon_map = 2;
 	r->update.render = 0;
 	r->rendering = 0;
 	r->scene = NULL;
@@ -108,7 +108,7 @@ int	clean_exit(t_gtk_tools *g)
 {
 	// cuda_free(&g->r, 1);
     g_object_unref(g->builder);
-	// free_scenes(g->r->scene);
+	// free_scene(g->r->scene);
 	return (1);
 }
 

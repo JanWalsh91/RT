@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:37:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 14:29:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 16:33:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,14 @@ void		create_kd_tree(t_photon **photon_list, t_kd_tree **root, int photon_count)
 static t_kd_tree		*create_kd_node(t_photon photon)
 {
 	t_kd_tree	*node; 
+	int ret;
 
-	cudaMallocHost(&(node), sizeof(t_kd_tree));
+	ret = cudaMallocHost(&(node), sizeof(t_kd_tree));
+	if (ret)
+	{
+		printf("cudamallocerror for node\n");
+		exit(-1);
+	}
 	node->pos = photon.pos;
 	node->dir = photon.dir;
 	node->col = photon.col;

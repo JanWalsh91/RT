@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 09:54:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:35:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,25 +268,25 @@ typedef struct	s_object
 	t_vec3			rot;
 	t_vec3			look_at;
 	t_vec3			col;
-	t_color			*texture;
-	t_vec3			texture_dim;
-	t_pt2			texture_ratio;
-	t_pt2			texture_translate;
-	char			*texture_name;
-	t_color			*normal_map;
-	t_vec3			normal_map_dim;
-	char			*normal_map_name;
 	float			rad;
 	float			rad_torus;
 	float			height;
 	float			angle;
 	float			kd;
 	float			ks;
-	float			ior;
-	float			reflection;
 	float			specular_exp;
-	float			transparency; // TODO
+	float			reflection;
+	float			transparency;
+	float			ior;
+	t_color			*texture;
+	char			*texture_name;
+	t_vec3			texture_dim;
+	t_pt2			texture_ratio;
+	t_pt2			texture_translate;
 	char			texture_color_style;
+	t_color			*normal_map;
+	t_vec3			normal_map_dim;
+	char			*normal_map_name;
 	struct s_object	*next;
 }				t_object;
 
@@ -368,8 +368,6 @@ typedef struct	s_scene
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
-	struct s_scene	*prev;
-	struct s_scene	*next;
 }				t_scene;
 
 /*
@@ -393,8 +391,7 @@ typedef struct	s_parse_tools
 	bool			in_object;
 	t_input			*input;
 	t_input			*input_head;
-	t_scene			*scenes;
-	t_scene			*current_scene;
+	t_scene			*scene;
 	t_object		*current_object;
 	t_camera		*current_camera;
 	t_light			*current_light;
@@ -588,7 +585,7 @@ t_light			*get_new_light(t_parse_tools *t);
 t_camera		*get_new_camera(t_parse_tools *t);
 t_input			*get_new_input(char *line, char *file_name, int fd,
 					t_parse_tools *t);
-void			push_scene(t_scene **scenes, t_scene *new_scene);
+// void			push_scene(t_scene **scenes, t_scene *new_scene);
 void			push_object(t_object **objects, t_object *new_object);
 void			push_light(t_light **lights_head, t_light *new_light);
 void			push_camera(t_camera **cameras_head, t_camera *new_camera);
@@ -605,7 +602,7 @@ int				get_hex_value(char c);
 ** Data Checking Functions
 */
 
-char			*check_scenes(t_scene *scenes);
+char			*check_scene(t_scene *scene);
 void			check_objects(t_scene *scene, t_object *objects);
 void			init_camera(t_scene *scene, t_camera *cam);
 void			update_camera_scale(t_camera *camera);
@@ -787,7 +784,7 @@ t_vec3			get_object_color(t_object *obj, t_ray *ray);
 */
 
 void			free_parse_tools(t_parse_tools *t);
-void			free_scenes(t_scene *scenes);
+void			free_scene(t_scene *scenes);
 
 /*
 ** Error Functions
@@ -806,7 +803,7 @@ void			data_warning(t_scene *scene, int type, void *object, char *msg);
 # define C(...) printf("check%i\n", __VA_ARGS__);
 # define P(x) ft_printf(x);
 
-void			print_scenes(t_scene *scenes_head);
+void			print_scene(t_scene *scene);
 void			print_attributes(t_attributes att);
 void			print_vec(t_vec3 vec);
 void			print_matrix(t_matrix m);

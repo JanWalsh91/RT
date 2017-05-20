@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_print_scenes.c                                 :+:      :+:    :+:   */
+/*   sig_print_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,8 +14,8 @@
 #include "gui.h"
 #include "../inc/cuda_call.h"
 
-void *sig_print_scenes(GtkWidget *button, t_gtk_tools *g)
+void *sig_print_scene(GtkWidget *button, t_gtk_tools *g)
 {
-	print_scenes(g->r->scene);
+	print_scene(g->r->scene);
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_10.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 15:00:03 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/16 14:37:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:27:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*parse_torus(t_parse_tools *t)
 	t->current_object = get_new_object(t);
 	t->current_type = T_TORUS;
 	t->current_object->rad_torus = 0.1;
-	push_object(&t->current_scene->objects, t->current_object);
+	push_object(&t->scene->objects, t->current_object);
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
@@ -30,7 +30,7 @@ char	*parse_paraboloid(t_parse_tools *t)
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
 	t->current_type = T_PARABOLOID;
-	push_object(&t->current_scene->objects, t->current_object);
+	push_object(&t->scene->objects, t->current_object);
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;

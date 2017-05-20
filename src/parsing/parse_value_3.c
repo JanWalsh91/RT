@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:13:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/25 16:38:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:27:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		*parse_cone(t_parse_tools *t)
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
 	t->current_type = T_CONE;
-	push_object(&t->current_scene->objects, t->current_object);
+	push_object(&t->scene->objects, t->current_object);
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
@@ -56,7 +56,7 @@ char		*parse_resolution(t_parse_tools *t)
 	if (!t->in_scene)
 		t->global_attributes->res = new_res;
 	else if (!t->in_object)
-		t->current_scene->res = new_res;
+		t->scene->res = new_res;
 	else if (t->in_object)
 		rt_file_warning(t, "You tryin' to give a resolution to an object?");
 	return (NULL);
@@ -83,7 +83,7 @@ char		*parse_ray_depth(t_parse_tools *t)
 	if (!t->in_scene)
 		t->global_attributes->ray_depth = new_ray_depth;
 	else if (!t->in_object)
-		t->current_scene->ray_depth = new_ray_depth;
+		t->scene->ray_depth = new_ray_depth;
 	else if (t->in_object)
 		return ("Ray depth is a scene attribute, not an object attribute!");
 	return (NULL);
@@ -104,7 +104,7 @@ char		*parse_background_color(t_parse_tools *t)
 	if (!t->in_scene)
 		t->global_attributes->col = new_col;
 	else if (!t->in_object)
-		t->current_scene->background_color = new_col;
+		t->scene->background_color = new_col;
 	else if (t->in_object)
 		return ("Objects cannot have background colors!");
 	return (NULL);

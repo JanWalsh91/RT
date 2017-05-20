@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 13:34:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 13:22:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/19 16:36:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,50 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 	// printf("-----%p\n", r->scene->photon_map);
 	// printf("in kernel selected_photons: [%p]\n", r->scene->selected_photons);
 	// printf("in kernel selected_photons: [%p]\n", r->scene->selected_photons[1]);
+	if (r->idx == 0)
+		C(1)
+	// __syncthreads();
 	photons = r->scene->selected_photons[r->idx];
 	// printf("-----%p\n", r->scene->se	lected_photons);
 	// printf("-----%p, pix num: %d, idx: %d\n", r->scene->selected_photons[r->idx], r->scene->res.x * r->scene->res.y, r->idx);
+	if (r->idx == 0)
+		C(2)
+	// __syncthreads();
 	while (++i < k)
 	{
 		// printf("-----%p\n", photons);
 		photons[i].photon = NULL;
 	}
+	if (r->idx == 0)
+		C(3)
+	// __syncthreads();
 	// printf("hit pos: %p [%f, %f, %f]\n", &ray->hit, ray->hit.x, ray->hit.y, ray->hit.z);
+
 	knn_search(&ray->hit, r->scene->photon_map, photons, dim, k);
+
 	// printf("IM GONNA PRINT SOME PHOTONS\n");
 	// print_selected_photons(photons, k);
 	t_vec3 sum;
 	i = -1;
 	sum = v_new(0, 0, 0);
+	if (r->idx == 0)
+		C(4)
 	while (++i < k && photons[i].photon)
 	{
 		sum.x += photons[i].photon->col.r;
 		sum.y += photons[i].photon->col.g;
 		sum.z += photons[i].photon->col.b;
 	}
-	sum = v_scale(sum, 1.0 / r->scene->photon_count);
+	if (r->idx == 0)
+		C(5)
+	if (r->scene->photon_count)
+		sum = v_scale(sum, 100.0 / r->scene->photon_count);
+	if (r->idx)
+	{
+		// printf("photon count: %d\n", r->scene->photon_count);
+		// printf("sum result: [%f, %f, %f]\n", sum.x, sum.y, sum.z);
+	}
+	// __syncthreads();
 	//Take sum of power of all photons corrected by Lambertian Shading, divide by number of photons shot
 	//Convert to t_color and return.
 	return (vec_to_col(sum));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_light.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 14:40:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/05 12:08:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 14:26:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,18 @@ t_light		*get_new_light(t_parse_tools *t)
 {
 	t_light		*new_light;
 	static int	i = 1;
-	static char	*current_scene_name = NULL;
 
 	if (!(new_light = (t_light *)ft_memalloc(sizeof(t_light))))
 		ft_errno_exit();
 	set_light_non_values(new_light);
 	if (!t->input->value || !*t->input->value)
 	{
-		if (!current_scene_name)
-			current_scene_name = t->current_scene->name;
-		else if (ft_strcmp(current_scene_name, t->current_scene->name))
-			i = 1;
 		new_light->name = ft_strjoin(t->tokens[t->input->token], " ");
 		new_light->name = ft_strjoinfree(new_light->name, ft_itoa(i), 'b');
-		++i;
 	}
 	else
 		new_light->name = ft_strdup(t->input->value);
+	++i;
 	return (new_light);
 }
 
