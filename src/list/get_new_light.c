@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 14:40:04 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:26:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	set_light_non_values(t_light *new_light)
 	new_light->next = NULL;
 	new_light->pos = v_new(NAN, NAN, NAN);
 	new_light->dir = v_new(NAN, NAN, NAN);
-	new_light->rot = v_new(NAN, NAN, NAN);
 	new_light->look_at = v_new(NAN, NAN, NAN);
 	new_light->col = v_new(NAN, NAN, NAN);
 	new_light->intensity = NAN;

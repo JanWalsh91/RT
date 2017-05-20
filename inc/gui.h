@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:39:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);
 ** Lights GUI panel
 */
 
-void			*update_grid_lights(t_gtk_tools *g); //Camel
+void			*update_grid_lights(t_gtk_tools *g);
 void			update_lights_info_panel(t_gtk_tools *g, t_light *light);
 void			*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 t_light			*get_selected_light(t_gtk_tools *g);
@@ -140,9 +140,6 @@ void			*sig_update_light_pos_z(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g);
-void			*sig_update_light_rot_x(GtkWidget *SpinButton, t_gtk_tools *g);
-void			*sig_update_light_rot_y(GtkWidget *SpinButton, t_gtk_tools *g);
-void			*sig_update_light_rot_z(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g);
 void			*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g);
 

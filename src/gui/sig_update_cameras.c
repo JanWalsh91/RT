@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 12:37:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,6 @@ void	update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->dir.z);
 
     widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonCameraDirNormalize"));
-	gtk_widget_set_sensitive (widget, FALSE);
-    
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.x);
-	gtk_widget_set_sensitive (widget, FALSE);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.y);
-	gtk_widget_set_sensitive (widget, FALSE);
-
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraRotationZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), camera->rot.z);
 	gtk_widget_set_sensitive (widget, FALSE);
 	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonCameraFov"));

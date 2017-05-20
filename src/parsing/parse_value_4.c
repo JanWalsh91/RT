@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:16:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:27:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,5 @@ char	*parse_direction(t_parse_tools *t)
 		t->scene_attributes->dir = new_dir;
 	else if (t->in_object)
 		t->object_attributes->dir = new_dir;
-	return (NULL);
-}
-
-char	*parse_rotation(t_parse_tools *t)
-{
-	rt_file_warning(t, "Rotation: feature not yet available. \
-Use direction or look at.");
 	return (NULL);
 }

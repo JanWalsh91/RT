@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_attributes_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:07:02 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 14:45:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 15:43:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 
 void	set_attributes_plane(t_parse_tools *t, t_attributes *a)
 {
-	if (!v_isnan(a->rot))
-		t->current_object->rot = a->rot;
 	if (!v_isnan(a->look_at))
 		t->current_object->look_at = a->look_at;
 	if (!isnan(a->rad))
@@ -34,8 +32,6 @@ void	set_attributes_sphere(t_parse_tools *t, t_attributes *a)
 
 void	set_attributes_cylinder(t_parse_tools *t, t_attributes *a)
 {
-	if (!v_isnan(a->rot))
-		t->current_object->rot = a->rot;
 	if (!v_isnan(a->look_at))
 		t->current_object->look_at = a->look_at;
 	if (!isnan(a->rad))
@@ -45,9 +41,7 @@ void	set_attributes_cylinder(t_parse_tools *t, t_attributes *a)
 }
 
 void	set_attributes_cone(t_parse_tools *t, t_attributes *a)
-{
-	if (!v_isnan(a->rot))
-		t->current_object->rot = a->rot;
+{t;
 	if (!v_isnan(a->look_at))
 		t->current_object->look_at = a->look_at;
 	if (!isnan(a->rad))
@@ -58,8 +52,6 @@ void	set_attributes_cone(t_parse_tools *t, t_attributes *a)
 
 void	set_attributes_torus(t_parse_tools *t, t_attributes *a)
 {
-	if (!v_isnan(a->rot))
-		t->current_object->rot = a->rot;
 	if (!v_isnan(a->look_at))
 		t->current_object->look_at = a->look_at;
 	if (!isnan(a->rad))

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:41:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 13:33:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	reset_attributes(t_attributes *att)
 	att->fov = NAN;
 	att->pos = v_new(NAN, NAN, NAN);
 	att->dir = v_new(NAN, NAN, NAN);
-	att->rot = v_new(NAN, NAN, NAN);
 	att->look_at = v_new(NAN, NAN, NAN);
 	att->col = v_new(NAN, NAN, NAN);
 	att->rad = NAN;

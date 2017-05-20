@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_attributes_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:47:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 14:44:13 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	set_attributes_camera(t_parse_tools *t, t_attributes *a)
 		t->current_camera->fov = a->fov;
 	if (!v_isnan(a->dir))
 		t->current_camera->dir = a->dir;
-	if (!v_isnan(a->rot))
-		t->current_camera->rot = a->rot;
 	if (!v_isnan(a->look_at))
 		t->current_camera->look_at = a->look_at;
 	if (a->filter != 0)
@@ -70,8 +68,6 @@ void	set_attributes_light(t_parse_tools *t, t_attributes *a)
 		t->current_light->pos = a->pos;
 	if (!v_isnan(a->dir))
 		t->current_light->dir = a->dir;
-	if (!v_isnan(a->rot))
-		t->current_light->rot = a->rot;
 	if (!v_isnan(a->look_at))
 		t->current_light->look_at = a->look_at;
 	if (!v_isnan(a->col))
