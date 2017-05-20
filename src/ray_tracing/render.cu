@@ -103,25 +103,12 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 //'dis is wonderful
 __global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, int tile_size, t_pt2 tileId)
 {
-	// int	idx;
-
-	// // printf("Debut du deuxieme kernel\n");
-
-	// idx = scene->res.x * ((blockDim.y * blockIdx.y) + threadIdx.y) + ((blockDim.x * blockIdx.x) + threadIdx.x);
-
-	// if (idx == 10)
-	// {
-	// 	printf("Other kernel\n");
-	// 	printf("%d, %d, %d\n", right[10].r, right[10].g, right[10].b);
-	// }
-
-
 	int		idx;
 	t_pt2	pixel;
 
 	pixel.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
 	pixel.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
-    idx = scene->res.x * pixel.y + pixel.x;
+  	idx = scene->res.x * pixel.y + pixel.x;
 
 	if (pixel.x < scene->res.x && pixel.y < scene->res.y)
 	{
@@ -130,6 +117,37 @@ __global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, i
 	}
 	// __syncthreads();
 }
+
+
+// Trouver un moyen pour appeler cette fonction ><
+void	update_camera(t_camera *camera)
+{
+	t_vec3	forward;
+	t_vec3	right;
+	t_vec3	up;
+
+	forward = v_norm(camera->dir);
+	if (v_dot(forward, v_new(0, 1, 0)) > 0.9999 ||
+		v_dot(forward, v_new(0, 1, 0)) < -0.9999)
+		right = v_new(1, 0, 0);
+	else
+		right = v_norm(v_cross(v_new(0, 1, 0), forward));
+	up = v_norm(v_cross(forward, right));
+	m_new_identity(&camera->ctw);
+	camera->ctw[0][0] = right.x;
+	camera->ctw[0][1] = right.y;
+	camera->ctw[0][2] = right.z;
+	camera->ctw[1][0] = up.x;
+	camera->ctw[1][1] = up.y;
+	camera->ctw[1][2] = up.z;
+	camera->ctw[2][0] = forward.x;
+	camera->ctw[2][1] = forward.y;
+	camera->ctw[2][2] = forward.z;
+	camera->ctw[3][0] = camera->pos.x;
+	camera->ctw[3][1] = camera->pos.y;
+	camera->ctw[3][2] = camera->pos.z;
+}
+
 
 void		render(t_raytracing_tools *r, t_pt2 tileId)
 {
@@ -154,11 +172,11 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 
 
 	cudaError_t errSync  = cudaGetLastError();
-cudaError_t errAsync = cudaDeviceSynchronize();
-if (errSync != cudaSuccess) 
-  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
-if (errAsync != cudaSuccess)
-  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+	cudaError_t errAsync = cudaDeviceSynchronize();
+	if (errSync != cudaSuccess) 
+	  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
+	if (errAsync != cudaSuccess)
+	  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 	//beautiful....
 	// printf("=============== EXECUTION ================== \n");
 	// printf("Kernel duration: %f milliseconds\n", milliseconds);
@@ -166,19 +184,26 @@ if (errAsync != cudaSuccess)
 
 	// gpuErrchk((cudaDeviceSynchronize()));
 
-	// if (r->scene->is_3d)
-	// {
-	// 	printf("3d\n");
-	// 	r->scene->cameras->pos.x += 0.2;
-	// 	r->scene->cameras->filter = F_RIGHT_CYAN;
-	// 	gpuErrchk((cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice)));
-	// 	gpuErrchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
-	// 	// render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
-	// 	gpuErrchk((cudaDeviceSynchronize()));
-	// 	r->scene->cameras->pos.x -= 0.2;
-
-	// 	// create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, r->settings.tile_size, tileId);
-
-	// 	gpuErrchk((cudaDeviceSynchronize()));
-	// }
+	if (r->scene->is_3d)
+	{
+		printf("3d\n");
+		r->scene->cameras->pos.x += 0.05;
+		r->scene->cameras->dir.x -= 0.01;
+		r->scene->cameras->dir = v_norm(r->scene->cameras->dir);
+		update_camera(r->scene->cameras);
+		r->scene->cameras->filter = F_RIGHT_CYAN;
+		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
+		gpuErrchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice)));
+		render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
+		gpuErrchk((cudaDeviceSynchronize()));
+		r->scene->cameras->pos.x -= 0.05;
+		r->scene->cameras->dir.x += 0.01;
+		r->scene->cameras->dir = v_norm(r->scene->cameras->dir);
+		update_camera(r->scene->cameras);
+		r->scene->cameras->filter = F_LEFT_RED;
+		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
+		gpuErrchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice)));
+		create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, r->settings.tile_size, tileId);
+		gpuErrchk((cudaDeviceSynchronize()));
+	}
 }
