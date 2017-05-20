@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:11:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/20 15:54:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g)
 	fd = -1;
 	printf("sig_save_as\n");
 	g->filename = get_new_filename(g);
-	fd = open(g->filename, O_CREAT | O_WRONLY);
+	fd = open(g->filename, O_CREAT | O_WRONLY, 0644);
 	save_scene(fd, g->r->scene);
 	close(fd);
 	return (NULL);
