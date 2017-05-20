@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 09:55:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 13:00:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,14 @@ void	*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 	builder = gtk_builder_new_from_file("GenerateTexture.glade");
 	gtk_builder_connect_signals(builder, g);
 	widget = GTK_WIDGET(gtk_builder_get_object(builder, "window_generate"));
+	gtk_window_set_transient_for(GTK_WINDOW(widget), GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")));
 	g->builder_texture = builder;
 	gtk_widget_show(widget);
+	return (NULL);
+}
+
+void	*sig_generated_texture_quit(GtkWidget *combo_box, t_gtk_tools *g)
+{
+	gtk_widget_destroy(GTK_WIDGET(gtk_builder_get_object(g->builder_texture, "window_generate")));
 	return (NULL);
 }

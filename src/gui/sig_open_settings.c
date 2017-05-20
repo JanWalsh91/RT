@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 17:09:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 12:47:07 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void    *sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g)
     builder = gtk_builder_new_from_file("Settings_glade.glade");
     gtk_builder_connect_signals(builder, g);
     widget = GTK_WIDGET(gtk_builder_get_object(builder, "window_settings"));
+    gtk_window_set_transient_for(GTK_WINDOW(widget), GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")));
     gtk_widget_show(widget);
     update_grid_settings(g, builder);
     widget = GTK_WIDGET(gtk_builder_get_object(builder, "LabelGraphicCard"));
