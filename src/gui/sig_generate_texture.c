@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:25:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/20 17:06:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 		else
 			obj->texture = tmp->texture;
 	}
-	obj->texture_dim.x = (int)dim.x;
-	obj->texture_dim.y = (int)dim.y;
+	obj->texture_dim = dim;
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ComboBoxGeneratedTexture"));
 	gtk_widget_set_sensitive(widget, false);
 	gtk_widget_destroy(GTK_WIDGET(gtk_builder_get_object(g->builder_texture, "window_generate")));
@@ -94,6 +93,8 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, true);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 	gtk_widget_set_sensitive(widget, true);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
+	gtk_widget_set_sensitive(widget, false);
 	return (NULL);
 }
 
