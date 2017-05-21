@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_reflected_and_refracted.cu                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 17:09:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/21 11:46:24 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_r
 		return (get_reflected(r, scene, ray, 0));
 	else
 		return (c_new(0, 0, 0));
+}
+
+__device__
+static t_color	get_beer_lambert_color(t_color col, float kt, float t)
+{
+	t_vec3	color;
+	t_color	final;
+	float	absorption;
+
+	// printf("t = %f\n", t);
+	color = col_to_vec(col);
+	absorption = exp(-0.15 * t * (1.0 - kt));
+
+	final = vec_to_col(v_scale(color, absorption));
+	// printf("Before: %d, %d, %d === After %d, %d, %d\n", col.r, col.g, col.b, final.r, final.g, final.b);
+	return (final);
 }
 
 __device__
