@@ -35,10 +35,10 @@ bool		get_cone_intersection(t_raytracing_tools *r, t_ray *ray,
 	i.d1 = tan(r->scene->objects[index].angle);
 	i.v1 = v_sub(ray->origin, r->scene->objects[index].pos);
 	i.q.x = v_dot(ray->dir, ray->dir) - (1.0 + i.d1 * i.d1) *
-		pow(v_dot(ray->dir, r->scene->objects[index].dir), 2.0);
+		powf(v_dot(ray->dir, r->scene->objects[index].dir), 2.0);
 	i.q.y = 2 * (v_dot(ray->dir, i.v1) - (1.0 + i.d1 * i.d1) *
 		v_dot(ray->dir, r->scene->objects[index].dir) * v_dot(i.v1, r->scene->objects[index].dir));
-	i.q.z = v_dot(i.v1, i.v1) - (1.0 + i.d1 * i.d1) * pow(v_dot(i.v1,
+	i.q.z = v_dot(i.v1, i.v1) - (1.0 + i.d1 * i.d1) * powf(v_dot(i.v1,
 		r->scene->objects[index].dir), 2.0);
 	if (!solve_quadratic(i.q, &i.r1, &i.r2) || (i.r1 < 0 && i.r2 < 0))
 		return (false);

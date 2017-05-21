@@ -66,9 +66,7 @@ static int	parse_user_input(t_data *d, char **input)
 
 static int	get_code_values(char *c)
 {
-	int		i;
 
-	i = -1;
 	!ft_strcmp(c, "eoc") || !ft_strcmp(c, "")
 		? c = ft_strdupfree(c, "\e[0m") : 0;
 	!ft_strcmp(c, "bold") || !ft_strcmp(c, "b") ?

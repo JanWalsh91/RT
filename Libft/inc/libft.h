@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
+# include <stdint.h>
 # include <errno.h>
 # include "ft_printf.h"
 # define BUFF_SIZE 640
