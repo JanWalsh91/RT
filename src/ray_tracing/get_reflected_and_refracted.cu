@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/21 11:46:24 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/21 14:59:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,9 @@ t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_r
 }
 
 __device__
-static t_color	get_beer_lambert_color(t_color col, float kt, float t)
+static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray, t_color col, float kt, float t)
 {
-	t_vec3	color;
-	t_color	final;
-	float	absorption;
-
-	// printf("t = %f\n", t);
-	color = col_to_vec(col);
-	absorption = exp(-0.15 * t * (1.0 - kt));
-
-	final = vec_to_col(v_scale(color, absorption));
-	// printf("Before: %d, %d, %d === After %d, %d, %d\n", col.r, col.g, col.b, final.r, final.g, final.b);
-	return (final);
+	return (c_scale(col, exp(-0.3 * t * (1.0 - kt))));
 }
 
 __device__
@@ -66,10 +56,10 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray)
 	if (v_isnan(refracted.dir)) //Total internal refaction
 		return (get_reflected(r, scene, ray, scene->objects[ray->hit_obj].transparency - scene->objects[ray->hit_obj].reflection));
 	f = scene->is_fresnel ? get_fresnel_ratio(ray->dir, v_scale(ray->nhit, ray->n_dir), n1, n2) : 0;
-	if (scene->is_fresnel || scene->objects[ray->hit_obj].reflection > 0) // case where reflection is present
-		return (c_add(c_scale(cast_primary_ray(r, &refracted), (1 - f) * scene->objects[ray->hit_obj].transparency), get_reflected(r, scene, ray, f)));
+	if (scene->is_fresnel || scene->objects[ray->hit_obj].reflection > 0.0) // case where reflection is present
+		return (c_add(c_scale(get_beer_lambert_color(r, &refracted, cast_primary_ray(r, &refracted), scene->objects[ray->hit_obj].transparency, refracted.t), (1 - f) * scene->objects[ray->hit_obj].transparency), get_reflected(r, scene, ray, f)));
 	else	//no reflection, only refraction 
-		return (c_scale(cast_primary_ray(r, &refracted), scene->objects[ray->hit_obj].transparency));
+		return (c_scale(get_beer_lambert_color(r, &refracted, cast_primary_ray(r, &refracted), scene->objects[ray->hit_obj].transparency, refracted.t), scene->objects[ray->hit_obj].transparency));
 }
 
 __device__
