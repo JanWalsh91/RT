@@ -13,19 +13,19 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0095
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
 	}
 	plane: Wall
 	{
-		position: 0.0000, 0.0000, 10.0000
+		position: 0.0000, 0.0000, 26.0000
 		direction: 0.0000, 0.0000, 1.0000
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0096
+		ior: 1.0095
 		transparency: 0.0000
 		reflection: 0.0000
 	}
@@ -37,7 +37,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
 	}
@@ -49,7 +49,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
 	}
@@ -62,8 +62,9 @@ scene: Scene 1
 	camera: New Camera
 	{
 		position: 0.0000, 0.0000, -10.0000
-		direction: 0.0001, 0.0000, 1.0000
-		filter: 		fov: 45
-		ior: 1.0095
+		direction: 0.0000, 0.0000, 1.0000
+		filter: none
+		fov: 45
+		ior: 1.0094
 	}
 }

@@ -1,7 +1,7 @@
 scene: rendu4
 {
-	resolution: 1200, 1200
-	ray depth: 5
+	resolution: 1260, 1220
+	ray depth: 10
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000
 	cylinder: Cylinder
@@ -17,17 +17,17 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: Checkerboard 600.0000, 600.0000, 30.0000
+		texture: Checkerboard 600.0000, 600.0000, 100.0000
 	}
 	sphere: Sphere
 	{
 		position: -3.0000, 0.0000, 0.0000
-		color: 138.0000, 226.0000, 52.0000
+		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
-		ks: 0.1000
+		ks: 0.5500
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 		texture: Noise 500.0000, 500.0000, 10.0000
@@ -42,64 +42,40 @@ scene: rendu4
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 		texture: Perlin 800.0000, 800.0000, 100.0000
 	}
 	plane: Plane
 	{
-		position: 0.0000, 0.0000, 2.0000
+		position: 0.0000, 0.0000, 3.0000
 		direction: 0.0000, 0.0000, 1.0000
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
 	}
-	disk: Cylinder cap
+	plane: Ground
 	{
-		position: 0.0000, -2.0000, 0.0000
+		position: 0.0000, -3.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		kd: 1.0000
-		ks: 0.0000
-		specular exponent: 200.0000
-		ior: 1.0089
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	disk: Cylinder cap
-	{
-		position: 0.0000, 2.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
-		kd: 1.0000
-		ks: 0.0000
-		specular exponent: 200.0000
-		ior: 1.0089
-		transparency: 0.0000
-		reflection: 0.0000
-	}
-	disk: Cone cap
-	{
-		position: 3.0000, -2.0000, 0.0000
-		direction: 0.0000, -1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
+		color: 186.0000, 189.0000, 182.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
 	}
-	light: light 1
+	light: New light
 	{
-		position: 15.0000, 100.0000, -100.0000
+		direction: 0.0000, -0.4655, 0.8850
 		color:255.0000, 255.0000, 255.0000
-		intensity: 700
+		intensity: 20
 	}
 	camera: cam
 	{

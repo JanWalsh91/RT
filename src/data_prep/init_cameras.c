@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/05 15:36:08 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 13:23:29 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/21 15:53:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@
 
 void	init_camera(t_scene *scene, t_camera *cam)
 {
-	// int	y;
-	cam->pixel_map = NULL;
-	if (!(cam->pixel_map = (t_color *)ft_memalloc(scene->res.y * scene->res.x *
-		sizeof(t_color))))
-		ft_errno_exit();
-	// y = -1;
-	// while (++y < scene->res.y)
-	// 	if (!(cam->pixel_map[y] = (t_color *)ft_memalloc(scene->res.x *
-	// 		sizeof(t_color))))
-	// 		ft_errno_exit();
 	update_camera_scale(cam);
 	update_camera_ctw(cam);
 }
