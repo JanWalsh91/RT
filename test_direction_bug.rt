@@ -1,0 +1,84 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	plane: Plane Back
+	{
+		position: 0.0000, 0.0000, 20.0000
+		direction: 0.0099, 0.0000, 0.9999
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0090
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	plane: Plane Bot
+	{
+		position: 0.0000, -5.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0090
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	plane: Plane Left
+	{
+		position: -5.0000, 0.0000, 20.0000
+		direction: 1.0000, 0.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0090
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: Sphere 1
+	{
+		position: 0.0000, 0.0000, 0.0000
+		color: 239.0000, 41.0000, 41.0000
+		radius: 2.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0090
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	cylinder: Cylinder
+	{
+		position: 6.0000, 4.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		height: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	light: my light
+	{
+		position: 10.0000, 10.0000, -10.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 10
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 0.0000, -50.0000
+		direction: 0.0101, 0.0000, 0.9999
+		filter: none
+		fov: 45
+		ior: 1.0090
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 10:26:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 15:36:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -536,7 +536,7 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_x\n");
 	obj = get_selected_object(g);
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
 		obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -558,7 +558,7 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_y\n");
 	obj = get_selected_object(g);
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 		obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -580,7 +580,7 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_z\n");
 	obj = get_selected_object(g);
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 		obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
