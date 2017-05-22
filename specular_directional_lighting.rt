@@ -1,4 +1,4 @@
-scene: 
+scene: Scene 1
 {
 	resolution: 1000, 1000
 	ray depth: 5
@@ -11,30 +11,30 @@ scene:
 		color: 255.0000, 255.0000, 255.0000
 		radius: 3.0000
 		kd: 1.0000
-		ks: 0.0299
+		ks: 0.0298
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
 	}
-	light: New light
+	light: spherical light
 	{
 		direction: 0.0000, -1.0000, 0.0000
 		color:255.0000, 255.0000, 255.0000
 		intensity: 10
 	}
-	light: spherical light
+	light: directional light
 	{
 		position: 0.0000, -1.0000, 0.0000
 		color:255.0000, 255.0000, 255.0000
 		intensity: 10
 	}
-	camera: directional light
+	camera: my cam
 	{
 		position: 0.0000, 0.0000, -50.0000
 		direction: 0.0000, 0.0000, 1.0000
 		filter: none
 		fov: 45
-		ior: 1.0099
+		ior: 1.0098
 	}
 }

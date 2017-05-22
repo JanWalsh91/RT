@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:06:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 12:40:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 11:06:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ static size_t		get_objects_array_length(t_object *objects);
 
 void				cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array)
 {
-	h_scene_to_array->objects = list_to_array_objects(r->scene->objects);
-	if (r->update.objects == 2)
-		gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array->objects)));
-	gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array->objects, get_objects_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
-	free(h_scene_to_array->objects);
+	if (r->update.objects >= 1)
+	{
+		h_scene_to_array->objects = list_to_array_objects(r->scene->objects);
+		if (r->update.objects == 2)
+			gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array->objects)));
+		gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array->objects, get_objects_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
+		free(h_scene_to_array->objects);
+	}
 }
 
 static t_object		*list_to_array_objects(t_object *object)

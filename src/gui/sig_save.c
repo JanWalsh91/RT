@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/21 16:58:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 12:14:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
     int             fd;
 
 	fd = -1;
+	if (!g->r->scene)
+		return (NULL);
     printf("sig_save: filename: [%s]\n", g->filename);
 	fd = open(g->filename, O_WRONLY | O_TRUNC);
 	if (fd == -1)
@@ -115,7 +117,7 @@ void	save_scene(int fd, t_scene *scene)
 		l_ptr = l_ptr->next;
 	}
 	c_ptr = scene->cameras;
-	while (c_ptr->prev)
+	while (c_ptr && c_ptr->prev)
 		c_ptr = c_ptr->prev;
 	while (c_ptr)
 	{
@@ -213,6 +215,7 @@ void	save_object(int fd, t_object *obj)
 
 void	save_camera(int fd, t_camera *cam)
 {
+	printf("save_camera\n");
 	write(fd, "\tcamera: ", 9);
 	write(fd, cam->name, ft_strlen(cam->name));
 	write(fd, "\n\t{\n", 4);

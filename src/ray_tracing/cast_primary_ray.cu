@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:22:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 12:07:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		}
 	}
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
-	if (ray->depth == r->scene->ray_depth - 1)
+	if (ray->depth == r->scene->ray_depth - 1) 
 		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
-	
-
 	if (r->scene->is_photon_mapping)
 	{
 		if (r->idx < 1)
