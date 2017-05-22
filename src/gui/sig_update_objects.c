@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 17:04:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/21 16:20:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	*populate_list_box_objects(t_gtk_tools *g)
 	t_object	*obj;
 	printf("populate_list_box_objects\n");
 
-	if (!g->r->scene->objects)
-		return (NULL);
 	obj = g->r->scene->objects;
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
 	while (obj)
@@ -34,6 +32,15 @@ void	*populate_list_box_objects(t_gtk_tools *g)
 		label = gtk_label_new (obj->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 		obj = obj->next; 
+	}
+	if (!g->r->scene->objects)
+	{
+		printf("no objects found\n");
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScrollWindowObject"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonDeleteObject"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		return (NULL);
 	}
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_objects_info_panel(g, g->r->scene->objects);

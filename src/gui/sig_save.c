@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:54:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/21 16:58:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	save_object(int fd, t_object *obj)
 	write(fd, "\t\tcolor: ", 9);
 	write_vector(fd, (t_vec3)obj->col);
 	write(fd, "\n", 1);
-	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE)
+	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_DISK)
 	{
 		write(fd, "\t\tradius: ", 10);
 		write_float(fd, obj->rad);
@@ -250,19 +250,22 @@ void	save_light(int fd, t_light *light)
 	write(fd, "\tlight: ", 8);
 	write(fd, light->name, ft_strlen(light->name));
 	write(fd, "\n\t{\n", 4);
-	write(fd, "\t\tposition: ", 12);
-	write_vector(fd, light->pos);
-	write(fd, "\n", 1);
-	if (!v_isnan(light->dir))
+	if (v_isnan(light->dir))
+	{
+		write(fd, "\t\tposition: ", 12);
+		write_vector(fd, light->pos);
+		write(fd, "\n", 1);
+	}
+	else
 	{
 		write(fd, "\t\tdirection: ", 13);
-		write_vector(fd, light->dir);
+		write_vector(fd, light->dir); 
 		write(fd, "\n", 1);
 	}
 	write(fd, "\t\tcolor: ", 8);
 	write_vector(fd, (t_vec3)light->col);
 	write(fd, "\n", 1);
-	write(fd, "\t\tintensity: ", 13);
+	write(fd, "\t\tintensity: ", 13); 
 	write_int(fd, light->intensity);
 	write(fd, "\n\t}\n", 4);
 }

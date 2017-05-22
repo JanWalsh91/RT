@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 15:53:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/21 15:09:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,12 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 
 	cudaError_t errSync  = cudaGetLastError();
 cudaError_t errAsync = cudaDeviceSynchronize();
-if (errSync != cudaSuccess) 
+if (errSync != cudaSuccess)
   printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
 if (errAsync != cudaSuccess)
   printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+if (errSync != cudaSuccess || errAsync != cudaSuccess)
+	exit(-1);
 	//beautiful....
 	// printf("=============== EXECUTION ================== \n");
 	// printf("Kernel duration: %f milliseconds\n", milliseconds);

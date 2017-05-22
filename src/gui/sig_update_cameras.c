@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 17:00:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/21 16:17:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ void	*update_grid_cameras(t_gtk_tools *g) //change name
 		camera = camera->next;
 	}
 	if (!g->r->scene->cameras)
+	{
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScrollWindowCamera"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonDeleteCamera"));
+		gtk_widget_set_sensitive (widget, FALSE);
 		return (NULL);
+	}
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_cameras_info_panel(g, get_first_camera(g));
 	gtk_widget_show_all(widget);
