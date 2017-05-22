@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 12:12:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	print_scene(t_scene *scene)
 	printf("	photon_list address: %p\n", scene->photon_list);
 	printf("	photon_map address: %p\n", scene->photon_map);
 	o_ptr = scene->objects;
-	printf("	OBJECTS:\n");
+	printf("	OBJECTS: %p\n", scene->objects);
 	while (o_ptr)
 	{
 		printf("	----object name: [%s]\n", o_ptr->name);
@@ -74,7 +74,7 @@ void	print_scene(t_scene *scene)
 		o_ptr = o_ptr->next;
 	}
 	c_ptr = scene->cameras;
-	printf("	CAMERAS:\n");
+	printf("	CAMERAS: %p\n", scene->cameras);
 	while (c_ptr)
 	{
 		printf("	----camera name: [%s]\n", c_ptr->name);
@@ -87,7 +87,7 @@ void	print_scene(t_scene *scene)
 		printf("		camera filter: [%d]\n", c_ptr->filter);
 		c_ptr = c_ptr->next;
 	}
-	printf("	LIGHTS:\n");
+	printf("	LIGHTS: %p\n", scene->lights);
 	l_ptr = scene->lights;
 	while (l_ptr)
 	{

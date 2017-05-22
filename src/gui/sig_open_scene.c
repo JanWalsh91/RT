@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 10:26:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 11:09:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 
+	printf("sig_new_scene\n");
 	if (g->filename)
 	{
 		g_free(g->filename);
 		g->filename = NULL;
 	}
 	if (g->r->scene)
-		cudaDeviceReset();
+	{
+		// cudaDeviceReset(); //unsafe to use with CPU multithreading.
+		cuda_free(g->r, 1);
+		free_scene(g->r->scene);
+	}
 	if (g->win)
 		gtk_widget_destroy(g->win);
 		// cuda_free(g->r, 0);
@@ -56,7 +61,6 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, false);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
 	gtk_widget_set_sensitive(widget, false);
-	C(100)
 	return (NULL);
 }
 
@@ -77,6 +81,9 @@ static void	set_default_values_scene(t_gtk_tools *g)
 	g->r->scene->is_shadow = true;
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
+	g->r->scene->is_photon_mapping = false; 
+	g->r->scene->photon_map = NULL;
+	g->r->scene->selected_photons = NULL;
 	g->r->scene->is_aa = 1;
 }
 

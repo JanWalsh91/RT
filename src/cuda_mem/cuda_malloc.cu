@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:30:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 11:07:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
       if (abort) exit(code);
    }
 }
-
 
 static void		reset_update_struct(t_raytracing_tools *r);
 static void		cuda_malloc_scene(t_raytracing_tools *r);
@@ -50,7 +49,7 @@ int				cuda_malloc(t_raytracing_tools *r)
 	return (1);
 }
 
-static void	reset_update_struct(t_raytracing_tools *r)
+static void		reset_update_struct(t_raytracing_tools *r)
 {
 	r->update.resolution = 0;
 	r->update.objects = 0;
@@ -62,7 +61,7 @@ static void	reset_update_struct(t_raytracing_tools *r)
 	r->update.photon_map = 0;
 }
 
-static void	cuda_malloc_scene(t_raytracing_tools *r)
+static void		cuda_malloc_scene(t_raytracing_tools *r)
 {
 	if (r->update.resolution == 2)
 	{

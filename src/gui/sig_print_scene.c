@@ -16,6 +16,9 @@
 
 void *sig_print_scene(GtkWidget *button, t_gtk_tools *g)
 {
-	print_scene(g->r->scene);
+	if (g->r->scene)
+		print_scene(g->r->scene);
+	else
+		ft_printf("No scene\n");
 	return (NULL);
 }
