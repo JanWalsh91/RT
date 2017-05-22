@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:25:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 10:44:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/22 12:29:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	get_plane_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	if (i.r1 < 0)
 		return (false);
 	r->t > i.r1 ? ray->t = i.r1 : 0.0;
-	if (ray->type != R_SHADOW && r->t > i.r1)
+	if (r->t > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_PLANE;
