@@ -221,11 +221,13 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="AdjResolutionX">
+    <property name="lower">1</property>
     <property name="upper">4000</property>
     <property name="step_increment">10</property>
     <property name="page_increment">100</property>
   </object>
   <object class="GtkAdjustment" id="AdjResolutionY">
+    <property name="lower">1</property>
     <property name="upper">4000</property>
     <property name="step_increment">10</property>
     <property name="page_increment">100</property>
@@ -445,8 +447,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -1761,6 +1763,7 @@
                   <object class="GtkScrolledWindow" id="ScrolledWindowObject">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="has_focus">True</property>
                     <property name="shadow_type">in</property>
                     <property name="min_content_width">150</property>
                     <property name="min_content_height">500</property>
@@ -2266,23 +2269,11 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="label" translatable="yes">Rotation</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Fov</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">6</property>
+                        <property name="top_attach">5</property>
                       </packing>
                     </child>
                     <child>
@@ -2415,39 +2406,6 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinButton" id="SpinButtonCameraRotationX">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="digits">2</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="SpinButtonCameraRotationY">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="digits">2</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="SpinButtonCameraRotationZ">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="digits">2</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">3</property>
-                        <property name="top_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkSpinButton" id="SpinButtonCameraFov">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -2457,7 +2415,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">6</property>
+                        <property name="top_attach">5</property>
                       </packing>
                     </child>
                     <child>
@@ -2500,7 +2458,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">7</property>
+                        <property name="top_attach">6</property>
                       </packing>
                     </child>
                     <child>
@@ -2511,7 +2469,7 @@
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">5</property>
+                        <property name="top_attach">4</property>
                       </packing>
                     </child>
                     <child>
@@ -2524,14 +2482,20 @@
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">5</property>
+                        <property name="top_attach">4</property>
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="label" translatable="yes">Filter</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">6</property>
+                      </packing>
                     </child>
                     <child>
                       <placeholder/>

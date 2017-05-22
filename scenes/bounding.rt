@@ -1,4 +1,4 @@
-scene: Scene 1
+scene: Trop swagg
 {
 	resolution: 1000, 1000
 	ray depth: 5
@@ -16,7 +16,6 @@ scene: Scene 1
 		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: Checkerboard
 	}
 	sphere: Sphere 1
 	{

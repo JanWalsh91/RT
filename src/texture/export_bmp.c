@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 16:39:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/21 11:40:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 **	@param width, height: The pixelmap dimensions
 */
 
-void	write_header(int fd, int width, int height)
+void		write_header(int fd, int width, int height)
 {
 	t_bmp_header	*header;
 
@@ -48,38 +48,29 @@ void	write_header(int fd, int width, int height)
 
 /*
 **	Exports a pixelmap to a bmp file
-**	@param pixelmap: The pixelmap
-**	@param width, height: The pixelmap dimensions
-**	@param file_name: The name of the bmp file (Needs the .bmp expention,
-**	TODO: auto add .bmp)
+**	@param: data is a t_th_export struct, that contains the datas to write, the fd, etc.
 */
 
 void		*export_image(void *data)
 {
-	int		fd;
-	int		i;
-	int		r;
-	int		g;
-	int		b;
-	t_th_export *th_export = (t_th_export*)data;
+	int			fd;
+	int			i;
+	t_pt2		res;
+	t_th_export	*th_export;
 
+	th_export = (t_th_export*)data;
+	res = th_export->g->r->scene->res;
 	if (!(fd = open(th_export->filename, O_WRONLY | O_CREAT | O_TRUNC, 0600)))
 		return (NULL);
-
-	write_header(fd, th_export->g->r->scene->res.x, th_export->g->r->scene->res.y);
+	write_header(fd, res.x, res.y);
 	i = -1;
-	while (++i < th_export->g->r->scene->res.x * th_export->g->r->scene->res.y)
+	while (++i < res.x * res.y)
 	{
-		r = th_export->g->r->d_pixel_map[i].r;
-		g = th_export->g->r->d_pixel_map[i].g;
-		b = th_export->g->r->d_pixel_map[i].b;
-		write(fd, &b, sizeof(BYTE));
-		write(fd, &g, sizeof(BYTE));
-		write(fd, &r, sizeof(BYTE));
-		if (i % th_export->g->r->scene->res.x == 0)
-		{
-			th_export->progress = (double)i / (th_export->g->r->scene->res.x * th_export->g->r->scene->res.y) + 0.1;
-		}	
+		write(fd, &th_export->g->r->d_pixel_map[i].b, sizeof(BYTE));
+		write(fd, &th_export->g->r->d_pixel_map[i].g, sizeof(BYTE));
+		write(fd, &th_export->g->r->d_pixel_map[i].r, sizeof(BYTE));
+		if (i % res.x == 0)
+			th_export->progress = (double)i / (res.x * res.y) + 0.1;
 	}
 	close(fd);
 	return (NULL);

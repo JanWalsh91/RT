@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 17:49:17 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/16 16:05:30 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/21 11:40:56 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_color		*generate_checkerboard(t_vec3 *res)
 	t_pt2		tile;
 	char		color;
 
-
 	if (cudaMallocHost((void **)&map, (3 * res->x * res->y)) != 0)
 		return (NULL);
 	i.y = -1;
@@ -29,8 +28,6 @@ t_color		*generate_checkerboard(t_vec3 *res)
 		i.x = -1;
 		while (++i.x < res->x)
 		{
-			// Number of tile on the pixmap : res->x / res.z
-			// 
 			tile.x = i.x / res->z;
 			tile.y = i.y / res->z;
 			if ((tile.x + tile.y) % 2 == 0)

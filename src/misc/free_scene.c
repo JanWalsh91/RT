@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:22:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/21 15:54:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static void	free_cameras(t_camera *cams, t_pt2 res)
 		tmp = cams;
 		if (cams->name)
 			free(cams->name);
-		free(cams->pixel_map);
-		cams->pixel_map = NULL;
 		cams = cams->next;
 		free(tmp);
 		tmp = NULL;

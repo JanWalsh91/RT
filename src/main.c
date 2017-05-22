@@ -35,6 +35,7 @@ int				main(int ac, char **av)
 	g.updating_gui = 0;
 	g.t = &t;
 	g.r = &r;
+	g.pixbuf = NULL;
 	g.r->settings.tile_size = DEFAULT_TILE_SIZE;
 	g.filename = (ac >= 2) ? ft_strdup(av[1]) : NULL;
 	main_gtk(&g);
@@ -102,8 +103,7 @@ void	build_gui(t_gtk_tools *g)
 	gtk_css_provider_load_from_path(cssProvider, CSS_PATH, NULL); //NULL instead of GError**
 	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
 		GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-    g->builder = gtk_builder_new();
-    gtk_builder_add_from_file (g->builder, "RT_glade.glade", NULL);
+    g->builder = gtk_builder_new_from_file("RT_glade.glade");
     gtk_builder_connect_signals(g->builder, g);
 }
 

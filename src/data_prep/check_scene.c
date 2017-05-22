@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/21 16:07:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 10:27:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ Setting to spherical/positional lighting.");
 			T_LIGHT, l_ptr, &l_ptr->col) : 0;
 		isnan(l_ptr->intensity) ? set_default_intensity(scene,
 			T_LIGHT, l_ptr, &l_ptr->intensity) : 0;
-		if (!v_isnan(l_ptr->dir))
-			l_ptr->intensity /= 1000;
 		l_ptr = l_ptr->next;
 	}
 }

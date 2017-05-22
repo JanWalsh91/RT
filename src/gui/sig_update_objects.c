@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 16:20:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 10:26:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,16 +265,20 @@ void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools
 
 t_object	*get_selected_object(t_gtk_tools *g)
 {
-	GtkWidget	*widget;
-	GtkListBoxRow	*listBoxRow;
-	int			id;
-	int			i;
-	t_object	*obj;
+	GtkWidget		*widget;
+	GtkListBoxRow	*list_box_row;
+	int				id;
+	int				i;
+	t_object		*obj;
 
 	printf("get_selected_object: ");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));
-	listBoxRow = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
-	id = gtk_list_box_row_get_index (listBoxRow);
+	if (!widget)
+		return (NULL);
+	list_box_row = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
+	if (!list_box_row)
+		return (NULL);
+	id = gtk_list_box_row_get_index (list_box_row);
 	i = -1;
 	obj = g->r->scene->objects;
 	while (++i != id && obj)
@@ -847,7 +851,7 @@ void	*sig_update_obj_normal_map(GtkWidget *file_chooser, t_gtk_tools *g)
 	// printf("Normal map dim: %d, %d\n", dim.x, dim.y);
 	// obj->normal_map_dim = obj->texture_dim;
 
-	obj->texture_dim = obj->normal_map_dim;
+	// obj->texture_dim = obj->normal_map_dim;
 
 	// printf("text dim: %d, %d, text ratio : %d, %d \n", obj->texture_dim.x, obj->texture_dim.y, obj->texture_ratio.x, obj->texture_ratio.y);
 
