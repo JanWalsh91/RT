@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 16:43:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 16:58:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	t_token		type;
 	
 	printf("update_objects_info_panel\n");
-	g->updating_gui = 1;
+	g->updating_gui = true;
 	type = obj->type;
 	obj->dir = v_norm(obj->dir);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryObjectName"));	
@@ -206,7 +206,7 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	color.blue = obj->col.z / 255.0;
 	color.alpha = 1;
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
-	g->updating_gui = 0;
+	g->updating_gui = false;
 }
 
 void	init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
@@ -242,7 +242,7 @@ void	init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(widget), (const gchar *)camera->name);
 		camera = camera->next;
 	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), id);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), id);
 	gtk_widget_show_all(widget);
 }
 
@@ -260,9 +260,9 @@ void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools
 		o_ptr = o_ptr->next;
 	if (i != index || !o_ptr)
 		return (NULL);
-	g->updating_gui = 1;
+	// g->updating_gui = 1; ////////////// remove after done with cam
 	update_objects_info_panel(g, o_ptr);
-	g->updating_gui = 0;
+	// g->updating_gui = 0; ////////////// remove after done with cam
 	return (NULL);
 }
 

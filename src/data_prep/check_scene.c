@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 10:27:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 17:00:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	check_cameras(t_scene *scene, t_camera *cameras)
 		isnan(c_ptr->ior) ? set_default_ior(scene, T_CAMERA, c_ptr, &c_ptr->ior) : 0;
 		get_cam_direction(scene, c_ptr);
 		init_camera(scene, c_ptr);
+		c_ptr->look_at = v_new(0, 0, 0);
 		c_ptr = c_ptr->next;
 	}
 }
