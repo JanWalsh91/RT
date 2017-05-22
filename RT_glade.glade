@@ -1323,6 +1323,7 @@
                               <object class="GtkComboBoxText" id="ComboBoxTextObjLookAtName">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+								<signal name="changed" handler="sig_update_obj_lookat_name" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>

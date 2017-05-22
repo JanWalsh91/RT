@@ -13,7 +13,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 	}
@@ -25,7 +25,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 	}
@@ -37,7 +37,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 	}
@@ -49,23 +49,23 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0090
+		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 	}
 	cylinder: Cylinder
 	{
 		position: 6.0000, 4.0000, 0.0000
-		direction: 0.0000, 1.0000, 0.0000
+		direction: -0.9476, -0.1667, -0.2723
 		color: 255.0000, 255.0000, 255.0000
-		radius: 1.0000
+		radius: 6.0000
 		height: 1.0000
-		kd: 1.0000
+		kd: 0.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
-		reflection: 0.0000
+		reflection: 1.0000
 	}
 	light: my light
 	{
@@ -79,6 +79,6 @@ scene: Scene 1
 		direction: 0.0101, 0.0000, 0.9999
 		filter: none
 		fov: 45
-		ior: 1.0090
+		ior: 1.0089
 	}
 }
