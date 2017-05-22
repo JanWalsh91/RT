@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 15:53:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/22 12:34:29 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@
 # define DEFAULT_TRANSPARENCY 0
 # define DEFAULT_TILE_SIZE 288
 # define CAM_IMG_PANE_DIST 1
-# define BIAS 0.01
+# define BIAS 0.00001
 # define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
 # define CSS_PATH "res/gtk.css"
