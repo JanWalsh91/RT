@@ -282,6 +282,12 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="ListStoreParent">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="filter">
     <columns>
       <!-- column-name gchararray1 -->
@@ -1629,10 +1635,28 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Parent</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">0</property>
+                              </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBoxText" id="ComboBoxTextObjectParent">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="model">ListStoreParent</property>
+                                <signal name="changed" handler="sig_update_object_parent" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">4</property>
+                                <property name="top_attach">0</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 10:26:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/23 12:06:24 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	gtk_widget_set_sensitive (widget, TRUE);
 	type != T_SPHERE ? init_obj_look_at_combo_box(widget, g) :
 						gtk_widget_set_sensitive (widget, FALSE);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjectParent"));
+	gtk_widget_set_sensitive (widget, TRUE);
+	init_obj_parent_combo_box(widget, g);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 	gtk_widget_set_sensitive (widget, TRUE);
@@ -208,6 +212,26 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
 }
 
+void	init_obj_parent_combo_box(GtkWidget *widget, t_gtk_tools *g)
+{
+	t_object	*obj;
+	int			id;
+
+	printf("init_obj_parent_combo_box\n");
+	// id = (gtk_combo_box_get_has_entry (GTK_COMBO_BOX(widget))) ?
+	// 	gtk_combo_box_get_active (GTK_COMBO_BOX(widget)) : 0;
+	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), "None");
+	obj = g->r->scene->objects;
+	while (obj)
+	{
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), (const gchar *)obj->name);
+		obj = obj->next;
+	}
+	// gtk_combo_box_set_active(GTK_COMBO_BOX(widget), id);
+	gtk_widget_show_all(widget);
+}
+
 void	init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object	*obj;
@@ -219,7 +243,7 @@ void	init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 	id = (gtk_combo_box_get_has_entry (GTK_COMBO_BOX(widget))) ?
 		gtk_combo_box_get_active (GTK_COMBO_BOX(widget)) : 0;
 	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), "");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), "-");
 	obj = g->r->scene->objects;
 	while (obj)
 	{
@@ -260,6 +284,27 @@ void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools
 	g->updating_gui = 1;
 	update_objects_info_panel(g, o_ptr);
 	g->updating_gui = 0;
+	return (NULL);
+}
+
+void	*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
+{
+	int			id;
+	t_object	*obj;
+	t_object	*current_obj;
+	int			i;
+
+	printf("update parent\n");
+	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
+	current_obj = get_selected_object(g);
+	i = 0;
+	obj = g->r->scene->objects;
+	if (i == id)
+		current_obj->parent = NULL;
+	while (obj && ++i != id)
+		obj = obj->next;
+	if (i == id && obj != current_obj)
+		current_obj->parent = obj;
 	return (NULL);
 }
 
@@ -536,7 +581,7 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_x\n");
 	obj = get_selected_object(g);
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
 		obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -558,7 +603,7 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_y\n");
 	obj = get_selected_object(g);
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 		obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -580,7 +625,7 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("sig_update_obj_dir_z\n");
 	obj = get_selected_object(g);
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
 		obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
