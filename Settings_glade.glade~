@@ -254,6 +254,7 @@ sampling count</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">AdjPhotonCount</property>
+                <property name="numeric">True</property>
                 <signal name="value-changed" handler="sig_update_photon_count" swapped="no"/>
               </object>
               <packing>

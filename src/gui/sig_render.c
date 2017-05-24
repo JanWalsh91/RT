@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 17:20:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/23 18:50:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ void	*render_wrapper(gpointer data)
 		g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
 		gtk_widget_queue_draw(g->win);
 	}
+	lens_flare_wrapper(g->r);
+	g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
 	g->r->rendering = 0;
+	gtk_widget_queue_draw(g->win);
 	return (FALSE);
 }
 

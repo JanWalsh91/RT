@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/05/23 10:18:46 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ RAY_TRACING = cast_primary_ray \
 			get_reflected_and_refracted \
 			get_fresnel_ratio \
 			get_texture \
+			get_flares \
 
 MISC = 		debug \
 			free_parse_tools \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_10.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 15:00:03 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:27:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/23 11:01:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,21 @@ char	*parse_paraboloid(t_parse_tools *t)
 	set_attributes(t, t->global_attributes);
 	set_attributes(t, t->scene_attributes);
 	t->input = t->input->next;
+	return (NULL);
+}
+
+char	*parse_parent_index(t_parse_tools *t)
+{
+	unsigned short	new_index;
+
+	new_index = 0;
+	if ((new_index = ft_atoi(t->input->value)) < 0)
+		return ("Parent index formatting error.");
+	if (!t->in_scene)
+		t->global_attributes->parent_index = new_index;
+	else if (!t->in_object)
+		t->scene_attributes->parent_index = new_index;
+	else if (t->in_object)
+		t->object_attributes->parent_index = new_index;
 	return (NULL);
 }

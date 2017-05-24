@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 12:38:29 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/24 12:24:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef enum	e_token
 	T_READ_OBJ_FILE,
 	T_READ_TEXTURE_FILE,
 	T_READ_MATERIAL_FILE,
+	T_PARENT_INDEX,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
 	T_COUNT,
@@ -201,6 +202,7 @@ typedef struct	s_attributes
 	float			ior;
 	float			reflection;
 	float			transparency;
+	unsigned short	parent_index;
 	struct s_obj	*obj;
 }				t_attributes;
 
@@ -283,6 +285,8 @@ typedef struct	s_object
 	t_color			*normal_map;
 	t_vec3			normal_map_dim;
 	char			*normal_map_name;
+	unsigned short	parent_index;
+	struct s_object	*parent;
 	struct s_object	*next;
 }				t_object;
 
@@ -300,6 +304,7 @@ typedef struct	s_light
 	t_vec3			look_at;
 	t_vec3			col;
 	float			intensity;
+	float			kflare;
 	struct s_light	*next;
 }				t_light;
 
@@ -423,6 +428,17 @@ typedef struct	s_intersection_tools
 	float			d2;
 	int				n_dir;
 }				t_intersection_tools;
+
+typedef	struct	s_light_flare_tools
+{
+	bool		is_valid;
+	float		max_rad;
+	float		dist;
+	t_pt2		pos;
+	t_light		*light;
+	t_matrix	ltw;
+	float		t;
+}				t_light_flare_tools;
 
 typedef struct	s_update
 {
@@ -550,6 +566,7 @@ char			*read_normal_map(t_parse_tools *t);
 char			*read_obj_file(t_parse_tools *t);
 char			*read_texture_file(t_parse_tools *t);
 char			*read_material_file(t_parse_tools *t);
+char			*parse_parent_index(t_parse_tools *t);
 char			*hashtag(t_parse_tools *t);
 char			*invalid_token(t_parse_tools *t);
 t_vec3			get_color(t_parse_tools *t, char *value);

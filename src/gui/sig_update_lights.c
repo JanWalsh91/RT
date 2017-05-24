@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 10:26:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/24 10:38:14 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,9 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	printf("adding light intensty\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightIntensity"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->intensity);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonKFlare"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->kflare);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ColorButtonLight"));
 	color.red = light->col.x / 255.0;
@@ -374,6 +377,16 @@ void	*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_light_kflare(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->kflare = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }

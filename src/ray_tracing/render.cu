@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 10:26:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/23 10:18:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene;
     r.idx = scene->res.x * r.pix.y + r.pix.x;
+
 
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
@@ -118,7 +119,6 @@ __global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, i
 	// __syncthreads();
 }
 
-
 // Trouver un moyen pour appeler cette fonction ><
 void	update_camera(t_camera *camera)
 {
@@ -147,7 +147,6 @@ void	update_camera(t_camera *camera)
 	camera->ctw[3][1] = camera->pos.y;
 	camera->ctw[3][2] = camera->pos.z;
 }
-
 
 void		render(t_raytracing_tools *r, t_pt2 tileId)
 {
@@ -208,4 +207,5 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 		create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, r->settings.tile_size, tileId);
 		gpuErrchk((cudaDeviceSynchronize()));
 	}
+
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 12:14:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/23 11:54:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	save_scene(int fd, t_scene *scene)
 	o_ptr = scene->objects;
 	while (o_ptr)
 	{
-		save_object(fd, o_ptr);
+		save_object(fd, o_ptr, scene->objects);
 		o_ptr = o_ptr->next;
 	}
 	l_ptr = scene->lights;
@@ -127,7 +127,7 @@ void	save_scene(int fd, t_scene *scene)
 	write(fd, "}\n", 2);
 }
 
-void	save_object(int fd, t_object *obj)
+void	save_object(int fd, t_object *obj, t_object *objects)
 {
 	if (obj->type == T_PLANE)
 		write(fd, "\tplane: ", 8);
@@ -210,7 +210,27 @@ void	save_object(int fd, t_object *obj)
 		write(fd, "\n\t\tnormal map: ", 15);
 		write(fd, obj->normal_map_name, ft_strlen(obj->normal_map_name));
 	}
+	if (obj->parent)
+	{
+		write(fd, "\n\t\tparent index: ", 17);
+		write_float(fd, get_parent_index(obj->parent, objects));
+	}
 	write(fd, "\n\t}\n", 4);
+}
+
+int		get_parent_index(t_object *parent, t_object *objects)
+{
+	int i;
+
+	i = 0;
+	while (objects && parent != objects)
+	{
+		++i;
+		objects = objects->next;
+	}
+	if (parent == objects)
+		return (i + 1);
+	return (0);
 }
 
 void	save_camera(int fd, t_camera *cam)

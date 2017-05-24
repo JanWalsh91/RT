@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_torus_intersection.cu                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:52:47 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/18 16:28:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 16:21:34 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,16 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 		res = choose_between_four_roots(sol.w.r, sol.x.r, sol.y.r, sol.z.r);
 	else
 		res = choose_between_two_roots(sol.w.r, sol.z.r);
+	if (r->pix.x == 1 && r->pix.y == 1)
+	{
+		printf("Coucou\n");
+	}
 	if (res < 0)
 	{
 		//printf("Return false\n");
 		return (false);
 	}
+
 	if (r->pix.y == 600 && r->pix.x == 1)
 	{
 	// printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol.w.r, sol.w.i,
