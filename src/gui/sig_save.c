@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/23 11:54:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/24 15:46:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	save_object(int fd, t_object *obj, t_object *objects)
 	write(fd, "\n", 1);
 	write(fd, "\t\treflection: ", 14);
 	write_float(fd, obj->reflection);
+	write(fd, "\n", 1);
 	if (obj->texture_name)
 	{
 		write(fd, "\n\t\ttexture: ", 12);
@@ -290,6 +291,9 @@ void	save_light(int fd, t_light *light)
 	write(fd, "\n", 1);
 	write(fd, "\t\tintensity: ", 13); 
 	write_int(fd, light->intensity);
+	write(fd, "\n", 1);
+	write(fd, "\t\tkflare: ", 10);
+	write_float(fd, light->kflare);
 	write(fd, "\n\t}\n", 4);
 }
 

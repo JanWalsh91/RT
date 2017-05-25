@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/23 12:03:18 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 10:12:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ static void			set_parent(t_object *objects, t_object *o_ptr)
 	int	i;
 
 	i = 0;
-	while (objects && i != o_ptr->parent_index)
+	while (objects && ++i != o_ptr->parent_index)
 	{
-		++i;
 		printf("i = %d, object = %p\n", i, objects);
 		objects = objects->next;
 	}

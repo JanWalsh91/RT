@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/23 10:57:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/24 14:57:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void		init_tokens(t_parse_tools *t)
 		(!(t->tokens[T_SCENE] = ft_strdup("scene"))) ||
 		(!(t->tokens[T_CAMERA] = ft_strdup("camera"))) ||
 		(!(t->tokens[T_LIGHT] = ft_strdup("light"))) ||
+		(!(t->tokens[T_KFLARE] = ft_strdup("kflare"))) ||
 		(!(t->tokens[T_PLANE] = ft_strdup("plane"))) ||
 		(!(t->tokens[T_DISK] = ft_strdup("disk"))) ||
 		(!(t->tokens[T_SPHERE] = ft_strdup("sphere"))) ||

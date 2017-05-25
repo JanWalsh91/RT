@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/24 14:53:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 10:24:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,85 +28,6 @@ int		get_light_count(t_light *light)
 	}
 	return (i);
 }
-
-__device__
-void	update_light_ltw(t_light_flare_tools *tools, t_vec3 camera_dir)
-{
-	t_vec3	forward;
-	t_vec3	right;
-	t_vec3	up;
-
-	forward = v_norm(camera_dir);
-	if (v_dot(forward, v_new(0, 1, 0)) > 0.9999 ||
-		v_dot(forward, v_new(0, 1, 0)) < -0.9999)
-		right = v_new(1, 0, 0);
-	else
-		right = v_norm(v_cross(v_new(0, 1, 0), forward));
-	up = v_norm(v_cross(forward, right));
-	m_new_identity(&tools->ltw);
-	tools->ltw[0][0] = right.x;
-	tools->ltw[0][1] = right.y;
-	tools->ltw[0][2] = right.z;
-	tools->ltw[1][0] = up.x;
-	tools->ltw[1][1] = up.y;
-	tools->ltw[1][2] = up.z;
-	tools->ltw[2][0] = forward.x;
-	tools->ltw[2][1] = forward.y;
-	tools->ltw[2][2] = forward.z;
-	// tools->ltw[3][0] = tools->pos.x;
-	// tools->ltw[3][1] = tools->pos.y;
-	// tools->ltw[3][2] = tools->pos.z;
-}
-__device__
-void	d_swap(float *f1, float *f2)
-{
-	float tmp;
-	tmp = *f1;
-	*f1 = *f2;
-	*f2 = tmp;
-}
-
-__device__
-void	invert_matrix(t_matrix m, t_matrix *invert)
-{ 
-    t_matrix mat;
-    for (unsigned column = 0; column < 4; ++column) { 
-        // Swap row in case our pivot point is not working
-        if (m[column][column] == 0) { 
-            unsigned big = column; 
-            for (unsigned row = 0; row < 4; ++row) 
-                if (fabs(m[row][column]) > fabs(m[big][column])) big = row; 
-            // Print this is a singular matrix, return identity ?
-            if (big == column) ; 
-            // Swap rows                               
-            else for (unsigned j = 0; j < 4; ++j) { 
-                d_swap(&m[column][j], &m[big][j]); 
-                d_swap(&mat[column][j], &mat[big][j]); 
-            } 
-        } 
-        // Set each row in the column to 0  
-        for (unsigned row = 0; row < 4; ++row) { 
-            if (row != column) { 
-                float coeff = m[row][column] / m[column][column]; 
-                if (coeff != 0) { 
-                    for (unsigned j = 0; j < 4; ++j) { 
-                        m[row][j] -= coeff * m[column][j]; 
-                        mat[row][j] -= coeff * mat[column][j]; 
-                    } 
-                    // Set the element to 0 for safety
-                    m[row][column] = 0; 
-                } 
-            } 
-        } 
-    } 
-    // Set each element of the diagonal to 1
-    for (unsigned row = 0; row < 4; ++row) { 
-        for (unsigned column = 0; column < 4; ++column) { 
-            mat[row][column] /= m[row][row]; 
-        } 
-    }
-	invert = &mat;
-} 
 
 __device__
 bool	get_view_pane_intersection(t_ray *ray, t_camera *cam)
@@ -134,10 +55,8 @@ t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene)
 	t_vec3	ortho_x;
 	t_vec3	ortho_y;
 	t_vec3	proj_dir;
-	float	dot_norm;
 
 	proj_dir = v_sub(ray->dir, v_scale(cam->dir, -1));
-	dot_norm = v_dot(v_new(0, 1, 0), v_scale(cam->dir, -1)); 
 	ortho_x = v_cross(v_new(0, 1, 0), v_scale(cam->dir, -1));
 	ortho_y = v_cross(v_scale(cam->dir, -1), ortho_x);
 	ortho_x = v_norm(ortho_x);
@@ -177,9 +96,8 @@ void	init_light_flares(t_scene *scene, t_light_flare_tools *tools)
 		return ;
 	}
 	tools[id].dist = v_length(v_sub(scene->lights[id].pos, ray.origin));
-	tools[id].max_rad = powf(scene->lights[id].intensity, 4) / (sqrtf(tools[id].dist));
+	tools[id].max_rad = powf(scene->lights[id].intensity, 3) / tools[id].dist;
 	tools[id].light = &scene->lights[id];
-	tools[id].light->kflare = 1.0;
 	if (tools[id].pos.x >= 0 && tools[id].pos.y >= 0 && tools[id].pos.x < scene->res.x && tools[id].pos.y < scene->res.y)
 	{
 		y = -1;
@@ -212,7 +130,7 @@ void	draw_one_flare(t_light_flare_tools *tools, t_scene *scene, t_color *pixel_m
 			return ;
 	rad = sqrt(powf((tools->pos.x - pix.x), 2) + powf((tools->pos.y - pix.y), 2));
 	col = pixel_map[pix.y * scene->res.x + pix.x];
-	col = c_add(col, c_scale(vec_to_col(tools->light->col), (1 / powf(rad, 2) * (tools->max_rad - rad)) * tools->light->kflare));
+	col = c_add(col, c_scale(vec_to_col(tools->light->col), ((tools->max_rad - rad) / (tools->max_rad * rad)) * tools->light->kflare));
 	pixel_map[pix.y * scene->res.x + pix.x] = col;
 }
 

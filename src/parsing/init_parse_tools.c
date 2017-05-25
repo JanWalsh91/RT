@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/23 10:57:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/24 14:57:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_SCENE] = &parse_scene;
 	t->parse[T_CAMERA] = &parse_camera;
 	t->parse[T_LIGHT] = &parse_light;
+	t->parse[T_KFLARE] = &parse_kflare;
 	t->parse[T_PLANE] = &parse_plane;
 	t->parse[T_DISK] = &parse_disk;
 	t->parse[T_SPHERE] = &parse_sphere;

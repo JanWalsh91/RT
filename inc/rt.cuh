@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/24 12:24:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 10:44:06 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef enum	e_token
 	T_READ_TEXTURE_FILE,
 	T_READ_MATERIAL_FILE,
 	T_PARENT_INDEX,
+	T_KFLARE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
 	T_COUNT,
@@ -187,6 +188,7 @@ typedef struct	s_attributes
 	t_vec3			ambient_light_color;
 	float			ka;
 	float			intensity;
+	float			kflare;
 	float			fov;
 	t_vec3			pos;
 	t_vec3			dir;
@@ -436,7 +438,6 @@ typedef	struct	s_light_flare_tools
 	float		dist;
 	t_pt2		pos;
 	t_light		*light;
-	t_matrix	ltw;
 	float		t;
 }				t_light_flare_tools;
 
@@ -535,6 +536,7 @@ char			*parse_empty_line(t_parse_tools *t);
 char			*parse_scene(t_parse_tools *t);
 char			*parse_camera(t_parse_tools *t);
 char			*parse_light(t_parse_tools *t);
+char			*parse_kflare(t_parse_tools *t);
 char			*parse_plane(t_parse_tools *t);
 char			*parse_disk(t_parse_tools *t);
 char			*parse_sphere(t_parse_tools *t);

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/23 15:00:52 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 12:41:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,43 +419,88 @@ void	update_child_objects_pos(t_object *parent, t_object *objects, char axis, fl
 	}
 }
 
-void	update_child_objects_dir(t_object *parent, t_object *objects, char axis, float delta, t_vec3 p_dir1)
+
+t_vec3	rotate_point_around_axis(t_vec3 to_rot, t_vec3 axis_dir, t_vec3 axis_pos, float angle)
+{
+	t_vec3	result;
+	float	l;
+
+	axis_dir = v_norm(axis_dir);
+
+	// to_rot : x, y, z
+	// axis_pos : a, b, c
+	// axis_dir : u, v, w
+
+	// y -> x
+	// z -> y
+	// x -> -z
+	axis_dir = v_norm(v_scale(axis_dir, -1));
+
+		printf("axis_pos: [%f, %f, %f]\n", axis_pos.x, axis_pos.y, axis_pos.z);
+		printf("axis_dir : [%f, %f, %f]\n", axis_dir.x, axis_dir.y, axis_dir.z);
+		printf("to_rot : [%f, %f, %f]\n", to_rot.x, to_rot.y, to_rot.z);
+		printf("angle : %f\n", (angle * 180) / M_PI);
+
+	
+	result.z = (-axis_pos.z * (axis_dir.x * axis_dir.x + axis_dir.y * axis_dir.y) +
+	axis_dir.z * (axis_pos.x * axis_dir.x + axis_pos.y * axis_dir.y - axis_dir.z * to_rot.z - axis_dir.x * to_rot.x - axis_dir.y * to_rot.y)) * (1 - cos(angle)) -
+	to_rot.z * cos(angle) +
+	(-axis_pos.y * axis_dir.x + axis_pos.x * axis_dir.y - axis_dir.y * to_rot.x + axis_dir.x * to_rot.y) * sin(angle);
+	result.z = -result.z;
+
+	result.x = (axis_pos.x * (axis_dir.z * axis_dir.z + axis_dir.y * axis_dir.y) -
+	axis_dir.x * (axis_pos.z * axis_dir.z + axis_pos.y * axis_dir.y - axis_dir.z * to_rot.z - axis_dir.x * to_rot.x - axis_dir.y * to_rot.y)) * (1 - cos(angle)) +
+	to_rot.x * cos(angle) + 
+	(axis_pos.y * -axis_dir.z + axis_pos.z * axis_dir.y - axis_dir.y * to_rot.z + axis_dir.z * to_rot.y) * sin(angle);
+
+	result.y = (axis_pos.y * (axis_dir.z * axis_dir.z + axis_dir.x * axis_dir.x) -
+	axis_dir.y * (axis_pos.z * axis_dir.z + axis_pos.x * axis_dir.x - axis_dir.z * to_rot.z - axis_dir.x * to_rot.x - axis_dir.y * to_rot.y)) * (1 - cos(angle)) +
+	to_rot.y * cos(angle) +
+	(axis_pos.x * axis_dir.z - axis_pos.z * axis_dir.x + axis_dir.x * to_rot.z - axis_dir.z * to_rot.x) * sin(angle);
+
+		printf("result : [%f, %f, %f]\n", result.x, result.y, result.z);
+	return (result);
+}
+
+
+void	update_child_objects_dir(t_object *parent, t_object *objects, char axis, t_vec3 parent_dir, t_vec3 p_dir1)
 {
 	t_object	*head;
-	t_vec3		delta_vec;
-	t_vec3		diff;
-	t_vec3		a;
-	t_vec3		b;
-	t_vec3		c;
-	float		d;
+
+	t_vec3 to_rot;
+	t_vec3 axis_dir;
+	t_vec3 axis_pos;
+	float angle;
 
 	printf("update_child_objects_dir\n");
 	head = objects;
 	while (objects)
 	{
-		delta_vec = v_new(0, 0, 0);
 		if (objects->parent == parent && objects != parent)
 		{
-			update_child_objects_pos(objects, head, axis, delta);
-			if (axis == 'x')
-				delta_vec.x = delta;
-			else if (axis == 'y')
-				delta_vec.y = delta;
-			else if (axis == 'z')
-				delta_vec.z = delta;
-			delta_vec =  v_norm(v_sub(v_norm(parent->dir), p_dir1));
-			a = v_sub(objects->pos, objects->parent->pos);
-			b = v_sub(objects->parent->dir, delta_vec);
-			c = v_add(a, b);
-			d = v_length(c);
-			diff = v_scale(delta_vec, v_length(v_add(v_sub(objects->pos, objects->parent->pos), v_sub(objects->parent->dir, delta_vec))) * delta);
-			objects->pos = v_add(objects->pos, diff);
-			printf("diff: [%f, %f, %f]\n", diff.x, diff.y, diff.z);
-			printf("a : [%f, %f, %f]\n", a.x, a.y, a.z);
-			printf("b : [%f, %f, %f]\n", b.x, b.y, b.z);
-			printf("c : [%f, %f, %f]\n", c.x, c.y, c.z);
-			printf("d: %f\n", d); 
-			printf("delta_vec : [%f, %f, %f]\n", delta_vec.x, delta_vec.y, delta_vec.z);
+			//update_child_objects_pos(objects, head, axis, delta);
+			// delta_mvec =  v_norm(v_sub(v_norm(parent->dir), p_dir1));
+			// a = v_sub(objects->pos, objects->parent->pos);
+			// b = v_sub(objects->parent->dir, delta_vec);
+			// c = v_add(a, b);
+			// d = v_length(c);
+			// diff = v_scale(delta_vec, v_length(v_add(v_sub(objects->pos, objects->parent->pos), v_sub(objects->parent->dir, delta_vec))) * delta);
+			// objects->pos = v_add(objects->pos, diff);
+			
+			to_rot = objects->pos;
+			axis_pos = parent->pos;
+			axis_dir = v_cross(p_dir1, parent_dir); // inverser ?
+			angle = acos((v_dot(parent_dir, p_dir1)) / (v_length(parent_dir) * v_length(p_dir1)));
+			
+			
+			objects->pos = rotate_point_around_axis(to_rot, axis_dir, axis_pos, angle);
+
+			// printf("diff: [%f, %f, %f]\n", diff.x, diff.y, diff.z);
+			// printf("a : [%f, %f, %f]\n", a.x, a.y, a.z);
+			// printf("b : [%f, %f, %f]\n", b.x, b.y, b.z);
+			// printf("c : [%f, %f, %f]\n", c.x, c.y, c.z);
+			// printf("d: %f\n", d); 
+			// printf("delta_vec : [%f, %f, %f]\n", delta_vec.x, delta_vec.y, delta_vec.z);
 			printf("objects->pos: [%f, %f, %f]\n", objects->pos.x, objects->pos.y, objects->pos.z);
 		}
 		objects = objects->next; 
@@ -665,7 +710,7 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
-	update_child_objects_dir(obj, g->r->scene->objects, 'x', gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button)) - tmp, tmp2);
+	// update_child_objects_dir(obj, g->r->scene->objects, 'x', obj->dir, tmp2);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), 0);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -681,14 +726,19 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
 	GtkWidget	*widget;
+	float		tmp;
+	t_vec3		tmp2;
 
 	printf("sig_update_obj_dir_y\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	obj = get_selected_object(g);
+	tmp = obj->dir.y;
+	tmp2 = obj->dir;
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
+	// update_child_objects_dir(obj, g->r->scene->objects, 'y', gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button)) - tmp, tmp2);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));

@@ -18,6 +18,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	sphere: Sphere
 	{
@@ -30,6 +31,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	cone: Cone
 	{
@@ -44,6 +46,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Plane
 	{
@@ -56,6 +59,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Ground
 	{
@@ -68,16 +72,18 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	light: Blue light
 	{
-		position: 0.0000, 0.0000, 0.0000
-		color:53.5499, 134.1300, 255.0000
-		intensity: 10
+		position: 0.0000, 1.0000, -3.0000
+		color:147.0500, 24.9981, 24.9981
+		intensity: 3
+		kflare: 46.0000
 	}
 	camera: cam
 	{
-		position: 0.0000, 0.0000, -200.0000
+		position: 0.0000, 0.0000, -15.0000
 		direction: 0.0000, 0.0000, 1.0000
 		filter: none
 		fov: 30

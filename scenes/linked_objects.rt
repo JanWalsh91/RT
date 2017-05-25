@@ -6,7 +6,7 @@ scene: rendu4
 	ka: 0.1000
 	cylinder: Cylinder
 	{
-		position: 0.0000, -2.0000, 0.0000
+		position: -1.0000, -2.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 1.0000
@@ -17,10 +17,11 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	sphere: Sphere
 	{
-		position: 0.0000, 2.0000, 0.0000
+		position: -1.0000, 2.0000, 0.0000
 		color: 242.9299, 255.0000, 194.6499
 		radius: 2.0000
 		kd: 1.0000
@@ -29,11 +30,12 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 		parent index: 1.0000
 	}
 	cone: Cone
 	{
-		position: 3.0000, 2.0000, 0.0000
+		position: 2.0000, 2.0000, 0.0000
 		direction: 0.0000, -1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 0.5000
@@ -44,7 +46,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-		parent index: 3.0000
+
 	}
 	plane: Plane
 	{
@@ -57,6 +59,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Ground
 	{
@@ -69,12 +72,14 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	light: New light
 	{
 		position: 0.0000, 0.0000, -7.0000
 		color:255.0000, 255.0000, 255.0000
 		intensity: 1
+		kflare: 0.0000
 	}
 	camera: cam
 	{
