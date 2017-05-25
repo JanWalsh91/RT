@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:15:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 11:07:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/25 15:36:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	cuda_malloc_photon_map(t_raytracing_tools *r)
 	
 	// printf("cuda_malloc_photon_map: is_photon_mapping: [%d], r->update.photon_map: [%d]\n", r->scene->is_photon_mapping, r->update.photon_map);
 	// printf("selected photon address: %p\n", r->scene->selected_photons);
-	if (r->scene->is_photon_mapping && r->update.photon_map == 2 ) 
+	if (r->scene->is_photon_mapping && r->update.photon_map == 2) 
 	{
 		gpuErrchk(cudaMallocHost(&(r->h_d_scene->photon_list), sizeof(t_photon *) * (r->scene->photon_count + 1)));
 		// printf("size of photon: %lu\n", sizeof(t_photon));

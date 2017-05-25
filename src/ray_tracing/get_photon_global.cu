@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 13:34:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 16:36:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/25 17:05:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ __device__
 static int		more_points_can_be_found(float dist, t_selected_photon *list, int k);
 __device__
 static void		print_selected_photons(t_selected_photon *list, int k);
+__device__
+float			get_max_radius(t_vec3 *hit, t_selected_photon *photons);
 
 /*
 ** Gathers k photons from the photon map closest to the hitpoint and averages a color
@@ -40,6 +42,7 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 	int dim = 0;
 	int k = 10;
 	int i = -1;
+	float r2;
 	//malloc list of photons based on r->settings->k + 1
 
 	// printf("get_photon_global\n");
@@ -72,22 +75,33 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 	t_vec3 sum;
 	i = -1;
 	sum = v_new(0, 0, 0);
+	r2 = get_max_radius(&ray->hit, photons);
 	if (r->idx == 0)
 		C(4)
 	while (++i < k && photons[i].photon)
 	{
-		sum.x += photons[i].photon->col.r;
-		sum.y += photons[i].photon->col.g;
-		sum.z += photons[i].photon->col.b;
+		sum = v_add(sum, v_scale(v_mult(col_to_vec(photons[i].photon->col), v_scale(col_to_vec(photons[i].photon->col), 1.0 / (0.001 + 4 * M_PI * (r2 - photons[i].dist2)))),
+		ft_clampf(v_dot(photons[i].photon->n, v_scale(ray->nhit, ray->n_dir)), 0, 1)));
+
+		// sum.x += photons[i].photon->col.r;
+		// sum.y += photons[i].photon->col.g;
+		// sum.z += photons[i].photon->col.b;
+		if (r->idx == 1)
+		printf("adding photon: %d, %d, %d\n", photons[i].photon->col.r, photons[i].photon->col.g, photons[i].photon->col.b);
 	}
 	if (r->idx == 0)
 		C(5)
-	if (r->scene->photon_count)
-		sum = v_scale(sum, 100.0 / r->scene->photon_count);
-	if (r->idx)
+	if (r->idx == 1)
 	{
 		// printf("photon count: %d\n", r->scene->photon_count);
-		// printf("sum result: [%f, %f, %f]\n", sum.x, sum.y, sum.z);
+		printf("sum result: [%f, %f, %f] photoncount: %d\n", sum.x, sum.y, sum.z, r->scene->photon_count);
+	}
+	if (r->scene->photon_count)
+		sum = v_scale(sum, 1.0 / r->scene->photon_count);
+	if (r->idx == 1)
+	{
+		// printf("photon count: %d\n", r->scene->photon_count);
+		printf("sum result: [%f, %f, %f]\n", sum.x, sum.y, sum.z);
 	}
 	// __syncthreads();
 	//Take sum of power of all photons corrected by Lambertian Shading, divide by number of photons shot
@@ -95,6 +109,21 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 	return (vec_to_col(sum));
 }
 
+__device__
+float	get_max_radius(t_vec3 *hit, t_selected_photon *photons)
+{
+	int i;
+	float r2;
+
+	r2 = 0;
+	i = -1;
+	while (++i < 10 && photons[i].photon)
+	{
+		if (r2 < photons[i].dist2)
+			r2 = photons[i].dist2;
+	}
+	return (r2);
+}
 
 /*
 ** knn = k Nearest Neighbor search

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/23 10:18:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 16:19:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	cudaEventCreate(&start); 
 	cudaEventCreate(&stop);
 	cudaEventRecord(start);
+	printf("launch kernel:\n");
 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, tileId, r->settings.tile_size);
 	// printf("Iteration i = %d	\n", i++);
 	cudaEventRecord(stop);

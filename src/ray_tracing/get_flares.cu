@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_flares.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 10:24:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 14:17:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,5 @@ void 	lens_flare_wrapper(t_raytracing_tools *r)
 	cudaError_t errAsync = cudaDeviceSynchronize();
 	if (errAsync != cudaSuccess)
 		printf("Sync kernel error: %s\n", cudaGetErrorString(errAsync));
-	printf("end lens_flare_wrapper");
+	printf("end lens_flare_wrapper\n");
 }
