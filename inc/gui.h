@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/23 11:52:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 14:06:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_gtk_tools
 	size_t						stack_size;
 	bool						updating_gui;
 	char						generate_id;
+	t_vec3						old_dir;
 	GtkCssProvider				*font_size;
 }				t_gtk_tools;
 

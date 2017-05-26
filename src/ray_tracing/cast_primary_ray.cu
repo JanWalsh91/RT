@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 14:28:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 16:27:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
 	if (r->scene->is_photon_mapping)
 	{
-		if (r->idx < 1)
+		// if (r->pix.x == 200)
+		// if (r->idx < 1)
 		{
-			// t_color tmp;
+			t_color tmp;
 			// printf("gonna get some photons\n");
-			// tmp = get_photon_global(r, ray);
-			// // if (r->idx == 0)
-			// // printf("photon power gathered: [%d, %d, %d]\n", tmp.r, tmp.g, tmp.b);
-			// color = c_add(color, tmp);
+			tmp = get_photon_global(r, ray);
+			// printf("photon power gathered: [%d, %d, %d]\n", tmp.r, tmp.g, tmp.b);
+			color = c_add(color, tmp);
 		}
 	}
 	else if (r->idx == 0)

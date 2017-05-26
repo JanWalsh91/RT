@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 10:39:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 16:19:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,11 @@ void	*render_wrapper(gpointer data)
 		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
 		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
 		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
-	}
+	} 
 	while (g->win && (tileId.y + 1) <= tile_col)
 	{ 
-		render(g->r, tileId); 
+		printf("render:\n");
+		render(g->r, tileId);
 		increment_tile(&tileId, tile_row);
 
 		// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
