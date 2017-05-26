@@ -724,6 +724,7 @@
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_aa" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -2155,6 +2156,37 @@
                         <property name="left_attach">1</property>
                         <property name="top_attach">6</property>
                       </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="ButtonLightDirNormalize">
+                        <property name="label" translatable="yes">Normalize</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="sig_light_dir_normalize" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">4</property>
+                        <property name="top_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

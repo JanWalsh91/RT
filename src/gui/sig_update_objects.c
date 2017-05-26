@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 12:54:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 14:22:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	// to change when adding textures to spheres....
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	type != T_SPHERE ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.x) :
+	type != T_SPHERE && !obj->parent ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.x) :
 						gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	type != T_SPHERE ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.y) :
+	type != T_SPHERE && !obj->parent ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.y) :
 						gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
 	gtk_widget_set_sensitive (widget, TRUE);
-	type != T_SPHERE ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.z) :
+	type != T_SPHERE && !obj->parent ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.z) :
 						gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
@@ -295,6 +295,7 @@ void	*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 	int			id;
 	t_object	*obj;
 	t_object	*current_obj;
+	GtkWidget	*widget;
 	int			i;
 
 	printf("update parent\n");
@@ -306,6 +307,12 @@ void	*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 	{
 		current_obj->parent_index = 0;
 		current_obj->parent = NULL;
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
+		gtk_widget_set_sensitive (widget, TRUE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
+		gtk_widget_set_sensitive (widget, TRUE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
+		gtk_widget_set_sensitive (widget, TRUE);
 	}
 	while (obj && ++i != id)
 		obj = obj->next;
@@ -313,6 +320,12 @@ void	*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 	{
 		current_obj->parent_index = i;
 		current_obj->parent = obj;
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtY"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtZ"));
+		gtk_widget_set_sensitive (widget, FALSE);
 	}
 	return (NULL);
 }
