@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/23 11:12:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 13:05:47 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	print_scene(t_scene *scene)
 		printf("		object normal map dim: [%f] [%f] [%f]\n", o_ptr->normal_map_dim.x, o_ptr->normal_map_dim.y, o_ptr->normal_map_dim.z);
 
 		printf("		objet parent : %d\n", o_ptr->parent_index);
-		printf("		objet parent addr : %p\n", o_ptr->parent);
+		printf("		objet parent addr : %p (%s)\n", o_ptr->parent, o_ptr->parent ? o_ptr->parent->name : "None");
 		o_ptr = o_ptr->next;
 	}
 	c_ptr = scene->cameras;
