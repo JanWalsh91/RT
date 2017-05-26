@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 10:38:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,22 @@ void	*sig_update_is_photon_mapping(GtkWidget *check_box, t_gtk_tools *g)
 	g->r->scene->is_photon_mapping = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box));
 	if (g->r->scene->is_photon_mapping)
 		g->r->update.photon_map = 2;
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_is_anaglyph(GtkWidget *check_box, t_gtk_tools *g)
+{
+	printf("sig_update_is_anaglyph");
+	g->r->scene->is_3d = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box));
+	printf("g->r->scene->is_3d =  %d\n", g->r->scene->is_3d);
+	if (g->r->scene->is_3d)
+		g->r->update.anaglyph = 2;
+	else
+	{
+		g->r->scene->cameras->filter = F_NONE;
+		g->r->update.cameras = 1;
+	}
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	return (NULL);
 }

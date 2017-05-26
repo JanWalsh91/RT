@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_malloc.cu                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 16:39:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 10:37:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void		cuda_malloc_scene(t_raytracing_tools *r)
 		gpuErrchk(cudaSetDevice(0));
 		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * r->scene->ray_depth);
 	}
+	if (r->update.anaglyph == 2)
+			gpuErrchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
 	if (r->update.scene == 2)
 		gpuErrchk(cudaMalloc(&r->d_scene, sizeof(t_scene)));
 }

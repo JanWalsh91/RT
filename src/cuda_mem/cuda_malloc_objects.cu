@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_malloc_objects.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:06:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 11:06:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 13:07:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 
 static t_object		*list_to_array_objects(t_object *object);
 static size_t		get_objects_array_length(t_object *objects);
+static void			update_child_info(t_object *parent, t_object *obj);
 
 void				cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array)
 {
@@ -62,9 +63,26 @@ static t_object		*list_to_array_objects(t_object *object)
 	while (object)
 	{
 		memcpy(&array[++size], object, sizeof(t_object));
+		if (object->parent)
+			update_child_info(object->parent, &array[size]);
+		//update pos and dir if child obj.
 		object = object->next;
 	}
 	return (array);
+}
+
+static void			update_child_info(t_object *parent, t_object *obj)
+{
+	t_matrix m;
+	
+	//update pos
+	obj->pos = v_add(obj->pos, parent->pos);
+	//update dir TODO
+	obj->pos = p_rotate_axis(v_new(0, 1, 0), parent->dir, parent->pos, obj->pos);
+	obj->dir = v_norm(p_rotate_axis(v_new(0, 1, 0), parent->dir, v_new(0, 0, 0), obj->dir));
+	if (parent->parent)
+		update_child_info(parent->parent, obj);
+	printf("%s: new pos: %f %f %f\n", obj->name, obj->pos.x, obj->pos.y, obj->pos.z);
 }
 
 static size_t		get_objects_array_length(t_object *objects)

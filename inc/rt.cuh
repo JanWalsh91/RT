@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 10:44:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 10:35:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,6 +451,7 @@ typedef struct	s_update
 	uint8_t		scene;
 	uint8_t		render;
 	uint8_t		photon_map;
+	uint8_t		anaglyph;
 }				t_update;
 
 
