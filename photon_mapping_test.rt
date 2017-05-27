@@ -1,7 +1,7 @@
 scene: Scene 1
 {
-	resolution: 400, 400
-	ray depth: 5
+	resolution: 1000, 1000
+	ray depth: 10
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.0000

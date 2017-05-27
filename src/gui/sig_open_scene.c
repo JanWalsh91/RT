@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 11:09:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 20:32:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	set_default_values_scene(t_gtk_tools *g)
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
 	g->r->scene->is_photon_mapping = false; 
-	g->r->scene->photon_map = NULL;
+	g->r->scene->photon_kd_tree = NULL;
 	g->r->scene->selected_photons = NULL;
 	g->r->scene->is_aa = 1;
 }

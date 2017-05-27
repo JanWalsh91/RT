@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 16:27:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 21:21:33 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
+	// col = vec_to_col(r->scene->objects[ray->hit_obj].col);
 	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) : update_photon(r, ray);
 	return (col);
 }
@@ -87,8 +88,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
 	if (r->scene->is_photon_mapping)
 	{
-		// if (r->pix.x == 200)
-		// if (r->idx < 1)
+		// if (r->pix.y < 40)
 		{
 			t_color tmp;
 			// printf("gonna get some photons\n");
@@ -99,6 +99,8 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	}
 	else if (r->idx == 0)
 			printf("No photon mappin :(\n");
+	if (r->idx == 1)
+		printf("end of photon gathering\n");
 	return (color);
 }
 

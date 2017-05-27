@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_torus_intersection.cu                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:52:47 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 16:21:34 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 17:09:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 
 	obj->dir.x = 0;
 	obj->dir.y = 0;
-	obj->dir.z = 1;
-	obj->rad_torus = 0.7;
-	obj->rad = 0.5;
+	obj->dir.z = -1;
+	obj->rad_torus = 0.000001;
+	obj->rad = 0.001;
 	qua.m = v_dot(ray->dir, ray->dir);
 	qua.n = v_dot(ray->dir, v_sub(ray->origin, obj->pos));
 	qua.o = v_dot(v_sub(ray->origin, obj->pos), v_sub(ray->origin, obj->pos));
@@ -102,6 +102,8 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 	qua.m + (4 * (obj->rad_torus * obj->rad_torus) * qua.p * qua.p);
 	qua.d = (4 * qua.n * qua.o) - 4 * ((obj->rad_torus * obj->rad_torus) + (obj->rad * obj->rad)) * qua.n + 8 * obj->rad_torus * obj->rad_torus * qua.p * qua.q;
 	qua.e = qua.o * qua.o - 2 * (obj->rad_torus * obj->rad_torus + obj->rad * obj->rad) * qua.o + (4 * (obj->rad_torus * obj->rad_torus) * (qua.q * qua.q)) + ((obj->rad_torus * obj->rad_torus + obj->rad * obj->rad) * (obj->rad_torus * obj->rad_torus + obj->rad * obj->rad));
+
+
 
 	if (!solve_quartic(&qua, &sol))
 	{

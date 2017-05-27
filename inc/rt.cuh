@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 10:44:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 21:32:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,9 +362,9 @@ typedef struct	s_scene
 	bool			is_photon_mapping;
 	char			is_aa;
 	size_t			photon_count;
-	struct s_photon	**photon_list;
-	struct s_kd_tree		*photon_map;
-	struct s_selected_photon **selected_photons;
+	struct s_photon	*photon_list;
+	struct s_kd_tree		*photon_kd_tree;
+	struct s_selected_photon *selected_photons;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 16:19:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 13:53:18 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	*render_wrapper(gpointer data)
 	if (g->r->scene->is_photon_mapping)
 	{
 		update_photon_map(g->r); //CAUSES INVALID DEVICE POINTER ERROR
-		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
-		g->r->h_d_scene->photon_map = g->r->scene->photon_map;
-		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
+		g->r->h_d_scene->photon_kd_tree = g->r->scene->photon_kd_tree;
+		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
 		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
-		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
 	} 
 	while (g->win && (tileId.y + 1) <= tile_col)
 	{ 

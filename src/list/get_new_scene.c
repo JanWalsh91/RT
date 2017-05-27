@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 11:02:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 20:30:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void		set_scene_non_values(t_scene *new_scene)
 	new_scene->is_specular = true;
 	new_scene->is_fresnel = true;
 	new_scene->is_photon_mapping = false; 
-	new_scene->photon_map = NULL;
+	new_scene->photon_kd_tree = NULL;
 	new_scene->selected_photons = NULL;
 	new_scene->is_aa = 1;
 }

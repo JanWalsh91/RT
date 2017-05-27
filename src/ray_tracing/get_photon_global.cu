@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 13:34:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 17:05:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 21:41:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "photon_mapping.h"
 
 __device__
-void			knn_search(t_vec3 *hit_pos, t_kd_tree *photon_map, t_selected_photon *photons, int dim, int k);
+void			knn_search(t_vec3 *hit_pos, t_kd_tree *photon_kd_tree, t_selected_photon *photons, int dim, int k);
 __device__
 static float	get_dist_by_dim(t_vec3 *hit_pos, t_vec3 photon_pos, int dim);
 __device__
@@ -46,13 +46,13 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 	//malloc list of photons based on r->settings->k + 1
 
 	// printf("get_photon_global\n");
-	// printf("-----%p\n", r->scene->photon_map);
+	// printf("-----%p\n", r->scene->photon_kd_tree);
 	// printf("in kernel selected_photons: [%p]\n", r->scene->selected_photons);
 	// printf("in kernel selected_photons: [%p]\n", r->scene->selected_photons[1]);
 	if (r->idx == 0)
 		C(1)
 	// __syncthreads();
-	photons = r->scene->selected_photons[r->idx];
+	photons = r->scene->selected_photons + r->idx;
 	// printf("-----%p\n", r->scene->se	lected_photons);
 	// printf("-----%p, pix num: %d, idx: %d\n", r->scene->selected_photons[r->idx], r->scene->res.x * r->scene->res.y, r->idx);
 	if (r->idx == 0)
@@ -68,7 +68,7 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 	// __syncthreads();
 	// printf("hit pos: %p [%f, %f, %f]\n", &ray->hit, ray->hit.x, ray->hit.y, ray->hit.z);
 
-	knn_search(&ray->hit, r->scene->photon_map, photons, dim, k);
+	knn_search(&ray->hit, r->scene->photon_kd_tree, photons, dim, k);
 
 	// printf("IM GONNA PRINT SOME PHOTONS\n");
 	// print_selected_photons(photons, k);
@@ -97,13 +97,13 @@ t_color	get_photon_global(t_raytracing_tools *r, t_ray *ray)
 		printf("sum result: [%f, %f, %f] photoncount: %d\n", sum.x, sum.y, sum.z, r->scene->photon_count);
 	}
 	if (r->scene->photon_count)
-		sum = v_scale(sum, 1.0 / r->scene->photon_count);
+		sum = v_scale(sum, 1.0 / 10);
 	if (r->idx == 1)
 	{
 		// printf("photon count: %d\n", r->scene->photon_count);
 		printf("sum result: [%f, %f, %f]\n", sum.x, sum.y, sum.z);
 	}
-	// __syncthreads();
+	__syncthreads();
 	//Take sum of power of all photons corrected by Lambertian Shading, divide by number of photons shot
 	//Convert to t_color and return.
 	return (vec_to_col(sum));
@@ -131,36 +131,36 @@ float	get_max_radius(t_vec3 *hit, t_selected_photon *photons)
 */
 
 __device__
-void		knn_search(t_vec3 *hit_pos, t_kd_tree *photon_map, t_selected_photon *photons, int dim, int k)
+void		knn_search(t_vec3 *hit_pos, t_kd_tree *photon_kd_tree, t_selected_photon *photons, int dim, int k)
 {
 	int		dir;
 	float	dist;
 
 	// printf("knn_search\n");
 	// print_selected_photons(photons, k);
-	if (!photon_map)
+	if (!photon_kd_tree)
 	{
 		// printf("no photon map\n");
 		return ;
 	}
 	dim = dim == 3 ? 0 : dim;
 	//compare current node.dim distance with pos.dim
-	dist = get_dist_by_dim(hit_pos, photon_map->pos, dim);
+	dist = get_dist_by_dim(hit_pos, photon_kd_tree->pos, dim);
 	// printf("dist: %f\n", dist);
 	dir = (dist < 0) ? 2 : 1;
 	// printf("dir: %d\n", dir);
 	//go either left or right (closest first)
-	dir == 1 ? knn_search(hit_pos, photon_map->right, photons, dim + 1, k) :
-				knn_search(hit_pos, photon_map->left, photons, dim + 1, k);
+	dir == 1 ? knn_search(hit_pos, photon_kd_tree->right, photons, dim + 1, k) :
+				knn_search(hit_pos, photon_kd_tree->left, photons, dim + 1, k);
 	// printf("hit pos: %p [%f, %f, %f]\n", hit_pos, hit_pos->x, hit_pos->y, hit_pos->z);
 	// //check to see if you can add it to photon list
-	add_to_list(photons, photon_map, get_dist2(*hit_pos, photon_map->pos), k);
+	add_to_list(photons, photon_kd_tree, get_dist2(*hit_pos, photon_kd_tree->pos), k);
 
 	// //if k points have been found and the other branch cannot have points closer to any of the current bests
 	// 	//do not go down other branch
 	if (more_points_can_be_found(dist, photons, k))
-		dir == 1 ? knn_search(hit_pos, photon_map->left, photons, dim + 1, k) :
-			knn_search(hit_pos, photon_map->right, photons, dim + 1, k);
+		dir == 1 ? knn_search(hit_pos, photon_kd_tree->left, photons, dim + 1, k) :
+			knn_search(hit_pos, photon_kd_tree->right, photons, dim + 1, k);
 }
 
 __device__

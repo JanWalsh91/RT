@@ -7,8 +7,8 @@ scene: rendu4
 	torus: torus
 	{
 		position: 0.0000, 0.0000, 0.0000
-		direction: 0, 1, 0
-		color: 255.0000, 255.0000, 255.0000
+		direction: 0, 0, 1
+		color: 255.0000, 0.0000, 255.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
@@ -24,8 +24,8 @@ scene: rendu4
 	}
 	camera: cam
 	{
-		position: 0.0000, 9.0000, -44.0000
-		direction: 0.0000, -0.6199, 0.7924
+		position: 0.0000, 0.0000, -50.0000
+		direction: 0, 0, 1
 		filter: none
 		fov: 30
 		ior: 1.1000

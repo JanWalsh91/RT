@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 16:19:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 20:43:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,21 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	r.scene = scene;
     r.idx = scene->res.x * r.pix.y + r.pix.x;
 
-
+	// if (r.idx == 0)
+	// {
+	// 	t_vec3 q;
+	// 	float d;
+	// 	t_vec3im sol;
+		
+	// 	q.x = 1;
+	// 	q.y = 2;
+	// 	q.z = 3;
+	// 	d = 4;
+		//test polynomial functions
+		// if (solve_cubic(q, d, &sol));
+		// 	printf("cubic solutions: %f, %f, %f\n", sol.x.r, sol.y.r, sol.z.r);
+		// exit(0);
+	// }
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		// initialize ior list
