@@ -6,7 +6,7 @@ scene: rendu4
 	ka: 0.1000
 	torus: torus
 	{
-		position: 0.0000, 0.0000, 0.0000
+		position: 0.0000, 0.0000, 1800.0000
 		direction: 0, 1, 0
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
@@ -16,6 +16,12 @@ scene: rendu4
 		transparency: 0.0000
 		reflection: 0.0000
 	}
+#	sphere: sphere
+#	{
+#		position: 0, 0, 0
+#		radius: 10
+#		color: red
+#	}
 	light: light
 	{
 		position: 15.0000, 100.0000, -50.0000
@@ -24,10 +30,10 @@ scene: rendu4
 	}
 	camera: cam
 	{
-		position: 0.0000, 9.0000, -44.0000
-		direction: 0.0000, -0.6199, 0.7924
+		position: 0.0000, 0.000, -50.0000
+		direction: 0.0000, 0, 1
 		filter: none
-		fov: 30
+		fov: 45
 		ior: 1.1000
 	}
 }

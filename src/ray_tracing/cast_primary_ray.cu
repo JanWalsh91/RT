@@ -51,7 +51,8 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
-	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) : update_photon(r, ray);
+	col = vec_to_col(r->scene->objects[ray->hit_obj].col);
+ //col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) : update_photon(r, ray);
 	return (col);
 }
 
