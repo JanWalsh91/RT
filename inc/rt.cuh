@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 14:04:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:15:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef enum	e_token
 	T_CONE,
 	T_PARABOLOID,
 	T_TORUS,
+	T_CUBE_TROUE,
 	T_OBJ,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
@@ -104,6 +105,7 @@ typedef enum	e_token
 	T_LOOK_AT,
 	T_COLOR,
 	T_RADIUS,
+	T_RADIUS_2,
 	T_HEIGHT,
 	T_DIFFUSE_COEF,
 	T_REFRACTION_INDEX,
@@ -545,6 +547,7 @@ char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
 char			*parse_paraboloid(t_parse_tools *t);
 char			*parse_torus(t_parse_tools *t);
+char			*parse_cube_troue(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
 char			*parse_background_color(t_parse_tools *t);
@@ -555,6 +558,7 @@ char			*parse_direction(t_parse_tools *t);
 char			*parse_look_at(t_parse_tools *t);
 char			*parse_color(t_parse_tools *t);
 char			*parse_radius(t_parse_tools *t);
+char			*parse_radius_2(t_parse_tools *t);
 char			*parse_height(t_parse_tools *t);
 char			*parse_ior(t_parse_tools *t);
 char			*parse_reflection(t_parse_tools *t);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:52:47 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 17:09:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:31:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 	obj->dir.x = 0;
 	obj->dir.y = 0;
 	obj->dir.z = -1;
-	obj->rad_torus = 0.000001;
-	obj->rad = 0.001;
+	// obj->rad_torus = 0.000001;
+	// obj->rad = 0.001;
 	qua.m = v_dot(ray->dir, ray->dir);
 	qua.n = v_dot(ray->dir, v_sub(ray->origin, obj->pos));
 	qua.o = v_dot(v_sub(ray->origin, obj->pos), v_sub(ray->origin, obj->pos));

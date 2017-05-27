@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 14:56:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 15:10:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*parse_radius(t_parse_tools *t)
 {
 	float	new_radius;
 
+	// printf("parse radius: %s\n", t->input->value);
 	new_radius = NAN;
 	if (isnan(new_radius = parse_float(t->input->value)) ||
 		new_radius <= 0)
@@ -75,7 +76,28 @@ char	*parse_radius(t_parse_tools *t)
 	t->current_type != T_SPHERE && t->current_type != T_OBJ
 		&& t->current_type != T_DISK && t->current_type != T_TORUS && t->current_type != T_PARABOLOID)
 		return ("Radius attribute only applicable \
-to spheres, cones, cylinders and disks.");
+to spheres, cones, cylinders, disks amd toruses.");
+	return (NULL);
+}
+
+char	*parse_radius_2(t_parse_tools *t)
+{
+	float	new_radius_2;
+
+	// printf("parse_radius2: %s\n", t->input->value);
+	new_radius_2 = NAN;
+	if (isnan(new_radius_2 = parse_float(t->input->value)) ||
+		new_radius_2 <= 0)
+		return ("Radius 2 formatting error.");
+	if (!t->in_scene)
+		t->global_attributes->rad_torus = new_radius_2;
+	else if (!t->in_object)
+		t->scene_attributes->rad_torus = new_radius_2;
+	else if (t->in_object)
+		t->object_attributes->rad_torus = new_radius_2;
+	if (t->in_object && t->current_type != T_TORUS)
+		return ("Radius 2 attribute only applicable \
+to toruses.");
 	return (NULL);
 }
 

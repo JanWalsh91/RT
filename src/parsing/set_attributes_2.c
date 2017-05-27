@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:07:02 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:49:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:39:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	set_attributes_torus(t_parse_tools *t, t_attributes *a)
 	if (!isnan(a->height))
 		t->current_object->height = a->height;
 	if (!isnan(a->rad_torus))
-		t->current_object->rad_torus = a->rad_torus; // TODO
+		t->current_object->rad_torus = a->rad_torus;
 }
 
 void	set_attributes_paraboloid(t_parse_tools *t, t_attributes *a)

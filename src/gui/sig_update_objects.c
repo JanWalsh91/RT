@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 14:22:18 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 15:08:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	t_token		type;
 	
 	printf("update_objects_info_panel\n");
-	g->old_dir = v_new(NAN, NAN, NAN);
 	g->updating_gui = true;
 	type = obj->type;
 	obj->dir = v_norm(obj->dir);
@@ -193,10 +192,16 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ? get_file_name(obj->normal_map_name) : "");
+
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
 	gtk_widget_set_sensitive(widget, TRUE);
 	(obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_SPHERE || obj->type == T_DISK || obj->type == T_TORUS || obj->type == T_PARABOLOID) ?
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad) :
+		gtk_widget_set_sensitive(widget, FALSE);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius2"));
+	gtk_widget_set_sensitive(widget, TRUE);
+	(obj->type == T_TORUS) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad_torus) :
 		gtk_widget_set_sensitive(widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectHeight"));
@@ -380,19 +385,26 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius"));
-	if (obj->type == T_DISK || obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_PARABOLOID)
+	if (obj->type == T_DISK || obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_PARABOLOID || obj->type == T_TORUS)
+		gtk_widget_set_sensitive(widget, TRUE);
+	else
+		gtk_widget_set_sensitive(widget, FALSE);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectRadius2"));
+	if (obj->type == T_TORUS)
 		gtk_widget_set_sensitive(widget, TRUE);
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
-	if ((obj->type != T_SPHERE) && v_isnan(obj->dir))
+	if (g->updating_gui)
+		return (NULL);
+	if (v_isnan(obj->dir))
 	{
 		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
 		obj->height = DEFAULT_HEIGHT;
 	}
 	update_objects_info_panel(g, obj);
-	(g->updating_gui) ? 0 : obj_render_sig(g);
+	obj_render_sig(g);
 	return (NULL);
 }
 
@@ -1021,6 +1033,17 @@ void	*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->rad = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
+	(g->updating_gui) ? 0 : obj_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_obj_radius_2(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	t_object 	*obj;
+
+	printf("sig_update_obj_radius 2\n");
+	obj = get_selected_object(g);
+	obj->rad_torus = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
