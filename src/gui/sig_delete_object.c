@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:39:38 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 13:19:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 13:14:56 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "gui.h"
 #include "cuda_call.h"
 
-void    *sig_delete_object(GtkWidget *button, t_gtk_tools *g)
+static void		remove_link(t_object *obj, t_object *list);
+
+void		    *sig_delete_object(GtkWidget *button, t_gtk_tools *g)
 {
     t_object		*obj;
 	GtkListBoxRow 	*list_box_row;
@@ -26,6 +28,9 @@ void    *sig_delete_object(GtkWidget *button, t_gtk_tools *g)
 	list_box_row = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index(list_box_row);
 	obj = get_selected_object(g);
+
+	remove_link(obj, g->r->scene->objects);
+
 	gtk_container_remove(GTK_CONTAINER(widget), GTK_WIDGET(list_box_row));
 	remove_object(&g->r->scene->objects, obj);
 	g->r->update.objects = 2;
@@ -46,4 +51,43 @@ void    *sig_delete_object(GtkWidget *button, t_gtk_tools *g)
 			gtk_widget_queue_draw(g->win);
 	}
 	return (NULL);
+}
+
+static void		remove_link(t_object *obj, t_object *list)
+{
+	t_object	*tmp;
+	t_object	*find_parent;
+	int			i;
+
+	tmp = list;
+	while (tmp)
+	{
+		if (tmp->parent == obj)
+		{
+			tmp->parent = NULL;
+			tmp->parent_index = 0;
+		}
+		tmp = tmp->next;
+	}
+	tmp = list;
+	// reset index
+	while (tmp)
+	{
+		if (tmp->parent)
+		{
+			find_parent = list;
+			i = -1;
+			while (find_parent)
+			{
+				i++;
+				if (find_parent == tmp->parent)
+				{
+					tmp->parent_index = i;
+					break ;
+				}
+				find_parent = find_parent->next;
+			}
+		}	
+		tmp = tmp->next;
+	}
 }

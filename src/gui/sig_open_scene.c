@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 20:32:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:03:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,6 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->scene->is_3d = 0;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
-	gtk_window_set_title(GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), g->r->scene->name);
+	gtk_window_set_title(GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), g->filename);
 	return (0);
 }

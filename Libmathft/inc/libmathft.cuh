@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/16 16:23:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 12:12:28 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,10 @@ CUDA_HOSTDEV
 void			m_new_rodriguez(t_matrix *m, t_vec3 a, t_vec3 b);
 CUDA_HOSTDEV
 void			m_new_rotate(t_matrix *m, float angle, char axis);
+CUDA_HOSTDEV
+void	m_new_rotate_axis(t_matrix *mat, t_vec3 u, float angle);
+CUDA_HOSTDEV
+t_vec3		p_rotate_axis(t_vec3 d1, t_vec3 d2, t_vec3 rot_p, t_vec3 point);
 CUDA_HOSTDEV
 void			m_new_scale(t_matrix *m, float i);
 CUDA_HOSTDEV

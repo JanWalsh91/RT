@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 10:12:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/25 13:09:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ static void			set_parent(t_object *objects, t_object *o_ptr)
 	}
 	if (i == o_ptr->parent_index)
 		o_ptr->parent = objects;
+	else
+	{
+		o_ptr->parent = NULL;
+		o_ptr->parent_index = 0;	
+	}
 }
 
 static void			get_obj_direction(t_scene *scene, t_object *obj)
