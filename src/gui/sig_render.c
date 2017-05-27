@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 16:19:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:03:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	*render_wrapper(gpointer data)
 	if (g->r->scene->is_photon_mapping)
 	{
 		update_photon_map(g->r); //CAUSES INVALID DEVICE POINTER ERROR
-		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
-		g->r->h_d_scene->photon_map = g->r->scene->photon_map;
-		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
+		g->r->h_d_scene->photon_kd_tree = g->r->scene->photon_kd_tree;
+		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
 		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
-		printf("-----%p and %p\n", g->r->scene->photon_map, g->r->h_d_scene->photon_map);
+		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
 	} 
 	while (g->win && (tileId.y + 1) <= tile_col)
 	{ 
@@ -106,11 +106,11 @@ void	*render_wrapper(gpointer data)
 
 		// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
 		if (tileId.x == 0)
-			ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, /*gdk_pixbuf_get_rows(g->pixbuf)*/ g->r->scene->res.x * 3 * g->r->scene->res.y);
+			ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}
 	lens_flare_wrapper(g->r);
-	ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, /*gdk_pixbuf_get_rows(g->pixbuf)*/ g->r->scene->res.x * 3 * g->r->scene->res.y);
+	ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
 	// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
 	gtk_widget_queue_draw(g->win);
 	g->r->rendering = 0;

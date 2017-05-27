@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_torus_intersection.cu                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:52:47 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 16:21:34 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 14:31:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 
 	obj->dir.x = 0;
 	obj->dir.y = 0;
-	obj->dir.z = 1;
-	obj->rad_torus = 1;
-	obj->rad = 10;
- //	m = D|D, n = D|X, o = X|X, p = D|V, q = X|V
+
+	obj->dir.z = -1;
+	// obj->rad_torus = 0.000001;
+	// obj->rad = 0.001;
 	qua.m = v_dot(ray->dir, ray->dir);
 	qua.n = v_dot(ray->dir, v_sub(ray->origin, obj->pos));
 	qua.o = v_dot(v_sub(ray->origin, obj->pos), v_sub(ray->origin, obj->pos));
@@ -116,6 +116,8 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 	{
 		//printf("rpixy : %d ray dir: %f %f %f abcde : %f %f %f %f %f\n", r->pix.y, ray->dir.x, ray->dir.y, ray->dir.z, qua.a, qua.b, qua.c, qua.d, qua.e);
 	}
+
+
 
 	if (!solve_quartic(&qua, &sol))
 	{

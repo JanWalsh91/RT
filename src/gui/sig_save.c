@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/24 15:46:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 15:04:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,30 +139,37 @@ void	save_object(int fd, t_object *obj, t_object *objects)
 		write(fd, "\tcylinder: ", 11);
 	else if (obj->type == T_CONE)
 		write(fd, "\tcone: ", 7);
+	else if (obj->type == T_TORUS)
+		write(fd, "\ttorus: ", 8);
+	else if (obj->type == T_CUBE_TROUE)
+		write(fd, "\tcube troue: ", 12);
 	write(fd, obj->name, ft_strlen(obj->name));
 	write(fd, "\n\t{\n", 4);
 	write(fd, "\t\tposition: ", 12);
 	write_vector(fd, obj->pos);
 	write(fd, "\n", 1);
-	if (obj->type != T_SPHERE)
+	write(fd, "\t\tdirection: ", 13);
+	write_vector(fd, obj->dir);
+	write(fd, "\n", 1);
+	if (!v_isnan(obj->look_at) && (obj->look_at.x != 0 && obj->look_at.y != 0 && obj->look_at.z != 0))
 	{
-		write(fd, "\t\tdirection: ", 13);
-		write_vector(fd, obj->dir);
+		write(fd, "\t\tlook at: ", 11);
+		write_vector(fd, obj->look_at);
 		write(fd, "\n", 1);
-		if (!v_isnan(obj->look_at) && (obj->look_at.x != 0 && obj->look_at.y != 0 && obj->look_at.z != 0))
-		{
-			write(fd, "\t\tlook at: ", 11);
-			write_vector(fd, obj->look_at);
-			write(fd, "\n", 1);
-		}
 	}
 	write(fd, "\t\tcolor: ", 9);
 	write_vector(fd, (t_vec3)obj->col);
 	write(fd, "\n", 1);
-	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_DISK)
+	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_DISK || obj->type == T_TORUS)
 	{
 		write(fd, "\t\tradius: ", 10);
 		write_float(fd, obj->rad);
+		write(fd, "\n", 1);
+	}
+	if (obj->type == T_TORUS)
+	{
+		write(fd, "\t\tradius 2: ", 12);
+		write_float(fd, obj->rad_torus);
 		write(fd, "\n", 1);
 	}
 	if (obj->type == T_CYLINDER || obj->type == T_CONE)

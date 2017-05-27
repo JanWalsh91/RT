@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/24 10:38:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 15:28:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,9 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
 	!v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z) :
 		gtk_widget_set_sensitive (widget, FALSE);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, !v_isnan(light->dir));
 
 	printf("adding light intensty\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightIntensity"));
@@ -305,6 +308,8 @@ void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 		l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 		l_ptr->dir = v_norm(l_ptr->dir);
 	}
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, true);
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
@@ -327,6 +332,8 @@ void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 		l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 		l_ptr->dir = v_norm(l_ptr->dir);
 	}
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, true);
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
@@ -349,9 +356,39 @@ void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 		l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 		l_ptr->dir = v_norm(l_ptr->dir);
 	}
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, true);
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
+
+void	*sig_light_dir_normalize(GtkWidget *button, t_gtk_tools *g)
+{
+	t_light 	*light;
+	GtkWidget	*widget;
+
+	printf("sig_light_dir_normalize\n");
+	light = get_selected_light(g);
+	light->dir = v_norm(light->dir);
+	printf("normalizing light direction: [%f][%f][%f]\n", light->dir.x, light->dir.y, light->dir.z);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, FALSE);
+	if (g->updating_gui)
+		return (NULL);
+	g->updating_gui = true;
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.x);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.y);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z);
+	g->updating_gui = false;
+	light_render_sig(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive (widget, FALSE);
+	return (NULL);
+}
+
 
 void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 {

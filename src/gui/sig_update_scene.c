@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 10:38:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/26 14:27:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,15 @@ void	*sig_update_is_photon_mapping(GtkWidget *check_box, t_gtk_tools *g)
 	g->r->scene->is_photon_mapping = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box));
 	if (g->r->scene->is_photon_mapping)
 		g->r->update.photon_map = 2;
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_is_aa(GtkWidget *check_box, t_gtk_tools *g)
+{
+	printf("sig_update_is_aa");
+	g->r->scene->is_aa = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_box)) + 1;
+	printf("g->r->scene->is_aa =  %d\n", g->r->scene->is_aa);
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	return (NULL);
 }

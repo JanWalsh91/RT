@@ -214,6 +214,11 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="AdjObjRadius2">
+    <property name="upper">100000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="AdjObjSpecExp">
     <property name="lower">1</property>
     <property name="upper">100000</property>
@@ -340,6 +345,9 @@
       </row>
       <row>
         <col id="0" translatable="yes">Torus</col>
+      </row>
+	   <row>
+        <col id="0" translatable="yes">Cube Troue</col>
       </row>
     </data>
   </object>
@@ -724,6 +732,7 @@
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_aa" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -1101,6 +1110,18 @@
                                 <property name="top_attach">16</property>
                               </packing>
                             </child>
+							<child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Radius 2</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">16</property>
+                              </packing>
+                            </child>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -1314,6 +1335,20 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
+                                <property name="top_attach">16</property>
+                              </packing>
+                            </child>
+							<child>
+                              <object class="GtkSpinButton" id="SpinButtonObjectRadius2">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjRadius2</property>
+                                <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_radius_2" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
                                 <property name="top_attach">16</property>
                               </packing>
                             </child>
@@ -2155,6 +2190,37 @@
                         <property name="left_attach">1</property>
                         <property name="top_attach">6</property>
                       </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="ButtonLightDirNormalize">
+                        <property name="label" translatable="yes">Normalize</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="sig_light_dir_normalize" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">4</property>
+                        <property name="top_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

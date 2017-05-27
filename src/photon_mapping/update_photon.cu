@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 17:14:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 21:40:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
 	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type/* == R_INDIRECT_PHOTON*/)
-		save_photon(r->scene->photon_list[r->idx], ray);
+		save_photon(r->scene->photon_list + r->idx, ray);
 	rand_f = curand_uniform_double(r->devStates);
 	tmp = 0;
 	p = NAN;
@@ -107,7 +107,7 @@ static void		save_photon(t_photon *photon_list, t_ray *ray)
 	photon_list[i].dir = ray->dir;
 	photon_list[i].col = ray->col;
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
-	printf("save photon[%d]: [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
+	printf("save photon[%d]: [%f, %f, %f] col: [%d, %d, %d]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z, photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
 }
 
 __device__

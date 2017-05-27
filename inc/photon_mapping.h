@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:38:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 16:51:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 21:44:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define PHOTON_MAPPING_H
 
 # include "rt.cuh"
+
+# define PHOTON_BOUNCE_MAX 10
+# define PHOTON_GATHER_MAX 10
 
 /*
 ** KD tree
@@ -30,7 +33,7 @@ typedef struct	s_kd_tree
 	struct s_kd_tree	*right;
 }				t_kd_tree;
 
-void			create_kd_tree(struct s_photon **photon_list, t_kd_tree **root, int photon_count);
+void			create_kd_tree(struct s_photon *photon_list, t_kd_tree **root, int photon_count);
 void			sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted);
 void			free_kd_tree(t_kd_tree *root);
 

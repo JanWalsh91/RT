@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_open_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 10:30:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 14:55:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	set_default_values_scene(t_gtk_tools *g)
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
 	g->r->scene->is_photon_mapping = false; 
-	g->r->scene->photon_map = NULL;
+	g->r->scene->photon_kd_tree = NULL;
 	g->r->scene->selected_photons = NULL;
 	g->r->scene->is_aa = 1;
 }
@@ -168,6 +168,6 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->scene->is_3d = 0;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
-	gtk_window_set_title(GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), g->r->scene->name);
+	gtk_window_set_title(GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), g->filename);
 	return (0);
 }

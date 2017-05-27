@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 13:05:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 14:03:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_scene(t_scene *scene)
 	printf("	is_aa: %d\n", scene->is_aa);
 	printf("	photon_count: %zu\n", scene->photon_count);
 	printf("	photon_list address: %p\n", scene->photon_list);
-	printf("	photon_map address: %p\n", scene->photon_map);
+	printf("	photon_map address: %p\n", scene->photon_kd_tree);
 	o_ptr = scene->objects;
 	printf("	OBJECTS: %p\n", scene->objects);
 	while (o_ptr)

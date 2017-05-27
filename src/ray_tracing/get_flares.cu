@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_flares.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/25 14:17:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 14:44:00 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,9 @@ void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
 
 	r->t = INFINITY;
 	int light_count = get_light_count(r->scene->lights);
+	printf("Light count : %d\n", light_count);
+	if (!light_count)
+		return ;
 	cudaMalloc(&tools, sizeof(t_light_flare_tools) * light_count);
 	init_light_flares<<<light_count, 1>>>(r->d_scene, tools);
 	cudaError_t errSync  = cudaGetLastError();

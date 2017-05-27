@@ -6,13 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:24:44 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/25 15:16:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:01:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "photon_mapping.h"
 #include "cuda.h"
+#include "pthread.h"
 
 static t_kd_tree	*split_list(t_kd_tree *tree, int length);
 static t_kd_tree	*get_next_smallest_by_dim(t_kd_tree **left, t_kd_tree **right, int dim);
@@ -29,17 +30,37 @@ void				print_photons2(t_kd_tree *tree);
 ** Creates a sorted kd tree based off the linked list "root"
 */
 
+//segfaults with CPU multithreading, but after kernel launch...
+
+typedef struct s_th
+{
+	t_kd_tree **root;
+	int dim;
+	t_kd_tree **sorted;
+}				t_th;
+
+void	*sort_kd_tree_wrapper(void *v)
+{
+	t_th *th;
+
+	th = (t_th *)v;
+	sort_kd_tree(th->root, th->dim, th->sorted);
+	return (NULL);
+}
+
 void	sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted)
 {
 	t_kd_tree	*right;
 	t_kd_tree	*median;
 	int			length;
+	pthread_t	thread;
+	t_th		th;
 
 	dim = (dim == 3) ? 0 : dim; 
 	right = NULL;
 	*root = merge_sort_by_dim(*root, dim);
-	// printf("SORT RESULTS DIM %d %p: \n", dim, *root);
-	// print_photons2(*root);
+	printf("SORT RESULTS DIM %d %p: \n", dim, *root);
+	print_photons2(*root);
 	length = get_length(*root);
 	if (length == 1)
 	{
@@ -51,21 +72,26 @@ void	sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted)
 	length = length / 2 + length % 2;
 	median = get_median(*root, length); 
 	right = split_without_median(*root, &median);
-	// printf("root: %p, median: %p, right: %p\n", *root, median, right);
+	printf("root: %p, median: %p, right: %p\n", *root, median, right);
 	*sorted = median;
 	(*sorted)->right = NULL;
 	(*sorted)->left = NULL;
 	if (*root)
 	{
-		// printf("sort left: %p\n", *root);
+		printf("sort left: %p\n", *root);
 		sort_kd_tree(root, dim + 1, &((*sorted)->left));
 	}
 	if (right)
 	{
-		// printf("sort right: %p\n", right);
+		printf("sort right: %p\n", right);
+		th.root = &right;
+		th.dim = dim + 1;
+		th.sorted = &((*sorted)->right);
+		printf("creating new thread\n");
+		pthread_create(&thread, NULL, sort_kd_tree_wrapper, &th);
 		sort_kd_tree(&right, dim + 1, &((*sorted)->right));
 	}
-	// printf("done sorting\n");
+	printf("done sorting\n");
 }
 
 static t_kd_tree		*merge_sort_by_dim(t_kd_tree *root, int dim)
@@ -76,13 +102,13 @@ static t_kd_tree		*merge_sort_by_dim(t_kd_tree *root, int dim)
 	t_kd_tree	*sorted;
 
 
-	// printf("merge_sort_by_dim: \n");
-	// print_photons2(root);
+	printf("merge_sort_by_dim: \n");
+	print_photons2(root);
 	tmp = NULL;
 	link = NULL;
 	// C(1)
 	length = get_length(root);
-	// printf("length: [%d]\n", length);
+	printf("length: [%d]\n", length);
 	if (length > 1)
 	{
 		// C(2)
