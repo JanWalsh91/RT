@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 14:15:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/28 16:46:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,9 +486,14 @@ typedef struct	s_raytracing_tools
 	float					ior_list[MAX_RAY_DEPTH + 1];
 	int						idx; // thread index
 	struct curandStateXORWOW	*devStates;
-	// struct s_kd_tree		*photon_map;
+	
 }				t_raytracing_tools;
 
+typedef struct	s_tile
+{
+	t_pt2	id;
+	int		size;	
+}				t_tile;
 
 typedef struct	s_th_export
 {

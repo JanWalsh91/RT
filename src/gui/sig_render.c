@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 14:03:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/28 16:46:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	increment_tile(t_pt2 *tileId, int tile_row)
 void	*render_wrapper(gpointer data)
 {
 	t_gtk_tools	*g;
-	t_pt2		tileId;
+	t_tile 		tile;
 	int			max_tile;
 	int			tile_row;
 	int			tile_col;
@@ -79,11 +79,12 @@ void	*render_wrapper(gpointer data)
 	printf("render_wrapper\n");
 	g = (t_gtk_tools *)data;
 	// g->r->settings.tile_size = 32 * 9;
+	tile.size = g->r->settings.tile_size;
 	if (g->r->update.resolution)
 		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
 		// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
-	tileId.x = 0;
-	tileId.y = 0;
+	tile.id.x = 0;
+	tile.id.y = 0;
 	tile_row = (g->r->scene->res.x / g->r->settings.tile_size) + ((g->r->scene->res.x % g->r->settings.tile_size) ? 1 : 0);
 	tile_col = (g->r->scene->res.y / g->r->settings.tile_size) + ((g->r->scene->res.y % g->r->settings.tile_size) ? 1 : 0);
 	max_tile = tile_row * tile_col;
@@ -98,14 +99,14 @@ void	*render_wrapper(gpointer data)
 		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
 		// printf("-----%p and %p\n", g->r->scene->photon_kd_tree, g->r->h_d_scene->photon_kd_tree);
 	} 
-	while (g->win && (tileId.y + 1) <= tile_col)
+	while (g->win && (tile.id.y + 1) <= tile_col)
 	{ 
 		printf("render:\n");
-		render(g->r, tileId);
-		increment_tile(&tileId, tile_row);
+		render(g->r, tile);
+		increment_tile(&tile.id, tile_row);
 
 		// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
-		if (tileId.x == 0)
+		if (tile.id.x == 0)
 			ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}

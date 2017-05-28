@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/26 20:43:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/28 16:50:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	printte_matrix(t_matrix m)
 	}
 }
 
-__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId, int tile_size)
+__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_tile tile)
 {
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
@@ -53,9 +53,9 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	int					i;
 	t_vec3				moyenne;
 
-	r.pix.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
-	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
-	r.scene = scene;
+	r.pix.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
+	r.pix.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
+	r.scene = scene; 
     r.idx = scene->res.x * r.pix.y + r.pix.x;
 
 	// if (r.idx == 0)
@@ -116,13 +116,13 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 }
 
 //'dis is wonderful
-__global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, int tile_size, t_pt2 tileId)
+__global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, t_tile tile)
 {
 	int		idx;
 	t_pt2	pixel;
 
-	pixel.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
-	pixel.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
+	pixel.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
+	pixel.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
   	idx = scene->res.x * pixel.y + pixel.x;
 
 	if (pixel.x < scene->res.x && pixel.y < scene->res.y)
@@ -162,7 +162,7 @@ void	update_camera(t_camera *camera)
 	camera->ctw[3][2] = camera->pos.z;
 }
 
-void		render(t_raytracing_tools *r, t_pt2 tileId)
+void		render(t_raytracing_tools *r, t_tile tile)
 {
 	dim3 		blockSize;
 	dim3 		gridSize;
@@ -177,7 +177,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	cudaEventCreate(&stop);
 	cudaEventRecord(start);
 	printf("launch kernel:\n");
-	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, tileId, r->settings.tile_size);
+	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, tile);
 	// printf("Iteration i = %d	\n", i++);
 	cudaEventRecord(stop);
 	cudaEventSynchronize(stop);
@@ -210,7 +210,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 		r->scene->cameras->filter = F_RIGHT_CYAN;
 		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
 		gpuErrchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice)));
-		render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
+		render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tile);
 		gpuErrchk((cudaDeviceSynchronize()));
 		r->scene->cameras->pos.x -= 0.05;
 		r->scene->cameras->dir.x += 0.01;
@@ -219,7 +219,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 		r->scene->cameras->filter = F_LEFT_RED;
 		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
 		gpuErrchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice)));
-		create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, r->settings.tile_size, tileId);
+		create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, tile);
 		gpuErrchk((cudaDeviceSynchronize()));
 	}
 

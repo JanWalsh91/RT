@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:37:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/26 21:43:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 16:10:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ void		create_kd_tree(t_photon *photon_list, t_kd_tree **root, int photon_count)
 			if (!node)
 			{
 				*root = create_kd_node((photon_list + i)[y]);
-				node = *root;
+				if (*root)
+					node = *root;
 			}
 			else
 			{
 				node->right = create_kd_node((photon_list + i)[y]);
-				node = node->right;
+				if (node->right)
+					node = node->right;
 			}
 		}  
 	}  
@@ -59,7 +61,8 @@ static t_kd_tree		*create_kd_node(t_photon photon)
 	if (ret)
 	{
 		printf("cudamallocerror for node\n");
-		exit(-1);
+		usleep(1000000);
+		return (NULL);
 	}
 	node->pos = photon.pos;
 	node->dir = photon.dir;

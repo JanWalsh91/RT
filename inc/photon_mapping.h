@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:38:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/26 21:44:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/28 16:46:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@
 /*
 ** KD tree
 */
+
+typedef struct s_region
+{
+	t_vec3	pos;
+	t_vec3	ray_dir;
+	t_vec3	normal;
+	float	radius;
+	int		n; //photon count
+	t_vec3	power; //accumulated normalized power
+}				t_region;
 
 typedef struct	s_kd_tree
 {

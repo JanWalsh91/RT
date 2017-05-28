@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_call.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/22 15:04:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/28 16:37:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		cuda_malloc(struct s_raytracing_tools *r);
 #ifdef __cplusplus
 extern "C"
 #endif
-void	render(struct s_raytracing_tools *r, struct s_pt2 tileId);
+void	render(struct s_raytracing_tools *r, struct s_tile tile);
 #ifdef __cplusplus
 extern "C"
 #endif

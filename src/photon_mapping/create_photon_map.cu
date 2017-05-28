@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:48:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 13:58:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 15:58:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void			update_photon_map(t_raytracing_tools *r)
 	// // exit(0);
 	sorted = NULL;
 	sort_kd_tree(&r->scene->photon_kd_tree, 0, &sorted); // CAUSES SEGFAULT
-	exit(0);
+	// exit(0);
 	// r->scene->photon_kd_tree = sorted;
 	// printf("done creating photon map\n");
-	// t_kd_tree *p = sorted;
+	t_kd_tree *p = sorted;
 	// printf("first photon: pos: [%f, %f, %f], dir: [%f, %f, %f], col: [%d, %d, %d], n: [%f, %f, %f]\n",
 	// p->pos.x, p->pos.y, p->pos.z, p->dir.x, p->dir.y, p->dir.z, p->col.r, p->col.g, p->col.b, p->n.x, p->n.y, p->n.z);
 
