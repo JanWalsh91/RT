@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/28 16:50:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/28 16:52:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void		render(t_raytracing_tools *r, t_tile tile)
 	dim3 		gridSize;
 	int			size;
 
-	size = (r->settings.tile_size / BLOCK_DIM) + ((r->settings.tile_size % BLOCK_DIM) ? 1 : 0);
+	size = (tile.size / BLOCK_DIM) + ((tile.size % BLOCK_DIM) ? 1 : 0);
 	blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
 	gridSize = dim3(size, size);
 
