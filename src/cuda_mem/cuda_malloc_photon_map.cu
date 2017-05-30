@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:15:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/28 16:26:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 13:12:33 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 
 void	cuda_malloc_photon_map(t_raytracing_tools *r)
 {
-	int	i;
 	int	res;
 
 	if (r->scene->is_photon_mapping && r->update.photon_map == 2) 

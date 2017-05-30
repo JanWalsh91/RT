@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_photon_map.cu                               :+:      :+:    :+:   */
+/*   photon_mapping_pass.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/08 13:48:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/29 12:34:31 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/05/30 10:57:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
 {
-   if (code != cudaSuccess) 
+   if (code != cudaSuccess)
    {
       fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
       if (abort) exit(code);
    }
 }
-
 void			print_photons(t_kd_tree *tree);
 static int		shoot_photon_group(t_raytracing_tools *r, size_t photon_count);
 static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
@@ -39,36 +38,12 @@ static void		shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon
 __device__
 static t_ray	init_kernel_photon(t_raytracing_tools *r, t_photon photon);
 
-/*
-** Frees previous photon map, shoots photons, creates and sorts the tree.
-*/
-
-void			update_photon_map(t_raytracing_tools *r)
+void	photon_mapping_pass(t_raytracing_tools *r)
 {
-	printf("update_photon_map\n");
-	int			ret;
-	t_kd_tree 	*sorted;
+	printf("photon_mapping_pass\n");
 	
 	srand(time(NULL));
-	ret = shoot_photon_group(r, r->scene->photon_count);
-	
-	if (r->scene->photon_kd_tree)
-		free_kd_tree(r->scene->photon_kd_tree);
-	r->scene->photon_kd_tree = NULL;
-	create_kd_tree(r->h_d_scene->photon_list, &r->scene->photon_kd_tree, r->scene->photon_count);
-	// exit(0);
-	// // printf("-----%p and %p\n", r->scene->photon_kd_tree, r->d_scene->photon_kd_tree);
-	// // exit(0);
-	sorted = NULL;
-	sort_kd_tree(&r->scene->photon_kd_tree, 0, &sorted); // CAUSES SEGFAULT
-	// exit(0);
-	// r->scene->photon_kd_tree = sorted;
-	// printf("done creating photon map\n");
-	t_kd_tree *p = sorted;
-	// printf("first photon: pos: [%f, %f, %f], dir: [%f, %f, %f], col: [%d, %d, %d], n: [%f, %f, %f]\n",
-	// p->pos.x, p->pos.y, p->pos.z, p->dir.x, p->dir.y, p->dir.z, p->col.r, p->col.g, p->col.b, p->n.x, p->n.y, p->n.z);
-
-	// print_photons(r->scene->photon_kd_tree); 
+	shoot_photon_group(r, r->scene->photon_count);
 }
 
 static int	shoot_photon_group(t_raytracing_tools *r, size_t photon_count)
@@ -88,7 +63,7 @@ static int	shoot_photon_group(t_raytracing_tools *r, size_t photon_count)
 	}
 	init_photon_group(r, photon_count, init_photon_list);
 	shoot_photon_wrapper(r, photon_count, init_photon_list);
-	// cudaFree(init_photon_list); // CAUSES INVALID DEVICE POINTER
+	// cudaFreeHost(init_photon_list); // CAUSES INVALID DEVICE POINTER: try with cudaFreeHost
 	return (photon_count);
 }
 
@@ -189,10 +164,7 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 	if (r.idx == 0)
 		printf("photon cast primary ray\n");
 	cast_primary_ray(&r, &photon);
-	
 	__syncthreads();
-	
-	//also need to update final photon position and normal at hitpoint
 }
  
 __device__ 

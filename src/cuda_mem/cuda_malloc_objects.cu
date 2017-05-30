@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_malloc_objects.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:06:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/26 13:07:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/29 13:11:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,7 @@ static t_object		*list_to_array_objects(t_object *object)
 
 static void			update_child_info(t_object *parent, t_object *obj)
 {
-	t_matrix m;
-	
-	//update pos
 	obj->pos = v_add(obj->pos, parent->pos);
-	//update dir TODO
 	obj->pos = p_rotate_axis(v_new(0, 1, 0), parent->dir, parent->pos, obj->pos);
 	obj->dir = v_norm(p_rotate_axis(v_new(0, 1, 0), parent->dir, v_new(0, 0, 0), obj->dir));
 	if (parent->parent)

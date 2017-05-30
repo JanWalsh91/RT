@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/28 16:46:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 13:58:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,8 +467,9 @@ typedef struct	s_update
 typedef	struct	s_rt_settings
 {
 	int		tile_size;
-	int		photon_count;
+	int		photon_count_per_pass;
 	int		k; //photon search count
+	int		photon_search_radius;
 }				t_rt_settings;
 
 typedef struct	s_raytracing_tools
@@ -486,13 +487,17 @@ typedef struct	s_raytracing_tools
 	float					ior_list[MAX_RAY_DEPTH + 1];
 	int						idx; // thread index
 	struct curandStateXORWOW	*devStates;
-	
+	struct s_region			*h_region_map; //global region map on the CPU
+	struct s_region			*d_region_map; //tile-sized region map on the GPU
 }				t_raytracing_tools;
 
 typedef struct	s_tile
 {
 	t_pt2	id;
-	int		size;	
+	int		size;
+	int		max;
+	int		row;
+	int		col;
 }				t_tile;
 
 typedef struct	s_th_export
@@ -667,10 +672,14 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 ** Cuda Malloc Functions
 */
 
-void			cuda_malloc_photon_map(t_raytracing_tools *r);
+// void			cuda_malloc_photon_map(t_raytracing_tools *r);
 void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_camera(t_raytracing_tools *r);
+// void			malloc_region_map(t_raytracing_tools *r);
+// void			cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile);
+// void			refresh_region_map_tile(t_raytracing_tools *r, t_tile t);
+// void			copy_region_map_tile(t_raytracing_tools *r, t_tile tile);
 
 /*
 ** Ray Tracing Functions

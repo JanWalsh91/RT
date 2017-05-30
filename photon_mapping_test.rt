@@ -1,6 +1,6 @@
 scene: Scene 1
 {
-	resolution: 1000, 1000
+	resolution: 600, 600
 	ray depth: 10
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
@@ -73,8 +73,9 @@ scene: Scene 1
 	sphere: My Sphere
 	{
 		position: -9.0000, -7.0000, 10.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
 		color: 255.0000, 255.0000, 255.0000
-		radius: 3.0000
+		radius: 5.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 16:09:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/30 11:00:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,6 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
 	if (ray->depth == r->scene->ray_depth - 1) 
 		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
-	if (r->scene->is_photon_mapping && 0)
-	{
-		// if (r->pix.y < 40)
-		{
-			t_color tmp;
-			// printf("gonna get some photons\n");
-			tmp = get_photon_global(r, ray);
-			// printf("photon power gathered: [%d, %d, %d]\n", tmp.r, tmp.g, tmp.b);
-			color = c_add(color, tmp);
-		}
-	}
-	else if (r->idx == 0)
-			printf("No photon mappin :(\n");
-	if (r->idx == 1)
-		printf("end of photon gathering\n");
 	return (color);
 }
 

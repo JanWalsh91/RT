@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/26 21:40:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 15:31:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// r->scene->objects[ray->hit_obj].kd,
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
-	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type/* == R_INDIRECT_PHOTON*/)
+	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type == R_INDIRECT_PHOTON)
 		save_photon(r->scene->photon_list + r->idx, ray);
 	rand_f = curand_uniform_double(r->devStates);
 	tmp = 0;

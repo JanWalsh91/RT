@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/28 17:04:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/30 11:01:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 static void	increment_tile(t_pt2 *tileId, int tile_col);
 static void	normalize_object_dir(t_gtk_tools *g);
 static void	init_render_window(t_gtk_tools *g);
+static void	init_tile(t_tile *tile, t_gtk_tools *g);
 
 void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -70,6 +71,60 @@ static void	init_render_window(t_gtk_tools *g)
 	gtk_widget_show_all(g->win);
 }
 
+
+void	*render_wrapper(gpointer data)
+{
+	t_gtk_tools	*g;
+	t_tile 		tile;
+
+	printf("render_wrapper\n");
+	g = (t_gtk_tools *)data;
+	init_tile(&tile, g);
+	if (g->r->update.resolution)
+		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
+	cuda_malloc(g->r);
+	//allocate memory for CPU region map
+	malloc_region_map(g->r);
+	//allocate memory for GPU region map
+	cuda_malloc_region_map_tile(g->r, tile);
+	// OLD PHOTON MAPPING STUFF
+	// if (g->r->scene->is_photon_mapping)
+	// {
+	// 	update_photon_map(g->r);
+	// 	g->r->h_d_scene->photon_kd_tree = g->r->scene->photon_kd_tree;
+	// 	cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
+	// }
+	printf("raytracing pass:\n");
+	while (g->win && (tile.id.y + 1) <= tile.col)
+	{ 
+		//set initial values for region map tile
+		refresh_region_map_tile(g->r, tile);
+		//raytrace and update the region map tiles TODO: update region map tiles
+		render(g->r, tile);
+		//copy tiles from the GPU to the CPU in the correct part of the map based on tile
+		copy_region_map_tile(g->r, tile);
+		increment_tile(&tile.id, tile.row);
+	}
+	lens_flare_wrapper(g->r);
+	ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
+	gtk_widget_queue_draw(g->win);
+	//call on the photon mapping pass and radiance estimation pass in loop.
+	if (g->r->scene->is_photon_mapping)
+		render_ppm(g->r);
+	g->r->rendering = 0;
+	return (FALSE);
+}
+
+static void	init_tile(t_tile *tile, t_gtk_tools *g)
+{
+	tile->size = g->r->settings.tile_size;
+	tile->id.x = 0;
+	tile->id.y = 0;
+	tile->row = (g->r->scene->res.x / tile->size) + ((g->r->scene->res.x % tile->size) ? 1 : 0);
+	tile->col = (g->r->scene->res.y / tile->size) + ((g->r->scene->res.y % tile->size) ? 1 : 0);
+	tile->max = tile->row * tile->col;
+}
+
 static void	increment_tile(t_pt2 *tileId, int tile_row)
 {
 	if (++tileId->x >= tile_row)
@@ -79,60 +134,12 @@ static void	increment_tile(t_pt2 *tileId, int tile_row)
 	}
 }
 
-void	*render_wrapper(gpointer data)
-{
-	t_gtk_tools	*g;
-	t_tile 		tile;
-	int			max_tile;
-	int			tile_row;
-	int			tile_col;
-
-	printf("render_wrapper\n");
-	g = (t_gtk_tools *)data;
-	tile.size = g->r->settings.tile_size;
-	if (g->r->update.resolution)
-		g->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y);
-		// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
-	tile.id.x = 0;
-	tile.id.y = 0;
-	tile_row = (g->r->scene->res.x / tile.size) + ((g->r->scene->res.x % tile.size) ? 1 : 0);
-	tile_col = (g->r->scene->res.y / tile.size) + ((g->r->scene->res.y % tile.size) ? 1 : 0);
-	max_tile = tile_row * tile_col;
-	cuda_malloc(g->r);
-	if (g->r->scene->is_photon_mapping)
-	{
-		update_photon_map(g->r);
-		g->r->h_d_scene->photon_kd_tree = g->r->scene->photon_kd_tree;
-		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
-	}
-	while (g->win && (tile.id.y + 1) <= tile_col)
-	{ 
-		printf("render:\n");
-		render(g->r, tile);
-		increment_tile(&tile.id, tile_row);
-		// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
-		if (tile.id.x == 0)
-			ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
-		gtk_widget_queue_draw(g->win);
-	}
-	lens_flare_wrapper(g->r);
-	ft_memcpy (gdk_pixbuf_get_pixels (g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
-	// g->pixbuf = gdk_pixbuf_new_from_data((unsigned char *)g->r->d_pixel_map, GDK_COLORSPACE_RGB, 0, 8, g->r->scene->res.x, g->r->scene->res.y, g->r->scene->res.x * 3, NULL, NULL);
-	gtk_widget_queue_draw(g->win);
-	g->r->rendering = 0;
-	return (FALSE);
-}
-
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 {
 	if (!g->cr)
-	{
-		// fill background with black
 		g->cr = cr;
-	}
 	if (g->r->update.render == 1 && !g->r->rendering)
 	{
-		// printf("Create a new thread\n");
 		g->r->update.render = 0;
 		g->r->rendering = 1;
 		g_thread_new ("Swaggy_turkey", render_wrapper, g);

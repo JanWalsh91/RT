@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:38:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/28 16:46:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 15:23:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,21 @@
 # define PHOTON_BOUNCE_MAX 10
 # define PHOTON_GATHER_MAX 10
 
-/*
-** KD tree
-*/
 
 typedef struct s_region
 {
-	t_vec3	pos;
-	t_vec3	ray_dir;
-	t_vec3	normal;
-	float	radius;
+	t_vec3	hit_pt; //hit point
+	t_vec3	ray_dir; //incoming ray dir at hit point
+	t_vec3	normal; //normal at hit point
+	float	kd; //pointer to hit object
+	float	radius; //search radius
 	int		n; //photon count
 	t_vec3	power; //accumulated normalized power
 }				t_region;
+
+/*
+** KD tree
+*/
 
 typedef struct	s_kd_tree
 {
@@ -43,16 +45,18 @@ typedef struct	s_kd_tree
 	struct s_kd_tree	*right;
 }				t_kd_tree;
 
-void			create_kd_tree(struct s_photon *photon_list, t_kd_tree **root, int photon_count);
-void			sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted);
-void			free_kd_tree(t_kd_tree *root);
-
+// void			create_kd_tree(struct s_photon *photon_list, t_kd_tree **root, int photon_count);
+// void			sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted);
+// void			free_kd_tree(t_kd_tree *root);
+void			photon_mapping_pass(t_raytracing_tools *r);
+void			radiance_estimation_pass(t_raytracing_tools *r);
 typedef struct	s_photon
 {
 	t_vec3		pos;
 	t_vec3		dir;
 	t_color		col;
 	t_vec3		n;
+	int			type; //0: direct 1: indirect 2: caustic
 }				t_photon;
 
 typedef struct	s_selected_photon

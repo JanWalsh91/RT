@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/23 10:18:46 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/29 13:05:41 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,6 @@ RAY_TRACING = cast_primary_ray \
 			get_diffuse \
 			get_specular \
 			get_ambient \
-			get_photon_global \
 			reflect \
 			refract \
 			filters \
@@ -142,10 +141,11 @@ OBJ_PARSER = 	ft_freetab \
 				get_vector_f \
 				set_obj
 
-PHOTON_MAPPING = create_photon_map \
-				update_photon \
-				create_kd_tree \
-				sort_kd_tree
+PHOTON_MAPPING = update_photon \
+				photon_mapping \
+				photon_mapping_pass \
+				radiance_estimation_pass \
+				region_map
 
 TEXTURE =	export_bmp \
 			read_bmp \
