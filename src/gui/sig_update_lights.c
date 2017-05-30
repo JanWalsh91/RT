@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 16:58:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/26 15:28:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,20 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 	light = g->r->scene->lights;
 	while (light)
 	{
+		printf("foudn lights\n");
 		label = gtk_label_new(light->name);
 		gtk_list_box_insert(GTK_LIST_BOX(widget), label, -1);
 		light = light->next;
 	}
 	if (!g->r->scene->lights)
+	{
+		printf("no lights found\n");
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScrollWindowLight"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonDeleteLight"));
+		gtk_widget_set_sensitive (widget, FALSE);
 		return (NULL);
-	// label = gtk_button_new_with_label("+");
-	// gtk_list_box_insert(widget, label, -1);
-	// g_signal_connect(label, "clicked", G_CALLBACK (sig_new_light), g);
+	}
 	gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), 0));
 	update_lights_info_panel(g, g->r->scene->lights);
 	
@@ -79,29 +84,47 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	// 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
 	// }
 
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxLightType"));
+	if (v_isnan(light->dir))
+		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
+	else
+		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 1);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "EntryLightName"));
 	gtk_entry_set_text (GTK_ENTRY(widget), light->name);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.x);
+	v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.x) :
+		gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.y);
+	v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.y) :
+		gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightPosZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.z);
+	v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->pos.z) :
+		gtk_widget_set_sensitive (widget, FALSE); 
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.x);
+	!v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.x) :
+		gtk_widget_set_sensitive (widget, FALSE);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.y);
-
+	!v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.y) :
+		gtk_widget_set_sensitive (widget, FALSE);
+ 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z);
-	
+	!v_isnan(light->dir) ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z) :
+		gtk_widget_set_sensitive (widget, FALSE);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, !v_isnan(light->dir));
+
+	printf("adding light intensty\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightIntensity"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->intensity);
+
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonKFlare"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->kflare);
 
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ColorButtonLight"));
 	color.red = light->col.x / 255.0;
@@ -277,7 +300,7 @@ void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
 		l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -285,6 +308,8 @@ void	*sig_update_light_dir_x(GtkWidget *SpinButton, t_gtk_tools *g)
 		l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 		l_ptr->dir = v_norm(l_ptr->dir);
 	}
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, true);
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
@@ -299,7 +324,7 @@ void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
 		l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -307,6 +332,8 @@ void	*sig_update_light_dir_y(GtkWidget *SpinButton, t_gtk_tools *g)
 		l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 		l_ptr->dir = v_norm(l_ptr->dir);
 	}
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, true);
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
@@ -321,7 +348,7 @@ void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
-	if (!g->updating_gui)
+	if (g->updating_gui)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
 		l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
@@ -329,9 +356,39 @@ void	*sig_update_light_dir_z(GtkWidget *SpinButton, t_gtk_tools *g)
 		l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 		l_ptr->dir = v_norm(l_ptr->dir);
 	}
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, true);
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
+
+void	*sig_light_dir_normalize(GtkWidget *button, t_gtk_tools *g)
+{
+	t_light 	*light;
+	GtkWidget	*widget;
+
+	printf("sig_light_dir_normalize\n");
+	light = get_selected_light(g);
+	light->dir = v_norm(light->dir);
+	printf("normalizing light direction: [%f][%f][%f]\n", light->dir.x, light->dir.y, light->dir.z);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive(widget, FALSE);
+	if (g->updating_gui)
+		return (NULL);
+	g->updating_gui = true;
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirX"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.x);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirY"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.y);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonLightDirZ"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), light->dir.z);
+	g->updating_gui = false;
+	light_render_sig(g);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonLightDirNormalize"));
+	gtk_widget_set_sensitive (widget, FALSE);
+	return (NULL);
+}
+
 
 void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 {
@@ -357,6 +414,16 @@ void	*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g)
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(SpinButton));
+	(g->updating_gui) ? 0 : light_render_sig(g);
+	return (NULL);
+}
+
+void	*sig_update_light_kflare(GtkWidget *spin_button, t_gtk_tools *g)
+{
+	t_light		*l_ptr;
+	if (!(l_ptr = get_light_from_list_box(g)))
+		return (NULL);
+	l_ptr->kflare = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }

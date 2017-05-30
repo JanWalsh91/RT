@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:41:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:38:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	reset_attributes(t_attributes *att)
 	att->look_at = v_new(NAN, NAN, NAN);
 	att->col = v_new(NAN, NAN, NAN);
 	att->rad = NAN;
+	att->rad_torus = NAN;
 	att->height = NAN;
 	att->ior = NAN;
 	att->reflection = NAN;
@@ -37,6 +38,7 @@ int	reset_attributes(t_attributes *att)
 	att->kd = NAN;
 	att->ks = NAN;
 	att->transparency = NAN;
+	att->parent_index = 0;
 	att->obj = NULL;
 	return (1);
 }

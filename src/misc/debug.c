@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:03:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	print_scene(t_scene *scene)
 	printf("	is_aa: %d\n", scene->is_aa);
 	printf("	photon_count: %zu\n", scene->photon_count);
 	printf("	photon_list address: %p\n", scene->photon_list);
-	printf("	photon_map address: %p\n", scene->photon_map);
+	printf("	photon_map address: %p\n", scene->photon_kd_tree);
 	o_ptr = scene->objects;
-	printf("	OBJECTS:\n");
+	printf("	OBJECTS: %p\n", scene->objects);
 	while (o_ptr)
 	{
-		printf("	----object name: [%s]\n", o_ptr->name);
+		printf("	----object name: [%s] [%p]\n", o_ptr->name, o_ptr);
 		printf("		object type: [%i]\n", o_ptr->type);
 		printf("		obj file address: [%p]\n", o_ptr->obj);
 		printf("		object pos: [%f] [%f] [%f]\n", o_ptr->pos.x, o_ptr->pos.y, o_ptr->pos.z);
@@ -71,10 +71,12 @@ void	print_scene(t_scene *scene)
 		printf("		object normal name: [%s]\n", o_ptr->normal_map_name);
 		printf("		object normal map dim: [%f] [%f] [%f]\n", o_ptr->normal_map_dim.x, o_ptr->normal_map_dim.y, o_ptr->normal_map_dim.z);
 
+		printf("		objet parent : %d\n", o_ptr->parent_index);
+		printf("		objet parent addr : %p (%s)\n", o_ptr->parent, o_ptr->parent ? o_ptr->parent->name : "None");
 		o_ptr = o_ptr->next;
 	}
 	c_ptr = scene->cameras;
-	printf("	CAMERAS:\n");
+	printf("	CAMERAS: %p\n", scene->cameras);
 	while (c_ptr)
 	{
 		printf("	----camera name: [%s]\n", c_ptr->name);
@@ -87,7 +89,7 @@ void	print_scene(t_scene *scene)
 		printf("		camera filter: [%d]\n", c_ptr->filter);
 		c_ptr = c_ptr->next;
 	}
-	printf("	LIGHTS:\n");
+	printf("	LIGHTS: %p\n", scene->lights);
 	l_ptr = scene->lights;
 	while (l_ptr)
 	{

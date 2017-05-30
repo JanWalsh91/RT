@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 13:58:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@
 # define DEFAULT_TRANSPARENCY 0
 # define DEFAULT_TILE_SIZE 288
 # define CAM_IMG_PANE_DIST 1
-# define BIAS 0.01
+# define BIAS 0.001
 # define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
 # define CSS_PATH "res/gtk.css"
@@ -93,6 +93,7 @@ typedef enum	e_token
 	T_CONE,
 	T_PARABOLOID,
 	T_TORUS,
+	T_CUBE_TROUE,
 	T_OBJ,
 	T_TRIANGLE,
 	T_RESOLUTION,
@@ -105,6 +106,7 @@ typedef enum	e_token
 	T_LOOK_AT,
 	T_COLOR,
 	T_RADIUS,
+	T_RADIUS_2,
 	T_HEIGHT,
 	T_DIFFUSE_COEF,
 	T_REFRACTION_INDEX,
@@ -119,6 +121,8 @@ typedef enum	e_token
 	T_READ_OBJ_FILE,
 	T_READ_TEXTURE_FILE,
 	T_READ_MATERIAL_FILE,
+	T_PARENT_INDEX,
+	T_KFLARE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
 	T_COUNT
@@ -186,6 +190,7 @@ typedef struct	s_attributes
 	t_vec3			ambient_light_color;
 	float			ka;
 	float			intensity;
+	float			kflare;
 	float			fov;
 	t_vec3			pos;
 	t_vec3			dir;
@@ -201,6 +206,7 @@ typedef struct	s_attributes
 	float			ior;
 	float			reflection;
 	float			transparency;
+	unsigned short	parent_index;
 	struct s_obj	*obj;
 }				t_attributes;
 
@@ -283,6 +289,8 @@ typedef struct	s_object
 	t_color			*normal_map;
 	t_vec3			normal_map_dim;
 	char			*normal_map_name;
+	unsigned short	parent_index;
+	struct s_object	*parent;
 	struct s_object	*next;
 }				t_object;
 
@@ -300,6 +308,7 @@ typedef struct	s_light
 	t_vec3			look_at;
 	t_vec3			col;
 	float			intensity;
+	float			kflare;
 	struct s_light	*next;
 }				t_light;
 
@@ -318,7 +327,6 @@ typedef struct	s_camera
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			look_at;
-	t_color			*pixel_map;
 	t_matrix		ctw;
 	t_filter		filter;
 	float			scale;
@@ -356,9 +364,9 @@ typedef struct	s_scene
 	bool			is_photon_mapping;
 	char			is_aa;
 	size_t			photon_count;
-	struct s_photon	**photon_list;
-	struct s_kd_tree		*photon_map;
-	struct s_selected_photon **selected_photons;
+	struct s_photon	*photon_list;
+	struct s_kd_tree		*photon_kd_tree;
+	struct s_selected_photon *selected_photons;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -425,6 +433,16 @@ typedef struct	s_intersection_tools
 	int				n_dir;
 }				t_intersection_tools;
 
+typedef	struct	s_light_flare_tools
+{
+	bool		is_valid;
+	float		max_rad;
+	float		dist;
+	t_pt2		pos;
+	t_light		*light;
+	float		t;
+}				t_light_flare_tools;
+
 typedef struct	s_update
 {
 	uint8_t		resolution;
@@ -435,6 +453,7 @@ typedef struct	s_update
 	uint8_t		scene;
 	uint8_t		render;
 	uint8_t		photon_map;
+	uint8_t		anaglyph;
 }				t_update;
 
 
@@ -448,8 +467,9 @@ typedef struct	s_update
 typedef	struct	s_rt_settings
 {
 	int		tile_size;
-	int		photon_count;
+	int		photon_count_per_pass;
 	int		k; //photon search count
+	int		photon_search_radius;
 }				t_rt_settings;
 
 typedef struct	s_raytracing_tools
@@ -467,9 +487,18 @@ typedef struct	s_raytracing_tools
 	float					ior_list[MAX_RAY_DEPTH + 1];
 	int						idx; // thread index
 	struct curandStateXORWOW	*devStates;
-	// struct s_kd_tree		*photon_map;
+	struct s_region			*h_region_map; //global region map on the CPU
+	struct s_region			*d_region_map; //tile-sized region map on the GPU
 }				t_raytracing_tools;
 
+typedef struct	s_tile
+{
+	t_pt2	id;
+	int		size;
+	int		max;
+	int		row;
+	int		col;
+}				t_tile;
 
 typedef struct	s_th_export
 {
@@ -520,6 +549,7 @@ char			*parse_empty_line(t_parse_tools *t);
 char			*parse_scene(t_parse_tools *t);
 char			*parse_camera(t_parse_tools *t);
 char			*parse_light(t_parse_tools *t);
+char			*parse_kflare(t_parse_tools *t);
 char			*parse_plane(t_parse_tools *t);
 char			*parse_disk(t_parse_tools *t);
 char			*parse_sphere(t_parse_tools *t);
@@ -527,6 +557,7 @@ char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
 char			*parse_paraboloid(t_parse_tools *t);
 char			*parse_torus(t_parse_tools *t);
+char			*parse_cube_troue(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
 char			*parse_background_color(t_parse_tools *t);
@@ -537,6 +568,7 @@ char			*parse_direction(t_parse_tools *t);
 char			*parse_look_at(t_parse_tools *t);
 char			*parse_color(t_parse_tools *t);
 char			*parse_radius(t_parse_tools *t);
+char			*parse_radius_2(t_parse_tools *t);
 char			*parse_height(t_parse_tools *t);
 char			*parse_ior(t_parse_tools *t);
 char			*parse_reflection(t_parse_tools *t);
@@ -551,6 +583,7 @@ char			*read_normal_map(t_parse_tools *t);
 char			*read_obj_file(t_parse_tools *t);
 char			*read_texture_file(t_parse_tools *t);
 char			*read_material_file(t_parse_tools *t);
+char			*parse_parent_index(t_parse_tools *t);
 char			*hashtag(t_parse_tools *t);
 char			*invalid_token(t_parse_tools *t);
 t_vec3			get_color(t_parse_tools *t, char *value);
@@ -639,11 +672,15 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 ** Cuda Malloc Functions
 */
 
-void			cuda_malloc_photon_map(t_raytracing_tools *r);
+// void			cuda_malloc_photon_map(t_raytracing_tools *r);
 void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_camera(t_raytracing_tools *r);
 t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
+// void			malloc_region_map(t_raytracing_tools *r);
+// void			cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile);
+// void			refresh_region_map_tile(t_raytracing_tools *r, t_tile t);
+// void			copy_region_map_tile(t_raytracing_tools *r, t_tile tile);
 
 /*
 ** Ray Tracing Functions

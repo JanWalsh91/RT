@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_attributes_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:47:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/23 11:08:14 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	set_attributes(t_parse_tools *t, t_attributes *a)
 		t->current_object->dir = a->dir;
 	if (!v_isnan(a->col))
 		t->current_object->col = a->col;
+	if (a->parent_index)
+		t->current_object->parent_index = a->parent_index;
 	!isnan(a->ior) ? t->current_object->ior = a->ior : 0;
 	!isnan(a->reflection) ? t->current_object->reflection = a->reflection : 0;
 	if (!isnan(a->specular_exp))

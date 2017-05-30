@@ -90,13 +90,13 @@ RAY_TRACING = cast_primary_ray \
 			get_diffuse \
 			get_specular \
 			get_ambient \
-			get_photon_global \
 			reflect \
 			refract \
 			filters \
 			get_reflected_and_refracted \
 			get_fresnel_ratio \
 			get_texture \
+			get_flares \
 
 MISC = 		debug \
 			free_parse_tools \
@@ -147,10 +147,11 @@ OBJ_PARSER = 	ft_freetab \
 				objparser_error \
 				set_obj
 
-PHOTON_MAPPING = create_photon_map \
-				update_photon \
-				create_kd_tree \
-				sort_kd_tree
+PHOTON_MAPPING = update_photon \
+				photon_mapping \
+				photon_mapping_pass \
+				radiance_estimation_pass \
+				region_map
 
 TEXTURE =	export_bmp \
 			read_bmp \

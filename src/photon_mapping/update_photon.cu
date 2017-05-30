@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/15 16:40:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 15:31:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
 	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type == R_INDIRECT_PHOTON)
-		save_photon(r->scene->photon_list[r->idx], ray);
+		save_photon(r->scene->photon_list + r->idx, ray);
 	rand_f = curand_uniform_double(r->devStates);
 	tmp = 0;
 	p = NAN;
@@ -88,6 +88,8 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// if energy high enough, shoot photon again: cast_primary_ray();
 	if ((ray->col.r + ray->col.g + ray->col.b) > 10)
 		return (cast_primary_ray(r, ray));
+	else
+		return (c_new(0, 0, 0));
 	// printf("------cast again with type[%d]\n", ray->type);
 }
 
@@ -105,7 +107,7 @@ static void		save_photon(t_photon *photon_list, t_ray *ray)
 	photon_list[i].dir = ray->dir;
 	photon_list[i].col = ray->col;
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
-	printf("save photon[%d]: [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
+	printf("save photon[%d]: [%f, %f, %f] col: [%d, %d, %d]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z, photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
 }
 
 __device__

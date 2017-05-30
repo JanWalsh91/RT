@@ -6,11 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 15:53:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/30 11:01:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
+#include "photon_mapping.h"
 #include "../../inc/cuda_call.h"
 
 /*
@@ -28,23 +29,23 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
    }
 }
 
-__device__
-void	printte_matrix(t_matrix m)
-{
-	int i;
-	int	y;
+// __device__
+// void	printte_matrix(t_matrix m)
+// {
+// 	int i;
+// 	int	y;
 
-	y = -1;
-	while (++y < 4)
-	{
-		i = -1;
-		while (++i < 4)
-			printf("[%f]", m[y][i]);
-		printf("\n");
-	}
-}
+// 	y = -1;
+// 	while (++y < 4)
+// 	{
+// 		i = -1;
+// 		while (++i < 4)
+// 			printf("[%f]", m[y][i]);
+// 		printf("\n");
+// 	}
+// }
 
-__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId, int tile_size)
+__global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *region_map, t_tile tile)
 {
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
@@ -53,11 +54,14 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 	int					i;
 	t_vec3				moyenne;
 
-	r.pix.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
-	r.pix.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
-	r.scene = scene;
+	r.pix.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
+	r.pix.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
+	r.scene = scene; 
     r.idx = scene->res.x * r.pix.y + r.pix.x;
-
+	int x = (r.idx % (tile.size * tile.row)) % tile.size;
+	r.d_region_map = &(region_map[x]);
+	if (r.idx == 1)
+		printf("x: %d\n", x);
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
 		// initialize ior list
@@ -70,6 +74,18 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 			memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 			cam_ray = init_camera_ray(&r, aa_i);
 			d_pixel_map[r.idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+			
+			/*
+			r.d_region_map->hit_pt = cam_ray.hit;
+			r.d_region_map->ray_dir = cam_ray.dir;
+			r.d_region_map->normal = v_scale(cam_ray.nhit, cam_ray.n_dir);
+			r.d_region_map->kd = scene->objects[cam_ray.hit_obj].kd;
+			*/
+			
+			// if (r.idx == 1)
+			// 	printf("hit_pt: [%f, %f, %f], ray_dir: [%f, %f, %f], normal: [%f, %f, %f], kd: %f\n", r.d_region_map->hit_pt.x, r.d_region_map->hit_pt.y, r.d_region_map->hit_pt.z, 
+			// 	r.d_region_map->ray_dir.x, r.d_region_map->ray_dir.y, r.d_region_map->ray_dir.z, r.d_region_map->normal.x, r.d_region_map->normal.y, r.d_region_map->normal.z,
+			// 	r.d_region_map->kd);
 		}
 		else
 		{
@@ -101,13 +117,13 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_pt2 tileId,
 }
 
 //'dis is wonderful
-__global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, int tile_size, t_pt2 tileId)
+__global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, t_tile tile)
 {
 	int		idx;
 	t_pt2	pixel;
 
-	pixel.x = (tileId.x * tile_size) + (blockDim.x * blockIdx.x) + threadIdx.x;
-	pixel.y = (tileId.y * tile_size) + (blockDim.y * blockIdx.y) + threadIdx.y;
+	pixel.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
+	pixel.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
   	idx = scene->res.x * pixel.y + pixel.x;
 
 	if (pixel.x < scene->res.x && pixel.y < scene->res.y)
@@ -117,7 +133,6 @@ __global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, i
 	}
 	// __syncthreads();
 }
-
 
 // Trouver un moyen pour appeler cette fonction ><
 void	update_camera(t_camera *camera)
@@ -148,35 +163,37 @@ void	update_camera(t_camera *camera)
 	camera->ctw[3][2] = camera->pos.z;
 }
 
-
-void		render(t_raytracing_tools *r, t_pt2 tileId)
+void		render(t_raytracing_tools *r, t_tile tile)
 {
 	dim3 		blockSize;
 	dim3 		gridSize;
 	int			size;
 
-	size = (r->settings.tile_size / BLOCK_DIM) + ((r->settings.tile_size % BLOCK_DIM) ? 1 : 0);
+	size = (tile.size / BLOCK_DIM) + ((tile.size % BLOCK_DIM) ? 1 : 0);
 	blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
 	gridSize = dim3(size, size);
 
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start); 
-	cudaEventCreate(&stop);
-	cudaEventRecord(start);
-	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, tileId, r->settings.tile_size);
+	// cudaEvent_t start, stop;
+	// cudaEventCreate(&start); 
+	// cudaEventCreate(&stop);
+	// cudaEventRecord(start);
+	printf("launch kernel:\n");
+	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, r->d_region_map, tile);
 	// printf("Iteration i = %d	\n", i++);
-	cudaEventRecord(stop);
-	cudaEventSynchronize(stop);
-	float milliseconds = 0;
-	cudaEventElapsedTime(&milliseconds, start, stop);
+	// cudaEventRecord(stop);
+	// cudaEventSynchronize(stop);
+	// float milliseconds = 0;
+	// cudaEventElapsedTime(&milliseconds, start, stop);
 
 
 	cudaError_t errSync  = cudaGetLastError();
 	cudaError_t errAsync = cudaDeviceSynchronize();
-	if (errSync != cudaSuccess) 
-	  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
+	if (errSync != cudaSuccess)
+		printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
 	if (errAsync != cudaSuccess)
-	  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+		printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+	if (errSync != cudaSuccess || errAsync != cudaSuccess)
+		exit(-1);
 	//beautiful....
 	// printf("=============== EXECUTION ================== \n");
 	// printf("Kernel duration: %f milliseconds\n", milliseconds);
@@ -187,6 +204,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 	if (r->scene->is_3d)
 	{
 		printf("3d\n");
+		//IS HARDCODING THESE VALUES CORRECT?
 		r->scene->cameras->pos.x += 0.05;
 		r->scene->cameras->dir.x -= 0.01;
 		r->scene->cameras->dir = v_norm(r->scene->cameras->dir);
@@ -194,7 +212,7 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 		r->scene->cameras->filter = F_RIGHT_CYAN;
 		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
 		gpuErrchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice)));
-		render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, tileId, r->settings.tile_size);
+		render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, r->d_region_map, tile);
 		gpuErrchk((cudaDeviceSynchronize()));
 		r->scene->cameras->pos.x -= 0.05;
 		r->scene->cameras->dir.x += 0.01;
@@ -203,7 +221,8 @@ void		render(t_raytracing_tools *r, t_pt2 tileId)
 		r->scene->cameras->filter = F_LEFT_RED;
 		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
 		gpuErrchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice)));
-		create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, r->settings.tile_size, tileId);
+		create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map, r->d_pixel_map_3d, r->d_scene, tile);
 		gpuErrchk((cudaDeviceSynchronize()));
 	}
+
 }

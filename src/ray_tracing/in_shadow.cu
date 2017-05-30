@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_shadow.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 15:02:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 12:33:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,12 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 		if (intersects(r, shadow_ray, i) &&
 			shadow_ray->t < max && shadow_ray->t > 0.0) 
 		{
-			// if (r->pix.x == 485 && r->pix.y == 577)
-				// printf("Intersect avec : %d\n", r->scene->objects[i].type);
-			// if (r->pix.x == 527 && r->pix.y == 303)
-			// {
-				// printf("Intersect avec : %d et t = %f\n", r->scene->objects[i].type, shadow_ray->t);
-			// }
+			shadow_ray->hit = v_add(shadow_ray->origin, v_scale(shadow_ray->dir, shadow_ray->t));
+			get_normal(shadow_ray, &r->scene->objects[i]);
 			if (r->scene->objects[i].transparency > 0.01)
 			{
 				filter_for_transparency(dim_light, 
-					get_object_color(&r->scene->objects[i], primary_ray),
+					get_object_color(&r->scene->objects[i], shadow_ray),
 					r->scene->objects[i].transparency);
 				is_transparent = 1;
 			}

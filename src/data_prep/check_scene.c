@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:22:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/22 17:00:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,18 @@ char		*check_scene(t_scene *scene)
 {
 	if (!scene)
 		return ("No scene provided");
-	if (!scene->cameras)
-		return ("No camera provided.");
-	if (!scene->lights)
-		return ("No light provided.");
-	if (!scene->objects)
-		return ("No objects provided.");
 	(scene->res.x == -1) ? set_default_resolution(scene) : 0;
 	isnan(scene->ka) ? set_default_ka(scene) : 0;
 	v_isnan(scene->ambient_light_color) ?
 		set_default_ambient_light_color(scene) : 0;
 	scene->image_aspect_ratio = (float)scene->res.x / (float)scene->res.y;
 	(scene->ray_depth == -1) ? set_default_ray_depth(scene) : 0;
-	check_cameras(scene, scene->cameras);
-	check_lights(scene, scene->lights);
-	check_objects(scene, scene->objects);
+	if (scene->cameras)
+		check_cameras(scene, scene->cameras);
+	if (scene->lights)
+		check_lights(scene, scene->lights);
+	if (scene->objects)
+		check_objects(scene, scene->objects);
 	return (NULL);
 }
 
@@ -58,6 +55,7 @@ static void	check_cameras(t_scene *scene, t_camera *cameras)
 		isnan(c_ptr->ior) ? set_default_ior(scene, T_CAMERA, c_ptr, &c_ptr->ior) : 0;
 		get_cam_direction(scene, c_ptr);
 		init_camera(scene, c_ptr);
+		c_ptr->look_at = v_new(0, 0, 0);
 		c_ptr = c_ptr->next;
 	}
 }
@@ -83,8 +81,6 @@ Setting to spherical/positional lighting.");
 			T_LIGHT, l_ptr, &l_ptr->col) : 0;
 		isnan(l_ptr->intensity) ? set_default_intensity(scene,
 			T_LIGHT, l_ptr, &l_ptr->intensity) : 0;
-		if (!v_isnan(l_ptr->dir))
-			l_ptr->intensity /= 1000;
 		l_ptr = l_ptr->next;
 	}
 }

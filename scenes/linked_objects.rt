@@ -1,0 +1,136 @@
+scene: rendu4
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	cylinder: Cylinder
+	{
+		position: 0.0000, -3.0000, 0.0000
+		direction: -0.1089, 0.9575, -0.2670
+		color: 252.0000, 233.0000, 79.0000
+		radius: 1.0000
+		height: 4.0000
+		kd: 0.6000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.7000
+		reflection: 0.0000
+
+		texture: Perlin 500.0000, 500.0000, 100.0000
+	}
+	cylinder: Cylinder 2
+	{
+		position: 0.0000, 3.0000, 0.0000
+		direction: 0.1827, 0.7822, 0.5955
+		color: 242.9299, 255.0000, 194.6499
+		radius: 4.0000
+		height: 0.2000
+		kd: 1.0000
+		ks: 0.5500
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+		parent index: 1.0000
+	}
+	sphere: Cylinder 3
+	{
+		position: 1.0000, 2.0000, 4.0000
+		color: 53.5499, 134.1300, 255.0000
+		radius: 0.5000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+		parent index: 2.0000
+	}
+	plane: Plane
+	{
+		position: 0.0000, 0.0000, 9.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	plane: Ground
+	{
+		position: 0.0000, -4.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 186.0000, 189.0000, 182.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	sphere: Spher 3
+	{
+		position: -3.0000, 2.0000, 0.0000
+		color: 239.0000, 41.0000, 41.0000
+		radius: 0.8000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+
+		parent index: 2.0000
+	}
+	sphere: Spher 4
+	{
+		position: 4.0000, 1.0000, 0.0000
+		color: 78.0000, 154.0000, 6.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+
+		parent index: 2.0000
+	}
+	sphere: sphere 4
+	{
+		position: -2.0000, 0.0000, 0.0000
+		color: 92.0000, 53.0000, 102.0000
+		radius: 1.0000
+		kd: 0.2000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.8000
+		reflection: 0.0000
+
+		parent index: 2.0000
+	}
+	light: New light
+	{
+		position: 0.0000, -2.0000, 0.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 1
+		kflare: 0.0000
+	}
+	camera: cam
+	{
+		position: 0.0000, 0.0000, -30.0000
+		direction: 0.0000, 0.0000, 1.0000
+		filter: none
+		fov: 30
+		ior: 1.1000
+	}
+}

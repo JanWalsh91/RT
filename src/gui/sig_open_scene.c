@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:07:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:55:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,18 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 
+	printf("sig_new_scene\n");
 	if (g->filename)
 	{
 		g_free(g->filename);
 		g->filename = NULL;
 	}
 	if (g->r->scene)
-		cudaDeviceReset();
+	{
+		// cudaDeviceReset(); //unsafe to use with CPU multithreading.
+		cuda_free(g->r, 1);
+		free_scene(g->r->scene);
+	}
 	if (g->win)
 		gtk_widget_destroy(g->win);
 		// cuda_free(g->r, 0);
@@ -51,11 +56,11 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	gtk_container_foreach (GTK_CONTAINER(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects")), (GtkCallback)G_CALLBACK(gtk_widget_destroy), NULL);
 	update_grid_lights(g);
 	update_grid_cameras(g);
+	populate_list_box_objects(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject"));
 	gtk_widget_set_sensitive(widget, false);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight"));
 	gtk_widget_set_sensitive(widget, false);
-	C(100)
 	return (NULL);
 }
 
@@ -76,6 +81,9 @@ static void	set_default_values_scene(t_gtk_tools *g)
 	g->r->scene->is_shadow = true;
 	g->r->scene->is_specular = true;
 	g->r->scene->is_fresnel = true;
+	g->r->scene->is_photon_mapping = false; 
+	g->r->scene->photon_kd_tree = NULL;
+	g->r->scene->selected_photons = NULL;
 	g->r->scene->is_aa = 1;
 }
 
@@ -160,5 +168,6 @@ int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	g->r->scene->is_3d = 0;
 	free_parse_tools(g->t);
 	filechooser ? gtk_widget_destroy(filechooser) : 0;
+	gtk_window_set_title(GTK_WINDOW(gtk_builder_get_object(GTK_BUILDER(g->builder), "window_main")), g->filename);
 	return (0);
 }

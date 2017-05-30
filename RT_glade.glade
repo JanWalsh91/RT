@@ -95,6 +95,12 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="AdjLightKFlare">
+    <property name="upper">100000</property>
+    <property name="value">0.5</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="AdjLightPosX">
     <property name="lower">-100000</property>
     <property name="upper">100000</property>
@@ -208,6 +214,11 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="AdjObjRadius2">
+    <property name="upper">100000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="AdjObjSpecExp">
     <property name="lower">1</property>
     <property name="upper">100000</property>
@@ -282,6 +293,12 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="ListStoreParent">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="filter">
     <columns>
       <!-- column-name gchararray1 -->
@@ -329,8 +346,13 @@
       <row>
         <col id="0" translatable="yes">Torus</col>
       </row>
+<<<<<<< HEAD
       <row>
         <col id="0" translatable="yes">.Obj</col>
+=======
+	   <row>
+        <col id="0" translatable="yes">Cube Troue</col>
+>>>>>>> 674001ce002cf1ca2b653cfed5c07a10a2c66bfa
       </row>
     </data>
   </object>
@@ -345,9 +367,6 @@
       </row>
       <row>
         <col id="0" translatable="yes">Directional</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Ambient</col>
       </row>
     </data>
   </object>
@@ -718,6 +737,7 @@
                     <property name="receives_default">False</property>
                     <property name="halign">start</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_aa" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -827,6 +847,35 @@
                     <property name="left_attach">1</property>
                     <property name="top_attach">10</property>
                   </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Anaglyph</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">11</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="IsAnaglyph">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="halign">start</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="sig_update_is_anaglyph" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">11</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -1066,6 +1115,18 @@
                                 <property name="top_attach">16</property>
                               </packing>
                             </child>
+							<child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Radius 2</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">16</property>
+                              </packing>
+                            </child>
                             <child>
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
@@ -1282,6 +1343,20 @@
                                 <property name="top_attach">16</property>
                               </packing>
                             </child>
+							<child>
+                              <object class="GtkSpinButton" id="SpinButtonObjectRadius2">
+                                <property name="visible">True</property>
+                                <property name="sensitive">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjRadius2</property>
+                                <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_radius_2" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">16</property>
+                              </packing>
+                            </child>
                             <child>
                               <object class="GtkSpinButton" id="SpinButtonObjectHeight">
                                 <property name="visible">True</property>
@@ -1329,6 +1404,7 @@
                               <object class="GtkComboBoxText" id="ComboBoxTextObjLookAtName">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <signal name="changed" handler="sig_update_obj_lookat_name" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -1635,10 +1711,27 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Parent</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">0</property>
+                              </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkComboBoxText" id="ComboBoxTextObjectParent">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <signal name="changed" handler="sig_update_object_parent" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">4</property>
+                                <property name="top_attach">0</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>
@@ -2078,6 +2171,69 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="label" translatable="yes">Flare</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="SpinButtonKFlare">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">AdjLightKFlare</property>
+                        <property name="digits">2</property>
+                        <property name="value">0.5</property>
+                        <signal name="value-changed" handler="sig_update_light_kflare" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="ButtonLightDirNormalize">
+                        <property name="label" translatable="yes">Normalize</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="sig_light_dir_normalize" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">4</property>
+                        <property name="top_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
                       <placeholder/>
                     </child>
                     <child>
@@ -2498,21 +2654,6 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">6</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

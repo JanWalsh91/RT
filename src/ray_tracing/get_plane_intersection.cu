@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:25:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 10:44:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/22 16:19:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	get_plane_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	if (i.r1 < 0)
 		return (false);
 	r->t > i.r1 ? ray->t = i.r1 : 0.0;
-	if (ray->type != R_SHADOW && r->t > i.r1)
+	if (r->t > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_PLANE;
@@ -55,7 +55,7 @@ t_pt2	get_uv_plane(t_object *obj, t_ray *ray, t_vec3 *dim)
 
 	coord.x = (int)(v_dot(ortho_x, ray->hit) * obj->texture_ratio.x + obj->texture_translate.x) % (int)dim->x;
 	coord.y = (int)(v_dot(ortho_y, ray->hit) * obj->texture_ratio.y + obj->texture_translate.y) % (int)dim->y;
-	// printf("dims : %f, %f, %f\n", dim->x, dim->y, dim->z);
+	printf("dims get_uv_plane : %d, %d\n", coord.x, coord.y);
 	if (coord.x < 0)
 		coord.x += -(coord.x / (int)dim->x) * (int)dim->x + (int)dim->x;
 	if (coord.y < 0)

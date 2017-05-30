@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:54:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/27 15:04:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
     int             fd;
 
 	fd = -1;
+	if (!g->r->scene)
+		return (NULL);
     printf("sig_save: filename: [%s]\n", g->filename);
 	fd = open(g->filename, O_WRONLY | O_TRUNC);
 	if (fd == -1)
@@ -105,7 +107,7 @@ void	save_scene(int fd, t_scene *scene)
 	o_ptr = scene->objects;
 	while (o_ptr)
 	{
-		save_object(fd, o_ptr);
+		save_object(fd, o_ptr, scene->objects);
 		o_ptr = o_ptr->next;
 	}
 	l_ptr = scene->lights;
@@ -115,7 +117,7 @@ void	save_scene(int fd, t_scene *scene)
 		l_ptr = l_ptr->next;
 	}
 	c_ptr = scene->cameras;
-	while (c_ptr->prev)
+	while (c_ptr && c_ptr->prev)
 		c_ptr = c_ptr->prev;
 	while (c_ptr)
 	{
@@ -125,7 +127,7 @@ void	save_scene(int fd, t_scene *scene)
 	write(fd, "}\n", 2);
 }
 
-void	save_object(int fd, t_object *obj)
+void	save_object(int fd, t_object *obj, t_object *objects)
 {
 	if (obj->type == T_PLANE)
 		write(fd, "\tplane: ", 8);
@@ -137,30 +139,37 @@ void	save_object(int fd, t_object *obj)
 		write(fd, "\tcylinder: ", 11);
 	else if (obj->type == T_CONE)
 		write(fd, "\tcone: ", 7);
+	else if (obj->type == T_TORUS)
+		write(fd, "\ttorus: ", 8);
+	else if (obj->type == T_CUBE_TROUE)
+		write(fd, "\tcube troue: ", 12);
 	write(fd, obj->name, ft_strlen(obj->name));
 	write(fd, "\n\t{\n", 4);
 	write(fd, "\t\tposition: ", 12);
 	write_vector(fd, obj->pos);
 	write(fd, "\n", 1);
-	if (obj->type != T_SPHERE)
+	write(fd, "\t\tdirection: ", 13);
+	write_vector(fd, obj->dir);
+	write(fd, "\n", 1);
+	if (!v_isnan(obj->look_at) && (obj->look_at.x != 0 && obj->look_at.y != 0 && obj->look_at.z != 0))
 	{
-		write(fd, "\t\tdirection: ", 13);
-		write_vector(fd, obj->dir);
+		write(fd, "\t\tlook at: ", 11);
+		write_vector(fd, obj->look_at);
 		write(fd, "\n", 1);
-		if (!v_isnan(obj->look_at) && (obj->look_at.x != 0 && obj->look_at.y != 0 && obj->look_at.z != 0))
-		{
-			write(fd, "\t\tlook at: ", 11);
-			write_vector(fd, obj->look_at);
-			write(fd, "\n", 1);
-		}
 	}
 	write(fd, "\t\tcolor: ", 9);
 	write_vector(fd, (t_vec3)obj->col);
 	write(fd, "\n", 1);
-	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE)
+	if (obj->type == T_SPHERE || obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_DISK || obj->type == T_TORUS)
 	{
 		write(fd, "\t\tradius: ", 10);
 		write_float(fd, obj->rad);
+		write(fd, "\n", 1);
+	}
+	if (obj->type == T_TORUS)
+	{
+		write(fd, "\t\tradius 2: ", 12);
+		write_float(fd, obj->rad_torus);
 		write(fd, "\n", 1);
 	}
 	if (obj->type == T_CYLINDER || obj->type == T_CONE)
@@ -186,6 +195,7 @@ void	save_object(int fd, t_object *obj)
 	write(fd, "\n", 1);
 	write(fd, "\t\treflection: ", 14);
 	write_float(fd, obj->reflection);
+	write(fd, "\n", 1);
 	if (obj->texture_name)
 	{
 		write(fd, "\n\t\ttexture: ", 12);
@@ -208,11 +218,32 @@ void	save_object(int fd, t_object *obj)
 		write(fd, "\n\t\tnormal map: ", 15);
 		write(fd, obj->normal_map_name, ft_strlen(obj->normal_map_name));
 	}
+	if (obj->parent)
+	{
+		write(fd, "\n\t\tparent index: ", 17);
+		write_float(fd, get_parent_index(obj->parent, objects));
+	}
 	write(fd, "\n\t}\n", 4);
+}
+
+int		get_parent_index(t_object *parent, t_object *objects)
+{
+	int i;
+
+	i = 0;
+	while (objects && parent != objects)
+	{
+		++i;
+		objects = objects->next;
+	}
+	if (parent == objects)
+		return (i + 1);
+	return (0);
 }
 
 void	save_camera(int fd, t_camera *cam)
 {
+	printf("save_camera\n");
 	write(fd, "\tcamera: ", 9);
 	write(fd, cam->name, ft_strlen(cam->name));
 	write(fd, "\n\t{\n", 4);
@@ -250,20 +281,26 @@ void	save_light(int fd, t_light *light)
 	write(fd, "\tlight: ", 8);
 	write(fd, light->name, ft_strlen(light->name));
 	write(fd, "\n\t{\n", 4);
-	write(fd, "\t\tposition: ", 12);
-	write_vector(fd, light->pos);
-	write(fd, "\n", 1);
-	if (!v_isnan(light->dir))
+	if (v_isnan(light->dir))
+	{
+		write(fd, "\t\tposition: ", 12);
+		write_vector(fd, light->pos);
+		write(fd, "\n", 1);
+	}
+	else
 	{
 		write(fd, "\t\tdirection: ", 13);
-		write_vector(fd, light->dir);
+		write_vector(fd, light->dir); 
 		write(fd, "\n", 1);
 	}
 	write(fd, "\t\tcolor: ", 8);
 	write_vector(fd, (t_vec3)light->col);
 	write(fd, "\n", 1);
-	write(fd, "\t\tintensity: ", 13);
+	write(fd, "\t\tintensity: ", 13); 
 	write_int(fd, light->intensity);
+	write(fd, "\n", 1);
+	write(fd, "\t\tkflare: ", 10);
+	write_float(fd, light->kflare);
 	write(fd, "\n\t}\n", 4);
 }
 

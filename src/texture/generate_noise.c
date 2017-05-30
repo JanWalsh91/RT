@@ -6,14 +6,14 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 11:33:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 10:11:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/21 11:41:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include <cuda_runtime.h>
 
-t_color		*generate_noise(t_vec3	*res)
+t_color		*generate_noise(t_vec3 *res)
 {
 	t_color		*map;
 	char		color;

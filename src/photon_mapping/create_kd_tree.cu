@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:37:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 16:33:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/28 17:27:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_kd_tree	*create_kd_node(t_photon photon);
 ** Creates a linked list with t_kd_tree nodes based off the photons gathered during the photon shooting
 */
 
-void		create_kd_tree(t_photon **photon_list, t_kd_tree **root, int photon_count)
+void		create_kd_tree(t_photon *photon_list, t_kd_tree **root, int photon_count)
 {
 	int i;
 	int y;
@@ -34,17 +34,19 @@ void		create_kd_tree(t_photon **photon_list, t_kd_tree **root, int photon_count)
 	while (++i < photon_count)
 	{
 		y = -1;
-		while (++y < MAX_RAY_DEPTH && !v_isnan(photon_list[i][y].dir))
+		while (++y < MAX_RAY_DEPTH && !v_isnan((photon_list + i)[y].dir))
 		{
 			if (!node)
 			{
-				*root = create_kd_node(photon_list[i][y]);
-				node = *root;
+				*root = create_kd_node((photon_list + i)[y]);
+				if (*root)
+					node = *root;
 			}
 			else
 			{
-				node->right = create_kd_node(photon_list[i][y]);
-				node = node->right;
+				node->right = create_kd_node((photon_list + i)[y]);
+				if (node->right)
+					node = node->right;
 			}
 		}  
 	}  
@@ -59,7 +61,8 @@ static t_kd_tree		*create_kd_node(t_photon photon)
 	if (ret)
 	{
 		printf("cudamallocerror for node\n");
-		exit(-1);
+		usleep(1000000);
+		return (NULL);
 	}
 	node->pos = photon.pos;
 	node->dir = photon.dir;

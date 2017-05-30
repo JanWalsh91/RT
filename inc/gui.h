@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:39:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:31:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_gtk_tools
 	size_t						stack_size;
 	bool						updating_gui;
 	char						generate_id;
+	t_vec3						old_dir;
 	GtkCssProvider				*font_size;
 }				t_gtk_tools;
 
@@ -70,13 +71,14 @@ void			*render_wrapper(gpointer data);
 
 char     	 	*get_new_filename(t_gtk_tools *g);
 void			save_scene(int fd, t_scene *scene);
-void			save_object(int fd, t_object *obj);
+void			save_object(int fd, t_object *obj, t_object *objects);
 void			save_camera(int fd, t_camera *cam);
 void			save_light(int fd, t_light *light);
 void			write_vector(int fd, t_vec3 vec);
 void			write_int(int fd, int i);
 void			write_float(int fd, float d);
 void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g);
+int				get_parent_index(t_object *parent, t_object *objects);
 
 /*
 ** Scene GUI panel
@@ -100,6 +102,7 @@ void			*populate_list_box_objects(t_gtk_tools *g); //Camel
 void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 void			update_objects_info_panel(t_gtk_tools *g, t_object *obj);
 void			init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g);
+void			init_obj_parent_combo_box(GtkWidget *widget, t_gtk_tools *g);
 t_object		*get_selected_object(t_gtk_tools *);
 void			*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g);
 void			*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g);
@@ -121,6 +124,7 @@ void			*sig_update_obj_kt(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_kreflection(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_radius(GtkWidget *spin_button, t_gtk_tools *g);
+void			*sig_update_obj_radius_2(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_update_obj_height(GtkWidget *spin_button, t_gtk_tools *g);
 void			*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g);
 t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);

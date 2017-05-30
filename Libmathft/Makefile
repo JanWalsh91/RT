@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/16 16:23:56 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/26 11:48:43 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ VECTORS_AND_MATRICES = c_add \
 		m_new_identity \
 		m_new_scale \
 		m_new_rotate \
+		m_new_rotate_axis \
+		p_rotate_axis \
 		m_new_rodriguez \
 		m_translate \
 		m_v_mult \

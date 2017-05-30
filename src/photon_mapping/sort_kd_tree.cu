@@ -6,13 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:24:44 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 13:27:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 16:10:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "photon_mapping.h"
 #include "cuda.h"
+#include "pthread.h"
 
 static t_kd_tree	*split_list(t_kd_tree *tree, int length);
 static t_kd_tree	*get_next_smallest_by_dim(t_kd_tree **left, t_kd_tree **right, int dim);
@@ -29,13 +30,33 @@ void				print_photons2(t_kd_tree *tree);
 ** Creates a sorted kd tree based off the linked list "root"
 */
 
+//segfaults with CPU multithreading, but after kernel launch...
+
+typedef struct s_th
+{
+	t_kd_tree **root;
+	int dim;
+	t_kd_tree **sorted;
+}				t_th;
+
+void	*sort_kd_tree_wrapper(void *v)
+{
+	t_th *th;
+
+	th = (t_th *)v;
+	sort_kd_tree(th->root, th->dim, th->sorted);
+	return (NULL);
+}
+
 void	sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted)
 {
 	t_kd_tree	*right;
 	t_kd_tree	*median;
 	int			length;
+	pthread_t	thread;
+	t_th		th;
 
-	dim = (dim == 3) ? 0 : dim; 
+	dim = (dim >= 3) ? 0 : dim; 
 	right = NULL;
 	*root = merge_sort_by_dim(*root, dim);
 	// printf("SORT RESULTS DIM %d %p: \n", dim, *root);
@@ -63,7 +84,13 @@ void	sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted)
 	if (right)
 	{
 		// printf("sort right: %p\n", right);
-		sort_kd_tree(&right, dim + 1, &((*sorted)->right));
+		th.root = &right;
+		th.dim = dim + 1;
+		th.sorted = &((*sorted)->right);
+		// printf("creating new thread\n");
+		pthread_create(&thread, NULL, sort_kd_tree_wrapper, &th);
+		// sort_kd_tree(&right, dim + 1, &((*sorted)->right));
+		pthread_join(thread, NULL);
 	}
 	// printf("done sorting\n");
 }
@@ -77,7 +104,7 @@ static t_kd_tree		*merge_sort_by_dim(t_kd_tree *root, int dim)
 
 
 	// printf("merge_sort_by_dim: \n");
-	// print_photons2(root);
+	print_photons2(root);
 	tmp = NULL;
 	link = NULL;
 	// C(1)
@@ -87,9 +114,9 @@ static t_kd_tree		*merge_sort_by_dim(t_kd_tree *root, int dim)
 	{
 		// C(2)
 		tmp = split_list(root, length / 2);
-		// printf("after split print root:\n");
+		// printf("after split print root: %p\n", root);
 		// print_photons2(root);
-		// printf("after split print tmp:\n");
+		// printf("after split print tmp: %p\n", tmp);
 		// print_photons2(tmp);
 		// printf("merge_sort_by_dim root\n");
 		root = merge_sort_by_dim(root, dim);	
@@ -103,18 +130,18 @@ static t_kd_tree		*merge_sort_by_dim(t_kd_tree *root, int dim)
 	// 	return (root);
 	// }
 	sorted = NULL;
-	// C(4)
+	C(4)
 	while (root || tmp)
 	{
 		if (!sorted)
 		{
-			// C(30)
+			C(30)
 			sorted = get_next_smallest_by_dim(&root, &tmp, dim);
 			link = sorted;
 		}
 		else
 		{
-			// C(31)
+			C(31)
 			link->right = get_next_smallest_by_dim(&root, &tmp, dim);
 			link = link->right;
 		}

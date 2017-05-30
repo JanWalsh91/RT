@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:06:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 12:40:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 13:11:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,18 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 
 static t_object		*list_to_array_objects(t_object *object);
 static size_t		get_objects_array_length(t_object *objects);
+static void			update_child_info(t_object *parent, t_object *obj);
 
 void				cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array)
 {
-	h_scene_to_array->objects = list_to_array_objects(r->scene->objects);
-	if (r->update.objects == 2)
-		gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array->objects)));
-	gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array->objects, get_objects_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
-	free(h_scene_to_array->objects);
+	if (r->update.objects >= 1)
+	{
+		h_scene_to_array->objects = list_to_array_objects(r->scene->objects);
+		if (r->update.objects == 2)
+			gpuErrchk(cudaMalloc(&(r->h_d_scene->objects), get_objects_array_length(h_scene_to_array->objects)));
+		gpuErrchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array->objects, get_objects_array_length(h_scene_to_array->objects), cudaMemcpyHostToDevice)));
+		free(h_scene_to_array->objects);
+	}
 }
 
 static t_object		*list_to_array_objects(t_object *object)
@@ -59,9 +63,22 @@ static t_object		*list_to_array_objects(t_object *object)
 	while (object)
 	{
 		memcpy(&array[++size], object, sizeof(t_object));
+		if (object->parent)
+			update_child_info(object->parent, &array[size]);
+		//update pos and dir if child obj.
 		object = object->next;
 	}
 	return (array);
+}
+
+static void			update_child_info(t_object *parent, t_object *obj)
+{
+	obj->pos = v_add(obj->pos, parent->pos);
+	obj->pos = p_rotate_axis(v_new(0, 1, 0), parent->dir, parent->pos, obj->pos);
+	obj->dir = v_norm(p_rotate_axis(v_new(0, 1, 0), parent->dir, v_new(0, 0, 0), obj->dir));
+	if (parent->parent)
+		update_child_info(parent->parent, obj);
+	printf("%s: new pos: %f %f %f\n", obj->name, obj->pos.x, obj->pos.y, obj->pos.z);
 }
 
 static size_t		get_objects_array_length(t_object *objects)

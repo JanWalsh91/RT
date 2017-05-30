@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:30:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 11:16:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
    }
 }
 
-
 static void		reset_update_struct(t_raytracing_tools *r);
 static void		cuda_malloc_scene(t_raytracing_tools *r);
 
@@ -36,11 +35,11 @@ int				cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
 
-	r->scene->photon_count = 1000;
+	r->scene->photon_count = 100;
 	if (!(memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3))))
 		exit (0);
 	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
-	cuda_malloc_photon_map(r);
+	// cuda_malloc_photon_map(r);
 	cuda_malloc_objects(r, &h_scene_to_array);
 	cuda_malloc_lights(r, &h_scene_to_array);
 	cuda_malloc_camera(r);
@@ -50,7 +49,7 @@ int				cuda_malloc(t_raytracing_tools *r)
 	return (1);
 }
 
-static void	reset_update_struct(t_raytracing_tools *r)
+static void		reset_update_struct(t_raytracing_tools *r)
 {
 	r->update.resolution = 0;
 	r->update.objects = 0;
@@ -62,7 +61,7 @@ static void	reset_update_struct(t_raytracing_tools *r)
 	r->update.photon_map = 0;
 }
 
-static void	cuda_malloc_scene(t_raytracing_tools *r)
+static void		cuda_malloc_scene(t_raytracing_tools *r)
 {
 	if (r->update.resolution == 2)
 	{
@@ -75,6 +74,8 @@ static void	cuda_malloc_scene(t_raytracing_tools *r)
 		gpuErrchk(cudaSetDevice(0));
 		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * r->scene->ray_depth);
 	}
+	if (r->update.anaglyph == 2)
+			gpuErrchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
 	if (r->update.scene == 2)
 		gpuErrchk(cudaMalloc(&r->d_scene, sizeof(t_scene)));
 }

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/27 14:24:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_SCENE] = &parse_scene;
 	t->parse[T_CAMERA] = &parse_camera;
 	t->parse[T_LIGHT] = &parse_light;
+	t->parse[T_KFLARE] = &parse_kflare;
 	t->parse[T_PLANE] = &parse_plane;
 	t->parse[T_DISK] = &parse_disk;
 	t->parse[T_SPHERE] = &parse_sphere;
@@ -77,6 +78,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_PARABOLOID] = &parse_paraboloid;
 	t->parse[T_TRIANGLE] = NULL; //&parse_triangle;
 	t->parse[T_TORUS] = &parse_torus;
+	t->parse[T_CUBE_TROUE] = &parse_cube_troue;
 	t->parse[T_OBJ] = &parse_obj;
 	t->parse[T_RESOLUTION] = &parse_resolution;
 	t->parse[T_RAY_DEPTH] = &parse_ray_depth;
@@ -93,6 +95,7 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_LOOK_AT] = &parse_look_at;
 	t->parse[T_COLOR] = &parse_color;
 	t->parse[T_RADIUS] = &parse_radius;
+	t->parse[T_RADIUS_2] = &parse_radius_2;
 	t->parse[T_HEIGHT] = &parse_height;
 	t->parse[T_DIFFUSE_COEF] = &parse_diffuse_coef;
 	t->parse[T_REFRACTION_INDEX] = &parse_ior;
@@ -107,6 +110,7 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_READ_OBJ_FILE] = &read_obj_file;
 	t->parse[T_READ_TEXTURE_FILE] = &read_texture_file;
 	t->parse[T_READ_MATERIAL_FILE] = &read_material_file;
+	t->parse[T_PARENT_INDEX] = &parse_parent_index;
 	t->parse[T_HASHTAG] = &hashtag;
 	t->parse[T_INVALID_TOKEN] = &invalid_token;
 }

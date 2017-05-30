@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:57:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 12:48:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void		init_raytracing_tools(t_raytracing_tools *r)
 	r->d_scene = NULL;
 	r->h_d_scene = NULL;
 	r->d_pixel_map = NULL;
+	r->h_region_map = NULL;
+	r->d_region_map = NULL;
 	if (!(r->h_d_scene = (t_scene *)malloc(sizeof(t_scene))))
 		ft_error_exit("Malloc error.");
 }
@@ -114,4 +116,3 @@ int	clean_exit(t_gtk_tools *g)
 	// free_scene(g->r->scene);
 	return (1);
 }
-

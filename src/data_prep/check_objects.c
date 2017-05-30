@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   check_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/15 15:11:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/25 13:09:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 
 static void			get_obj_direction(t_scene *scene, t_object *obj);
-static void			add_disks(t_scene *scene, t_object *obj);
-static t_object		*get_new_disk(t_object *obj, t_vec3 pos);
+// static void			add_disks(t_scene *scene, t_object *obj);
+// static t_object		*get_new_disk(t_object *obj, t_vec3 pos);
+static void			set_parent(t_object *objects, t_object *o_ptr);
 static void			get_cone_angle(t_object *cone);
 
 /*
@@ -51,9 +52,35 @@ void				check_objects(t_scene *scene, t_object *objects)
 		isnan(o_ptr->reflection) ? set_default_reflection(scene,
 			o_ptr->type, o_ptr, &o_ptr->reflection) : 0;
 		o_ptr->type == T_CONE ? get_cone_angle(o_ptr) : 0;
-		if (o_ptr->type == T_CONE || o_ptr->type == T_CYLINDER)
-			add_disks(scene, o_ptr);
+		if (o_ptr->parent_index)
+		{
+			printf("o_ptr = %s\n", o_ptr->name);
+			printf("before %p\n", o_ptr->parent);
+			set_parent(objects, o_ptr);
+			printf("after %p\n", o_ptr->parent);
+		}
+		// if (o_ptr->type == T_CONE || o_ptr->type == T_CYLINDER)
+			// add_disks(scene, o_ptr);
 		o_ptr = o_ptr->next;
+	}
+}
+
+static void			set_parent(t_object *objects, t_object *o_ptr)
+{
+	int	i;
+
+	i = 0;
+	while (objects && ++i != o_ptr->parent_index)
+	{
+		printf("i = %d, object = %p\n", i, objects);
+		objects = objects->next;
+	}
+	if (i == o_ptr->parent_index)
+		o_ptr->parent = objects;
+	else
+	{
+		o_ptr->parent = NULL;
+		o_ptr->parent_index = 0;	
 	}
 }
 
@@ -70,39 +97,39 @@ static void			get_obj_direction(t_scene *scene, t_object *obj)
 		obj->look_at = v_new(0, 0, 0);
 }
 
-static void			add_disks(t_scene *scene, t_object *obj)
-{
-	t_object		*disk1;
+// static void			add_disks(t_scene *scene, t_object *obj)
+// {
+// 	t_object		*disk1;
 
-	if (obj->type == T_CYLINDER)
-		push_object(&scene->objects, get_new_disk(obj, obj->pos));
-	push_object(&scene->objects, get_new_disk(obj, v_add(obj->pos,
-		v_scale(obj->dir, obj->height))));
-}
+// 	if (obj->type == T_CYLINDER)
+// 		push_object(&scene->objects, get_new_disk(obj, obj->pos));
+// 	push_object(&scene->objects, get_new_disk(obj, v_add(obj->pos,
+// 		v_scale(obj->dir, obj->height))));
+// }
 
-static t_object		*get_new_disk(t_object *obj, t_vec3 pos)
-{
-	t_object *new_disk;
+// static t_object		*get_new_disk(t_object *obj, t_vec3 pos)
+// {
+// 	t_object *new_disk;
 
-	new_disk = NULL;
-	if (!(new_disk = (t_object *)ft_memalloc(sizeof(t_object))))
-		ft_errno_exit();
-	set_non_values(new_disk);
-	new_disk->type = T_DISK;
-	new_disk->col = obj->col;
-	new_disk->rad = obj->rad;
-	new_disk->dir = obj->dir;
-	new_disk->name = ft_strjoin(obj->name, " cap");
-	new_disk->pos = pos;
-	new_disk->ks = obj->ks;
-	new_disk->kd = obj->kd;
-	new_disk->ior = obj->ior;
-	new_disk->reflection = obj->reflection;
-	new_disk->specular_exp = obj->specular_exp;
-	new_disk->transparency = obj->transparency;
-	new_disk->next = NULL;
-	return (new_disk);
-}
+// 	new_disk = NULL;
+// 	if (!(new_disk = (t_object *)ft_memalloc(sizeof(t_object))))
+// 		ft_errno_exit();
+// 	set_non_values(new_disk);
+// 	new_disk->type = T_DISK;
+// 	new_disk->col = obj->col;
+// 	new_disk->rad = obj->rad;
+// 	new_disk->dir = obj->dir;
+// 	new_disk->name = ft_strjoin(obj->name, " cap");
+// 	new_disk->pos = pos;
+// 	new_disk->ks = obj->ks;
+// 	new_disk->kd = obj->kd;
+// 	new_disk->ior = obj->ior;
+// 	new_disk->reflection = obj->reflection;
+// 	new_disk->specular_exp = obj->specular_exp;
+// 	new_disk->transparency = obj->transparency;
+// 	new_disk->next = NULL;
+// 	return (new_disk);
+// }
 
 static void			get_cone_angle(t_object *cone)
 {

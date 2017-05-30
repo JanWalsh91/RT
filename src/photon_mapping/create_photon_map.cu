@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:48:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/19 16:45:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/29 12:34:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,41 +50,45 @@ void			update_photon_map(t_raytracing_tools *r)
 	t_kd_tree 	*sorted;
 	
 	srand(time(NULL));
-	ret = shoot_photon_group(r, r->scene->photon_count); //CAUSES INVALID DEVICE POITNER
+	ret = shoot_photon_group(r, r->scene->photon_count);
 	
+	if (r->scene->photon_kd_tree)
+		free_kd_tree(r->scene->photon_kd_tree);
+	r->scene->photon_kd_tree = NULL;
+	create_kd_tree(r->h_d_scene->photon_list, &r->scene->photon_kd_tree, r->scene->photon_count);
+	// exit(0);
+	// // printf("-----%p and %p\n", r->scene->photon_kd_tree, r->d_scene->photon_kd_tree);
 	// // exit(0);
-	// if (r->scene->photon_map)
-	// 	free_kd_tree(r->scene->photon_map);
-	// r->scene->photon_map = NULL;
-
-	// create_kd_tree(r->h_d_scene->photon_list, &r->scene->photon_map, r->scene->photon_count);
-	// // printf("-----%p and %p\n", r->scene->photon_map, r->d_scene->photon_map);
-	// // exit(0);
-	// sorted = NULL;
-	// sort_kd_tree(&r->scene->photon_map, 0, &sorted);
-	// r->scene->photon_map = sorted;
+	sorted = NULL;
+	sort_kd_tree(&r->scene->photon_kd_tree, 0, &sorted); // CAUSES SEGFAULT
+	// exit(0);
+	// r->scene->photon_kd_tree = sorted;
 	// printf("done creating photon map\n");
-	// t_kd_tree *p = sorted;
+	t_kd_tree *p = sorted;
 	// printf("first photon: pos: [%f, %f, %f], dir: [%f, %f, %f], col: [%d, %d, %d], n: [%f, %f, %f]\n",
 	// p->pos.x, p->pos.y, p->pos.z, p->dir.x, p->dir.y, p->dir.z, p->col.r, p->col.g, p->col.b, p->n.x, p->n.y, p->n.z);
 
-	// print_photons(r->scene->photon_map); 
+	// print_photons(r->scene->photon_kd_tree); 
 }
 
 static int	shoot_photon_group(t_raytracing_tools *r, size_t photon_count)
 {
 	// printf("shoot_photon_group\n");
 	t_photon	*init_photon_list;
+	cudaError_t		code;
 
-	if (!(cudaMallocHost(&init_photon_list, sizeof(t_photon) * photon_count)))
+	if ((code = cudaMallocHost(&init_photon_list, sizeof(t_photon) * photon_count)))
 	{
+		printf("shoot_photon group malloc fail: %s, %d\n", cudaGetErrorString(code), code);
+		exit(1);
+		 
 		//if cudaMalloc fails...
 		// return (shoot_photon_group(r, photon_count / 2) +
 		// shoot_photon_group(r, photon_count / 2));
 	}
 	init_photon_group(r, photon_count, init_photon_list);
 	shoot_photon_wrapper(r, photon_count, init_photon_list);
-	cudaFree(init_photon_list);
+	// cudaFree(init_photon_list); // CAUSES INVALID DEVICE POINTER
 	return (photon_count);
 }
 
@@ -109,7 +113,7 @@ static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_pho
 		//while photon count within ratio
 		while (++i < ratio)
 			//init the photon
-			init_photon(&init_photon_list[i], l_ptr);
+			init_photon((init_photon_list + i), l_ptr);
 		l_ptr = l_ptr->next;
 	}
 }		
@@ -153,7 +157,8 @@ static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_
 	blockSize = dim3(BLOCK_DIM, 1, 1);
 	gridSize = dim3(photon_count / BLOCK_DIM + ((photon_count % BLOCK_DIM) ? 1 : 0, 1));
 	shoot_photon<<<gridSize, blockSize>>>(r->d_scene, init_photon_list, photon_count, rand());
-	cudaError_t errSync  = cudaGetLastError();
+	C(1)
+		cudaError_t errSync  = cudaGetLastError();
 cudaError_t errAsync = cudaDeviceSynchronize();
 if (errSync != cudaSuccess) 
   printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
@@ -181,6 +186,8 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 	memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 	photon = init_kernel_photon(&r, init_photon_list[r.idx]);
 	// printf("photon [%i]: [%f, %f, %f]\n", r.idx, photon.dir.x, photon.dir.y, photon.dir.z);
+	if (r.idx == 0)
+		printf("photon cast primary ray\n");
 	cast_primary_ray(&r, &photon);
 	
 	__syncthreads();
@@ -214,14 +221,17 @@ static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon)
 	new_ray.depth = r->scene->ray_depth;
 	new_ray.ior = r->scene->cameras->ior; ////////////
 	r->ior_list[0] = r->scene->cameras->ior; ////////change for light ior!
-	i = -1;
-	while (++i < r->scene->ray_depth)
+	i = 0;
+	while (i < r->scene->ray_depth && i < PHOTON_BOUNCE_MAX)
 	{
-		r->scene->photon_list[r->idx][i].pos = v_new(NAN, NAN, NAN);
-		r->scene->photon_list[r->idx][i].dir = v_new(NAN, NAN, NAN);
-		r->scene->photon_list[r->idx][i].n = v_new(NAN, NAN, NAN);
-		r->scene->photon_list[r->idx][i].col = c_new(0, 0, 0);
+		r->scene->photon_list[r->idx + i].pos = v_new(NAN, NAN, NAN);
+		r->scene->photon_list[r->idx + i].dir = v_new(NAN, NAN, NAN);
+		r->scene->photon_list[r->idx + i].n = v_new(NAN, NAN, NAN);
+		r->scene->photon_list[r->idx + i].col = c_new(0, 0, 0);
+		++i;
 	}
+	if (r->idx == 0)
+		printf("done preping photon\n");
 	return (new_ray);
 }
 
