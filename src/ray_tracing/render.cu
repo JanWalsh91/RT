@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.cu                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/30 11:01:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/30 15:23:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ __global__ void create_anaglyph(t_color *left, t_color *right, t_scene *scene, t
 		left[idx].g = right[idx].g;
 		left[idx].b = right[idx].b;
 	}
-	// __syncthreads();
 }
 
 // Trouver un moyen pour appeler cette fonction ><
@@ -161,6 +160,47 @@ void	update_camera(t_camera *camera)
 	camera->ctw[3][0] = camera->pos.x;
 	camera->ctw[3][1] = camera->pos.y;
 	camera->ctw[3][2] = camera->pos.z;
+}
+
+__global__	void get_look_at_position(t_scene *scene, t_vec3 *pos)
+{
+	t_ray				cam_ray;
+	t_raytracing_tools	r;
+	t_dpt2				aa_i;
+	int					i;
+
+	r.pix.x = scene->res.x / 2.0;
+	r.pix.y = scene->res.y / 2.0;
+	r.scene = scene; 
+    r.idx = scene->res.x * r.pix.y + r.pix.x;
+	aa_i.x = 0.5;
+	aa_i.y = 0.5;
+	memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
+	cam_ray = init_camera_ray(&r, aa_i);
+	r.t = INFINITY; 
+	i = -1;
+	while (scene->objects[++i].type != T_INVALID_TOKEN)
+	{
+		if (intersects(&r, &cam_ray, i) && r.t > cam_ray.t)
+			r.t = cam_ray.t;
+	}
+	if (r.t == INFINITY)
+		*pos = v_new(NAN, NAN, NAN);
+	else
+		*pos = v_add(cam_ray.origin, v_scale(cam_ray.dir, r.t)); 
+}
+
+t_vec3		get_look_at(t_scene *scene)
+{
+	t_vec3	h_look_at;
+	t_vec3	*d_look_at;
+
+	if (cudaMalloc(&d_look_at, sizeof(t_vec3)))
+		exit(0);
+	get_look_at_position<<<1, 1>>>(scene, d_look_at);
+	gpuErrchk(cudaMemcpy(&h_look_at, d_look_at, sizeof(t_vec3), cudaMemcpyDeviceToHost));
+	// printf("Look at: %f, %f, %f\n", h_look_at.x, h_look_at.y, h_look_at.z);
+	return (h_look_at);
 }
 
 void		render(t_raytracing_tools *r, t_tile tile)
@@ -203,11 +243,10 @@ void		render(t_raytracing_tools *r, t_tile tile)
 
 	if (r->scene->is_3d)
 	{
-		printf("3d\n");
-		//IS HARDCODING THESE VALUES CORRECT?
+		t_vec3	original;
+		original = r->scene->cameras->dir;
+		r->scene->cameras->dir = v_norm(v_sub(get_look_at(r->d_scene), r->scene->cameras->pos));
 		r->scene->cameras->pos.x += 0.05;
-		r->scene->cameras->dir.x -= 0.01;
-		r->scene->cameras->dir = v_norm(r->scene->cameras->dir);
 		update_camera(r->scene->cameras);
 		r->scene->cameras->filter = F_RIGHT_CYAN;
 		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));
@@ -215,8 +254,7 @@ void		render(t_raytracing_tools *r, t_tile tile)
 		render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d, r->d_region_map, tile);
 		gpuErrchk((cudaDeviceSynchronize()));
 		r->scene->cameras->pos.x -= 0.05;
-		r->scene->cameras->dir.x += 0.01;
-		r->scene->cameras->dir = v_norm(r->scene->cameras->dir);
+		r->scene->cameras->dir = original;
 		update_camera(r->scene->cameras);
 		r->scene->cameras->filter = F_LEFT_RED;
 		gpuErrchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras, sizeof(t_camera), cudaMemcpyHostToDevice));

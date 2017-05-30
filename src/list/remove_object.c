@@ -6,16 +6,47 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:57:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/21 16:36:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/30 12:16:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
+#include <cuda_runtime.h>
 
 void	free_object(t_object *to_delete)
 {
+	struct cudaPointerAttributes	attributes;
+	
 	if (to_delete->name)
-				free(to_delete->name);
+		free(to_delete->name);
+	if (to_delete->texture)
+	{
+		if (cudaPointerGetAttributes(&attributes, to_delete->texture))
+			ft_error_exit("Invalid device");
+		printf("Memory type: %d\n", attributes.memoryType);
+		if (attributes.memoryType == cudaMemoryTypeHost)
+			cudaFreeHost(to_delete->texture);
+		else
+			cudaFree(to_delete->texture);
+		if (to_delete->texture_name)
+		{
+			printf("Texture name: %s\n", to_delete->texture_name);
+			free(to_delete->texture_name);
+		}
+	}
+	if (to_delete->normal_map)
+	{
+		if (cudaPointerGetAttributes(&attributes, to_delete->normal_map))
+			ft_error_exit("Invalid device");
+		printf("Memory type: %d\n", attributes.memoryType);
+		if (attributes.memoryType == cudaMemoryTypeHost)
+			cudaFreeHost(to_delete->normal_map);
+		else
+			cudaFree(to_delete->normal_map);
+		if (to_delete->normal_map_name)
+			free(to_delete->normal_map_name);
+	}
+	
 	free(to_delete);
 }
 
