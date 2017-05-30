@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/20 14:34:34 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/05/30 12:01:46 by talemari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,8 @@ RAY_TRACING = cast_primary_ray \
 			get_cone_intersection \
 			get_torus_intersection \
 			get_paraboloid_intersection \
+			get_object_intersection \
+			get_triangle_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \
@@ -126,6 +128,7 @@ GUI =		window_signals \
 			sig_errors
 
 CUDA_MEM =	cuda_malloc \
+			ft_lstnew_cuda \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
@@ -139,6 +142,9 @@ OBJ_PARSER = 	ft_freetab \
 				objparser \
 				get_vector_i \
 				get_vector_f \
+				get_vector_2f \
+				print_triangles \
+				objparser_error \
 				set_obj
 
 PHOTON_MAPPING = create_photon_map \

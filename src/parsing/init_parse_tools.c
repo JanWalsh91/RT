@@ -75,6 +75,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_CYLINDER] = &parse_cylinder;
 	t->parse[T_CONE] = &parse_cone;
 	t->parse[T_PARABOLOID] = &parse_paraboloid;
+	t->parse[T_TRIANGLE] = NULL; //&parse_triangle;
 	t->parse[T_TORUS] = &parse_torus;
 	t->parse[T_OBJ] = &parse_obj;
 	t->parse[T_RESOLUTION] = &parse_resolution;

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 15:45:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/18 15:46:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/24 14:59:40 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,6 @@ static void	gtk_popup_dialog(char *mesg, t_gtk_tools *g)
 									"%s", error_mesg);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
+	if (ft_strncmp(mesg, "!!", 2) == 0)
+		ft_strdel(&mesg);
 }

@@ -94,6 +94,7 @@ typedef enum	e_token
 	T_PARABOLOID,
 	T_TORUS,
 	T_OBJ,
+	T_TRIANGLE,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
 	T_BACKGROUND_COLOR,
@@ -120,8 +121,7 @@ typedef enum	e_token
 	T_READ_MATERIAL_FILE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
-	T_COUNT,
-	T_TRIANGLE
+	T_COUNT
 }				t_token;
 
 typedef enum	e_filter
@@ -643,6 +643,7 @@ void			cuda_malloc_photon_map(t_raytracing_tools *r);
 void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_camera(t_raytracing_tools *r);
+t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
 
 /*
 ** Ray Tracing Functions
@@ -708,10 +709,9 @@ bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 CUDA_DEV
 bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 CUDA_DEV
-bool			get_triangle_intersection(t_triangle *t, t_ray *ray, int index,
-				t_vec3 *norm);
+bool			get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index);
 CUDA_DEV
-bool			get_obj_intersection(t_obj *o, t_ray *ray, int index, t_vec3 *norm);
+bool			get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);

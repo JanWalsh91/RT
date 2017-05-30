@@ -33,5 +33,7 @@ bool	intersects(t_raytracing_tools *r, t_ray *ray, int index)
 		return (get_paraboloid_intersection(r, ray, index));
 	else if (r->scene->objects[index].type == T_TORUS)
 		return (get_torus_intersection(r, ray, index));
+	else if (r->scene->objects[index].type == T_OBJ)
+		return (get_obj_intersection(r, ray, index));
 	return (false);
 }
