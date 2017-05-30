@@ -346,13 +346,11 @@
       <row>
         <col id="0" translatable="yes">Torus</col>
       </row>
-<<<<<<< HEAD
       <row>
         <col id="0" translatable="yes">.Obj</col>
-=======
+      </row>
 	   <row>
         <col id="0" translatable="yes">Cube Troue</col>
->>>>>>> 674001ce002cf1ca2b653cfed5c07a10a2c66bfa
       </row>
     </data>
   </object>
