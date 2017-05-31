@@ -37,17 +37,38 @@ static void		print_triangles_dev(t_obj *obj)
 }
 
 __device__
+bool	get_sphere_intersection_obj(t_raytracing_tools *r, t_ray *ray, int index)
+{
+	t_intersection_tools	i;
+
+	i.v1 = v_sub(ray->origin, r->scene->objects[index].pos);
+	i.q.x = v_dot(ray->dir, ray->dir);
+	i.q.y = 2 * v_dot(i.v1, ray->dir);
+	i.q.z = v_dot(i.v1, i.v1) - pow(r->scene->objects[index].rad, 2);
+	if (!solve_quadratic(i.q, &i.r1, &i.r2))
+		return (false);
+	if (i.r2 < i.r1)
+		ft_swapf(&i.r1, &i.r2);
+	(i.r1 < 0) ? i.r1 = i.r2 : 0;
+	if (i.r1 < 0)
+		return (false);
+	return (true);
+}
+
+__device__
 bool	get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 {
 	t_triangle		triangle;
 	t_obj_triangle	*lst_triangle;
 	t_obj			*o;
 	t_list			*tmp;
+	float			t;
 
 	// if (r->idx != 0)
 	// 	return (0);
-//	if (!(get_sphere_intersection(r, ray, index)))
-//		return (false);
+	if (!(get_sphere_intersection_obj(r, ray, index)))
+		return (false);
+	t = INFINITY;
 	o = r->scene->objects[index].obj;
 	tmp = o->triangle;
 	//printf("Check\n");
@@ -62,10 +83,20 @@ bool	get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 		triangle.v2 = o->vertex[lst_triangle->v.y];
 		triangle.v3 = o->vertex[lst_triangle->v.z];
 		if (get_triangle_intersection(r, &triangle, ray, index))
-				return (true);
+		{
+			if (ray->t < t)
+			{
+				t = ray->t;
+			}
+		}
 		//if (r->pix.x == 600 && r->pix.y < 200)
 			//printf("addr %p\n", o->triangle->next);
 		tmp = tmp->next;
+	}
+	if (t != INFINITY)
+	{
+		ray->t = t;
+		return (true);
 	}
 	// if (r->idx == 0)
 	// printf("Exit obj_intersection\n");

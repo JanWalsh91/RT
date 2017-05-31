@@ -22,92 +22,65 @@ static void		print_vec2(t_vec3 vec)
 	printf("x : %f, y : %f, z : %f\n", vec.x, vec.y, vec.z);
 }
 
+/*__device__
+bool	get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index)
+{
+	t_intersection_tools	i;
+
+	i.n_dir = (v_dot(r->scene->objects[index].dir, ray->dir) > 0) ? -1 : 1;
+	i.p = v_sub(t->v2, t->v1);
+	i.q = v_sub(t->v3, t->v1);
+	i.v1 = v_cross(ray->dir, i.q);
+	i.d1 = v_dot(i.p, i.v1);
+	if (i.d1 > -0.000001 && i.d1 < 0.000001)
+		return (false);
+	i.d2 = 1 / i.d1;
+	i.v2 = v_sub(ray->origin, t->v1);
+	i.r1 = v_dot(i.v2, i.v1) * i.d2;
+	if (i.r1 < 0 || i.r1 > 1)
+		return (false);
+	i.v3 = v_cross(i.v2, i.p);
+	i.r2 = v_dot(ray->dir, i.v3) * i.d2;
+	if (i.r2 < 0 || (i.r2 + i.r1) > 1)
+		return (false);
+	i.r2 = (v_dot(i.q, i.v3)) * i.d2;
+	if (i.r2 < 0)
+		return (false);
+	r->t > i.r2 ? ray->t = i.r2 : 0.0;
+	ray->hit_obj = index;
+	ray->hit_type = T_TRIANGLE;
+	ray->nhit = v_cross(i.q, i.p);
+	return (true);
+}*/
+
 __device__
 bool	get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index)
 {
-	float		det;
-	float		invdet;
-	float		u;
-	float		v;
-	float		tmp;
-	t_vec3		edge1;
-	t_vec3		edge2;
-	t_vec3		s1;
-	t_vec3		s2;
-	t_vec3		s3;
+	t_intersection_tools	i;
+	float					tmp;
 
-	if (r->idx == 0)
-		printf("get triangle itnersection\n");
-	//if (r->pix.x == 600 && r->pix.y < 5)
-	//{
-	
-	edge1 = v_sub(t->v2, t->v1);
-	edge2 = v_sub(t->v3, t->v1);
-	if (r->idx == 0)
-	{
-		printf("edge: %f, %f, %f edge2: %f, %f, %f\n", edge1.x, edge1.y, edge1.z, edge2.x, edge2.y, edge2.z);
-		print_vec2(t->v1);
-		print_vec2(t->v2);
-		print_vec2(t->v3);
-	}
-	__syncthreads();
-	s1 = v_cross(ray->dir, edge2);
-	det = v_dot(edge1, s1);
-	// printf("det = %f\n", det);
-	if (r->idx == 0)
-		C(10)
-	__syncthreads();
-	if (det > -0.0001 && det < 0.0001)
-	{
-		if (r->idx == 0)
-			C(2)
-				
+	i.p = v_sub(t->v2, t->v1);
+	i.q = v_sub(t->v3, t->v1);
+	i.v1 = v_cross(ray->dir, i.q);
+	i.d1 = v_dot(i.p, i.v1);
+	if (i.d1 < 1e-8 && i.d1 > -1e-8)
 		return (false);
-	}
-	
-		// printf("idx: %d, det: %f\n", r->idx, det);
-		
-	__syncthreads();
-	invdet = 1 / det;
-	s2 = v_sub(ray->origin, t->v1);
-	u = v_dot(s2, s1) * invdet;
-	if (u < 0 || u > 1)
-	{
-		if (r->idx == 0)
-			C(3)	
+	i.d2 = 1 / i.d1;
+	i.v2 = v_sub(ray->origin, t->v1);
+	i.r1 = v_dot(i.v1, i.v2) * i.d2;
+	if (i.r1 < 0 || i.r1 > 1)
 		return (false);
-	}
-	if (r->idx == 0)
-		C(12)
-	__syncthreads();
-	s3 = v_cross(ray->dir, edge1);
-	v = v_dot(ray->dir, s3) * invdet;
-	if (v < 0 || (u + v) > 1)
-	{
-		if (r->idx == 0)
-			C(4)	
+	i.v3 = v_cross(i.v2, i.p);
+	i.r2 = v_dot(ray->dir, i.v3) * i.d2;
+	if (i.r2 < 0 || i.r1 + i.r2 > 1)
 		return (false);
-	}
-	if (r->idx == 0)
-		C(13)
-	__syncthreads();	
-	tmp = v_dot(edge2, s3) * invdet;
-	if ((tmp < 0) || (tmp > ray->t) || ray->type == R_SHADOW)
+	tmp = v_dot(i.q, i.v3) * i.d2;
+	if (tmp < r->t)
 	{
-		if (r->idx == 0)
-			C(5)	
-		return (false);
+		ray->t = tmp;
+		ray->hit_obj = index;
+		ray->hit_type = T_TRIANGLE;
+		ray->nhit = v_cross(i.q, i.p);
 	}
-	if (r->idx == 0)
-		C(14)
-	__syncthreads();
-	ray->t = tmp - 0.005;
-	ray->hit_obj = index;
-	ray->hit_type = T_TRIANGLE;
-	ray->nhit = v_cross(edge2, edge1);
-	//}
-	if (r->idx == 0)
-		C(1)
-	__syncthreads();
 	return (true);
 }

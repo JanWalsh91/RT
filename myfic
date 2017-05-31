@@ -1,0 +1,217 @@
+get_file end
+Allocating obj
+[38;5;226mWARNING in scene: "rendu1":
+Providing default ambient light color.[0m
+[38;5;226mWARNING in scene: "rendu1":
+Providing default ray depth.[0m
+[38;5;226mWARNING in scene "rendu1" in camera "cam":
+Providing default fov.[0m
+[38;5;226mWARNING in scene "rendu1" in camera "cam":
+Providing default index of refraction.[0m
+[38;5;226mWARNING in scene "rendu1" in light "light":
+Providing default color.[0m
+[38;5;226mWARNING in scene: "rendu1":
+Providing default direction.[0m
+[38;5;226mWARNING in scene: "rendu1":
+Providing default index of refraction.[0m
+[38;5;226mWARNING in scene: "rendu1":
+Providing default transparency coefficient.[0m
+[38;5;226mWARNING in scene: "rendu1":
+Providing default reflection coefficient.[0m
+open_scene: [scenes/obj.rt]
+get_file
+setting attirbutes
+setting attirbutes
+parse_close_bracket
+setting attirbutes
+setting attirbutes
+setting attirbutes
+parse_close_bracket
+setting attirbutes
+parse_obj
+setting attirbutes
+setting attirbutes
+READING OBJ
+ad : 0x200fe0000
+------TRIANGLE------
+Adresse : 0x200fe0400
+v1 = 0.500000, -0.500000, 0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = 0.500000, -0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe0800
+v1 = 0.500000, 0.500000, 0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = 0.500000, -0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe0c00
+v1 = 0.500000, 0.500000, 0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = -0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1000
+v1 = 0.500000, 0.500000, -0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = -0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1400
+v1 = 0.500000, 0.500000, -0.500000
+v2 = -0.500000, 0.500000, -0.500000
+v3 = 0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1800
+v1 = 0.500000, -0.500000, -0.500000
+v2 = -0.500000, 0.500000, 0.500000
+v3 = 0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1c00
+v1 = 0.500000, -0.500000, -0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = -0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2000
+v1 = 0.500000, -0.500000, 0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = -0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2400
+v1 = -0.500000, 0.500000, 0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = 0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2800
+v1 = -0.500000, 0.500000, -0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = 0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2c00
+v1 = 0.500000, -0.500000, -0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = -0.500000, -0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe3000
+v1 = 0.500000, 0.500000, -0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = -0.500000, -0.500000, -0.500000
+Further point : -0.500000, -0.500000, 0.500000
+ad : 0x200fe0000
+check2
+------TRIANGLE------
+Adresse : 0x200fe0400
+v1 = 0.500000, -0.500000, 0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = 0.500000, -0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe0800
+v1 = 0.500000, 0.500000, 0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = 0.500000, -0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe0c00
+v1 = 0.500000, 0.500000, 0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = -0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1000
+v1 = 0.500000, 0.500000, -0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = -0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1400
+v1 = 0.500000, 0.500000, -0.500000
+v2 = -0.500000, 0.500000, -0.500000
+v3 = 0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1800
+v1 = 0.500000, -0.500000, -0.500000
+v2 = -0.500000, 0.500000, 0.500000
+v3 = 0.500000, 0.500000, 0.500000
+------TRIANGLE------
+Adresse : 0x200fe1c00
+v1 = 0.500000, -0.500000, -0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = -0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2000
+v1 = 0.500000, -0.500000, 0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = -0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2400
+v1 = -0.500000, 0.500000, 0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = 0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2800
+v1 = -0.500000, 0.500000, -0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = 0.500000, 0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe2c00
+v1 = 0.500000, -0.500000, -0.500000
+v2 = 0.500000, -0.500000, 0.500000
+v3 = -0.500000, -0.500000, -0.500000
+------TRIANGLE------
+Adresse : 0x200fe3000
+v1 = 0.500000, 0.500000, -0.500000
+v2 = 0.500000, 0.500000, 0.500000
+v3 = -0.500000, -0.500000, -0.500000
+Further point : -0.500000, -0.500000, 0.500000
+parse_close_bracket
+setting attirbutes
+parse_close_bracket
+update_grid_scene
+sig_update_res_x
+sig_update_ray_depth
+populate_list_box_objects
+update_objects_info_panel
+sig_update_obj_name
+get_selected_object: [my Tgspot]
+sig_update_obj_type
+get_selected_object: [my Tgspot]
+update_objects_info_panel
+init_obj_look_at_combo_box
+sig_update_obj_dir_y
+get_selected_object: [my Tgspot]
+sig_update_obj_ks
+get_selected_object: [my Tgspot]
+sig_update_obj_spec_exp
+get_selected_object: [my Tgspot]
+sig_update_obj_kd
+get_selected_object: [my Tgspot]
+sig_update_obj_ior
+get_selected_object: [my Tgspot]
+init_obj_look_at_combo_box
+update_grid_lights
+update_lights_info_panel
+sig_update_light_name
+get_selected_light
+sig_update_light_pos_x
+get_light_from_list_box
+sig_update_light_pos_y
+get_light_from_list_box
+sig_update_light_pos_z
+get_light_from_list_box
+sig_update_light_intensity
+get_light_from_list_box
+update_grid_cameras
+update_cameras_info_panel
+sig_update_cam_name
+get_selected_camera
+sig_update_cam_pos_z
+get_selected_camera
+init_cam_look_at_combo_box(check for segfault)
+check1
+check2
+check3
+check4
+sig_update_cam_lookat_name
+get_selected_camera
+get_look_at_obj
+sig_update_cam_dir_z
+get_selected_camera
+sig_update_cam_fov
+get_selected_camera
+sig_update_cam_ior
+render_wrapper
+No photon mappin :(

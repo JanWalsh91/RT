@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 10:19:19 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/30 12:01:08 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/30 15:25:54 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ static t_vec2f		*set_texture_array(t_list **v, int j)
 
 char				*set_obj(t_obj *obj, t_objlist *olist, t_ti ind)
 {
+	obj->vertex = NULL;
+	obj->normal = NULL;
+	obj->texture = NULL;
 	if (ind.i > 0)
 		if (!(obj->vertex = set_array(&olist->vertex, ind.i, obj)))
 			return ("Failed to set vertex array");
