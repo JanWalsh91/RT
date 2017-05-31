@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/29 13:58:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 10:44:56 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -609,8 +609,7 @@ t_scene			*get_new_scene(t_parse_tools *t);
 t_object		*get_new_object(t_parse_tools *t);
 t_light			*get_new_light(t_parse_tools *t);
 t_camera		*get_new_camera(t_parse_tools *t);
-t_input			*get_new_input(char *line, char *file_name, int fd,
-					t_parse_tools *t);
+t_input			*get_new_input(char *line, char *file_name, t_parse_tools *t);
 // void			push_scene(t_scene **scenes, t_scene *new_scene);
 void			push_object(t_object **objects, t_object *new_object);
 void			push_light(t_light **lights_head, t_light *new_light);
@@ -630,7 +629,7 @@ int				get_hex_value(char c);
 
 char			*check_scene(t_scene *scene);
 void			check_objects(t_scene *scene, t_object *objects);
-void			init_camera(t_scene *scene, t_camera *cam);
+void			init_camera(t_camera *cam);
 void			update_camera_scale(t_camera *camera);
 void			update_camera_ctw(t_camera *camera);
 

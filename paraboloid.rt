@@ -13,9 +13,10 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Left Plane
 	{
@@ -25,9 +26,10 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Right Plane
 	{
@@ -37,9 +39,10 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Top Plane
 	{
@@ -49,9 +52,10 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Bottom Plane
 	{
@@ -61,21 +65,10 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-	}
-My Paraboloid
-	{
-		position: -4.0000, -2.0000, 2.0000
-		direction: 0.6219, 0.6219, -0.4757
-		color: 0.0000, 0.0000, 255.0000
-		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0000
-		transparency: 0.0000
-		reflection: 0.0000
+
 	}
 	plane: Front Plane
 	{
@@ -85,16 +78,31 @@ My Paraboloid
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
+
+	}
+	paraboloid: New Object
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		height: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+
 	}
 	light: New light
 	{
 		position: 0.0000, 0.0000, -50.0000
-		look at: 0.0000, 0.0000, 0.0000
 		color:238.0000, 238.0000, 236.0000
 		intensity: 150
+		kflare: 0.0000
 	}
 	camera: New Camera
 	{

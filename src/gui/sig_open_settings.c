@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 16:57:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:25:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void    *sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g)
     size_t                  free_byte;
     size_t                  total_byte;
 
+    (void)menu_item;
     ft_bzero(&graphic_card_label, 127);
     cudaMemGetInfo(&free_byte, &total_byte);
     cudaGetDeviceProperties(&props, 0);

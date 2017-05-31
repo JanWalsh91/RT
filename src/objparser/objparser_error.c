@@ -6,7 +6,7 @@
 /*   By: talemari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 11:38:37 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/24 14:59:12 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/31 11:30:13 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char		*objparser_error(char *err, int l)
 {
 	char	*res;
-	char	*res2;
 	char	*line;
 	char	*errline;
 	char	*ponct;

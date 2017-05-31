@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 11:33:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 11:41:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:33:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 t_color		*generate_noise(t_vec3 *res)
 {
 	t_color		*map;
-	char		color;
 	int			nb_pts;
 	t_pt2		pos;
 

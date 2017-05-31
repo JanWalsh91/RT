@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:47:39 by tgros             #+#    #+#             */
-/*   Updated: 2017/04/23 11:04:14 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:24:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*sig_delete_camera(GtkWidget *button, t_gtk_tools *g)
 	GtkWidget			*widget;
 	int					id;
 
+	(void)button;
     printf("sig_delete_camera\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxCameras"));
 	list_box_row = gtk_list_box_get_selected_row (GTK_LIST_BOX(widget));

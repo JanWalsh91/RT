@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/11 11:06:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:22:19 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 {
     t_light     *light;
 
+	(void)widget;
     printf("sig_new_light\n");
     if (!(light = (t_light *)ft_memalloc(sizeof(t_light))))
 		return (NULL);
@@ -25,6 +26,8 @@ void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 	// light->type = T_SPHERICAL;
     light->intensity = DEFAULT_INTENSITY;
 	light->col = v_new(DEFAULT_COL_R, DEFAULT_COL_G, DEFAULT_COL_B);
+	light->pos = v_new(DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
+	light->dir = v_new(NAN, NAN, NAN);
 	light->name = ft_strdup("New light");
 	light->next = NULL;
 	push_light(&(g->r->scene->lights), light);

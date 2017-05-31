@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 15:08:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 11:20:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*populate_list_box_objects(t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
-	GdkRGBA		color;
 	t_object	*obj;
 	printf("populate_list_box_objects\n");
 
@@ -222,7 +221,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 void	init_obj_parent_combo_box(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object	*obj;
-	int			id;
 
 	printf("init_obj_parent_combo_box\n");
 	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
@@ -277,10 +275,11 @@ void	init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 
 void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g)
 {
-	int			 index;
+	int			index;
 	int			i;
 	t_object	*o_ptr;
 
+	(void)box;
 	printf("sig_update_current_object\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
@@ -361,8 +360,6 @@ t_object	*get_selected_object(t_gtk_tools *g)
 
 void	obj_render_sig(t_gtk_tools *g)
 {
-	GtkWidget	*widget;
-
 	g->r->update.render = 1;
 	g->r->update.objects = g->r->update.objects > 1 ? 2 : 1;
 	if (g->win)
@@ -692,6 +689,7 @@ void	*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	t_object 	*obj;
 	GtkWidget	*widget;
 
+	(void)button;
 	printf("sig_obj_dir_normalize\n");
 	obj = get_selected_object(g);
 	obj->dir = v_norm(obj->dir);
@@ -864,6 +862,7 @@ void	*sig_delete_obj_texture(GtkWidget *button, t_gtk_tools *g)
 	GtkWidget	*widget;
 	t_object	*tmp;
 
+	(void)button;
 	obj = get_selected_object(g);
 	if (obj->texture)
 	{
@@ -905,6 +904,7 @@ void	*sig_delete_obj_normal_map(GtkWidget *button, t_gtk_tools *g)
 	t_object	*obj;
 	GtkWidget	*widget;
 
+	(void)button;
 	obj = get_selected_object(g);
 	if (obj->normal_map)
 	{
@@ -1065,6 +1065,7 @@ void	*sig_update_obj_texture_negative(GtkWidget *toggle_button, gboolean state, 
 {
 	t_object 	*obj;
 
+	(void)toggle_button;
 	printf("sig_update_obj_texture_negative\n");
 	obj = get_selected_object(g);
 	obj->texture_color_style = state;

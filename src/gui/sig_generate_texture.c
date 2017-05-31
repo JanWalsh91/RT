@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 10:28:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:27:07 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	*sig_generated_texture_get_dimensions(GtkWidget *button, t_gtk_tools *g)
 	t_vec3		dim;
 	t_vec3		dim_tmp;
 
+	(void)button;
 	printf("Getting dimensions of generated texture");
 	obj = get_selected_object(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder_texture, "SpinButtonResolutionGeneratedTextureX"));
@@ -134,6 +135,7 @@ void	*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 
 void	*sig_generated_texture_quit(GtkWidget *combo_box, t_gtk_tools *g)
 {
+	(void)combo_box;
 	gtk_widget_destroy(GTK_WIDGET(gtk_builder_get_object(g->builder_texture, "window_generate")));
 	return (NULL);
 }

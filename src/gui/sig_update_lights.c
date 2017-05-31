@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 15:28:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:21:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	*update_grid_lights(t_gtk_tools *g) //change name
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
-	GdkRGBA		color;
 	t_light		*light;
 
 	printf("update_grid_lights\n");
@@ -187,6 +186,7 @@ void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools 
 	int			i;
 	t_light		*l_ptr;
 
+	(void)box;
 	printf("sig_update_current_light\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
@@ -205,7 +205,6 @@ void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
 {
 	int			id;
 	t_light 	*light;
-	GtkWidget	*widget;
 
 	printf("sig_update_light_type\n");
 	light = get_selected_light(g);
@@ -367,6 +366,7 @@ void	*sig_light_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	t_light 	*light;
 	GtkWidget	*widget;
 
+	(void)button;
 	printf("sig_light_dir_normalize\n");
 	light = get_selected_light(g);
 	light->dir = v_norm(light->dir);

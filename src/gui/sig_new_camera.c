@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/23 11:04:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:22:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void    *sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
     camera->fov = DEFAULT_FOV;
 	camera->name = ft_strdup("New camera");
 	camera->next = NULL;
-    init_camera(g->r->scene, camera);
+    init_camera(camera);
 	push_camera(&(g->r->scene->cameras), camera);
 	update_grid_cameras(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonNextCamera"));

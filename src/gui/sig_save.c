@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 15:04:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 11:24:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    *sig_save(GtkWidget *menu_item, t_gtk_tools *g)
 {
     int             fd;
 
+	(void)menu_item;
 	fd = -1;
 	if (!g->r->scene)
 		return (NULL);
@@ -45,6 +46,7 @@ void	*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	int fd;
 
+	(void)menu_item;
 	fd = -1;
 	printf("sig_save_as\n");
 	g->filename = get_new_filename(g);
@@ -143,6 +145,8 @@ void	save_object(int fd, t_object *obj, t_object *objects)
 		write(fd, "\ttorus: ", 8);
 	else if (obj->type == T_CUBE_TROUE)
 		write(fd, "\tcube troue: ", 12);
+	else if (obj->type == T_PARABOLOID)
+		write(fd, "\tparaboloid: ", 13);
 	write(fd, obj->name, ft_strlen(obj->name));
 	write(fd, "\n\t{\n", 4);
 	write(fd, "\t\tposition: ", 12);
@@ -172,7 +176,7 @@ void	save_object(int fd, t_object *obj, t_object *objects)
 		write_float(fd, obj->rad_torus);
 		write(fd, "\n", 1);
 	}
-	if (obj->type == T_CYLINDER || obj->type == T_CONE)
+	if (obj->type == T_CYLINDER || obj->type == T_CONE || obj->type == T_PARABOLOID)
 	{
 		write(fd, "\t\theight: ", 10);
 		write_float(fd, obj->height);
@@ -306,8 +310,6 @@ void	save_light(int fd, t_light *light)
 
 void	write_vector(int fd, t_vec3 vec)
 {
-	char 	*tmp;
-
 	write_float(fd, vec.x);
 	write(fd, ", ", 2);
 	write_float(fd, vec.y);

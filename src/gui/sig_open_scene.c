@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_open_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 14:55:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 11:17:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 
+	(void)menu_item;
 	printf("sig_new_scene\n");
 	if (g->filename)
 	{
@@ -102,10 +103,9 @@ void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 {
 	GtkFileFilter	*file_filter;
 	GtkWidget 		*dialog;
-	GtkWidget		*widget;
-	char			*ret;
 	int				dialog_ret;
 
+	(void)menu_item;
 	printf("sig open scene\n");
 
 	dialog = gtk_file_chooser_dialog_new ("Open File", NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -134,8 +134,6 @@ void 	*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 
 int		open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 {
-	GtkWidget 		*dialog;
-	GtkWidget		*widget;
 	char			*ret;
 	
 	printf("open_scene: [%s]\n", g->filename);

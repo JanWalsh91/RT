@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 17:00:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 11:49:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	get_cam_direction(t_scene *scene, t_camera *cam);
 static void	get_light_direction(t_scene *scene, t_light *light);
 
 /*
-** Checks the validity of the scene, objects, lights, camera and their attributes.
+** Checks the validity of the scene, objects, lights, camera and their
+** attributes.
 ** Sets default values if necessary.
 */
 
@@ -52,9 +53,10 @@ static void	check_cameras(t_scene *scene, t_camera *cameras)
 			T_CAMERA, c_ptr, &c_ptr->pos) : 0;
 		isnan(c_ptr->fov) ? set_default_fov(scene,
 			T_CAMERA, c_ptr, &c_ptr->fov) : 0;
-		isnan(c_ptr->ior) ? set_default_ior(scene, T_CAMERA, c_ptr, &c_ptr->ior) : 0;
+		isnan(c_ptr->ior) ?
+			set_default_ior(scene, T_CAMERA, c_ptr, &c_ptr->ior) : 0;
 		get_cam_direction(scene, c_ptr);
-		init_camera(scene, c_ptr);
+		init_camera(c_ptr);
 		c_ptr->look_at = v_new(0, 0, 0);
 		c_ptr = c_ptr->next;
 	}
@@ -87,8 +89,6 @@ Setting to spherical/positional lighting.");
 
 static void	get_cam_direction(t_scene *scene, t_camera *cam)
 {
-	t_matrix	m;
-
 	if (!v_isnan(cam->look_at) && !v_isnan(cam->pos))
 		cam->dir = v_sub(cam->look_at, cam->pos);
 	if (v_isnan(cam->dir) || (!cam->dir.x && !cam->dir.y && !cam->dir.z))
@@ -98,8 +98,6 @@ static void	get_cam_direction(t_scene *scene, t_camera *cam)
 
 static void	get_light_direction(t_scene *scene, t_light *light)
 {
-	t_matrix	m;
-
 	if (!v_isnan(light->look_at) && !v_isnan(light->pos))
 		light->dir = v_sub(light->look_at, light->pos);
 	if (v_isnan(light->dir) ||

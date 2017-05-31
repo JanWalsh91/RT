@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:26:15 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/30 14:08:38 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/31 11:29:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,13 +138,13 @@ char				*objparser(char *file, t_obj **res)
 	t_objlist	olist;
 	t_obj		*obj;
 
-	olist = (t_objlist){NULL, NULL, NULL};
+	olist = (t_objlist){NULL, NULL, NULL, NULL};
 	ft_putendl("Allocating obj");
 	if (cudaMallocHost((void **)&obj, sizeof(t_obj)) != 0)
 			return ("CudaMalloc failed");
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return ("Failed to open file");
-	ind = (t_ti){0, 0, 0};
+	ind = (t_ti){0, 0, 0, 0};
 	err = line_parser(fd, &olist, &ind);
 	if (err)
 		return (err);

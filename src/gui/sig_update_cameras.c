@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_cameras.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 17:04:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 11:21:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*update_grid_cameras(t_gtk_tools *g) //change name
 {
 	GtkWidget	*widget;
 	GtkWidget	*label;
-	GdkRGBA		color;
 	t_camera    *camera;
 
     printf("update_grid_cameras\n");
@@ -160,6 +159,7 @@ void	*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g
 	int			i;
 	t_camera	*c_ptr;
 
+	(void)box;
 	printf("sig_update_current_cam\n");
 	i = -1;
 	index = gtk_list_box_row_get_index (row);
@@ -444,6 +444,7 @@ void	*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	t_camera 	*cam;
 	GtkWidget	*widget;
 
+	(void)button;
 	printf("sig_obj_dir_normalize\n");
 	cam = get_selected_camera(g);
 	cam->dir = v_norm(cam->dir);

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 15:37:30 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:25:35 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void *sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	pthread_t		export_thread;
 	GtkFileChooser	*chooser;
 
+	(void)widget;
 	if (!g->pixbuf)
 	{
 		display_error_popup(NULL, g, "Please render the scene once before exporting.");

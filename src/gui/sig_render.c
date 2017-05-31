@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/30 11:01:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 11:26:20 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	init_tile(t_tile *tile, t_gtk_tools *g);
 
 void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
+	(void)widget;
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
 	normalize_object_dir(g);
@@ -136,6 +137,7 @@ static void	increment_tile(t_pt2 *tileId, int tile_row)
 
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 {
+	(void)widget;
 	if (!g->cr)
 		g->cr = cr;
 	if (g->r->update.render == 1 && !g->r->rendering)
