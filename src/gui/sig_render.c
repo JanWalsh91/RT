@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/31 11:26:20 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:58:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,12 @@ void	*render_wrapper(gpointer data)
 		copy_region_map_tile(g->r, tile);
 		increment_tile(&tile.id, tile.row);
 	}
-	lens_flare_wrapper(g->r);
-	ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
-	gtk_widget_queue_draw(g->win);
+	if (g->win)
+	{
+		lens_flare_wrapper(g->r);
+		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
+		gtk_widget_queue_draw(g->win);
+	}
 	//call on the photon mapping pass and radiance estimation pass in loop.
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g->r);
