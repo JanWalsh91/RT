@@ -56,6 +56,37 @@ bool	get_sphere_intersection_obj(t_raytracing_tools *r, t_ray *ray, int index)
 }
 
 __device__
+bool	get_triangle_intersection_obj(t_raytracing_tools *r, t_triangle *t, t_ray *ray)
+{
+	t_intersection_tools	i;
+	float					tmp;
+
+	i.p = v_sub(t->v2, t->v1);
+	i.q = v_sub(t->v3, t->v1);
+	i.v1 = v_cross(ray->dir, i.q);
+	i.d1 = v_dot(i.p, i.v1);
+	if (i.d1 < 1e-8 && i.d1 > -1e-8)
+		return (false);
+	i.d2 = 1 / i.d1;
+	i.v2 = v_sub(ray->origin, t->v1);
+	i.r1 = v_dot(i.v1, i.v2) * i.d2;
+	if (i.r1 < 0 || i.r1 > 1)
+		return (false);
+	i.v3 = v_cross(i.v2, i.p);
+	i.r2 = v_dot(ray->dir, i.v3) * i.d2;
+	if (i.r2 < 0 || i.r1 + i.r2 > 1)
+		return (false);
+	tmp = v_dot(i.q, i.v3) * i.d2;
+	if (tmp < ray->t)
+	{
+		ray->t = tmp;
+		if (v_dot(ray->nhit, ray->dir) > 0)
+			ray->n_dir = -1;
+	}
+	return (true);
+}
+
+__device__
 bool	get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 {
 	t_triangle		triangle;
@@ -63,12 +94,16 @@ bool	get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	t_obj			*o;
 	t_list			*tmp;
 	float			t;
+	float			raytmp;
 
 	// if (r->idx != 0)
 	// 	return (0);
+	raytmp = ray->t;
+	printf("obj inter\n");
 	if (!(get_sphere_intersection_obj(r, ray, index)))
 		return (false);
 	t = INFINITY;
+	ray->t = raytmp;
 	o = r->scene->objects[index].obj;
 	tmp = o->triangle;
 	//printf("Check\n");
@@ -82,11 +117,13 @@ bool	get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 		triangle.v1 = o->vertex[lst_triangle->v.x];
 		triangle.v2 = o->vertex[lst_triangle->v.y];
 		triangle.v3 = o->vertex[lst_triangle->v.z];
-		if (get_triangle_intersection(r, &triangle, ray, index))
+		if (get_triangle_intersection_obj(r, &triangle, ray))
 		{
 			if (ray->t < t)
 			{
 				t = ray->t;
+				ray->nhit = v_cross(v_sub(triangle.v2, triangle.v1),
+						v_sub(triangle.v3, triangle.v1));
 			}
 		}
 		//if (r->pix.x == 600 && r->pix.y < 200)
@@ -96,6 +133,8 @@ bool	get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	if (t != INFINITY)
 	{
 		ray->t = t;
+		ray->hit_obj = index;
+		ray->hit_type = T_OBJ;
 		return (true);
 	}
 	// if (r->idx == 0)

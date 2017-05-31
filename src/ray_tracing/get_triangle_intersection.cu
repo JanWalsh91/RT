@@ -75,12 +75,11 @@ bool	get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray,
 	if (i.r2 < 0 || i.r1 + i.r2 > 1)
 		return (false);
 	tmp = v_dot(i.q, i.v3) * i.d2;
-	if (tmp < r->t)
+	if (tmp < r->t && tmp < ray->t)
 	{
 		ray->t = tmp;
-		ray->hit_obj = index;
-		ray->hit_type = T_TRIANGLE;
-		ray->nhit = v_cross(i.q, i.p);
+		if (v_dot(ray->nhit, ray->dir) > 0)
+			ray->n_dir = -1;
 	}
 	return (true);
 }
