@@ -23,11 +23,11 @@ scene: rendu4
 	sphere: Sphere
 	{
 		position: -3.0000, 0.0000, 0.0000
-		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
 		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
-		ks: 0.0299
+		ks: 0.0298
 		specular exponent: 7.0000
 		ior: 1.0089
 		transparency: 0.0000
@@ -59,7 +59,7 @@ scene: rendu4
 		kd: 1.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0091
+		ior: 1.0090
 		transparency: 0.0000
 		reflection: 0.0000
 
@@ -72,7 +72,7 @@ scene: rendu4
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0091
+		ior: 1.0090
 		transparency: 0.0000
 		reflection: 0.0000
 
@@ -90,6 +90,6 @@ scene: rendu4
 		direction: 0.0000, 0.0000, 1.0000
 		filter: none
 		fov: 30
-		ior: 1.1000
+		ior: 1.0099
 	}
 }
