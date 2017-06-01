@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 17:07:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 17:20:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 	// printf("AAAAAA-----photon_iter: %d, count per pass: %d\n", g->r->h_d_scene->photon_iteration, g->r->h_d_scene->photon_count_per_pass);	
 	cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
 	g->r->scene->photon_iteration = 0;
-	while (photons_shot < g->r->scene->photon_count)
+	while (photons_shot < (int)g->r->scene->photon_count)
 	{
 		//photon_mapping_pass
 		// printf("pre photon pass: %f\n", g->r->h_region_map[0]->radius);
