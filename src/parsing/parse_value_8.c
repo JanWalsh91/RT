@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:18:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 10:06:28 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 10:41:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*read_texture_file(t_parse_tools *t)
 
 char	*read_material_file(t_parse_tools *t)
 {
+	(void)t;
 	rt_file_warning(t, "Read material file: feature not yet available.");
 	return (NULL);
 }
@@ -98,5 +99,6 @@ char	*hashtag(t_parse_tools *t)
 
 char	*invalid_token(t_parse_tools *t)
 {
+	(void)t;
 	return ("Invalid token.");
 }

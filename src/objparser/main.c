@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:26:15 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/19 09:58:58 by talemari         ###   ########.fr       */
+/*   Updated: 2017/05/21 10:47:45 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int main (int ac, char **av)
 		printf("v3 = %f, %f, %f\n", obj->vertex[tmp2->v.z].x, obj->vertex[tmp2->v.z].y, obj->vertex[tmp2->v.z].z);
 		obj->triangle = obj->triangle->next;
 	}
+	printf("Further point : %f, %f, %f\n", obj->far_point1.x, obj->far_point1.y, obj->far_point1.z);
 	return (0);
 }

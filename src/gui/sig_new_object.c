@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/11 11:00:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:21:51 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    *sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	GtkWidget	*list_box;
 	int			i;
 
+	(void)widget;
     printf("sig_new_object\n");
 
 	if (!(obj = (t_object *)ft_memalloc(sizeof(t_object))))

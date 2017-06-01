@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:29:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/04 17:09:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:49:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ void	set_default_ior(t_scene *scene, int type, void *obj, float *ior)
 	*ior = DEFAULT_IOR;
 }
 
-void	set_default_reflection(t_scene *scene, int type, void *obj, float *reflection)
+void	set_default_reflection(t_scene *scene, int type, void *obj,
+			float *reflection)
 {
 	data_warning(scene, type, ((t_object *)obj),
 			"Providing default reflection coefficient.");
 	*reflection = DEFAULT_REFLECTION;
 }
 
-void	set_default_transparency(t_scene *scene, int type, void *obj, float *transparency)
+void	set_default_transparency(t_scene *scene, int type, void *obj,
+			float *transparency)
 {
 	data_warning(scene, type, ((t_object *)obj),
 			"Providing default transparency coefficient.");

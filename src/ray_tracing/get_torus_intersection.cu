@@ -80,22 +80,24 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
 	t_object	*obj = &r->scene->objects[index];
 	t_vec4im	sol;
 	float		res;
+	float		rad_torus2;
+	float		rad2;
 
-	obj->dir.x = 0;
-	obj->dir.y = 0;
-
-	obj->dir.z = -1;
-	// obj->rad_torus = 0.000001;
+	// obj->dir.x = 0;
+	// obj->dir.y = 0;
+	// obj->dir.z = 1;
+	 //obj->rad_torus = 0.000001;
 	// obj->rad = 0.001;
 	qua.m = v_dot(ray->dir, ray->dir);
 	qua.n = v_dot(ray->dir, v_sub(ray->origin, obj->pos));
 	qua.o = v_dot(v_sub(ray->origin, obj->pos), v_sub(ray->origin, obj->pos));
 	qua.p = v_dot(ray->dir, obj->dir);
 	qua.q = v_dot(v_sub(ray->origin, obj->pos), obj->dir);
-
+	rad2 = powf(obj->rad, 2.0);
+	rad_torus2 = powf(obj->rad_torus, 2.0);
 	// printf("%f, %f, %f\n", obj->dir.x, obj->dir.y, obj->dir.z);
 
-	// printf("Rad torus = %f, rad = %f\n", obj->rad_torus, obj->rad);
+	//printf("Rad torus = %f, rad = %f\n", obj->rad_torus, obj->rad);
 
 
    // a = m^2
@@ -103,53 +105,37 @@ bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,
    // c = 4*m^2 + 2*m*o - 2*(R^2+r^2)*m + 4*R^2*p^2
    // d = 4*n*o - 4*(R^2+r^2)*n + 8*R^2*p*q
    // e = o^2 - 2*(R^2+r^2)*o + 4*R^2*q^2 + (R^2-r^2)^2
-	qua.a = qua.m * qua.m;
-	qua.b = 4 * qua.m * qua.n;
-	qua.c = (4 * (qua.m * qua.m)) + (2 * qua.m * qua.o) - (2 * (obj->rad_torus * obj->rad_torus + obj->rad * obj->rad)) *
-		qua.m + (4 * (obj->rad_torus * obj->rad_torus) * qua.p * qua.p);
-	qua.d = (4 * qua.n * qua.o) - 4 * ((obj->rad_torus * obj->rad_torus) + (obj->rad * obj->rad)) * qua.n + 8 * obj->rad_torus * obj->rad_torus * qua.p * qua.q;
-	qua.e = qua.o * qua.o - 2 * (obj->rad_torus * obj->rad_torus + obj->rad * obj->rad) * qua.o +
-	(4 * (obj->rad_torus * obj->rad_torus) * (qua.q * qua.q)) +
-	((obj->rad_torus * obj->rad_torus + obj->rad * obj->rad) * (obj->rad_torus * obj->rad_torus + obj->rad * obj->rad));
-
-	if (r->pix.x == 600)
-	{
-		//printf("rpixy : %d ray dir: %f %f %f abcde : %f %f %f %f %f\n", r->pix.y, ray->dir.x, ray->dir.y, ray->dir.z, qua.a, qua.b, qua.c, qua.d, qua.e);
-	}
-
-
-
+	qua.a = powf(qua.m, 2.0);
+	qua.b = (4.0 * qua.m * qua.n);
+	qua.c = (4.0 * qua.a + (2.0 * qua.m * qua.o)) - (2.0 * rad_torus2 + rad2 *
+		qua.m)+ (4.0 * rad_torus2 * qua.p * qua.p);
+	qua.d = (4.0 * qua.n * qua.o) - (4.0 * (rad_torus2 + rad2) * qua.n)+ (8.0 * rad_torus2 * qua.p * qua.q);
+	qua.e = (qua.o * qua.o) - (2.0 * (rad_torus2 + rad2) * qua.o) + (4.0 * rad_torus2 * qua.q * qua.q) +
+	((rad_torus2 + rad2) * (rad_torus2 + rad2));
 	if (!solve_quartic(&qua, &sol))
 	{
 		//printf("Return false\n");
 	 	return (false);
 	}
-	if (r->pix.y == 600 && r->pix.x == 600)
+	if (isnan(sol.w.r) && isnan(sol.x.r) && isnan(sol.y.r) && isnan(sol.z.r))
+		return(false);
+	res = INFINITY;
+	// if (r->pix.y == 1 && r->pix.x == 1)
+	// {
+	//  printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol.w.r, sol.w.i,
+	// 	 sol.x.r, sol.x.i, sol.y.r, sol.y.i, sol.z.r, sol.z.i);
+	// // printf("resultat : %f\n",res);
+	// }
+	if ((isnan(sol.x.i) || isnan(sol.y.i)) && (!isnan(sol.w.r) && !isnan(sol.x.r) && !isnan(sol.y.r) && !isnan(sol.z.r)))
 	{
-	 printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol.w.r, sol.w.i,
-		 sol.x.r, sol.x.i, sol.y.r, sol.y.i, sol.z.r, sol.z.i);
-	// printf("resultat : %f\n",res);
-	}
-	if (isnan(sol.x.i) || isnan(sol.y.i))
+		printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol.w.r, sol.w.i,
+	 	 sol.x.r, sol.x.i, sol.y.r, sol.y.i, sol.z.r, sol.z.i);
 		res = choose_between_four_roots(sol.w.r, sol.x.r, sol.y.r, sol.z.r);
-	else
+	}
+	else 
 		res = choose_between_two_roots(sol.w.r, sol.z.r);
-	if (r->pix.x == 1 && r->pix.y == 1)
-	{
-		//printf("Coucou\n");
-	}
-	if (res < 0)
-	{
-		//printf("Return false\n");
+	if (res < 0 || isnan(res))
 		return (false);
-	}
-
-	if (r->pix.y == 600 && r->pix.x == 600)
-	{
-	 printf("sol quartic\nX1 : %f, %f\nX2 : %f, %f\nX3 : %f. %f\nX4 : %f, %f\n", sol.w.r, sol.w.i,
-		 sol.x.r, sol.x.i, sol.y.r, sol.y.i, sol.z.r, sol.z.i);
-	// printf("resultat : %f\n",res);
-	}
 	 r->t > res ? ray->t = res : 0;
 	if (ray->type == R_PRIMARY && r->t > res)
 	{

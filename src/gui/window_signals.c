@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 17:06:27 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 13:24:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 10:48:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ void 		window_destroy(GtkWidget *widget, void *g)
 
 void 		window_destroy_esc(GtkWidget *widget, void *g)
 {
+	(void)widget;
 	printf("window_destroy_esc\n");
 	gtk_widget_destroy (GTK_WIDGET(g));
 }
 
 void		*sig_button_pressed_window(GtkWidget *widget, GdkEvent *event, t_gtk_tools *g)
 {
+	(void)widget;
+	(void)event;
 	gtk_window_set_keep_above(GTK_WINDOW(gtk_builder_get_object(g->builder, "window_main")), false);
 	g_signal_handlers_disconnect_by_func(GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main")), sig_button_pressed_window, g);
 	return (NULL);

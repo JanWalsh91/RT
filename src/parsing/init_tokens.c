@@ -37,6 +37,7 @@ void		init_tokens(t_parse_tools *t)
 		(!(t->tokens[T_CONE] = ft_strdup("cone"))) ||
 		(!(t->tokens[T_PARABOLOID] = ft_strdup("paraboloid"))) ||
 		(!(t->tokens[T_TORUS] = ft_strdup("torus"))) ||
+		(!(t->tokens[T_TRIANGLE] = ft_strdup("triangle"))) ||
 		(!(t->tokens[T_CUBE_TROUE] = ft_strdup("cube troue"))) ||
 		(!(t->tokens[T_OBJ] = ft_strdup("obj"))) ||		
 		(!(t->tokens[T_RESOLUTION] = ft_strdup("resolution"))) ||

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/05 15:36:08 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/21 15:53:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 10:44:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Initialize camera, allocates memory to pixel map.
 */
 
-void	init_camera(t_scene *scene, t_camera *cam)
+void	init_camera(t_camera *cam)
 {
 	update_camera_scale(cam);
 	update_camera_ctw(cam);

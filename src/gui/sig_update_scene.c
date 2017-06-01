@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 14:27:49 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:17:51 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 
+	(void)button;
 	printf("sig_next_camera\n");
 	if (!g->r->scene->cameras->next)
 		return (NULL);
@@ -134,6 +135,7 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
 
+	(void)button;
 	printf("sig_prev_camera\n");
 	if (!g->r->scene->cameras->prev)
 		return (NULL);

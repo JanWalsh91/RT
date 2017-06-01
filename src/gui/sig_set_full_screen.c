@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 12:40:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/14 14:23:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:26:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	*sig_set_fullscreen(GtkWidget *menu_item, t_gtk_tools *g)
 	GtkWidget		*widget;
 	GdkRectangle	res;
 
+	(void)menu_item;
 	printf("sig_set_full_screen");
 	if (!g->win)
 		return (NULL);

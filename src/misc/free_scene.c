@@ -6,13 +6,13 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/21 15:54:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 10:47:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 
-static void	free_cameras(t_camera *cams, t_pt2 res);
+static void	free_cameras(t_camera *cams);
 static void	free_lights(t_light *lights);
 static void	free_objects(t_object *objs);
 // static void	free_matrix(t_matrix *m);
@@ -24,7 +24,7 @@ static void	free_objects(t_object *objs);
 void		free_scene(t_scene *scene)
 {
 	free(scene->name);
-	free_cameras(scene->cameras, scene->res);
+	free_cameras(scene->cameras);
 	scene->cameras = NULL;
 	free_lights(scene->lights);
 	scene->lights = NULL;
@@ -33,7 +33,7 @@ void		free_scene(t_scene *scene)
 	scene = NULL;
 }
 
-static void	free_cameras(t_camera *cams, t_pt2 res)
+static void	free_cameras(t_camera *cams)
 {
 	t_camera	*tmp;
 

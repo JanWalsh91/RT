@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/01 16:53:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 17:16:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef enum	e_token
 	T_TORUS,
 	T_CUBE_TROUE,
 	T_OBJ,
+	T_TRIANGLE,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
 	T_BACKGROUND_COLOR,
@@ -124,8 +125,7 @@ typedef enum	e_token
 	T_KFLARE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
-	T_COUNT,
-	T_TRIANGLE
+	T_COUNT
 }				t_token;
 
 typedef enum	e_filter
@@ -612,8 +612,7 @@ t_scene			*get_new_scene(t_parse_tools *t);
 t_object		*get_new_object(t_parse_tools *t);
 t_light			*get_new_light(t_parse_tools *t);
 t_camera		*get_new_camera(t_parse_tools *t);
-t_input			*get_new_input(char *line, char *file_name, int fd,
-					t_parse_tools *t);
+t_input			*get_new_input(char *line, char *file_name, t_parse_tools *t);
 // void			push_scene(t_scene **scenes, t_scene *new_scene);
 void			push_object(t_object **objects, t_object *new_object);
 void			push_light(t_light **lights_head, t_light *new_light);
@@ -633,7 +632,7 @@ int				get_hex_value(char c);
 
 char			*check_scene(t_scene *scene);
 void			check_objects(t_scene *scene, t_object *objects);
-void			init_camera(t_scene *scene, t_camera *cam);
+void			init_camera(t_camera *cam);
 void			update_camera_scale(t_camera *camera);
 void			update_camera_ctw(t_camera *camera);
 
@@ -679,6 +678,7 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_camera(t_raytracing_tools *r);
+t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
 // void			malloc_region_map(t_raytracing_tools *r);
 // void			cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile);
 // void			refresh_region_map_tile(t_raytracing_tools *r, t_tile t);
@@ -748,10 +748,9 @@ bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 CUDA_DEV
 bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 CUDA_DEV
-bool			get_triangle_intersection(t_triangle *t, t_ray *ray, int index,
-				t_vec3 *norm);
+bool			get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index);
 CUDA_DEV
-bool			get_obj_intersection(t_obj *o, t_ray *ray, int index, t_vec3 *norm);
+bool			get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);

@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/26 11:48:43 by tgros            ###   ########.fr        #
+#    Updated: 2017/05/31 11:34:50 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ HEAD = libmathft.cuh
 
 CC = nvcc
 
-CFLAGS = -arch=sm_30#-Wall -Werror -Wextra
+CFLAGS = -arch=sm_30 -Xcompiler="-Wall -Werror -Wextra"
 
 C_NONE = \033[0m
 C_BOLD = \033[1m

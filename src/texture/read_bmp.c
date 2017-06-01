@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 12:46:09 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 09:47:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:33:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_color		*read_bmp(char *file_name, t_vec3 *dim)
 	char			ignore[256];
 	t_pt2			i;
 	bool			on_gpu;
-	int				ret;
+	unsigned int	ret;
 
 	if ((fd = open(file_name, O_RDONLY)) == -1)
 		return (NULL);
@@ -87,13 +87,13 @@ t_color		*read_bmp(char *file_name, t_vec3 *dim)
 			return (NULL);
 	}
 	i.x = -1;
-	while (++i.x < header.height)
+	while (++i.x < (int)header.height)
 	{
 		// if read error, then quit properly
 		read(fd, &texture_h[i.x * header.width], sizeof(t_color) * header.width);
 		read(fd, &ignore, header.width % 4);
 		i.y = -1;
-		while (++i.y < header.width)
+		while (++i.y < (int)header.width)
 		{
 			ignore[0] = texture_h[i.x * header.width + i.y].r;
 			texture_h[i.x * header.width + i.y].r = texture_h[i.x * header.width + i.y].b;

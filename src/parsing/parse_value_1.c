@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:11:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:27:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 10:40:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 char	*parse_open_bracket(t_parse_tools *t)
 {
+	(void)t;
 	return ("Extraneous open bracket.");
 }
 
@@ -38,6 +39,7 @@ char	*parse_close_bracket(t_parse_tools *t)
 
 char	*parse_empty_line(t_parse_tools *t)
 {
+	(void)t;
 	return (NULL);
 }
 

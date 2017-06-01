@@ -17,19 +17,22 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.4000
 		reflection: 0.0000
+
 		texture: Checkerboard 600.0000, 600.0000, 100.0000
 	}
 	sphere: Sphere
 	{
 		position: -3.0000, 0.0000, 0.0000
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
 		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
-		ks: 0.5500
-		specular exponent: 200.0000
+		ks: 0.0298
+		specular exponent: 7.0000
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+
 		texture: Noise 500.0000, 500.0000, 10.0000
 	}
 	cone: Cone
@@ -40,12 +43,13 @@ scene: rendu4
 		radius: 0.5000
 		height: 4.0000
 		kd: 1.0000
-		ks: 0.1000
+		ks: 0.0000
 		specular exponent: 200.0000
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-		texture: Perlin 800.0000, 800.0000, 100.0000
+
+		texture: Perlin 500.0000, 500.0000, 100.0000
 	}
 	plane: Plane
 	{
@@ -55,9 +59,10 @@ scene: rendu4
 		kd: 1.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0090
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	plane: Ground
 	{
@@ -67,15 +72,17 @@ scene: rendu4
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0090
 		transparency: 0.0000
 		reflection: 0.0000
+
 	}
 	light: New light
 	{
-		direction: 0.2500, -0.0900, 0.8850
+		direction: 0.2705, -0.0973, 0.9577
 		color:255.0000, 255.0000, 255.0000
 		intensity: 20
+		kflare: 0.0000
 	}
 	camera: cam
 	{
@@ -83,6 +90,6 @@ scene: rendu4
 		direction: 0.0000, 0.0000, 1.0000
 		filter: none
 		fov: 30
-		ior: 1.1000
+		ior: 1.0099
 	}
 }

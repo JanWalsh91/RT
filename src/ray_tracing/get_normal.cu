@@ -79,8 +79,8 @@ static void	get_torus_normal(t_ray *ray, t_object *obj)
 	float	m;
 
 	k = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
-	m = sqrt((obj->rad * obj->rad) - (k * k));
 	A = v_sub(ray->hit, v_scale(obj->dir, k));
+	m = sqrt((obj->rad * obj->rad) - (k * k));
 	t_vec3	tmp = v_scale(v_sub(obj->pos, A), m);
 	ray->nhit = v_norm(v_sub(v_sub(ray->hit, A), v_scale(tmp, (1 / (obj->rad_torus + m)))));
 	// printf("Ray nhit = %f, %f, %f\n", ray->nhit.x,ray->nhit.y, ray->nhit.z);

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/30 16:24:01 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/01 17:17:06 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,8 @@ RAY_TRACING = cast_primary_ray \
 			get_cone_intersection \
 			get_torus_intersection \
 			get_paraboloid_intersection \
+			get_object_intersection \
+			get_triangle_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \
@@ -127,6 +129,7 @@ GUI =		window_signals \
 			photon_mapping
 
 CUDA_MEM =	cuda_malloc \
+			ft_lstnew_cuda \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
@@ -140,6 +143,9 @@ OBJ_PARSER = 	ft_freetab \
 				objparser \
 				get_vector_i \
 				get_vector_f \
+				get_vector_2f \
+				print_triangles \
+				objparser_error \
 				set_obj
 
 PHOTON_MAPPING = update_photon \
@@ -185,8 +191,8 @@ OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -gencode=arch=compute_30,code=sm_30#-arch=sm_30
-FLG = $(CUFLAGS) #-Werror -Wextra -Wall
+CUFLAGS = -gencode=arch=compute_30,code=sm_30
+FLG = $(CUFLAGS) -Xcompiler="-Werror -Wextra -Wall"
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`
 

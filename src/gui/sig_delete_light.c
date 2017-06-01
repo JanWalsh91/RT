@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:42:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/11 13:34:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:23:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	*sig_delete_light(GtkWidget *widget, t_gtk_tools *g)
 	GtkWidget		*list_box;
 	int				id;
 
+	(void)widget;
     printf("sig_delete_light\n");
 	list_box = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxLights"));
 	list_box_row = gtk_list_box_get_selected_row (GTK_LIST_BOX(list_box));

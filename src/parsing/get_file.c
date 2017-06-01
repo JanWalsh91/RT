@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 12:16:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 11:40:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/05/31 11:37:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_file(char *file_name, t_parse_tools *t)
 		return (strerror(errno));
 	while ((ret = get_next_line(fd, &next_line) > 0))
 	{
-		new_input = get_new_input(next_line, file_name, fd, t);
+		new_input = get_new_input(next_line, file_name, t);
 		new_input->line_number = ++line;
 		input_pushback(&t->input, new_input);
 		if (next_line)

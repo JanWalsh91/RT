@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/01 15:07:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 17:15:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	init_tile(t_tile *tile, t_gtk_tools *g);
 
 void 		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
+	(void)widget;
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
 	normalize_object_dir(g);
@@ -94,9 +95,13 @@ void	*render_wrapper(gpointer data)
 		copy_region_map_tile(g->r, tile);
 		increment_tile(&tile.id, tile.row);
 	}
-	lens_flare_wrapper(g->r);
-	ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
-	gtk_widget_queue_draw(g->win);
+	if (g->win)
+	{
+		lens_flare_wrapper(g->r);
+		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
+		gtk_widget_queue_draw(g->win);
+	}
+	//call on the photon mapping pass and radiance estimation pass in loop.
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
 	g->r->rendering = 0;
@@ -125,6 +130,7 @@ void	increment_tile(t_pt2 *tileId, int tile_row)
 
 gboolean draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
 {
+	(void)widget;
 	if (!g->cr)
 		g->cr = cr;
 	if (g->r->update.render == 1 && !g->r->rendering)

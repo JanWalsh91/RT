@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/20 14:27:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/24 14:52:45 by talemari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,25 @@ char	*read_obj_file(t_parse_tools *t)
 	char	*ret;
 
 	//check if right place, 
-	if ((ret = objparser(t->input->value, new_obj)))
+	printf("READING OBJ\n");
+	if ((ret = objparser(t->input->value, &new_obj)))
 		return (ret);
+	printf("ad : %p\n", new_obj);
+	C(2);
+	print_triangles(new_obj);
 	if (!t->in_scene)
 		t->global_attributes->obj = new_obj;
 	else if (!t->in_object)
 		t->scene_attributes->obj = new_obj;
 	else if (t->in_object)
 		t->object_attributes->obj = new_obj;
+	t->object_attributes->rad = v_dist(new_obj->far_point1, (t_vec3){0, 0, 0}) * 2;
 	return (NULL);
 }
 
 char	*parse_obj(t_parse_tools *t)
 {
+	printf("parse_obj\n");
 	can_add_new_object(t);
 	t->current_object = get_new_object(t);
 	t->current_type = T_OBJ;
