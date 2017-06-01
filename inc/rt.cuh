@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/29 13:58:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 16:53:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <errno.h>
 # include <limits.h>
 # include <stdbool.h>
-# include <cuda.h>
+// # include <cuda.h>
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
 # include "objparser.h"
@@ -364,6 +364,8 @@ typedef struct	s_scene
 	bool			is_photon_mapping;
 	char			is_aa;
 	size_t			photon_count;
+	size_t			photon_count_per_pass;
+	size_t			photon_iteration;
 	struct s_photon	*photon_list;
 	struct s_kd_tree		*photon_kd_tree;
 	struct s_selected_photon *selected_photons;
@@ -469,7 +471,7 @@ typedef	struct	s_rt_settings
 	int		tile_size;
 	int		photon_count_per_pass;
 	int		k; //photon search count
-	int		photon_search_radius;
+	float	photon_search_radius;
 }				t_rt_settings;
 
 typedef struct	s_raytracing_tools
@@ -478,6 +480,7 @@ typedef struct	s_raytracing_tools
 	t_scene					*d_scene;
 	t_scene					*h_d_scene;
 	t_color					*d_pixel_map;
+	t_color					*rt_pixel_map;
 	t_color					*d_pixel_map_3d;
 	t_pt2					pix;
 	float					t;
@@ -487,7 +490,7 @@ typedef struct	s_raytracing_tools
 	float					ior_list[MAX_RAY_DEPTH + 1];
 	int						idx; // thread index
 	struct curandStateXORWOW	*devStates;
-	struct s_region			*h_region_map; //global region map on the CPU
+	struct s_region			**h_region_map; //global region map on the CPU
 	struct s_region			*d_region_map; //tile-sized region map on the GPU
 }				t_raytracing_tools;
 
@@ -680,7 +683,7 @@ void			cuda_malloc_camera(t_raytracing_tools *r);
 // void			cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile);
 // void			refresh_region_map_tile(t_raytracing_tools *r, t_tile t);
 // void			copy_region_map_tile(t_raytracing_tools *r, t_tile tile);
-
+// void			increment_tile(t_pt2 *tileId, int tile_row);
 /*
 ** Ray Tracing Functions
 */

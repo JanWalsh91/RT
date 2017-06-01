@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/30 10:57:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 16:55:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ static float	get_total_intensity(t_light *lights);
 static void		init_photon(t_photon *photon, t_light *light);
 static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
 __global__
-static void		shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, int rand_i);
+static void		shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, float *rand_numbers);
 __device__
-static t_ray	init_kernel_photon(t_raytracing_tools *r, t_photon photon);
+static t_ray	init_kernel_photon(t_raytracing_tools *r, t_photon photon, float *rand_numbers);
 
 void	photon_mapping_pass(t_raytracing_tools *r)
 {
 	printf("photon_mapping_pass\n");
 	
-	srand(time(NULL));
-	shoot_photon_group(r, r->scene->photon_count);
+	
+	shoot_photon_group(r, r->scene->photon_count_per_pass);
 }
 
 static int	shoot_photon_group(t_raytracing_tools *r, size_t photon_count)
@@ -119,6 +119,19 @@ static void		init_photon(t_photon *photon, t_light *light)
 	photon->n = v_new(NAN, NAN, NAN);
 }
 
+
+void			init_random_numbers(int nb, float *random_numbers)
+{
+	int i;
+
+	i = -1;
+	while (++i < nb)
+	{
+		random_numbers[i] = (rand() % 100) - 50;
+		printf("%f\n", random_numbers[i]);
+	}
+}
+
 /*
 ** Kernel wrapper and kernel for shooting photon
 */
@@ -128,22 +141,32 @@ static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_
 	printf("shoot_photon_wrapper\n");
 	dim3 		blockSize;
 	dim3 		gridSize;
+	float		*h_rand_numbers;
+	float		*d_rand_numbers;
 	
+	// srand(time(NULL));
 	blockSize = dim3(BLOCK_DIM, 1, 1);
 	gridSize = dim3(photon_count / BLOCK_DIM + ((photon_count % BLOCK_DIM) ? 1 : 0, 1));
-	shoot_photon<<<gridSize, blockSize>>>(r->d_scene, init_photon_list, photon_count, rand());
-	C(1)
-		cudaError_t errSync  = cudaGetLastError();
-cudaError_t errAsync = cudaDeviceSynchronize();
-if (errSync != cudaSuccess) 
-  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
-if (errAsync != cudaSuccess)
-  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+	
+	h_rand_numbers = (float *)malloc(sizeof(float) * r->scene->photon_count_per_pass * 3);
+	cudaMalloc(&d_rand_numbers, sizeof(float) * r->scene->photon_count_per_pass * 3);
+	init_random_numbers(r->scene->photon_count_per_pass * 3, h_rand_numbers);
+	cudaMemcpy(d_rand_numbers, h_rand_numbers, sizeof(float) * r->scene->photon_count_per_pass * 3, cudaMemcpyHostToDevice);
+	shoot_photon<<<gridSize, blockSize>>>(r->d_scene, init_photon_list, photon_count, d_rand_numbers);
+	cudaFree(d_rand_numbers);
+	free(h_rand_numbers);
+	// printf("-------p: %f\n", p);
+	cudaError_t errSync  = cudaGetLastError();
+	cudaError_t errAsync = cudaDeviceSynchronize();
+	if (errSync != cudaSuccess) 
+		printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
+	if (errAsync != cudaSuccess)
+		printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 	// gpuErrchk((cudaDeviceSynchronize()));
 }
 
 __global__
-static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, int rand_i)
+static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, float *rand_numbers)
 {
 	t_raytracing_tools	r;
 	t_ray				photon;
@@ -154,36 +177,49 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 	r.pix.y = 0;
 	r.scene = scene;
     r.idx = (blockDim.x * blockIdx.x) + threadIdx.x;
-	if (r.idx >= photon_count)  
-		return ; 
+	if (r.idx >= photon_count)
+		return ;
 	r.devStates = &state;
-	curand_init (r.idx + (rand_i % 50), 0, 0, r.devStates);
+	// curand_init (r.idx + (rand_i % 50), 0, 0, r.devStates);
+	curand_init (rand_numbers[0], r.idx % (int)rand_numbers[0], r.idx * rand_numbers[0], r.devStates);
 	memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
-	photon = init_kernel_photon(&r, init_photon_list[r.idx]);
-	// printf("photon [%i]: [%f, %f, %f]\n", r.idx, photon.dir.x, photon.dir.y, photon.dir.z);
+	photon = init_kernel_photon(&r, init_photon_list[r.idx], rand_numbers);
+	// if (r.idx == 0)
+	// 	printf("photon [%i]: [%f, %f, %f]\n", r.idx, photon.dir.x, photon.dir.y, photon.dir.z);
 	if (r.idx == 0)
 		printf("photon cast primary ray\n");
 	cast_primary_ray(&r, &photon);
-	__syncthreads();
 }
  
 __device__ 
-static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon)
+static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon, float *rand_numbers)
 {
 	t_ray		new_ray; 
-	curandState localState;
+	// curandState localState;
 	int 		i;
 	
 	//simplify rand nums here
 	// printf("init_kernel_photon\n");
-	localState = *r->devStates;
-	new_ray.dir.x = curand(&localState);
+	// localState = *r->devStates;
+	// new_ray.dir.x = curand_uniform(&localState);
+	// (int)new_ray.dir.x % 2 ? new_ray.dir.x *= -1 : 0;
 	// r->devStates = &localState;
-	new_ray.dir.y = curand(&localState);
+	// new_ray.dir.y = curand_uniform(&localState);
+	// (int)new_ray.dir.y % 2 ? new_ray.dir.y *= -1 : 0;
 	// r->devStates = &localState;
-	new_ray.dir.z = curand(&localState);
-	r->devStates = &localState;
+	// new_ray.dir.z = curand_uniform(&localState);
+	// (int)new_ray.dir.z % 2 ? new_ray.dir.z *= -1 : 0;
+	// r->devStates = &localState;
+
+	if (r->idx == 0)
+		printf("99999999999Avant\n");
+	new_ray.dir.x = rand_numbers[r->idx];
+	new_ray.dir.y = rand_numbers[r->idx + 1];
+	new_ray.dir.z = rand_numbers[r->idx + 2];
+	__syncthreads();
 	new_ray.dir = v_norm(new_ray.dir);
+	if (r->idx == 0)
+		printf("Apres : %f, %f, %f\n", new_ray.dir.x, new_ray.dir.y, new_ray.dir.z);
 	// printf("init kernel photon: dir: [%f, %f, %f]\n", new_ray.dir.x, new_ray.dir.y, new_ray.dir.z);
 	new_ray.type = R_DIRECT_PHOTON;
 	new_ray.origin = photon.pos;
@@ -196,10 +232,10 @@ static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon)
 	i = 0;
 	while (i < r->scene->ray_depth && i < PHOTON_BOUNCE_MAX)
 	{
-		r->scene->photon_list[r->idx + i].pos = v_new(NAN, NAN, NAN);
-		r->scene->photon_list[r->idx + i].dir = v_new(NAN, NAN, NAN);
-		r->scene->photon_list[r->idx + i].n = v_new(NAN, NAN, NAN);
-		r->scene->photon_list[r->idx + i].col = c_new(0, 0, 0);
+		r->scene->photon_list[r->idx * PHOTON_BOUNCE_MAX + i].pos = v_new(NAN, NAN, NAN);
+		r->scene->photon_list[r->idx * PHOTON_BOUNCE_MAX + i].dir = v_new(NAN, NAN, NAN);
+		r->scene->photon_list[r->idx * PHOTON_BOUNCE_MAX + i].n = v_new(NAN, NAN, NAN);
+		r->scene->photon_list[r->idx * PHOTON_BOUNCE_MAX + i].col = c_new(0, 0, 0);
 		++i;
 	}
 	if (r->idx == 0)

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/29 11:16:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 14:53:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
 
-	r->scene->photon_count = 100;
+	// r->scene->photon_count = 100;
 	if (!(memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3))))
 		exit (0);
 	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
@@ -44,6 +44,7 @@ int				cuda_malloc(t_raytracing_tools *r)
 	cuda_malloc_lights(r, &h_scene_to_array);
 	cuda_malloc_camera(r);
 	cuda_malloc_scene(r);
+	// printf("-----photon_iter: %d, count per pass: %d\n", r->h_d_scene->photon_iteration, r->h_d_scene->photon_count_per_pass);
 	gpuErrchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
 	reset_update_struct(r);
 	return (1);

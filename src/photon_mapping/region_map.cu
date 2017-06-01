@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/30 10:57:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 15:55:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,57 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
    }
 }
 
-static void init_region_map(t_raytracing_tools *r, size_t size);
+static void init_region_map(t_region *region_map, size_t size, float search_rad);
 
 /*
 ** Allocated or reallocates memory for the CPU region map used in Progressive Photon Mapping. 
 */
 
-void	malloc_region_map(t_raytracing_tools *r)
+//TODO ADD MALLOC PROTECTIONZ
+
+void	malloc_region_map(t_raytracing_tools *r, t_tile tile)
 {
 	printf("malloc_region_map\n");
-	size_t size;
+	size_t	size1;
+	size_t	size2;
+	int		i;
 
-	r->update.photon_map = 2;
+	r->update.photon_map = 2; ///////////
 	if (r->scene->is_photon_mapping && r->update.photon_map == 2)
 	{
 		if (r->h_region_map)
 			free(r->h_region_map);
-		size = sizeof(t_region) * r->scene->res.x * r->scene->res.y;
-		r->h_region_map = (t_region *)malloc(size);
-		printf("%p\n", r->h_region_map);
-		init_region_map(r, size);
+		size1 = sizeof(t_region *) * tile.col * tile.row;
+		size2 = sizeof(t_region) * tile.size * tile.size;
+		r->h_region_map = (t_region **)malloc(size1);
+		i = -1;
+		// printf("----rad: %f\n", r->settings.photon_search_radius);
+		// printf("region map: %p tile.col: %d tile.row: %d\n", r->h_region_map, tile.col, tile.row);
+		while (++i < tile.max)
+		{
+			r->h_region_map[i] = (t_region *)malloc(size2);
+			
+			init_region_map(r->h_region_map[i], tile.size * tile.size, r->settings.photon_search_radius);
+			// printf("region map[%d/%d]: %p\n", i, tile.max, r->h_region_map[i]);
+		}
 		r->update.photon_map = 0;
 	}
 }
 
-static void init_region_map(t_raytracing_tools *r, size_t size)
+static void init_region_map(t_region *region_map, size_t size, float search_rad)
 {
 	int i;
 	
 	i = -1;
 	while (++i < size)
 	{
-		r->h_region_map->radius = r->settings.photon_search_radius;
-		r->h_region_map->n = 0;
-		r->h_region_map->power = v_new(0, 0, 0);
-		r->h_region_map->kd = NAN;
+		region_map[i].hit_pt = v_new(NAN, NAN, NAN);
+		region_map[i].ray_dir = v_new(NAN, NAN, NAN);
+		region_map[i].normal = v_new(NAN, NAN, NAN);
+		region_map[i].radius = search_rad;
+		region_map[i].n = 0;
+		region_map[i].power = v_new(0, 0, 0);
+		region_map[i].kd = NAN;
 	}
 }
 
@@ -90,6 +106,7 @@ void	refresh_region_map_tile(t_raytracing_tools *r, t_tile tile)
 	t_region	empty;
 	int			i;
 
+	//does this need to be done on the host, or can it be done in the beginning of the kernel?
 	printf("refresh_region_map_tile\n");
 	if (r->scene->is_photon_mapping)
 	{
@@ -99,22 +116,34 @@ void	refresh_region_map_tile(t_raytracing_tools *r, t_tile tile)
 		empty.kd = NAN;
 		i = -1;
 		while (++i < tile.size * tile.size)
-			gpuErrchk((cudaMemcpy(&r->d_region_map[i], &empty, sizeof(t_region), cudaMemcpyHostToDevice)));
+			gpuErrchk((cudaMemcpy((r->d_region_map + i), &empty, sizeof(t_region), cudaMemcpyHostToDevice)));
 	}
 }
 
 void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 {
-	//copy over row of a tile into global region map
+	//copy over d_region_map over to corresponding h_region_map[i]
 	int i;
 	int current_tile;
+
 	if (r->scene->is_photon_mapping)
 	{
-		current_tile = tile.id.x * tile.size + tile.id.y * tile.size * tile.size;
-		printf("%p, %p\n", &(r->h_region_map[current_tile + 0]), &(r->d_region_map[0]));
-		printf("copy_region_map_tile: tileX: %d, tileY: %d, current_tile: %d\n", tile.id.x, tile.id.y, current_tile);
-		i = -1;
-		while (++i < tile.size)
-			gpuErrchk((cudaMemcpy(&(r->h_region_map[current_tile + i]), &(r->d_region_map[i]), sizeof(t_region), cudaMemcpyDeviceToHost)));
+		current_tile = (tile.id.y) * tile.col + (tile.id.x);
+		printf("copy_region_map_tile: current tile: %d\n", current_tile);
+		gpuErrchk((cudaMemcpy(r->h_region_map[current_tile], r->d_region_map, sizeof(t_region) * tile.size * tile.size, cudaMemcpyDeviceToHost)));
+	}
+}
+
+void	get_region_map_tile(t_raytracing_tools *r, t_tile tile)
+{
+	//copy over h_region_map[i] over to d_region_map
+	int i;
+	int current_tile;
+
+	if (r->scene->is_photon_mapping)
+	{
+		current_tile = (tile.id.y) * tile.col + (tile.id.x);
+		printf("get_region_map_tile: current tile: %d\n", current_tile);
+		gpuErrchk((cudaMemcpy(r->d_region_map, r->h_region_map[current_tile], sizeof(t_region) * tile.size * tile.size, cudaMemcpyHostToDevice)));
 	}
 }

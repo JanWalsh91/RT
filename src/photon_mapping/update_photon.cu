@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/29 15:31:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 16:53:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// r->scene->objects[ray->hit_obj].kd,
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
+	
 	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type == R_INDIRECT_PHOTON)
-		save_photon(r->scene->photon_list + r->idx, ray);
+		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX, ray);
 	rand_f = curand_uniform_double(r->devStates);
 	tmp = 0;
 	p = NAN;
@@ -101,13 +102,16 @@ static void		save_photon(t_photon *photon_list, t_ray *ray)
 	i = 0;           
 	// printf("0: [%f] - 1: [%f] - 3: [%f] - 3: [%f] - \n", photon_list[0].pos.x, photon_list[1].pos.x, photon_list[2].pos.x, photon_list[3].pos.x);                               
 	while (!v_isnan(photon_list[i].pos) && i < MAX_RAY_DEPTH)
+	{
 		++i;
+	}
+	// printf("save photon: at %d [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
 	// printf("found: [%d]: [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
 	photon_list[i].pos = ray->hit;
 	photon_list[i].dir = ray->dir;
 	photon_list[i].col = ray->col;
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
-	printf("save photon[%d]: [%f, %f, %f] col: [%d, %d, %d]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z, photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
+	// printf("save photon[%d]: [%f, %f, %f] col: [%d, %d, %d]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z, photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
 }
 
 __device__
@@ -124,9 +128,9 @@ static void			redirect_photon_diffuse(t_raytracing_tools *r, t_ray *ray)
 	t_vec3	rand_dir;
 
 	ray->origin = v_add(ray->hit, v_scale(ray->nhit, ray->n_dir * BIAS));
-	rand_dir.x = curand_uniform_double(r->devStates);
-	rand_dir.y = curand_uniform_double(r->devStates);
-	rand_dir.z = curand_uniform_double(r->devStates);
+	rand_dir.x = curand_uniform(r->devStates) - 0.5;
+	rand_dir.y = curand_uniform(r->devStates) - 0.5;
+	rand_dir.z = curand_uniform(r->devStates) - 0.5;
 	rand_dir = v_norm(rand_dir);
 	ray->dir = (v_dot(rand_dir, v_scale(ray->nhit, ray->n_dir)) < 0) ? v_scale(rand_dir, -1): rand_dir;
 }

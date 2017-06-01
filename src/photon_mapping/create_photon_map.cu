@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:48:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/29 12:34:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 16:33:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static float	get_total_intensity(t_light *lights);
 static void		init_photon(t_photon *photon, t_light *light);
 static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
 __global__
-static void		shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, int rand_i);
+static void		shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, float rand_numbers[]);
 __device__
-static t_ray	init_kernel_photon(t_raytracing_tools *r, t_photon photon);
+static t_ray	init_kernel_photon(t_raytracing_tools *r, t_photon photon, float rand_numbers[]);
 
 /*
 ** Frees previous photon map, shoots photons, creates and sorts the tree.
@@ -49,7 +49,7 @@ void			update_photon_map(t_raytracing_tools *r)
 	int			ret;
 	t_kd_tree 	*sorted;
 	
-	srand(time(NULL));
+	// srand(time(NULL));
 	ret = shoot_photon_group(r, r->scene->photon_count);
 	
 	if (r->scene->photon_kd_tree)
@@ -168,7 +168,7 @@ if (errAsync != cudaSuccess)
 }
 
 __global__
-static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, int rand_i)
+static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photon_count, float rand_numbers[])
 {
 	t_raytracing_tools	r;
 	t_ray				photon;
@@ -182,9 +182,9 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 	if (r.idx >= photon_count)  
 		return ; 
 	r.devStates = &state;
-	curand_init (r.idx + (rand_i % 50), 0, 0, r.devStates);
+	// curand_init (r.idx + (rand_i % 50), 0, 0, r.devStates);
 	memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
-	photon = init_kernel_photon(&r, init_photon_list[r.idx]);
+	photon = init_kernel_photon(&r, init_photon_list[r.idx], rand_numbers);
 	// printf("photon [%i]: [%f, %f, %f]\n", r.idx, photon.dir.x, photon.dir.y, photon.dir.z);
 	if (r.idx == 0)
 		printf("photon cast primary ray\n");
@@ -196,7 +196,7 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 }
  
 __device__ 
-static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon)
+static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon, float rand_numbers[])
 {
 	t_ray		new_ray; 
 	curandState localState;

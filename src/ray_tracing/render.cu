@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/30 11:01:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 16:02:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,20 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *reg
 	float				sample_size;
 	int					i;
 	t_vec3				moyenne;
+	int					i2;
 
 	r.pix.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
 	r.pix.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene; 
     r.idx = scene->res.x * r.pix.y + r.pix.x;
-	int x = (r.idx % (tile.size * tile.row)) % tile.size;
-	r.d_region_map = &(region_map[x]);
-	if (r.idx == 1)
-		printf("x: %d\n", x);
 	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
 	{
+		if (region_map)
+		{
+			i2 = (r.pix.x % tile.size) + (r.pix.y % tile.size) * tile.size;
+			// printf("idx: [%d]i2: %d\n", r.idx, i2);
+			r.d_region_map = &region_map[i2];
+		}
 		// initialize ior list
 		// r.ior_list = (float *)malloc(sizeof(float) * (scene->ray_depth + 1));
 		// printf("AA de la scene : %d\n", scene->is_aa);
@@ -74,18 +77,20 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *reg
 			memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 			cam_ray = init_camera_ray(&r, aa_i);
 			d_pixel_map[r.idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+			if (region_map)
+			{
+				r.d_region_map->hit_pt = cam_ray.hit;
+				r.d_region_map->ray_dir = cam_ray.dir;
+				r.d_region_map->normal = v_scale(cam_ray.nhit, cam_ray.n_dir);
+				r.d_region_map->kd = scene->objects[cam_ray.hit_obj].kd;
 			
-			/*
-			r.d_region_map->hit_pt = cam_ray.hit;
-			r.d_region_map->ray_dir = cam_ray.dir;
-			r.d_region_map->normal = v_scale(cam_ray.nhit, cam_ray.n_dir);
-			r.d_region_map->kd = scene->objects[cam_ray.hit_obj].kd;
-			*/
 			
-			// if (r.idx == 1)
-			// 	printf("hit_pt: [%f, %f, %f], ray_dir: [%f, %f, %f], normal: [%f, %f, %f], kd: %f\n", r.d_region_map->hit_pt.x, r.d_region_map->hit_pt.y, r.d_region_map->hit_pt.z, 
-			// 	r.d_region_map->ray_dir.x, r.d_region_map->ray_dir.y, r.d_region_map->ray_dir.z, r.d_region_map->normal.x, r.d_region_map->normal.y, r.d_region_map->normal.z,
-			// 	r.d_region_map->kd);
+				if (r.idx == 1)
+					printf("hit_pt: [%f, %f, %f], ray_dir: [%f, %f, %f], normal: [%f, %f, %f], kd: %f\n", r.d_region_map->hit_pt.x, r.d_region_map->hit_pt.y, r.d_region_map->hit_pt.z, 
+					r.d_region_map->ray_dir.x, r.d_region_map->ray_dir.y, r.d_region_map->ray_dir.z, r.d_region_map->normal.x, r.d_region_map->normal.y, r.d_region_map->normal.z,
+					r.d_region_map->kd);
+			}
+			
 		}
 		else
 		{
