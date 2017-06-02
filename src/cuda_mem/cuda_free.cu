@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 14:56:48 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/30 11:31:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:40:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	cuda_free(t_raytracing_tools *r, int all)
 	C(4)
 	if (r->update.scene == 2 || all)
 		cudaFree(r->d_scene);
-	C(5)
-	printf("selected photon address: %p\n", r->scene->selected_photons);
-	if ((r->update.photon_map == 2 || all) && r->scene->selected_photons)
-	{
-		C(6)
-		cudaFree(r->scene->selected_photons);
-	}
-	C(7)
+	// C(5)
+	// printf("selected photon address: %p\n", r->scene->selected_photons);
+	// if ((r->update.photon_map == 2 || all) && r->scene->selected_photons)
+	// {
+	// 	C(6)
+	// 	cudaFree(r->scene->selected_photons);
+	// }
+	// C(7)
 	return (0);
 }

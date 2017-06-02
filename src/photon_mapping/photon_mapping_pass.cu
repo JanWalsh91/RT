@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 16:55:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 10:47:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
       if (abort) exit(code);
    }
 }
-void			print_photons(t_kd_tree *tree);
 static int		shoot_photon_group(t_raytracing_tools *r, size_t photon_count);
 static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
 static float	get_total_intensity(t_light *lights);
@@ -40,7 +39,7 @@ static t_ray	init_kernel_photon(t_raytracing_tools *r, t_photon photon, float *r
 
 void	photon_mapping_pass(t_raytracing_tools *r)
 {
-	printf("photon_mapping_pass\n");
+	printf("\nphoton_mapping_pass\n");
 	
 	
 	shoot_photon_group(r, r->scene->photon_count_per_pass);
@@ -127,8 +126,8 @@ void			init_random_numbers(int nb, float *random_numbers)
 	i = -1;
 	while (++i < nb)
 	{
-		random_numbers[i] = (rand() % 100) - 50;
-		printf("%f\n", random_numbers[i]);
+		random_numbers[i] = (((float)rand()) / (float)INT_MAX) - 0.5;
+		// printf("%f\n", random_numbers[i]);
 	}
 }
 
@@ -153,8 +152,6 @@ static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_
 	init_random_numbers(r->scene->photon_count_per_pass * 3, h_rand_numbers);
 	cudaMemcpy(d_rand_numbers, h_rand_numbers, sizeof(float) * r->scene->photon_count_per_pass * 3, cudaMemcpyHostToDevice);
 	shoot_photon<<<gridSize, blockSize>>>(r->d_scene, init_photon_list, photon_count, d_rand_numbers);
-	cudaFree(d_rand_numbers);
-	free(h_rand_numbers);
 	// printf("-------p: %f\n", p);
 	cudaError_t errSync  = cudaGetLastError();
 	cudaError_t errAsync = cudaDeviceSynchronize();
@@ -162,6 +159,8 @@ static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_
 		printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
 	if (errAsync != cudaSuccess)
 		printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+	cudaFree(d_rand_numbers);
+	free(h_rand_numbers);
 	// gpuErrchk((cudaDeviceSynchronize()));
 }
 
@@ -182,12 +181,12 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 	r.devStates = &state;
 	// curand_init (r.idx + (rand_i % 50), 0, 0, r.devStates);
 	curand_init (rand_numbers[0], r.idx % (int)rand_numbers[0], r.idx * rand_numbers[0], r.devStates);
-	memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
+	memset(&r.ior_list, 0, sizeof(float) * (PHOTON_BOUNCE_MAX + 1));
 	photon = init_kernel_photon(&r, init_photon_list[r.idx], rand_numbers);
 	// if (r.idx == 0)
 	// 	printf("photon [%i]: [%f, %f, %f]\n", r.idx, photon.dir.x, photon.dir.y, photon.dir.z);
-	if (r.idx == 0)
-		printf("photon cast primary ray\n");
+	// if (r.idx == 0)
+	// 	printf("photon cast primary ray\n");
 	cast_primary_ray(&r, &photon);
 }
  
@@ -211,15 +210,10 @@ static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon, float *
 	// (int)new_ray.dir.z % 2 ? new_ray.dir.z *= -1 : 0;
 	// r->devStates = &localState;
 
-	if (r->idx == 0)
-		printf("99999999999Avant\n");
 	new_ray.dir.x = rand_numbers[r->idx];
 	new_ray.dir.y = rand_numbers[r->idx + 1];
 	new_ray.dir.z = rand_numbers[r->idx + 2];
-	__syncthreads();
 	new_ray.dir = v_norm(new_ray.dir);
-	if (r->idx == 0)
-		printf("Apres : %f, %f, %f\n", new_ray.dir.x, new_ray.dir.y, new_ray.dir.z);
 	// printf("init kernel photon: dir: [%f, %f, %f]\n", new_ray.dir.x, new_ray.dir.y, new_ray.dir.z);
 	new_ray.type = R_DIRECT_PHOTON;
 	new_ray.origin = photon.pos;
@@ -238,23 +232,5 @@ static t_ray		init_kernel_photon(t_raytracing_tools *r, t_photon photon, float *
 		r->scene->photon_list[r->idx * PHOTON_BOUNCE_MAX + i].col = c_new(0, 0, 0);
 		++i;
 	}
-	if (r->idx == 0)
-		printf("done preping photon\n");
 	return (new_ray);
-}
-
-void	print_photons(t_kd_tree *tree)
-{
-	// printf("PRINTF_PHOTONS\n");
-	if (!tree)
-	{
-		printf("found nothing going up\n");
-		return ;
-	}
-	printf("going left\n");
-	print_photons(tree->left);
-	printf("photon: [%p] [%f, %f, %f]\n", tree, tree->pos.x, tree->pos.y, tree->pos.z);
-	printf("going right\n");
-	print_photons(tree->right);
-	printf("going up\n");
 }

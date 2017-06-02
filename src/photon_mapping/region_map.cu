@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 15:55:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 10:39:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	refresh_region_map_tile(t_raytracing_tools *r, t_tile tile)
 	int			i;
 
 	//does this need to be done on the host, or can it be done in the beginning of the kernel?
-	printf("refresh_region_map_tile\n");
+	// printf("refresh_region_map_tile\n");
 	if (r->scene->is_photon_mapping)
 	{
 		empty.hit_pt = v_new(NAN, NAN, NAN);
@@ -129,7 +129,7 @@ void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 	if (r->scene->is_photon_mapping)
 	{
 		current_tile = (tile.id.y) * tile.col + (tile.id.x);
-		printf("copy_region_map_tile: current tile: %d\n", current_tile);
+		// printf("copy_region_map_tile: current tile: %d\n", current_tile);
 		gpuErrchk((cudaMemcpy(r->h_region_map[current_tile], r->d_region_map, sizeof(t_region) * tile.size * tile.size, cudaMemcpyDeviceToHost)));
 	}
 }
@@ -143,7 +143,7 @@ void	get_region_map_tile(t_raytracing_tools *r, t_tile tile)
 	if (r->scene->is_photon_mapping)
 	{
 		current_tile = (tile.id.y) * tile.col + (tile.id.x);
-		printf("get_region_map_tile: current tile: %d\n", current_tile);
+		// printf("get_region_map_tile: current tile: %d\n", current_tile);
 		gpuErrchk((cudaMemcpy(r->d_region_map, r->h_region_map[current_tile], sizeof(t_region) * tile.size * tile.size, cudaMemcpyHostToDevice)));
 	}
 }

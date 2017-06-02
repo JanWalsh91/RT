@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:48:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 16:33:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:52:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ static void			shoot_photon(t_scene *scene, t_photon *init_photon_list, int photo
 		return ; 
 	r.devStates = &state;
 	// curand_init (r.idx + (rand_i % 50), 0, 0, r.devStates);
-	memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
+	memset(&r.ior_list, 0, sizeof(float) * (PHOTON_BOUNCE_MAX + 1));
 	photon = init_kernel_photon(&r, init_photon_list[r.idx], rand_numbers);
 	// printf("photon [%i]: [%f, %f, %f]\n", r.idx, photon.dir.x, photon.dir.y, photon.dir.z);
 	if (r.idx == 0)

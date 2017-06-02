@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 16:53:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 10:43:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,34 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	float	tmp;
 	float 	p;
 	
+	
 	// printf("update_photon: type: [%d],  diffuse: [%f], reflection: [%f], transparency: [%f]\n",
 	// ray->type,
 	// r->scene->objects[ray->hit_obj].kd,
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
 	
-	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type == R_INDIRECT_PHOTON)
+	if (r->scene->objects[ray->hit_obj].kd > 0.0 /*&& ray->type == R_INDIRECT_PHOTON*/)
 		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX, ray);
-	rand_f = curand_uniform_double(r->devStates);
+	rand_f = curand_uniform(r->devStates);
 	tmp = 0;
 	p = NAN;
 	ray->type = R_INDIRECT_PHOTON;
-	// printf("update type: %d\n", ray->type);
-	if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].kd / 3.0, col_to_vec(ray->col))) > rand_f)
+	// printf("update photon: rand_f: [%f]\n", rand_f);
+	if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].kd /* / 3.0 */, col_to_vec(ray->col))) > rand_f)
 	{
 		// printf("[%d] cast as diffuse. Rand: [%f] tmp: [%f]\n", r->idx, rand_f, tmp);
 		redirect_photon_diffuse(r, ray);
 		scale_color(ray, p, r->scene->objects[ray->hit_obj].kd, r->scene->objects[ray->hit_obj].col);
 		// printf("new dir: [%f, %f, %f]\n", ray->dir.x, ray->dir.y, ray->dir.z);
 	}
-	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].reflection / 3.0, col_to_vec(ray->col))) > rand_f)
+	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].reflection /* / 3.0 */, col_to_vec(ray->col))) > rand_f)
 	{
 		// printf("[%d] cast as reflection. Rand: [%f] tmp: [%f]\n", r->idx, rand_f, tmp);
 		redirect_photon_specular(r, ray);
 		scale_color(ray, p, r->scene->objects[ray->hit_obj].reflection, r->scene->objects[ray->hit_obj].col);
 	}
-	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].transparency / 3.0, col_to_vec(ray->col))) > rand_f)
+	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].transparency /* / 3.0 */, col_to_vec(ray->col))) > rand_f)
 	{
 		if (fresnel_reflect(r, ray))
 		{
@@ -111,7 +112,10 @@ static void		save_photon(t_photon *photon_list, t_ray *ray)
 	photon_list[i].dir = ray->dir;
 	photon_list[i].col = ray->col;
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
-	// printf("save photon[%d]: [%f, %f, %f] col: [%d, %d, %d]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z, photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
+	// printf("save photon[%d]: pos: [%f, %f, %f] dir: [%f, %f, %f] col: [%d, %d, %d]\n", i,
+		// photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z,
+		// photon_list[i].dir.x, photon_list[i].dir.y, photon_list[i].dir.z,
+		// photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
 }
 
 __device__
@@ -155,15 +159,26 @@ static void			redirect_photon_transmit(t_raytracing_tools *r, t_ray *ray)
 }
 
 
+
+/*
+** ray: incoming ray.
+** p: probability of particular redirection (diffuse, refelcted, refracted)
+** k: coefficient of corresponding redirection (diffuse, reflection, transparency)
+** obj_col: color of object hit
+** P_refl = P_inc * k / p
+*/
+
 __device__
 static void			scale_color(t_ray *ray, float p, float k, t_vec3 obj_col)
 {
 	t_color p_inc;
 
+	// printf("scale color input: p: [%f] k : [%f]\n", p, k);
 	p_inc = ray->col;
 	ray->col.r = p_inc.r * k * (obj_col.x / (p * 255.0));
 	ray->col.g = p_inc.g * k * (obj_col.y / (p * 255.0));
 	ray->col.b = p_inc.b * k * (obj_col.z / (p * 255.0));
+	// printf("scale color: old: [%d, %d, %d] new: [%d, %d, %d]\n", p_inc.r, p_inc.g, p_inc.b, ray->col.r, ray->col.g, ray->col.b);
 }
 
 __device__

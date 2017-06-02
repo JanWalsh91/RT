@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 16:18:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 10:33:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int				main(int ac, char **av)
 	g.t = &t;
 	g.r = &r;
 	g.pixbuf = NULL;
-	// g.r->settings.tile_size = 3;
+	g.r->settings.tile_size = 4;
 	g.r->settings.tile_size = DEFAULT_TILE_SIZE;
 	// g.r->settings.photon_search_radius = PHOTON_SEARCH_RADIUS;
 	g.r->settings.photon_search_radius = 500;

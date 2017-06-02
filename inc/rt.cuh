@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/01 17:16:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:39:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,7 +368,7 @@ typedef struct	s_scene
 	size_t			photon_iteration;
 	struct s_photon	*photon_list;
 	struct s_kd_tree		*photon_kd_tree;
-	struct s_selected_photon *selected_photons;
+	// struct s_selected_photon *selected_photons;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;

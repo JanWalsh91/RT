@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 17:14:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 10:10:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *reg
 			memset(&r.ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 			cam_ray = init_camera_ray(&r, aa_i);
 			d_pixel_map[r.idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
+			// printf("idx: %d - 1\n", r.idx);
+			__syncthreads();
 			if (region_map)
 			{
 				r.d_region_map->hit_pt = cam_ray.hit;
@@ -85,10 +87,10 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *reg
 				r.d_region_map->kd = scene->objects[cam_ray.hit_obj].kd;
 			
 			
-				if (r.idx == 1)
-					printf("hit_pt: [%f, %f, %f], ray_dir: [%f, %f, %f], normal: [%f, %f, %f], kd: %f\n", r.d_region_map->hit_pt.x, r.d_region_map->hit_pt.y, r.d_region_map->hit_pt.z, 
-					r.d_region_map->ray_dir.x, r.d_region_map->ray_dir.y, r.d_region_map->ray_dir.z, r.d_region_map->normal.x, r.d_region_map->normal.y, r.d_region_map->normal.z,
-					r.d_region_map->kd);
+				// if (r.idx == 1)
+				// 	printf("hit_pt: [%f, %f, %f], ray_dir: [%f, %f, %f], normal: [%f, %f, %f], kd: %f\n", r.d_region_map->hit_pt.x, r.d_region_map->hit_pt.y, r.d_region_map->hit_pt.z, 
+				// 	r.d_region_map->ray_dir.x, r.d_region_map->ray_dir.y, r.d_region_map->ray_dir.z, r.d_region_map->normal.x, r.d_region_map->normal.y, r.d_region_map->normal.z,
+				// 	r.d_region_map->kd);
 			}
 			
 		}

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:38:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/31 10:45:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:41:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "rt.cuh"
 
-# define PHOTON_BOUNCE_MAX 10
-# define PHOTON_GATHER_MAX 10
+# define PHOTON_BOUNCE_MAX 5
+// # define PHOTON_GATHER_MAX 10
 # define PHOTON_SEARCH_RADIUS 100
 
 typedef struct s_region

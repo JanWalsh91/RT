@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/01 17:20:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:57:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 		while ((tile.id.y + 1) <= tile.col)
 		{ 
 			get_region_map_tile(g->r, tile);
-			printf("pre radiance pass: %f\n", g->r->h_region_map[0]->radius);
+			// printf("pre radiance pass: %f\n", g->r->h_region_map[0]->radius);
 			radiance_estimation_pass(g->r, tile);
-			printf("post radiance pass: %f\n", g->r->h_region_map[0]->radius);
+			// printf("post radiance pass: %f\n", g->r->h_region_map[0]->radius);
 			copy_region_map_tile(g->r, tile);
-			printf("post copy after radiance pass: %f\n", g->r->h_region_map[0]->radius);
+			// printf("post copy after radiance pass: %f\n", g->r->h_region_map[0]->radius);
 			increment_tile(&tile.id, tile.row);
 		}
 		++g->r->h_d_scene->photon_iteration;

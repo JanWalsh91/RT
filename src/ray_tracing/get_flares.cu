@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_flares.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/26 14:44:00 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/02 09:59:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	get_view_pane_intersection(t_ray *ray, t_camera *cam)
 	if (r1 < 0)
 		return (false);
 	ray->t = r1;
-	printf("T: %f\n", ray->t);
+	// printf("T: %f\n", ray->t);
 	return (true);
 }
 
@@ -142,7 +142,7 @@ void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
 
 	r->t = INFINITY;
 	int light_count = get_light_count(r->scene->lights);
-	printf("Light count : %d\n", light_count);
+	// printf("Light count : %d\n", light_count);
 	if (!light_count)
 		return ;
 	cudaMalloc(&tools, sizeof(t_light_flare_tools) * light_count);
@@ -176,9 +176,9 @@ void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
 
 void 	lens_flare_wrapper(t_raytracing_tools *r)
 {
-	printf("lens_flare_wrapper\n");
+	// printf("lens_flare_wrapper\n");
 	add_lens_flare(r, r->d_pixel_map);
-	printf("end lens_flare_wrapper\n");
+	// printf("end lens_flare_wrapper\n");
 	cudaError_t errAsync = cudaDeviceSynchronize();
 	if (errAsync != cudaSuccess)
 		printf("Sync kernel error: %s\n", cudaGetErrorString(errAsync));
