@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:55 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/08 13:29:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/01 15:28:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			*get_perm_array(void)
 	int		j;
 	int		t;
 
-	srand(time(NULL));
+	// srand(time(NULL));
 	if (!(perm = (int *)malloc(sizeof(int) * 255)))
 		return (NULL);
 	i = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_delete_object.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:39:38 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/31 11:22:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/01 17:16:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,22 @@ void		    *sig_delete_object(GtkWidget *button, t_gtk_tools *g)
 	g->r->update.objects = 2;
 	if (g->r->scene->objects)
 	{
+		C(1)
 		gtk_list_box_select_row(GTK_LIST_BOX(widget), gtk_list_box_get_row_at_index(GTK_LIST_BOX(widget), id - 1 >= 0 ? id - 1 : 0));
 		update_objects_info_panel(g, get_selected_object(g));
 	}
 	else
 	{
+		C(2)
 		widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowObject"));
 		gtk_widget_set_sensitive(widget, false);
 		widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteObject"));
 		gtk_widget_set_sensitive(widget, false);
 		cuda_malloc(g->r);
-		g->r->update.render = 1;
-		if (g->win)
-			gtk_widget_queue_draw(g->win);
 	}
+	g->r->update.render = 1;
+	if (g->win)
+		gtk_widget_queue_draw(g->win);
 	return (NULL);
 }
 

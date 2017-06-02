@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:38:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/29 15:23:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:41:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include "rt.cuh"
 
-# define PHOTON_BOUNCE_MAX 10
-# define PHOTON_GATHER_MAX 10
-
+# define PHOTON_BOUNCE_MAX 5
+// # define PHOTON_GATHER_MAX 10
+# define PHOTON_SEARCH_RADIUS 100
 
 typedef struct s_region
 {
@@ -48,8 +48,11 @@ typedef struct	s_kd_tree
 // void			create_kd_tree(struct s_photon *photon_list, t_kd_tree **root, int photon_count);
 // void			sort_kd_tree(t_kd_tree **root, int dim, t_kd_tree **sorted);
 // void			free_kd_tree(t_kd_tree *root);
-void			photon_mapping_pass(t_raytracing_tools *r);
-void			radiance_estimation_pass(t_raytracing_tools *r);
+// void			photon_mapping_pass(t_raytracing_tools *r);
+// void			radiance_estimation_pass(t_raytracing_tools *r, struct s_tile tile);
+void			render_ppm(struct s_gtk_tools *g, t_tile tile);
+
+
 typedef struct	s_photon
 {
 	t_vec3		pos;

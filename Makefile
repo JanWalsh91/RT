@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/05/31 11:39:27 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/01 17:17:06 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,8 @@ GUI =		window_signals \
 			sig_render \
 			sig_set_full_screen \
 			sig_generate_texture \
-			sig_errors
+			sig_errors \
+			photon_mapping
 
 CUDA_MEM =	cuda_malloc \
 			ft_lstnew_cuda \
@@ -148,7 +149,6 @@ OBJ_PARSER = 	ft_freetab \
 				set_obj
 
 PHOTON_MAPPING = update_photon \
-				photon_mapping \
 				photon_mapping_pass \
 				radiance_estimation_pass \
 				region_map
@@ -255,7 +255,7 @@ $(OBJ_DIR)/%.o : ./src/objparser/%.c
 
 $(OBJ_DIR)/%.o : ./src/photon_mapping/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
+	$(NVCC) $(GTK3_INC) $(CUFLAGS) -I./inc -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/texture/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
