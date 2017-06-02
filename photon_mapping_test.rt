@@ -1,6 +1,6 @@
 scene: Scene 1
 {
-	resolution: 288, 288
+	resolution: 252, 252
 	ray depth: 10
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
@@ -35,7 +35,7 @@ scene: Scene 1
 	{
 		position: 15.0000, 0.0000, 0.0000
 		direction: 1.0000, 0.0000, 0.0000
-		color: 0.0000, 0.0000, 255.0000
+		color: 252.0000, 233.0000, 79.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 10:43:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 15:16:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <curand_kernel.h>
 
 __device__
-static void		save_photon(t_photon *photon_list, t_ray *ray);
+static void		save_photon(t_photon *photon_list, t_ray *ray, t_object *obj);
 __device__
 static float 	get_probability(float *p, t_vec3 o_col, float k, t_vec3 p_col);
 __device__
@@ -47,27 +47,27 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
 	
-	if (r->scene->objects[ray->hit_obj].kd > 0.0 /*&& ray->type == R_INDIRECT_PHOTON*/)
-		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX, ray);
+	if (r->scene->objects[ray->hit_obj].kd > 0.0 /*&& ray->type == R_DIRECT_PHOTON*/)
+		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX, ray, &r->scene->objects[ray->hit_obj]);
 	rand_f = curand_uniform(r->devStates);
 	tmp = 0;
 	p = NAN;
 	ray->type = R_INDIRECT_PHOTON;
 	// printf("update photon: rand_f: [%f]\n", rand_f);
-	if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].kd /* / 3.0 */, col_to_vec(ray->col))) > rand_f)
+	if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].kd / 3.0, col_to_vec(ray->col))) > rand_f)
 	{
 		// printf("[%d] cast as diffuse. Rand: [%f] tmp: [%f]\n", r->idx, rand_f, tmp);
 		redirect_photon_diffuse(r, ray);
 		scale_color(ray, p, r->scene->objects[ray->hit_obj].kd, r->scene->objects[ray->hit_obj].col);
 		// printf("new dir: [%f, %f, %f]\n", ray->dir.x, ray->dir.y, ray->dir.z);
 	}
-	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].reflection /* / 3.0 */, col_to_vec(ray->col))) > rand_f)
+	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].reflection / 3.0, col_to_vec(ray->col))) > rand_f)
 	{
 		// printf("[%d] cast as reflection. Rand: [%f] tmp: [%f]\n", r->idx, rand_f, tmp);
 		redirect_photon_specular(r, ray);
 		scale_color(ray, p, r->scene->objects[ray->hit_obj].reflection, r->scene->objects[ray->hit_obj].col);
 	}
-	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].transparency /* / 3.0 */, col_to_vec(ray->col))) > rand_f)
+	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].transparency / 3.0, col_to_vec(ray->col))) > rand_f)
 	{
 		if (fresnel_reflect(r, ray))
 		{
@@ -96,21 +96,19 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 }
 
 __device__
-static void		save_photon(t_photon *photon_list, t_ray *ray)
+static void		save_photon(t_photon *photon_list, t_ray *ray, t_object *obj)
 {
 	int i;
 
 	i = 0;           
 	// printf("0: [%f] - 1: [%f] - 3: [%f] - 3: [%f] - \n", photon_list[0].pos.x, photon_list[1].pos.x, photon_list[2].pos.x, photon_list[3].pos.x);                               
-	while (!v_isnan(photon_list[i].pos) && i < MAX_RAY_DEPTH)
-	{
+	while (!v_isnan(photon_list[i].pos) && i < PHOTON_BOUNCE_MAX)
 		++i;
-	}
 	// printf("save photon: at %d [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
 	// printf("found: [%d]: [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
 	photon_list[i].pos = ray->hit;
 	photon_list[i].dir = ray->dir;
-	photon_list[i].col = ray->col;
+	photon_list[i].col = vec_to_col(get_object_color(obj, ray));
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
 	// printf("save photon[%d]: pos: [%f, %f, %f] dir: [%f, %f, %f] col: [%d, %d, %d]\n", i,
 		// photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z,
@@ -130,11 +128,14 @@ __device__
 static void			redirect_photon_diffuse(t_raytracing_tools *r, t_ray *ray)
 {
 	t_vec3	rand_dir;
-
+	curandState state;
 	ray->origin = v_add(ray->hit, v_scale(ray->nhit, ray->n_dir * BIAS));
-	rand_dir.x = curand_uniform(r->devStates) - 0.5;
-	rand_dir.y = curand_uniform(r->devStates) - 0.5;
-	rand_dir.z = curand_uniform(r->devStates) - 0.5;
+
+	state = *r->devStates;
+	rand_dir.x = ray->dir.x * (curand_uniform(&state) - 0.5);
+	rand_dir.y = ray->dir.y * (curand_uniform(&state) - 0.5);
+	rand_dir.z = ray->dir.z * (curand_uniform(&state) - 0.5);
+	*r->devStates = state;
 	rand_dir = v_norm(rand_dir);
 	ray->dir = (v_dot(rand_dir, v_scale(ray->nhit, ray->n_dir)) < 0) ? v_scale(rand_dir, -1): rand_dir;
 }

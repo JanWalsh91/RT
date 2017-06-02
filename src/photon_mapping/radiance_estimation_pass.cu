@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 12:14:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 16:20:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		update_radius(t_raytracing_tools *r, float *radius, float photon_co
 __device__
 static t_vec3	add_accumulated_power(t_region *region, t_photon photon, float rad);
 __device__
-static void		udpate_accumulated_power(t_vec3 *pow, t_vec3 new_pow, float rad2);
+static void		udpate_accumulated_power(t_vec3 *pow, t_vec3 new_pow, float old_rad2, float rad2);
 
 __global__
 void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *region_map, t_tile tile)
@@ -91,7 +91,7 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 		{
 			dist = v_length(v_sub(region_map[i2].hit_pt, scene->photon_list[i].pos));
 			// printf("%d: dist: %f rad: %f\n", r.idx, dist, region_map[i2].radius);
-			if (region_map[i2].radius > dist)
+			if (region_map[i2].radius > dist && v_dot(region_map[i2].normal, scene->photon_list[i].n) > 0.5)
 			{
 				// if (r.pix.x == 100 && r.pix.y == 100)
 				// {
@@ -105,15 +105,18 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 		}
 		__syncthreads();
 	}
+
 	if (photons_added)
-		udpate_accumulated_power(&region_map[i2].power, power_added, region_map[i2].radius * region_map[i2].radius);
+	{
+		float old_rad2 = region_map[i2].radius * region_map[i2].radius;
+		update_radius(&r, &region_map[i2].radius, region_map[i2].n, photons_added);
+		udpate_accumulated_power(&region_map[i2].power, power_added, old_rad2, region_map[i2].radius * region_map[i2].radius);
+	}
 	// if (r.idx == 0)
 	// {
 	// 	// float r = region_map[0].radius;
 	// 	printf("before update radius: rad: %f, photon_count: %d, photons_added: %d, %p\n", region_map[0].radius, region_map[0].n, photons_added, &region_map[0].radius);
 	// }
-	if (photons_added)
-		update_radius(&r, &region_map[i2].radius, region_map[i2].n, photons_added);
 	// if (r.idx == 0)
 	// {
 	// 	// printf("--- photons_added: %d, rad in kernel: %f --> %f, %p\n", photons_added, r, region_map[0].radius, &region_map[0].radius);
@@ -124,7 +127,8 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 	t_color tmp = pixel_map[r.idx];
 	// pixel_map[r.idx] = c_new(0, 110, 110);
 	// printf("photon_iter: %lu, count per pass: %lu\n", scene->photon_iteration, scene->photon_count_per_pass);
-	pixel_map[r.idx] = c_add(pixel_map[r.idx], vec_to_col(v_scale(region_map[i2].power, 1.0 / (float)(scene->photon_iteration * scene->photon_count_per_pass * M_PI * region_map[i2].radius * region_map[i2].radius))));
+	pixel_map[r.idx] = c_add(pixel_map[r.idx], vec_to_col(v_scale(region_map[i2].power, 1.0 /
+	(float)(scene->photon_iteration * scene->photon_count_per_pass * M_PI * region_map[i2].radius * region_map[i2].radius))));
 	// if (r.idx % 500 == 0)
 	// printf("power: [%f, %f, %f]\n", region_map[i2].power.x, region_map[i2].power.y, region_map[i2].power.z);
 	// printf("idx: [%d]. old color: [%d, %d, %d], new color: [%d, %d, %d]\n", r.idx, tmp.r, tmp.g, tmp.b, pixel_map[r.idx].r, pixel_map[r.idx].g, pixel_map[r.idx].b);
@@ -164,20 +168,20 @@ static t_vec3	add_accumulated_power(t_region *region, t_photon photon, float rad
 {
 	// printf("update_accumulated_power\n");
 	t_vec3 result;
-	float k = 1; ///
+	float k = 1500; ///
 
-	result = v_scale(col_to_vec(photon.col), 1 / (M_PI * rad2));
-	result = v_scale(result, -v_dot(region->ray_dir, photon.n) * k * region->kd);
+	result = v_scale(col_to_vec(photon.col), 1  /*/ sqrtf(sqrtf(rad2)) / (M_PI * rad2)*/);
+	result = v_scale(result, -v_dot(photon.dir, region->normal) * k * region->kd);
 	// printf("add accumulated power: [%f, %f, %f]\n", result.x, result.y, result.z);
 	return (result);
 }
 
 __device__
-static void		udpate_accumulated_power(t_vec3 *pow, t_vec3 new_pow, float rad2)
+static void		udpate_accumulated_power(t_vec3 *pow, t_vec3 new_pow, float old_rad2, float rad2)
 {
 	// printf("update_accumulated_power\n");
 	// new_pow = v_scale(*pow, 1 / (M_PI * rad2));
-	*pow = v_scale(v_add(*pow, new_pow), ((rad2 + 1) / (rad2)));
+	*pow = v_scale(v_add(*pow, new_pow), ((rad2) / (old_rad2)));
 }
 
 __device__
