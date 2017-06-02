@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 09:39:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 11:47:34 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,9 +363,9 @@ typedef struct	s_scene
 	bool			is_fresnel;
 	bool			is_photon_mapping;
 	char			is_aa;
-	size_t			photon_count;
-	size_t			photon_count_per_pass;
-	size_t			photon_iteration;
+	int				photon_count;
+	int				photon_count_per_pass;
+	int				photon_iteration;
 	struct s_photon	*photon_list;
 	struct s_kd_tree		*photon_kd_tree;
 	// struct s_selected_photon *selected_photons;

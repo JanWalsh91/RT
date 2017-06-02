@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 09:50:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 12:14:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 __device__
 static void		update_photon_count(int *photon_count, float photons_added);
 __device__
-static float	update_radius(t_raytracing_tools *r, float photon_count, float photons_added);
+static void		update_radius(t_raytracing_tools *r, float *radius, float photon_count, float photons_added);
 __device__
 static t_vec3	add_accumulated_power(t_region *region, t_photon photon, float rad);
 __device__
@@ -53,9 +53,33 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 	i2 = (r.pix.x % tile.size) + (r.pix.y % tile.size) * tile.size;
 	photons_added = 0;
 	power_added = v_new(0, 0, 0);
-	if (r.pix.x >= scene->res.x || r.pix.y >= scene->res.y)
+	if (r.pix.x >= scene->res.x || r.pix.y >= scene->res.y || v_isnan(region_map[i2].hit_pt))
 		return ;
-	if (r.idx == 0)
+	// printf("iteration: %d\n", scene->photon_iteration);
+	if (r.idx == 0 && scene->photon_iteration == 1)
+	{
+		t_vec3 normalized_power = v_scale(region_map[0].power, 1.0 / (float)(scene->photon_iteration * scene->photon_count_per_pass * M_PI * region_map[0].radius * region_map[0].radius));
+
+		printf("\nregion intialization: iteration: [%d]\
+			\n\tphotons added: [%d]\
+			\n\thit_pt: [%f, %f, %f]\
+			\n\tray_dir: [%f, %f, %f]\
+			\n\tnormal: [%f, %f, %f]\
+			\n\tkd: [%f]\
+			\n\tradius: [%f]\
+			\n\tphoton count: [%d]\
+			\n\taccumulated power: [%f, %f, %f]\n\n",
+			scene->photon_iteration,
+			photons_added,
+			region_map[0].hit_pt.x, region_map[0].hit_pt.y, region_map[0].hit_pt.z,
+			region_map[0].ray_dir.x, region_map[0].ray_dir.y, region_map[0].ray_dir.z,
+			region_map[0].normal.x, region_map[0].normal.y, region_map[0].normal.z,
+			region_map[0].kd,
+			region_map[0].radius,
+			region_map[0].n,
+			region_map[0].power.x, region_map[0].power.y, region_map[0].power.z
+		);
+	}
 		// printf("---rad entering kernel: %f\n", region_map[0].radius);
 	// printf("idx: [%d] i2: [%d]\n", r.idx, i2);
 	i = -1;
@@ -81,14 +105,15 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 		}
 		__syncthreads();
 	}
-	udpate_accumulated_power(&region_map[i2].power, power_added, region_map[i2].radius * region_map[i2].radius);
+	if (photons_added)
+		udpate_accumulated_power(&region_map[i2].power, power_added, region_map[i2].radius * region_map[i2].radius);
 	// if (r.idx == 0)
 	// {
 	// 	// float r = region_map[0].radius;
 	// 	printf("before update radius: rad: %f, photon_count: %d, photons_added: %d, %p\n", region_map[0].radius, region_map[0].n, photons_added, &region_map[0].radius);
 	// }
 	if (photons_added)
-		region_map[i2].radius = update_radius(&r, region_map[i2].n, photons_added);
+		update_radius(&r, &region_map[i2].radius, region_map[i2].n, photons_added);
 	// if (r.idx == 0)
 	// {
 	// 	// printf("--- photons_added: %d, rad in kernel: %f --> %f, %p\n", photons_added, r, region_map[0].radius, &region_map[0].radius);
@@ -103,6 +128,35 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 	// if (r.idx % 500 == 0)
 	// printf("power: [%f, %f, %f]\n", region_map[i2].power.x, region_map[i2].power.y, region_map[i2].power.z);
 	// printf("idx: [%d]. old color: [%d, %d, %d], new color: [%d, %d, %d]\n", r.idx, tmp.r, tmp.g, tmp.b, pixel_map[r.idx].r, pixel_map[r.idx].g, pixel_map[r.idx].b);
+	if (r.idx == 0)
+	{
+		t_vec3 normalized_power = v_scale(region_map[0].power, 1.0 / (float)(scene->photon_iteration * scene->photon_count_per_pass * M_PI * region_map[0].radius * region_map[0].radius));
+
+		printf("\nupdated region: iteration: [%d]\
+			\n\tphoton count per pass: [%d]\
+			\n\tphotons added: [%d]\
+			\n\thit_pt: [%f, %f, %f]\
+			\n\tray_dir: [%f, %f, %f]\
+			\n\tnormal: [%f, %f, %f]\
+			\n\tkd: [%f]\
+			\n\tradius: [%f]\
+			\n\tphoton count: [%d]\
+			\n\taccumulated power: [%f, %f, %f]\
+			\n\tnormalized_power: [%f, %f, %f]\n\n",
+			scene->photon_iteration,
+			scene->photon_count_per_pass,
+			photons_added,
+			region_map[0].hit_pt.x, region_map[0].hit_pt.y, region_map[0].hit_pt.z,
+			region_map[0].ray_dir.x, region_map[0].ray_dir.y, region_map[0].ray_dir.z,
+			region_map[0].normal.x, region_map[0].normal.y, region_map[0].normal.z,
+			region_map[0].kd,
+			region_map[0].radius,
+			region_map[0].n,
+			region_map[0].power.x, region_map[0].power.y, region_map[0].power.z,
+			normalized_power.x, normalized_power.y, normalized_power.z
+		);
+	}
+	__syncthreads();
 }
 
 __device__
@@ -127,14 +181,12 @@ static void		udpate_accumulated_power(t_vec3 *pow, t_vec3 new_pow, float rad2)
 }
 
 __device__
-static float	update_radius(t_raytracing_tools *r, float photon_count, float photons_added)
+static void		update_radius(t_raytracing_tools *r, float *radius, float photon_count, float photons_added)
 {
-	float ret;
 	// printf("update_radius\n");
-	ret = sqrtf((photon_count + (2.0 / 3.0) * photons_added) / (photon_count + photons_added));
+	*radius *= sqrtf((photon_count + (2.0 / 3.0) * photons_added) / (photon_count + photons_added));
 	// if (r->idx == 0)
 	// 	printf("after : %f\n", *rad);
-	return (ret);
 }
 
 __device__

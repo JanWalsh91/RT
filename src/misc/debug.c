@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 14:03:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 11:49:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_scene(t_scene *scene)
 	printf("	is_fresnel: %d\n", scene->is_fresnel);
 	printf("	is_photon_mapping: %d\n", scene->is_photon_mapping);
 	printf("	is_aa: %d\n", scene->is_aa);
-	printf("	photon_count: %zu\n", scene->photon_count);
+	printf("	photon_count: %d\n", scene->photon_count);
 	printf("	photon_list address: %p\n", scene->photon_list);
 	printf("	photon_map address: %p\n", scene->photon_kd_tree);
 	o_ptr = scene->objects;

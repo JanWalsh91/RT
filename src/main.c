@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 10:33:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 12:14:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int				main(int ac, char **av)
 	g.t = &t;
 	g.r = &r;
 	g.pixbuf = NULL;
-	g.r->settings.tile_size = 4;
+	// g.r->settings.tile_size = 4;
 	g.r->settings.tile_size = DEFAULT_TILE_SIZE;
 	// g.r->settings.photon_search_radius = PHOTON_SEARCH_RADIUS;
-	g.r->settings.photon_search_radius = 500;
+	g.r->settings.photon_search_radius = 50;
 	g.filename = (ac >= 2) ? ft_strdup(av[1]) : NULL;
 	main_gtk(&g);
 	return (0);

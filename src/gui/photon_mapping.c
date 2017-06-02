@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 09:57:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 11:59:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 	//malloc space for photons on GPU
 	cudaMalloc((void **)&(g->r->h_d_scene->photon_list), sizeof(t_photon) * PHOTON_BOUNCE_MAX * g->r->scene->photon_count_per_pass);
 	// printf("AAAAAA-----photon_iter: %d, count per pass: %d\n", g->r->h_d_scene->photon_iteration, g->r->h_d_scene->photon_count_per_pass);	
+	g->r->h_d_scene->photon_iteration = 1;
 	cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice);
-	g->r->scene->photon_iteration = 0;
 	while (photons_shot < (int)g->r->scene->photon_count)
 	{
 		//photon_mapping_pass

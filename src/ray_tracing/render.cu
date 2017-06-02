@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 10:10:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 12:10:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *reg
 			d_pixel_map[r.idx] = filter(cast_primary_ray(&r, &cam_ray), scene->cameras->filter);
 			// printf("idx: %d - 1\n", r.idx);
 			__syncthreads();
-			if (region_map)
+			if (region_map && !v_isnan(cam_ray.hit))
 			{
 				r.d_region_map->hit_pt = cam_ray.hit;
+				// printf("assigning region hit pt: [%f, %f, %f]\n", cam_ray.hit.x, cam_ray.hit.y, cam_ray.hit.z);
 				r.d_region_map->ray_dir = cam_ray.dir;
 				r.d_region_map->normal = v_scale(cam_ray.nhit, cam_ray.n_dir);
 				r.d_region_map->kd = scene->objects[cam_ray.hit_obj].kd;
