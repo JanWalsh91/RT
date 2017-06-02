@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 14:31:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/05/31 13:03:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 # define SAVE_FLOAT_PRECISION 4
 
-
-#include "rt.cuh"
-#include <gtk/gtk.h>
+# include "rt.cuh"
+# include <gtk/gtk.h>
 
 /*
 **
@@ -25,8 +24,8 @@
 
 typedef struct	s_gtk_tools
 {
-	struct s_parse_tools 		*t;
-	struct s_raytracing_tools 	*r;
+	struct s_parse_tools		*t;
+	struct s_raytracing_tools	*r;
 	GtkWidget					*win;
 	GtkWidget					*drawing_area;
 	char						*filename; //current open file
