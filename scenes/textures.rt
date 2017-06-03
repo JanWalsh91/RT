@@ -23,7 +23,6 @@ scene: rendu4
 	sphere: Sphere
 	{
 		position: -3.0000, 0.0000, 0.0000
-		direction: --2147483648.----, --2147483648.----, --2147483648.----
 		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
@@ -33,7 +32,8 @@ scene: rendu4
 		transparency: 0.0000
 		reflection: 0.0000
 
-		texture: Noise 500.0000, 500.0000, 10.0000
+		#texture: Noise 500.0000, 500.0000, 10.0000
+		texture: textures/earth.bmp
 	}
 	cone: Cone
 	{

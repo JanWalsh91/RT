@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate_perlin_noise.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:55 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/01 15:28:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 16:08:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int			*get_perm_array(void)
 	int		j;
 	int		t;
 
-	// srand(time(NULL));
 	if (!(perm = (int *)malloc(sizeof(int) * 255)))
 		return (NULL);
 	i = -1;
@@ -79,48 +78,43 @@ float		*get_gradiant_array(void)
 	return (gradiant);
 }
 
-float		get_perlin_at_pixel(float x, float y, float res, int *perm)
+float		get_perlin_at_pixel(t_dpt2 x, float res, int *p, float *grad)
 {
 	t_dpt2	real;
 	float	vec[4];
 	int		pts[4];
-	t_pt2	i;
-	float	*grad;
 
-	grad = get_gradiant_array();
-	x /= res;
-	y /= res;
-	i.x = (int)x & 255;
-	i.y = (int)y & 255;
-	pts[0] = perm[i.x + perm[i.y]] % 8;
-	pts[1] = perm[i.x + 1 + perm[i.y]] % 8;
-	pts[2] = perm[i.x + perm[i.y + 1]] % 8;
-	pts[3] = perm[i.x + 1 + perm[i.y + 1]] % 8;
-	real.x = x - (int)x;
-	real.y = y - (int)y;
+	x.x /= res;
+	x.y /= res;
+	pts[0] = p[(int)((int)x.x & 255) + p[(int)((int)x.y & 255)]] % 8;
+	pts[1] = p[(int)((int)x.x & 255) + 1 + p[(int)((int)x.y & 255)]] % 8;
+	pts[2] = p[(int)((int)x.x & 255) + p[(int)((int)x.y & 255) + 1]] % 8;
+	pts[3] = p[(int)((int)x.x & 255) + 1 + p[(int)((int)x.y & 255) + 1]] % 8;
+	real.x = x.x - (int)x.x;
+	real.y = x.y - (int)x.y;
 	vec[0] = grad[pts[0] * 2] * real.x + grad[pts[0] * 2 + 1] * real.y;
-	real.x = x - ((int)x + 1);
-	real.y = y - (int)y;
+	real.x = x.x - ((int)x.x + 1);
+	real.y = x.y - (int)x.y;
 	vec[1] = grad[pts[1] * 2] * real.x + grad[pts[1] * 2 + 1] * real.y;
-	real.x = x - (int)x;
-	real.y = y - ((int)y + 1);
+	real.x = x.x - (int)x.x;
+	real.y = x.y - ((int)x.y + 1);
 	vec[2] = grad[pts[2] * 2] * real.x + grad[pts[2] * 2 + 1] * real.y;
-	real.x = x - ((int)x + 1);
-	real.y = y - ((int)y + 1);
+	real.x = x.x - ((int)x.x + 1);
+	real.y = x.y - ((int)x.y + 1);
 	vec[3] = grad[pts[3] * 2] * real.x + grad[pts[3] * 2 + 1] * real.y;
-	return (interpolation(real, x, y, vec));
+	return (interpolation(real, x.x, x.y, vec));
 }
 
 t_color		*generate_perlin_noise(t_vec3 *res)
 {
 	t_color		*map;
-	t_pt2		i;
+	t_dpt2		i;
 	float		color;
 	int			*perm;
+	float		*grad;
 
-	if (!(perm = get_perm_array()))
-		return (NULL);
-	if (cudaMallocHost((void **)&map, (3 * res->x * res->y)) != 0)
+	if (!(perm = get_perm_array()) || cudaMallocHost((void **)&map,
+		(3 * res->x * res->y)) != 0 || !(grad = get_gradiant_array()))
 		return (NULL);
 	i.y = -1;
 	while (++i.y < res->y)
@@ -128,13 +122,14 @@ t_color		*generate_perlin_noise(t_vec3 *res)
 		i.x = -1;
 		while (++i.x < res->x)
 		{
-			color = (get_perlin_at_pixel(i.x, i.y, res->z, perm) + 0.5) * 255;
+			color = (get_perlin_at_pixel(i, res->z, perm, grad) + 0.5) * 255;
 			color = ft_clampf(color, 0.0, 255.0);
-			map[i.y * (int)res->x + i.x].r = color;
-			map[i.y * (int)res->x + i.x].g = color;
-			map[i.y * (int)res->x + i.x].b = color;
+			map[(int)(i.y * res->x + i.x)].r = color;
+			map[(int)(i.y * res->x + i.x)].g = color;
+			map[(int)(i.y * res->x + i.x)].b = color;
 		}
 	}
 	free(perm);
+	free(grad);
 	return (map);
 }

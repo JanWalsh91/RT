@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 17:14:56 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 11:44:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/02 15:21:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ t_object	*is_texture_loaded(t_object *head, t_object *to_cmp,
 	tmp = head;
 	while (tmp)
 	{
-		printf("Object: [%s]\n", tmp->name);
-		printf("[%s] vs [%s]\n", tmp->texture_name, texture_name);
 		if (tmp != to_cmp)
 		{
 			if (tmp->texture_name && ft_strcmp(tmp->texture_name,

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 11:40:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/02 15:21:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void		write_header(int fd, int width, int height)
 
 /*
 **	Exports a pixelmap to a bmp file
-**	@param: data is a t_th_export struct, that contains the datas to write, the fd, etc.
+**	@param: data is a t_th_export struct, that contains the datas to write,
+**		the fd, etc.
 */
 
 void		*export_image(void *data)
