@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/03 14:16:05 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/03 15:42:13 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,7 @@ RAY_TRACING = cast_primary_ray \
 			get_paraboloid_intersection \
 			get_object_intersection \
 			get_triangle_intersection \
+			get_view_pane_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \
@@ -98,6 +99,7 @@ RAY_TRACING = cast_primary_ray \
 			get_fresnel_ratio \
 			get_texture \
 			get_flares \
+			init_light_flares
 
 MISC = 		debug \
 			free_parse_tools \

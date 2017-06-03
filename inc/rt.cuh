@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 12:21:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 15:45:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -721,6 +721,7 @@ CUDA_DEV
 t_color			update_photon(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 t_color			get_photon_global(t_raytracing_tools *r, t_ray *ray);
+
 /*
 ** Intersection functions.
 */
@@ -751,13 +752,12 @@ CUDA_DEV
 bool			get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index);
 CUDA_DEV
 bool			get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index);
-
+CUDA_DEV
+bool			get_view_pane_intersection(t_ray *ray, t_camera *cam);
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
-
 CUDA_DEV
 bool			solve_cubic(t_vec3 q, float x, t_vec3im *sol);
-
 CUDA_DEV
 bool			solve_quartic(t_quartic *qua, t_vec4im *sol);
 
@@ -809,6 +809,11 @@ t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
 CUDA_DEV
 t_vec3			get_object_color(t_object *obj, t_ray *ray);
 
+/*
+** Flare
+*/
+
+void	init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
 
 
 /*

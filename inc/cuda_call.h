@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 14:29:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 14:54:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,6 @@ void	increment_tile(struct s_pt2 *tile_id, int tile_row);
 extern "C"
 #endif
 void	cuda_check_kernel_errors(void);
+#ifdef __cplusplus
+#endif
 #endif

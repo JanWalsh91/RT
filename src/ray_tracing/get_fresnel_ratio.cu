@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 14:25:09 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/01 15:47:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 15:49:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 */
 
 __device__
-static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint);
+static float	get_fresnel_ratio2(float cosi, float etai,
+				float etat, float sint);
 
 __device__
-float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2)
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal,
+				float n1, float n2)
 {
 	float	cosi;
 	float	etai;
@@ -32,23 +34,25 @@ float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2)
 	etat = n2;
 	if (cosi > 0)
 		ft_swapf(&etai, &etat);
-	sint = (etai / etat) * (1 - cosi * cosi > 0.0 ? sqrtf(1 - cosi * cosi) : 0.0);
-	if (sint >= 1) 
+	sint = (etai / etat) * (1 - cosi * cosi > 0.0 ?
+		sqrtf(1 - cosi * cosi) : 0.0);
+	if (sint >= 1)
 		return (1);
 	else
 		return (get_fresnel_ratio2(cosi, etai, etat, sint));
 }
 
-__device__ 
-static float	get_fresnel_ratio2(float cosi, float etai, float etat, float sint)
+__device__
+static float	get_fresnel_ratio2(float cosi, float etai,
+				float etat, float sint)
 {
 	float	cost;
-	float 	Rs;
-	float	Rp;
+	float	rs;
+	float	rp;
 
-	cost = sqrtf((1 - sint * sint > 0 ? 1 - sint * sint : 0.0)); 
-    cosi = cosi < 0 ? -cosi : cosi; 
-    Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost)); 
-    Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost)); 
-	return ((Rs * Rs + Rp * Rp) / 2); 
+	cost = sqrtf((1 - sint * sint > 0 ? 1 - sint * sint : 0.0));
+    cosi = cosi < 0 ? -cosi : cosi;
+    rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+    rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+	return ((rs * rs + rp * rp) / 2);
 }
