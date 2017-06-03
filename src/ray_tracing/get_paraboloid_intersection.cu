@@ -6,17 +6,17 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 13:05:58 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 16:09:42 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 16:15:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 
-// __device__
+__device__
 static void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
 			int index, t_intersection_tools *i);
 
-// __device__
+__device__
 void		get_finite_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 			int index, t_intersection_tools *i)
 {
@@ -44,7 +44,7 @@ void		get_finite_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 	}
 }
 
-// __device__
+__device__
 bool		get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 			int index)
 {
@@ -68,7 +68,7 @@ bool		get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 	return (true);
 }
 
-// __device__
+__device__
 static void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
 			int index, t_intersection_tools *i)
 {
@@ -76,11 +76,11 @@ static void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
 	i->q.x = v_dot(ray->dir, ray->dir) - v_dot(ray->dir,
 		r->scene->objects[index].dir) *
 		v_dot(ray->dir, r->scene->objects[index].dir);
-	i->q.y = 2 * (v_dot(ray->dir, i.v1) - v_dot(ray->dir,
+	i->q.y = 2 * (v_dot(ray->dir, i->v1) - v_dot(ray->dir,
 		r->scene->objects[index].dir) *
-		(v_dot(i.v1, r->scene->objects[index].dir) + 2 *
+		(v_dot(i->v1, r->scene->objects[index].dir) + 2 *
 		r->scene->objects[index].rad));
-	i->q.z = v_dot(i.v1, i.v1) - v_dot(i.v1,
-		r->scene->objects[index].dir) * (v_dot(i.v1,
+	i->q.z = v_dot(i->v1, i->v1) - v_dot(i->v1,
+		r->scene->objects[index].dir) * (v_dot(i->v1,
 		r->scene->objects[index].dir) + 4 * r->scene->objects[index].rad);
 }
