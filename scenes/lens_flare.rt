@@ -23,6 +23,7 @@ scene: rendu4
 	sphere: Sphere
 	{
 		position: 0.0000, -2.0000, 0.0000
+		direction: 0.0000, 0.0000, 0.0000
 		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
@@ -77,9 +78,9 @@ scene: rendu4
 	light: Blue light
 	{
 		position: 0.0000, 1.0000, -3.0000
-		color:147.0500, 24.9981, 24.9981
+		color:147.0500, 24.9979, 24.9979
 		intensity: 3
-		kflare: 46.0000
+		kflare: 0.0000
 	}
 	camera: cam
 	{

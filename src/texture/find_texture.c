@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_texture_loaded.c                                :+:      :+:    :+:   */
+/*   find_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/14 17:14:56 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 15:21:22 by tgros            ###   ########.fr       */
+/*   Created: 2017/06/03 13:46:25 by tgros             #+#    #+#             */
+/*   Updated: 2017/06/03 13:46:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 
-t_object	*is_texture_loaded(t_object *head, t_object *to_cmp,
+t_object	*find_texture(t_object *head, t_object *to_cmp,
 								char *texture_name, t_vec3 dim)
 {
 	t_object	*tmp;

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:25:30 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 16:19:09 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 12:38:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_pt2	get_uv_plane(t_object *obj, t_ray *ray, t_vec3 *dim)
 
 	coord.x = (int)(v_dot(ortho_x, ray->hit) * obj->texture_ratio.x + obj->texture_translate.x) % (int)dim->x;
 	coord.y = (int)(v_dot(ortho_y, ray->hit) * obj->texture_ratio.y + obj->texture_translate.y) % (int)dim->y;
-	printf("dims get_uv_plane : %d, %d\n", coord.x, coord.y);
 	if (coord.x < 0)
 		coord.x += -(coord.x / (int)dim->x) * (int)dim->x + (int)dim->x;
 	if (coord.y < 0)

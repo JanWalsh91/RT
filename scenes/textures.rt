@@ -3,6 +3,7 @@ scene: rendu4
 	resolution: 1260, 1220
 	ray depth: 10
 	ambient light color: 255.0000, 255.0000, 255.0000
+	background color: 255, 0,0 
 	ka: 0.1000
 	cylinder: Cylinder
 	{

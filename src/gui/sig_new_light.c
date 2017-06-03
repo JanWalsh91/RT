@@ -6,25 +6,23 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/31 11:22:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 13:56:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 
-void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
+void	*sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 {
-    t_light     *light;
+	t_light	*light;
 
 	(void)widget;
-    printf("sig_new_light\n");
-    if (!(light = (t_light *)ft_memalloc(sizeof(t_light))))
+	printf("sig_new_light\n");
+	if (!(light = (t_light *)ft_memalloc(sizeof(t_light))))
 		return (NULL);
 	ft_bzero(light, sizeof(t_light));
-	
-	// light->type = T_SPHERICAL;
-    light->intensity = DEFAULT_INTENSITY;
+	light->intensity = DEFAULT_INTENSITY;
 	light->col = v_new(DEFAULT_COL_R, DEFAULT_COL_G, DEFAULT_COL_B);
 	light->pos = v_new(DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
 	light->dir = v_new(NAN, NAN, NAN);
@@ -34,7 +32,9 @@ void    *sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 	g->r->update.render = 1;
 	g->r->update.lights = 2;
 	update_grid_lights(g);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ScrollWindowLight")), true);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteLight")), true);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
+												"ScrollWindowLight")), true);
+	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
+												"ButtonDeleteLight")), true);
 	return (NULL);
 }

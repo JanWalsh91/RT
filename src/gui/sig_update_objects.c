@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/31 11:20:08 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 13:46:32 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -821,7 +821,7 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 		return (NULL);
 	free(obj->texture_name);
 	obj->texture_name = ft_strdup(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)));
-	tmp = is_texture_loaded(g->r->scene->objects, obj, obj->texture_name, obj->texture_dim);
+	tmp = find_texture(g->r->scene->objects, obj, obj->texture_name, obj->texture_dim);
 	if (!tmp)
 	{
 		if (!(obj->texture = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->texture_dim)))
