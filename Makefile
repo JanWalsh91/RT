@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/03 15:42:13 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/03 15:56:54 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ LIST = 		get_new_camera \
 RAY_TRACING = cast_primary_ray \
 			render \
 			get_normal \
+			get_normal2 \
 			init_camera_ray \
 			solve_quadratic \
 			solve_cubic \

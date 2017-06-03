@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 15:45:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 15:55:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -696,6 +696,20 @@ CUDA_DEV
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 void			get_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_sphere_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_plane_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_cylinder_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_cone_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_torus_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_paraboloid_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+t_vec3			get_normal_at_normal_map(t_object *obj, t_ray *ray);
 CUDA_DEV
 int				in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light, t_vec3 *dim_light);
