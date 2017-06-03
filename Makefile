@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/03 16:48:28 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/03 17:23:24 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ LIST = 		get_new_camera \
 RAY_TRACING = cast_primary_ray \
 			render \
 			get_normal \
+			get_normal2 \
 			init_camera_ray \
 			solve_quadratic \
 			solve_cubic \
@@ -86,6 +87,7 @@ RAY_TRACING = cast_primary_ray \
 			get_paraboloid_intersection \
 			get_object_intersection \
 			get_triangle_intersection \
+			get_view_pane_intersection \
 			in_shadow \
 			get_diffuse \
 			get_specular \
@@ -93,10 +95,12 @@ RAY_TRACING = cast_primary_ray \
 			reflect \
 			refract \
 			filters \
+			filter \
 			get_reflected_and_refracted \
 			get_fresnel_ratio \
 			get_texture \
 			get_flares \
+			init_light_flares
 
 MISC = 		debug \
 			free_parse_tools \
@@ -134,7 +138,8 @@ GUI =		window_signals \
 			sig_errors \
 			photon_mapping
 
-CUDA_MEM =	cuda_malloc \
+CUDA_MEM =	cuda_check_kernel_errors \
+			cuda_malloc \
 			ft_lstnew_cuda \
 			cuda_malloc_camera \
 			cuda_malloc_lights \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_shadow.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 12:33:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 12:19:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 	float		max;
 	int			is_transparent;
 
+	*dim_light = v_new(1, 1, 1);
 	is_transparent = 0;
 	r->t = INFINITY;
 	shadow_ray->t = INFINITY;

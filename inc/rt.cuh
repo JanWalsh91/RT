@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 13:46:51 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 17:23:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -697,6 +697,20 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 void			get_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
+void			get_sphere_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_plane_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_cylinder_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_cone_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_torus_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+void			get_paraboloid_normal(t_ray *ray, t_object *obj);
+CUDA_DEV
+t_vec3			get_normal_at_normal_map(t_object *obj, t_ray *ray);
+CUDA_DEV
 int				in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light, t_vec3 *dim_light);
 CUDA_DEV
@@ -712,7 +726,7 @@ void			update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
-t_color			get_ambient(t_scene *scene, t_vec3 obj_col);
+t_color			get_ambient(t_scene *scene, t_ray *ray);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
@@ -721,6 +735,7 @@ CUDA_DEV
 t_color			update_photon(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 t_color			get_photon_global(t_raytracing_tools *r, t_ray *ray);
+
 /*
 ** Intersection functions.
 */
@@ -751,13 +766,12 @@ CUDA_DEV
 bool			get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index);
 CUDA_DEV
 bool			get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index);
-
+CUDA_DEV
+bool			get_view_pane_intersection(t_ray *ray, t_camera *cam);
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
-
 CUDA_DEV
 bool			solve_cubic(t_vec3 q, float x, t_vec3im *sol);
-
 CUDA_DEV
 bool			solve_quartic(t_quartic *qua, t_vec4im *sol);
 
@@ -809,6 +823,11 @@ t_vec3			get_texture_at_uv_coord(t_object *obj, t_pt2 coord);
 CUDA_DEV
 t_vec3			get_object_color(t_object *obj, t_ray *ray);
 
+/*
+** Flare
+*/
+
+void	init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
 
 
 /*

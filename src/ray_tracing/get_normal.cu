@@ -3,49 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_normal.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 09:52:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 16:03:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-
-__device__
-static void	get_sphere_normal(t_ray *ray, t_object *obj);
-__device__
-static void	get_plane_normal(t_ray *ray, t_object *obj);
-__device__
-static void	get_cylinder_normal(t_ray *ray, t_object *obj);
-__device__
-static void	get_cone_normal(t_ray *ray, t_object *obj);
-__device__
-static void	get_torus_normal(t_ray *ray, t_object *obj);
-__device__
-static void	get_paraboloid_normal(t_ray *ray, t_object *obj);
-
-__device__
-t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
-{
-	t_vec3	tangente;
-	t_vec3	bitangente;
-	t_vec3	color;
-	t_vec3	res;
-	t_pt2	coord;
-
-	tangente = v_norm(v_cross(ray->dir, ray->nhit));
-	bitangente = v_norm(v_cross(ray->nhit, tangente));
-	coord = get_uv_coord(obj, ray, &obj->normal_map_dim);
-	color = col_to_vec(obj->normal_map[(int)obj->normal_map_dim.x * coord.y + coord.x]);
-	color.x = (color.x / 255.0f) * 2.0 - 1;
-	color.y = (color.y / 255.0f) * 2.0 - 1;
-	color.z = (color.z / 255.0f) * 2.0 - 1;
-	res.x = (tangente.x * color.x + bitangente.x * color.y + ray->nhit.x * color.z);
-	res.y = (tangente.y * color.x + bitangente.y * color.y + ray->nhit.y * color.z);
-	res.z = (tangente.z * color.x + bitangente.z * color.y + ray->nhit.z * color.z);
-	return (res);
-}
 
 /*
 ** Updates the normal at hitpoint (nhit and n_dir).
@@ -54,8 +19,6 @@ t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
 __device__
 void		get_normal(t_ray *ray, t_object *obj)
 {
-	// if (ray->type > 1)
-	// 	printf("photon: get_normal. nhit: [%f, %f, %f]\n", ray->nhit.x, ray->nhit.y, ray->nhit.z);
 	if (ray->hit_type == T_SPHERE)
 		get_sphere_normal(ray, obj);
 	if (ray->hit_type == T_PLANE || ray->hit_type == T_DISK)
@@ -64,7 +27,7 @@ void		get_normal(t_ray *ray, t_object *obj)
 		get_cylinder_normal(ray, obj);
 	if (obj->type == T_CONE)
 		get_cone_normal(ray, obj);
-	if(obj->type == T_TORUS)
+	if (obj->type == T_TORUS)
 		get_torus_normal(ray, obj);
 	if (obj->type == T_PARABOLOID)
 		get_paraboloid_normal(ray, obj);
@@ -72,24 +35,25 @@ void		get_normal(t_ray *ray, t_object *obj)
 }
 
 __device__
-static void	get_torus_normal(t_ray *ray, t_object *obj)
+void		get_torus_normal(t_ray *ray, t_object *obj)
 {
-	t_vec3	A;
+	t_vec3	a;
 	float	k;
 	float	m;
+	t_vec3	tmp;
 
 	k = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
-	A = v_sub(ray->hit, v_scale(obj->dir, k));
+	a = v_sub(ray->hit, v_scale(obj->dir, k));
 	m = sqrt((obj->rad * obj->rad) - (k * k));
-	t_vec3	tmp = v_scale(v_sub(obj->pos, A), m);
-	ray->nhit = v_norm(v_sub(v_sub(ray->hit, A), v_scale(tmp, (1 / (obj->rad_torus + m)))));
-	// printf("Ray nhit = %f, %f, %f\n", ray->nhit.x,ray->nhit.y, ray->nhit.z);
+	tmp = v_scale(v_sub(obj->pos, a), m);
+	ray->nhit = v_norm(v_sub(v_sub(ray->hit, a),
+			v_scale(tmp, (1 / (obj->rad_torus + m)))));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
 
 __device__
-static void	get_sphere_normal(t_ray *ray, t_object *obj)
+void		get_sphere_normal(t_ray *ray, t_object *obj)
 {
 	ray->nhit = (v_sub(ray->hit, obj->pos));
 	ray->nhit = v_norm(ray->nhit);
@@ -98,48 +62,36 @@ static void	get_sphere_normal(t_ray *ray, t_object *obj)
 }
 
 __device__
-static void	get_plane_normal(t_ray *ray, t_object *obj)
+void		get_plane_normal(t_ray *ray, t_object *obj)
 {
 	ray->nhit = v_norm(obj->dir);
-	// Perturbation de la normale ?
-	// ray->nhit = v_scale(ray->nhit, sinf(ray->hit.x));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
 
-__device__
-static void	get_cylinder_normal(t_ray *ray, t_object *obj)
-{
-	t_vec3	x;
-	float	m;
-
-	x = v_sub(ray->origin, obj->pos);
-	m = v_dot(ray->dir, v_scale(obj->dir, ray->t)) + v_dot(x, obj->dir);
-	x = v_add(obj->pos, v_scale(obj->dir, m));
-	ray->nhit = v_norm(v_sub(ray->hit, x));
-	if (obj->normal_map)
-		ray->nhit = get_normal_at_normal_map(obj, ray);
-}
+/*
+** Gets the normal from a normal map if a normal map is used.
+*/
 
 __device__
-static void	get_cone_normal(t_ray *ray, t_object *obj)
+t_vec3		get_normal_at_normal_map(t_object *obj, t_ray *ray)
 {
-	t_vec3	x;
+	t_vec3	tangt;
+	t_vec3	bitangt;
+	t_vec3	color;
+	t_vec3	res;
+	t_pt2	coord;
 
-	x = v_sub(ray->hit, obj->pos);
-	ray->nhit = v_sub(x, v_scale(obj->dir, (v_length(x) / cos(obj->angle))));
-	ray->nhit = v_norm(ray->nhit);
-	if (obj->normal_map)
-		ray->nhit = get_normal_at_normal_map(obj, ray);
-}
-
-__device__
-static void	get_paraboloid_normal(t_ray *ray, t_object *obj)
-{
-	float	m;
-
-	m = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
-	ray->nhit = v_norm(v_scale(v_sub(v_sub(ray->hit, obj->pos), obj->dir), obj->height + m));
-	if (obj->normal_map)
-		ray->nhit = get_normal_at_normal_map(obj, ray);
+	tangt = v_norm(v_cross(ray->dir, ray->nhit));
+	bitangt = v_norm(v_cross(ray->nhit, tangt));
+	coord = get_uv_coord(obj, ray, &obj->normal_map_dim);
+	color = col_to_vec(obj->normal_map[(int)obj->normal_map_dim.x *
+		coord.y + coord.x]);
+	color.x = (color.x / 255.0f) * 2.0 - 1;
+	color.y = (color.y / 255.0f) * 2.0 - 1;
+	color.z = (color.z / 255.0f) * 2.0 - 1;
+	res.x = (tangt.x * color.x + bitangt.x * color.y + ray->nhit.x * color.z);
+	res.y = (tangt.y * color.x + bitangt.y * color.y + ray->nhit.y * color.z);
+	res.z = (tangt.z * color.x + bitangt.z * color.y + ray->nhit.z * color.z);
+	return (res);
 }

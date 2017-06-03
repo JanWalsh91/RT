@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_ambient.cu                                     :+:      :+:    :+:   */
+/*   get_view_pane_intersection.cu                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/12 14:04:10 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 12:44:49 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/06/03 15:41:24 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/06/03 15:43:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rt.cuh"
-
-/*
-** Calculates and returns the ambient value of the color.
-*/
+#include "rt.cuh"
+#include "../../inc/cuda_call.h"
 
 __device__
-t_color	get_ambient(t_scene *scene, t_ray *ray)
+bool		get_view_pane_intersection(t_ray *ray, t_camera *cam)
 {
-	if (ray->depth != scene->ray_depth - 1)
-		return (c_new(0, 0, 0));
-	return (vec_to_col(v_sub(v_scale(
-		get_object_color(&scene->objects[ray->hit_obj], ray), scene->ka),
-		v_scale(v_sub(v_new(255, 255, 255),
-		scene->ambient_light_color), scene->ka))));
+	float	d1;
+	t_vec3	v1;
+	float	r1;
+
+	d1 = v_dot(v_scale(cam->dir, -1), ray->dir);
+	if (d1 > -1e-20)
+		return (false);
+	v1 = v_sub(v_add(cam->pos, cam->dir), cam->pos);
+	r1 = v_dot(v1, v_scale(cam->dir, -1)) / d1;
+	if (r1 < 0)
+		return (false);
+	ray->t = r1;
+	return (true);
 }

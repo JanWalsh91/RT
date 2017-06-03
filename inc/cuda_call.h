@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/30 16:28:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 14:54:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void			photon_mapping_pass(struct s_raytracing_tools *r);
 #ifdef __cplusplus
 extern "C"
 #endif
-void	lens_flare_wrapper(struct s_raytracing_tools *r);
+void	get_flares(struct s_raytracing_tools *r, struct s_color *pixel_map);
 #ifdef __cplusplus
 extern "C"
 #endif
@@ -65,4 +65,10 @@ void	get_region_map_tile(struct s_raytracing_tools *r, struct s_tile tile);
 extern "C"
 #endif
 void	increment_tile(struct s_pt2 *tile_id, int tile_row);
+#ifdef __cplusplus
+extern "C"
+#endif
+void	cuda_check_kernel_errors(void);
+#ifdef __cplusplus
+#endif
 #endif
