@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 14:17:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 14:29:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void			photon_mapping_pass(struct s_raytracing_tools *r);
 #ifdef __cplusplus
 extern "C"
 #endif
-void	lens_flare_wrapper(struct s_raytracing_tools *r);
+void	get_flares(struct s_raytracing_tools *r, struct s_color *pixel_map);
 #ifdef __cplusplus
 extern "C"
 #endif

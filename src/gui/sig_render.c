@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/01 17:15:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 14:29:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	*render_wrapper(gpointer data)
 	}
 	if (g->win)
 	{
-		lens_flare_wrapper(g->r);
+		get_flares(g->r, g->r->d_pixel_map);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map, g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}

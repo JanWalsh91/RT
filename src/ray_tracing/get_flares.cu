@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 14:20:07 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 14:30:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ bool	get_view_pane_intersection(t_ray *ray, t_camera *cam)
 	if (r1 < 0)
 		return (false);
 	ray->t = r1;
-	// printf("T: %f\n", ray->t);
 	return (true);
 }
 
@@ -62,9 +61,10 @@ t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene)
 	ortho_x = v_norm(ortho_x);
 	ortho_y = v_norm(ortho_y);
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, ray->t));
-	coord.x = (int)(v_dot(v_scale(ortho_x, -1), proj_dir) * scene->res.x * 0.5 / scene->image_aspect_ratio / cam->scale + scene->res.x * 0.5);
-	coord.y = (int)(v_dot(v_scale(ortho_y, -1), proj_dir) * scene->res.y * 0.5 / cam->scale + scene->res.y / 2);
-	// printf("coords: [%d, %d]\n", coord.x, coord.y);
+	coord.x = (int)(v_dot(v_scale(ortho_x, -1), proj_dir) * scene->res.x * 0.5 /
+		scene->image_aspect_ratio / cam->scale + scene->res.x * 0.5);
+	coord.y = (int)(v_dot(v_scale(ortho_y, -1), proj_dir) * scene->res.y * 0.5 /
+		cam->scale + scene->res.y / 2);
 	return (coord);
 }
 
@@ -134,7 +134,7 @@ void	draw_one_flare(t_light_flare_tools *tools, t_scene *scene, t_color *pixel_m
 	pixel_map[pix.y * scene->res.x + pix.x] = col;
 }
 
-void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
+void	get_flares(t_raytracing_tools *r, t_color *pixel_map)
 {
 	int					i;
 	t_light_flare_tools *tools;
@@ -142,38 +142,19 @@ void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
 
 	r->t = INFINITY;
 	int light_count = get_light_count(r->scene->lights);
-	// printf("Light count : %d\n", light_count);
 	if (!light_count)
 		return ;
 	cudaMalloc(&tools, sizeof(t_light_flare_tools) * light_count);
 	init_light_flares<<<light_count, 1>>>(r->d_scene, tools);
-	cudaError_t errSync  = cudaGetLastError();
-	cudaError_t errAsync = cudaDeviceSynchronize();
-	if (errSync != cudaSuccess)
-		printf("1 Sync kernel error: %s\n", cudaGetErrorString(errSync));
-	if (errAsync != cudaSuccess)
-		printf("1 Async kernel error: %s\n", cudaGetErrorString(errAsync));
-	if (errSync != cudaSuccess || errAsync != cudaSuccess)
-		exit(-1);
+	cuda_check_kernel_errors();
 	i = -1;
 	shift = 0;
 	while (++i < light_count)
 	{
-		dim3 blockSize 	= dim3(BLOCK_DIM, BLOCK_DIM, 1);
-		dim3 gridSize	= dim3(r->scene->res.x / BLOCK_DIM + 1, r->scene->res.y / BLOCK_DIM + 1);
+		dim3 blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
+		dim3 gridSize = dim3(r->scene->res.x / BLOCK_DIM + 1, r->scene->res.y / BLOCK_DIM + 1);
 		draw_one_flare<<<gridSize, blockSize>>>(tools + shift, r->d_scene, r->d_pixel_map);
 		cuda_check_kernel_errors();
 		shift++;
 	}
-}
-
-void 	lens_flare_wrapper(t_raytracing_tools *r)
-{
-	// printf("lens_flare_wrapper\n");
-	add_lens_flare(r, r->d_pixel_map);
-	// printf("end lens_flare_wrapper\n");
-	cudaError_t errAsync = cudaDeviceSynchronize();
-	if (errAsync != cudaSuccess)
-		printf("Sync kernel error: %s\n", cudaGetErrorString(errAsync));
-	printf("end lens_flare_wrapper\n");
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_flares.cu                                      :+:      :+:    :+:   */
+/*   get_flares.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 09:59:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 14:29:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	draw_one_flare(t_light_flare_tools *tools, t_scene *scene, t_color *pixel_m
 	pixel_map[pix.y * scene->res.x + pix.x] = col;
 }
 
-void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
+void	get_flares(t_raytracing_tools *r, t_color *pixel_map)
 {
 	int					i;
 	t_light_flare_tools *tools;
@@ -177,7 +177,7 @@ void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
 void 	lens_flare_wrapper(t_raytracing_tools *r)
 {
 	// printf("lens_flare_wrapper\n");
-	add_lens_flare(r, r->d_pixel_map);
+	get_flares(r, r->d_pixel_map);
 	// printf("end lens_flare_wrapper\n");
 	cudaError_t errAsync = cudaDeviceSynchronize();
 	if (errAsync != cudaSuccess)
