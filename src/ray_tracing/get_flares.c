@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 14:20:07 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 09:59:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,14 @@ void	add_lens_flare(t_raytracing_tools *r, t_color *pixel_map)
 		dim3 blockSize 	= dim3(BLOCK_DIM, BLOCK_DIM, 1);
 		dim3 gridSize	= dim3(r->scene->res.x / BLOCK_DIM + 1, r->scene->res.y / BLOCK_DIM + 1);
 		draw_one_flare<<<gridSize, blockSize>>>(tools + shift, r->d_scene, r->d_pixel_map);
-		cuda_check_kernel_errors();
+		errSync  = cudaGetLastError();
+		errAsync = cudaDeviceSynchronize();
+		if (errSync != cudaSuccess)
+			printf("2 Sync kernel error: %s\n", cudaGetErrorString(errSync));
+		if (errAsync != cudaSuccess)
+			printf("2 Async kernel error: %s\n", cudaGetErrorString(errAsync));
+		if (errSync != cudaSuccess || errAsync != cudaSuccess)
+			exit(-1);
 		shift++;
 	}
 }

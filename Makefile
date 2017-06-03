@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/01 17:17:06 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/03 14:16:05 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,7 @@ RAY_TRACING = cast_primary_ray \
 			reflect \
 			refract \
 			filters \
+			filter \
 			get_reflected_and_refracted \
 			get_fresnel_ratio \
 			get_texture \
@@ -128,7 +129,8 @@ GUI =		window_signals \
 			sig_errors \
 			photon_mapping
 
-CUDA_MEM =	cuda_malloc \
+CUDA_MEM =	cuda_check_kernel_errors \
+			cuda_malloc \
 			ft_lstnew_cuda \
 			cuda_malloc_camera \
 			cuda_malloc_lights \

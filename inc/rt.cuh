@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 11:47:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 12:21:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -712,7 +712,7 @@ void			update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
 CUDA_DEV
-t_color			get_ambient(t_scene *scene, t_vec3 obj_col);
+t_color			get_ambient(t_scene *scene, t_ray *ray);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV

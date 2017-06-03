@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 13:47:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/03 12:36:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,35 +25,35 @@
 __device__
 static t_color	apply_filter(t_vec3 dim_light, t_color light_color);
 __device__
-t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
+t_color			get_reflected_and_refracted(t_raytracing_tools *r,
+				t_scene *scene, t_ray *ray);
 __device__
 static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray);
-
 __device__
+
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 {
 	t_ray		shadow_ray;
 	int			i;
-	t_color 	col;
-	
+	t_color		col;
+
 	if (ray->depth == 0)
 		return (c_new(0, 0, 0));
 	--ray->depth;
-	r->t = INFINITY; 
+	r->t = INFINITY;
 	i = -1;
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
-	{
 		if (intersects(r, ray, i) && r->t > ray->t)
 			r->t = ray->t;
-	}
 	if (r->t == INFINITY)
 		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
-	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) : update_photon(r, ray);
+	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) :
+	update_photon(r, ray);
 	// col = vec_to_col(r->scene->objects[ray->hit_obj].col);
-	col = c_new(0, 0, 0);
+	// col = c_new(0, 0, 0);
 	return (col);
 }
 
@@ -68,25 +68,23 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	int		ret;
 
 	i = -1;
-	color = r->scene->is_diffuse ? c_new(0, 0, 0) : vec_to_col(r->scene->objects[ray->hit_obj].col);
-	color = c_new(0, 0, 0);
+	color = r->scene->is_diffuse ? c_new(0, 0, 0) :
+		vec_to_col(r->scene->objects[ray->hit_obj].col);
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
-		dim_light = v_new(1, 1, 1);
 		light_color = c_new(0, 0, 0);
-		if ((ret = in_shadow(r, ray, shadow_ray, &r->scene->lights[i], &dim_light)) != 2 || !r->scene->is_shadow)
+		if ((ret = in_shadow(r, ray, shadow_ray,
+			&r->scene->lights[i], &dim_light)) != 2 || !r->scene->is_shadow)
 		{
-			if (r->scene->is_diffuse)
-				light_color = c_add(light_color, get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			if (r->scene->is_specular && !ret)
-				light_color = c_add(light_color, get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i]));
-			color = c_add(color, ret ? apply_filter(dim_light, light_color) : light_color);
-			
+			light_color = c_add(light_color,
+			c_add(get_diffuse(r->scene, ray, shadow_ray, &r->scene->lights[i]),
+			get_specular(r->scene, ray, shadow_ray, &r->scene->lights[i])));
+			color = c_add(color, ret ? apply_filter(dim_light, light_color) :
+			light_color);
 		}
 	}
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
-	if (ray->depth == r->scene->ray_depth - 1) 
-		color = c_add(color, get_ambient(r->scene, get_object_color(&r->scene->objects[ray->hit_obj], ray)));
+	color = c_add(color, get_ambient(r->scene, ray));
 	return (color);
 }
 

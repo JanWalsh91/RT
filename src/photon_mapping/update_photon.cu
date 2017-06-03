@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 15:16:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/02 16:47:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	// r->scene->objects[ray->hit_obj].reflection,
 	// r->scene->objects[ray->hit_obj].transparency);
 	
-	if (r->scene->objects[ray->hit_obj].kd > 0.0 /*&& ray->type == R_DIRECT_PHOTON*/)
+	if (r->scene->objects[ray->hit_obj].kd > 0.0 /* && ray->type == R_INDIRECT_PHOTON*/)
 		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX, ray, &r->scene->objects[ray->hit_obj]);
 	rand_f = curand_uniform(r->devStates);
 	tmp = 0;
@@ -108,7 +108,7 @@ static void		save_photon(t_photon *photon_list, t_ray *ray, t_object *obj)
 	// printf("found: [%d]: [%f, %f, %f]\n", i, photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z);
 	photon_list[i].pos = ray->hit;
 	photon_list[i].dir = ray->dir;
-	photon_list[i].col = vec_to_col(get_object_color(obj, ray));
+	photon_list[i].col = photon_list[i].type == R_INDIRECT_PHOTON ? ray->col : vec_to_col(get_object_color(obj, ray));
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
 	// printf("save photon[%d]: pos: [%f, %f, %f] dir: [%f, %f, %f] col: [%d, %d, %d]\n", i,
 		// photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_disk_intersection.cu                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:29:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/22 12:29:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 14:09:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ bool	get_disk_intersection(t_raytracing_tools *r, t_ray *ray, int index)
 	if (i.r1 < 0)
 		return (false);
 	hitpoint = v_add(ray->origin, v_scale(ray->dir, i.r1));
-	if (v_length(v_sub(hitpoint, r->scene->objects[index].pos)) > r->scene->objects[index].rad)
+	if (v_length(v_sub(hitpoint, r->scene->objects[index].pos)) >
+		r->scene->objects[index].rad)
 		return (false);
 	r->t > i.r1 ? ray->t = i.r1 : 0;
-	if (/*ray->type != R_SHADOW && */r->t > i.r1)
+	if (r->t > i.r1)
 	{
 		ray->hit_obj = index;
 		ray->hit_type = T_DISK;
