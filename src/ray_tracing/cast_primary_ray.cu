@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 12:36:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 10:51:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) :
 	update_photon(r, ray);
 	// col = vec_to_col(r->scene->objects[ray->hit_obj].col);
-	// col = c_new(0, 0, 0);
+	col = c_new(0, 0, 0);
 	return (col);
 }
 
