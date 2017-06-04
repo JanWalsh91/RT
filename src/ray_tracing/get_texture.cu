@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/30 13:00:35 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 15:15:07 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 14:15:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_vec3		get_texture_at_uv_coord(t_object *obj, t_pt2 coord)
 	ret = v_new(0, 0, 0);
 	if (coord.x == -1 || coord.y == -1)
 		return (ret);
-	return (col_to_vec(obj->texture[(int)obj->texture_dim.x * coord.y + coord.x]));
+	return (col_to_vec(obj->texture[(int)obj->texture_dim.x * coord.y +
+		coord.x]));
 }
 
 __device__
@@ -44,11 +45,12 @@ t_pt2		get_uv_coord(t_object *obj, t_ray *ray, t_vec3 *dim)
 __device__
 t_vec3		get_object_color(t_object *obj, t_ray *ray)
 {
+	t_vec3	color;
+
 	if (obj->texture)
 	{
-		t_vec3	color;
-
-		color = get_texture_at_uv_coord(obj, get_uv_coord(obj, ray, &obj->texture_dim));
+		color = get_texture_at_uv_coord(obj, get_uv_coord(obj, ray,
+			&obj->texture_dim));
 		if (obj->texture_color_style == 0)
 			color = v_sub(color, v_sub(v_new(255, 255, 255), obj->col));
 		else

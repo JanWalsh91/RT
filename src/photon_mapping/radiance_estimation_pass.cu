@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 16:23:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 11:28:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,13 +164,13 @@ void	estimate_region_radiance(t_scene *scene, t_color *pixel_map, t_region *regi
 }
 
 __device__
-static t_vec3	add_accumulated_power(t_region *region, t_photon photon, float rad2)
+static t_vec3	add_accumulated_power(t_region *region, t_photon photon, float dist2)
 {
 	// printf("update_accumulated_power\n");
 	t_vec3 result;
 	float k = 1500; ///
 
-	result = v_scale(col_to_vec(photon.col), 1  /*/ sqrtf(sqrtf(rad2)) / (M_PI * rad2)*/);
+	result = v_scale(col_to_vec(photon.col), sqrtf(region->radius * region->radius - dist2) / (M_PI));
 	result = v_scale(result, -v_dot(photon.dir, region->normal) * k * region->kd);
 	// printf("add accumulated power: [%f, %f, %f]\n", result.x, result.y, result.z);
 	return (result);

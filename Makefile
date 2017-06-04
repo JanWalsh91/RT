@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/04 17:07:42 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/04 17:42:48 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,8 @@ RAY_TRACING = cast_primary_ray \
 			get_fresnel_ratio \
 			get_texture \
 			get_flares \
-			init_light_flares
+			init_light_flares \
+			update_ior
 
 MISC = 		debug \
 			free_parse_tools \
@@ -110,6 +111,7 @@ MISC = 		debug \
 			find_texture \
 			tile \
 			write_values \
+			gpu_assert
 
 GUI =		window_signals \
 			window_signals1 \

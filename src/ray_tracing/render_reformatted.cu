@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 17:10:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 16:57:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,12 @@ __global__ void render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *reg
 	r.pix.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
 	r.scene = scene; 
     r.idx = scene->res.x * r.pix.y + r.pix.x;
-	r.d_pixel_map = d_pixel_map;
-	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
+	if (r.pix.x < scene->res.x || r.pix.y < scene->res.y)
 	{
-		if (r.scene->is_photon_mapping)
-		{
-			C(1)
+		if (region_map)
 			r.d_region_map = &region_map[(r.pix.x % tile.size) +
 				(r.pix.y % tile.size) * tile.size];
-		}
-		(scene->is_aa == 1 || r.scene->is_photon_mapping) ?
+		(scene->is_aa == 1 || r.d_region_map) ?
 			render_without_aa(&r) :
 			render_with_aa(&r);
 	}
@@ -60,7 +56,7 @@ void	render_without_aa(t_raytracing_tools *r)
 	memset(&r->ior_list, 0, sizeof(float) * (MAX_RAY_DEPTH + 1));
 	cam_ray = init_camera_ray(r, i);
 	r->d_pixel_map[r->idx] = filter(cast_primary_ray(r, &cam_ray), r->scene->cameras->filter);
-	__syncthreads();
+	// __syncthreads();
 	update_region_map(r, &cam_ray);
 }
 
@@ -96,8 +92,8 @@ void	render_with_aa(t_raytracing_tools *r)
 
 __device__
 void	update_region_map(t_raytracing_tools *r, t_ray *cam_ray)
-{
-	if (r->scene->is_photon_mapping && !v_isnan(cam_ray->hit))
+{	
+	if (r->d_region_map && !v_isnan(cam_ray->hit))
 	{
 		r->d_region_map->hit_pt = cam_ray->hit;
 		r->d_region_map->ray_dir = cam_ray->dir;

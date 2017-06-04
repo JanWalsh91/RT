@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   in_shadow.cu                                       :+:      :+:    :+:   */
+/*   in_shadow.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 12:19:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 14:41:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ __device__
 static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k);
 __device__
 static void	filter_color(float *dim, float obj_col, float k);
+__device__
+static void	init_values(t_raytracing_tools *r, float *max, t_light *light,
+			t_ray *shadow_ray);
 
 __device__
-int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-		t_ray *shadow_ray, t_light *light, t_vec3 *dim_light)
+int			in_shadow(t_raytracing_tools *r, t_ray *shadow_ray,
+			t_light *light, t_vec3 *dim_light)
 {
 	int			i;
 	float		max;
@@ -32,38 +35,22 @@ int		in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
 
 	*dim_light = v_new(1, 1, 1);
 	is_transparent = 0;
-	r->t = INFINITY;
-	shadow_ray->t = INFINITY;
-	shadow_ray->type = R_SHADOW;
-	shadow_ray->origin = v_add(primary_ray->hit,
-		v_scale(primary_ray->nhit, BIAS * primary_ray->n_dir));
-	// shadow_ray->t = 0.f; ??
-	if (!v_isnan(light->pos))
-		max = v_length(v_sub(light->pos, shadow_ray->origin));
-	else
-		max = INFINITY;
-	if (!v_isnan(light->pos))
-		shadow_ray->dir = v_sub(light->pos, shadow_ray->origin);
-	else
-		shadow_ray->dir = v_scale(light->dir, -1);
-	shadow_ray->dir = v_norm(shadow_ray->dir);
+	init_values(r, &max, light, shadow_ray);
 	i = -1;
 	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
 	{
 		if (intersects(r, shadow_ray, i) &&
-			shadow_ray->t < max && shadow_ray->t > 0.0) 
+			shadow_ray->t < max && shadow_ray->t > 0.0)
 		{
-			shadow_ray->hit = v_add(shadow_ray->origin, v_scale(shadow_ray->dir, shadow_ray->t));
+			shadow_ray->hit = v_add(shadow_ray->origin,
+				v_scale(shadow_ray->dir, shadow_ray->t));
 			get_normal(shadow_ray, &r->scene->objects[i]);
-			if (r->scene->objects[i].transparency > 0.01)
-			{
-				filter_for_transparency(dim_light, 
-					get_object_color(&r->scene->objects[i], shadow_ray),
-					r->scene->objects[i].transparency);
-				is_transparent = 1;
-			}
-			else
+			if (r->scene->objects[i].transparency < 0.01)
 				return (2);
+			filter_for_transparency(dim_light,
+				get_object_color(&r->scene->objects[i], shadow_ray),
+				r->scene->objects[i].transparency);
+			is_transparent = 1;
 		}
 	}
 	return (is_transparent);
@@ -80,5 +67,14 @@ static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k)
 __device__
 static void	filter_color(float *dim, float obj_col, float k)
 {
-	*dim *= (1 - (255 - obj_col) / 255 * (1 - k)) * k;				
+	*dim *= (1 - (255 - obj_col) / 255 * (1 - k)) * k;
+}
+
+__device__
+static void	init_values(t_raytracing_tools *r, float *max, t_light *light,
+			t_ray *shadow_ray)
+{
+	r->t = INFINITY;
+	*max = (!v_isnan(light->pos)) ?
+		v_length(v_sub(light->pos, shadow_ray->origin)) : INFINITY;
 }

@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reflect.cu                                         :+:      :+:    :+:   */
+/*   gpu_assert.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/11 14:21:02 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 15:02:08 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/06/04 15:30:53 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/06/04 16:11:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/rt.cuh"
+#include <cuda_runtime.h>
+#include <stdlib.h>
+#include "rt.cuh"
 
 /*
-** Given a ray direction and normal at hit point, returns the direction of the
-** reflected ray.
+** Checks a cuda function return value for errors and exits with an error 
+** message.
 */
 
-__device__
-t_vec3	reflect(t_vec3 ray_dir, t_vec3 nhit)
+__host__
+void gpu_assert(int code)
 {
-	return (v_sub(ray_dir, v_scale(nhit, 2 * v_dot(ray_dir, nhit))));
+	int l;
+	const char *s;
+
+	s = cudaGetErrorString((cudaError_t)code);
+	l = strlen(s);
+	if (code != cudaSuccess)
+	{
+		write(2, "GPUassert: ", 11);
+		write(2, s, l);
+		write(2, "\n", 1);
+		exit(code);
+	}
 }
