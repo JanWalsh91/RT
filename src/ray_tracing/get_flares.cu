@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_flares.c                                       :+:      :+:    :+:   */
+/*   get_flares.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 15:32:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 12:30:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ __global__
 static void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
 				t_color *pixel_map);
 
-void			get_flares(t_raytracing_tools *r, t_color *pixel_map)
+void			get_flares(t_raytracing_tools *r)
 {
 	int					i;
 	t_light_flare_tools *tools;

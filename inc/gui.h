@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 11:00:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 15:54:35 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ gboolean		update_available_memory(gpointer data);
 void 			*sig_render(GtkWidget *widget, t_gtk_tools *g);
 gboolean 		draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g);
 void			*render_wrapper(gpointer data);
+void			init_tile(t_tile *tile, t_gtk_tools *g);
 
 
 /*

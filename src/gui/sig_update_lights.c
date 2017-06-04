@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/31 11:21:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/03 17:21:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,6 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	GdkRGBA		color;
 
 	printf("update_lights_info_panel\n");
-
-	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxLightType"));
-	// if (!g->updating_gui && v_isnan(light->dir))
-	// {
-	// 	// switch_light_type(g, 1);
-	// 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 1);
-	// }
-	// else if (!g->updating_gui)
-	// {
-	// 	// switch_light_type(g, 0);
-	// 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
-	// }
-
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxLightType"));
 	if (v_isnan(light->dir))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
@@ -133,8 +120,6 @@ void	update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER(widget), &color);
 }
 
-// On va devoir faire ca pour chaque evenement de modification, donc autant en faire une fonction! Il faudra probablement la 
-// meme chose avec les objets si l'idee tient debout
 t_light	*get_light_from_list_box(t_gtk_tools *g)
 {
 	t_light		*l_ptr;
@@ -143,7 +128,9 @@ t_light	*get_light_from_list_box(t_gtk_tools *g)
 
 	printf("get_light_from_list_box\n");
 	i = -1;
-	index = gtk_list_box_row_get_index(gtk_list_box_get_selected_row(GTK_LIST_BOX(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxLights"))));
+	index = gtk_list_box_row_get_index(gtk_list_box_get_selected_row(
+		GTK_LIST_BOX(gtk_builder_get_object(GTK_BUILDER(g->builder),
+												"ListBoxLights"))));
 	l_ptr = g->r->scene->lights;
 	while (++i != index && l_ptr)
 		l_ptr = l_ptr->next;
@@ -210,7 +197,7 @@ void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
 	light = get_selected_light(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	printf("type : %d\n", id);
-	if (id == 0) // Position light
+	if (id == 0)
 	{
 		light->dir = v_new(NAN, NAN, NAN);
 		if (v_isnan(light->pos))
@@ -219,7 +206,7 @@ void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
 			light->pos = v_new(light->pos.x, light->pos.y, light->pos.z);
 		switch_light_type(g, 1);
 	}
-	else if (id == 1) // Directionnal light
+	else if (id == 1)
 	{
 		light->pos = v_new(NAN, NAN, NAN);
 		if (v_isnan(light->dir))
@@ -233,7 +220,6 @@ void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
 	return (NULL);
 }
 
-// UPDATE LIGHT NAME
 void	*sig_update_light_name(GtkWidget *GtkEntry, t_gtk_tools *g)
 {
 	char		*name;
@@ -263,7 +249,6 @@ void	*sig_update_light_pos_x(GtkWidget *SpinButton, t_gtk_tools *g)
 	(g->updating_gui) ? 0 : light_render_sig(g);
 	return (NULL);
 }
-
 
 void	*sig_update_light_pos_y(GtkWidget *SpinButton, t_gtk_tools *g)
 {

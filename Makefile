@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/03 15:56:54 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/03 17:23:24 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,7 +107,9 @@ MISC = 		debug \
 			free_scene \
 			rt_error \
 			check_file_ext \
-			is_texture_loaded \
+			find_texture \
+			tile \
+			write_values \
 
 GUI =		window_signals \
 			sig_open_scene \
@@ -123,6 +125,10 @@ GUI =		window_signals \
 			sig_delete_light \
 			sig_delete_camera \
 			sig_save \
+			sig_save_object \
+			sig_save_scene \
+			sig_save_camera \
+			sig_save_light \
 			sig_open_settings \
 			sig_export_scene_bmp \
 			sig_print_scene \
