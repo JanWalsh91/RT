@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 11:48:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 12:39:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 
 static void		update_loading_bar(GtkWidget *dialog, t_gtk_tools *g,
 							t_th_export *th_export);
+static void		export_accept(GtkWidget *dialog, t_th_export *th_export,
+									t_gtk_tools *g);
 
 void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 {
 	GtkWidget		*dialog;
 	t_th_export		th_export;
-	GtkFileChooser	*chooser;
 
 	(void)widget;
 	if (!g->pixbuf)
@@ -40,19 +41,27 @@ void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 			GTK_BUILDER(g->builder), "window_main")), dialog);
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		chooser = GTK_FILE_CHOOSER(dialog);
-		th_export.filename = ft_strdup(gtk_file_chooser_get_filename(chooser));
-		if (!check_file_ext(th_export.filename, "BMP"))
-			th_export.filename = ft_strjoinfree(th_export.filename, ".bmp", 'l');
-		gtk_widget_destroy(dialog);
-		dialog = gtk_dialog_new();
-		gtk_window_set_attached_to(GTK_WINDOW(gtk_builder_get_object(
-					GTK_BUILDER(g->builder), "window_main")), dialog);
-		update_loading_bar(dialog, g, &th_export);
-		free(th_export.filename);
+		export_accept(dialog, &th_export, g);
 	}
-	gtk_widget_destroy(dialog);
 	return (NULL);
+}
+
+static void		export_accept(GtkWidget *dialog, t_th_export *th_export,
+														t_gtk_tools *g)
+{
+	GtkFileChooser	*chooser;
+
+	chooser = GTK_FILE_CHOOSER(dialog);
+	th_export->filename = ft_strdup(gtk_file_chooser_get_filename(chooser));
+	if (!check_file_ext(th_export->filename, "BMP"))
+		th_export->filename = ft_strjoinfree(th_export->filename, ".bmp", 'l');
+	gtk_widget_destroy(dialog);
+	dialog = gtk_dialog_new();
+	gtk_window_set_attached_to(GTK_WINDOW(gtk_builder_get_object(
+				GTK_BUILDER(g->builder), "window_main")), dialog);
+	update_loading_bar(dialog, g, th_export);
+	free(th_export->filename);
+	gtk_widget_destroy(dialog);
 }
 
 static void		update_loading_bar(GtkWidget *dialog, t_gtk_tools *g,

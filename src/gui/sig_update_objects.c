@@ -6,16 +6,19 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 13:46:32 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 17:24:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 #include "cuda_call.h"
+#include <cuda_runtime.h>
 
-int		cudaFreeHost(void *ptr);
-
+GtkWidget	*get_widget(t_gtk_tools *g, char *widget_name)
+{
+	return (GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), widget_name)));
+}
 
 void	*populate_list_box_objects(t_gtk_tools *g)
 {
@@ -72,7 +75,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectPosZ"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->pos.z);
 
-	// to change when adding textures to spheres....
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectLookAtX"));
 	gtk_widget_set_sensitive (widget, TRUE);
 	type != T_SPHERE && !obj->parent ? gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->look_at.x) :
@@ -133,10 +135,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ScaleObjectKR"));
 	gtk_range_set_value(GTK_RANGE(widget), obj->reflection);
 
-	// widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
-	// if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)))
-		// gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
-	
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 	gtk_label_set_text(GTK_LABEL(widget), obj->texture_name ? get_file_name(obj->texture_name) : "");
 	if (obj->texture || obj->normal_map)
@@ -158,7 +156,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 		
 		if (obj->texture)
 		{
-
 			widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
 			gtk_widget_set_sensitive(widget, false);
 
@@ -166,7 +163,6 @@ void	update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 			gtk_widget_set_sensitive(widget, false);
 
 		}
-		
 	}
 	else
 	{
@@ -288,9 +284,7 @@ void	*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools
 		o_ptr = o_ptr->next;
 	if (i != index || !o_ptr)
 		return (NULL);
-	// g->updating_gui = 1; ////////////// remove after done with cam
 	update_objects_info_panel(g, o_ptr);
-	// g->updating_gui = 0; ////////////// remove after done with cam
 	return (NULL);
 }
 
@@ -354,7 +348,6 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	obj = g->r->scene->objects;
 	while (++i != id && obj)
 		obj = obj->next;
-	printf("[%s]\n", (obj && id == i) ? obj->name : "no obj found");
 	return ((obj && id == i) ? obj : NULL);
 }
 
@@ -405,142 +398,6 @@ void	*sig_update_obj_type(GtkWidget *ComboBox, t_gtk_tools *g)
 	return (NULL);
 }
 
-void	*sig_update_obj_name(GtkWidget *GtkEntry, t_gtk_tools *g)
-{
-	char		*name;
-	t_object 	*obj;
-	GtkWidget	*widget;
-
-	printf("sig_update_obj_name\n");
-	obj = get_selected_object(g);
-	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)GtkEntry));	
-	free(obj->name);
-	obj->name = name;
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ListBoxObjects"));
-	gtk_label_set_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(gtk_list_box_get_selected_row(GTK_LIST_BOX(widget))))), name);
-	return (NULL);
-}
-
-void	*sig_update_obj_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
-{
-	t_object 	*obj;
-
-	printf("sig_update_obj_pos_x\n");
-	obj = get_selected_object(g);
-	obj->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	(g->updating_gui) ? 0 : obj_render_sig(g);
-	return (NULL);
-}
-
-void	*sig_update_obj_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
-{
-	t_object 	*obj;
-
-	printf("sig_update_obj_pos_y\n");
-	obj = get_selected_object(g);
-	obj->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	(g->updating_gui) ? 0 : obj_render_sig(g);
-	return (NULL);
-}
-
-void	*sig_update_obj_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
-{
-	t_object 	*obj;
-
-	printf("sig_update_obj_pos_z\n");
-	obj = get_selected_object(g);
-	obj->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	(g->updating_gui) ? 0 : obj_render_sig(g);
-	return (NULL);
-}
-
-//UNIFINISHED
-// UPDATE OBJECT LOOK AT
-void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
-{
-	t_object 	*obj;
-	GtkWidget	*widget;
-
-	printf("sig_update_obj_lookat_x\n");
-	obj = get_selected_object(g);
-	obj->look_at.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	//if only updating, end. Else that meanse user upated the value: update direction.
-	if (g->updating_gui)
-		return (NULL);
-	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
-	g->updating_gui = true;
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.y);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
-	gtk_widget_set_sensitive (widget, FALSE);
-	g->updating_gui = false;
-	obj_render_sig(g);
-	return (NULL);
-}
-
-void	*sig_update_obj_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
-{
-	t_object 	*obj;
-	GtkWidget	*widget;
-
-	printf("sig_update_obj_lookat_y\n");
-	obj = get_selected_object(g);
-	obj->look_at.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	//if only updating, end. Else that meanse user upated the value: update direction.
-	if (g->updating_gui)
-		return (NULL);
-	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
-	g->updating_gui = true;
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.y);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
-	gtk_widget_set_sensitive (widget, FALSE);
-	g->updating_gui = false;
-	obj_render_sig(g);
-	return (NULL);
-}
-
-void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
-{
-	t_object 	*obj;
-	GtkWidget	*widget;
-
-	printf("sig_update_obj_lookat_z\n");
-	obj = get_selected_object(g);
-	obj->look_at.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
-	if (g->updating_gui)
-		return (NULL);
-	obj->dir = v_norm(v_sub(obj->look_at, obj->pos));
-	g->updating_gui = true;
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.x);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.y);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionZ"));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->dir.z);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
-	gtk_widget_set_sensitive (widget, FALSE);
-	g->updating_gui = false;
-	obj_render_sig(g);
-	return (NULL);
-}
-
-// UPDATE OBJECT LOOK AT BY NAME
-
 t_vec3		get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g)
 {
 	t_object	*obj;
@@ -553,7 +410,7 @@ t_vec3		get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g)
 	i = 0;
 	id = gtk_combo_box_get_active(ComboBox);
 	obj = g->r->scene->objects;
-	if (i == id) //case when first entry is selected (no look at)
+	if (i == id)
 		return (v_new(NAN, NAN, NAN));
 	while (obj && ++i != id)
 		obj = obj->next;
@@ -620,7 +477,6 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	printf("update old_dir.x: %f\n", g->old_dir.x);
 	if (g->updating_gui)
 		return (NULL);
-	// update_child_objects_dir(obj, g->r->scene->objects, 'x', old_dir);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX(widget), 0);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionY"));
@@ -646,7 +502,6 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
-	// update_child_objects_dir(obj, g->r->scene->objects, 'y', old_dir);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
@@ -672,7 +527,6 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
-	// update_child_objects_dir(obj, g->r->scene->objects, 'z', old_dir);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxTextObjLookAtName"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectDirectionX"));
@@ -695,7 +549,7 @@ void	*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	obj->dir = v_norm(obj->dir);
 	printf("normalizing obj direction: [%f][%f][%f]\n", obj->dir.x, obj->dir.y, obj->dir.z);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
-	gtk_widget_set_sensitive (widget, FALSE);
+	gtk_widget_set_sensitive(widget, FALSE);
 	if (g->updating_gui)
 		return (NULL);
 	g->updating_gui = true;
@@ -708,7 +562,7 @@ void	*sig_obj_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	g->updating_gui = false;
 	obj_render_sig(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ButtonObjectDirNormalize"));
-	gtk_widget_set_sensitive (widget, FALSE);
+	gtk_widget_set_sensitive(widget, FALSE);
 	return (NULL);
 }
 
@@ -727,8 +581,6 @@ void	*sig_update_obj_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	return (NULL);
 }
 
-// TOUPDATE OBJECT KS
-
 void	*sig_update_obj_ks(GtkWidget *scale, t_gtk_tools *g)
 {
 	t_object 	*obj;
@@ -739,8 +591,6 @@ void	*sig_update_obj_ks(GtkWidget *scale, t_gtk_tools *g)
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
-
-// TODO: UPDATE OBJECT SPEC EXP
 
 void	*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g)
 {
@@ -753,8 +603,6 @@ void	*sig_update_obj_spec_exp(GtkWidget *spin_button, t_gtk_tools *g)
 	return (NULL);
 }
 
-// TODO: UPDATE OBJECT KD
-
 void	*sig_update_obj_kd(GtkWidget *scale, t_gtk_tools *g)
 {
 	t_object 	*obj;
@@ -765,8 +613,6 @@ void	*sig_update_obj_kd(GtkWidget *scale, t_gtk_tools *g)
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
-
-// TODO: UPDATE OBJECT TRANSPARENCY
 
 void	*sig_update_obj_kt(GtkWidget *scale, t_gtk_tools *g)
 {
@@ -779,8 +625,6 @@ void	*sig_update_obj_kt(GtkWidget *scale, t_gtk_tools *g)
 	return (NULL);
 }
 
-// TODO: UPDATE OBJECT REFRACTION K
-
 void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object 	*obj;
@@ -791,8 +635,6 @@ void	*sig_update_obj_ior(GtkWidget *spin_button, t_gtk_tools *g)
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
-
-// TODO: UPDATE OBJECT REFLECTION K
 
 void	*sig_update_obj_kreflection(GtkWidget *scale, t_gtk_tools *g)
 {
@@ -805,7 +647,6 @@ void	*sig_update_obj_kreflection(GtkWidget *scale, t_gtk_tools *g)
 	return (NULL);
 }
 
-// when user change texture
 void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 {
 	t_object 	*obj;
@@ -813,9 +654,8 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	printf("sig_update_obj_texture\n");
-	
 	obj = get_selected_object(g);
-	if (obj->texture) // set to NULL?
+	if (obj->texture)
 		cudaFreeHost(obj->texture);
 	if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)) == NULL)
 		return (NULL);
@@ -834,12 +674,9 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 	{
 		obj->texture = tmp->texture;
 		obj->texture_dim = tmp->texture_dim;
-		printf("===\nRecyclage\n===\n");
 	}
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 	gtk_label_set_text(GTK_LABEL(widget), get_file_name(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser))));
-	
-
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
 	gtk_widget_set_sensitive(widget, true);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureY"));
@@ -850,8 +687,6 @@ void	*sig_update_obj_texture(GtkWidget *file_chooser, t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, true);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
 	gtk_widget_set_sensitive(widget, false);
-
-	// update_objects_info_panel(g, obj);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
@@ -867,7 +702,6 @@ void	*sig_delete_obj_texture(GtkWidget *button, t_gtk_tools *g)
 	if (obj->texture)
 	{
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserTexture"));
-		// gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectTexture"));
 		gtk_label_set_text(GTK_LABEL(widget), "");
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "ComboBoxGeneratedTexture"));
@@ -911,7 +745,6 @@ void	*sig_delete_obj_normal_map(GtkWidget *button, t_gtk_tools *g)
 		cudaFreeHost(obj->normal_map);
 		obj->normal_map = NULL;
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "FileChooserNormalMap"));
-		// gtk_file_chooser_unselect_filename(GTK_FILE_CHOOSER(widget), gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
 		widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "LabelObjectNormalMap"));
 		gtk_label_set_text(GTK_LABEL(widget), "");
 		free(obj->normal_map_name);
@@ -928,11 +761,11 @@ void	*sig_update_obj_normal_map(GtkWidget *file_chooser, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	obj = get_selected_object(g);
-	if (obj->normal_map) // set to NULL?
+	if (obj->normal_map)
 		cudaFreeHost(obj->normal_map);
 	if (gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)) == NULL)
 		return (NULL);
-	if (!(obj->normal_map = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->normal_map_dim))) // check dim diff
+	if (!(obj->normal_map = read_bmp(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)), &obj->normal_map_dim)))
 	{
 		display_error_popup(NULL, g, "Invalid .bmp file");
 		return (NULL);
@@ -948,32 +781,8 @@ void	*sig_update_obj_normal_map(GtkWidget *file_chooser, t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, true);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
 	gtk_widget_set_sensitive(widget, true);
-
-	// t_pt2 dim = obj->normal_map_dim;
-	// printf("Normal map dim: %d, %d\n", dim.x, dim.y);
-	// obj->normal_map_dim = obj->texture_dim;
-
-	// obj->texture_dim = obj->normal_map_dim;
-
-	// printf("text dim: %d, %d, text ratio : %d, %d \n", obj->texture_dim.x, obj->texture_dim.y, obj->texture_ratio.x, obj->texture_ratio.y);
-
-	// if existe deja ?
 	free(obj->normal_map_name);
 	obj->normal_map_name = ft_strdup(gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser)));
-
-	// Only sensitive if texture loaded
-	/*
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureX"));
-	gtk_widget_set_sensitive(widget, true);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureY"));
-	gtk_widget_set_sensitive(widget, true);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateX"));
-	gtk_widget_set_sensitive(widget, true);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder), "SpinButtonObjectTextureTranslateY"));
-	gtk_widget_set_sensitive(widget, true);
-	*/
-	
-	// update_objects_info_panel(g, obj);
 	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }

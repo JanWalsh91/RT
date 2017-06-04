@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 13:49:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 12:51:07 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "gui.h"
 
 static void	update_gui_texture(t_gtk_tools *g);
+static void	adapt_texture_dim(t_vec3 *dim);
 static void	generate_texture(t_gtk_tools *g, t_object *obj, t_vec3 *dim,
 														t_vec3 *dim_tmp);
 
@@ -60,12 +61,7 @@ static void	generate_texture(t_gtk_tools *g, t_object *obj, t_vec3 *dim,
 	{
 		obj->texture_name = ft_strdup("Checkerboard");
 		tmp = find_texture(g->r->scene->objects, obj, "Checkerboard", *dim_tmp);
-		while ((int)dim->x % (int)dim->z != 0)
-			dim->x++;
-		dim->x += (((int)dim->x / (int)dim->z) % 2 == 1) ? dim->z : 0;
-		while ((int)dim->y % (int)dim->z != 0)
-			dim->y++;
-		dim->y += (((int)dim->y / (int)dim->z) % 2 == 1) ? dim->z : 0;
+		adapt_texture_dim(dim);
 		obj->texture = !tmp ? generate_checkerboard(dim) : tmp->texture;
 	}
 	else if (g->generate_id == 3)
@@ -74,6 +70,16 @@ static void	generate_texture(t_gtk_tools *g, t_object *obj, t_vec3 *dim,
 		tmp = find_texture(g->r->scene->objects, obj, "Noise", *dim_tmp);
 		obj->texture = !tmp ? generate_noise(dim) : tmp->texture;
 	}
+}
+
+static void	adapt_texture_dim(t_vec3 *dim)
+{
+	while ((int)dim->x % (int)dim->z != 0)
+		dim->x++;
+	dim->x += (((int)dim->x / (int)dim->z) % 2 == 1) ? dim->z : 0;
+	while ((int)dim->y % (int)dim->z != 0)
+		dim->y++;
+	dim->y += (((int)dim->y / (int)dim->z) % 2 == 1) ? dim->z : 0;
 }
 
 static void	update_gui_texture(t_gtk_tools *g)
@@ -105,7 +111,7 @@ static void	update_gui_texture(t_gtk_tools *g)
 	gtk_widget_set_sensitive(widget, false);
 }
 
-void	*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
+void		*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 {
 	int				id;
 	t_object		*obj;
@@ -130,13 +136,5 @@ void	*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 				gtk_builder_get_object(g->builder, "window_main")));
 	g->builder_texture = builder;
 	gtk_widget_show(widget);
-	return (NULL);
-}
-
-void	*sig_generated_texture_quit(GtkWidget *combo_box, t_gtk_tools *g)
-{
-	(void)combo_box;
-	gtk_widget_destroy(GTK_WIDGET(gtk_builder_get_object(g->builder_texture,
-													"window_generate")));
 	return (NULL);
 }

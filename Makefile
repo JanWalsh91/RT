@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/03 17:23:24 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/04 17:07:42 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,15 +112,33 @@ MISC = 		debug \
 			write_values \
 
 GUI =		window_signals \
+			window_signals1 \
 			sig_open_scene \
 			sig_update_scene \
+			sig_update_scene1 \
+			sig_update_scene2 \
+			sig_update_scene3 \
 			sig_update_objects \
+			sig_update_objects1 \
+			sig_update_objects2 \
+			sig_update_objects3 \
+			sig_update_objects4 \
 			sig_update_lights \
+			sig_update_lights1 \
+			sig_update_lights2 \
+			sig_update_lights3 \
+			sig_update_lights4 \
 			sig_update_cameras \
+			sig_update_cameras1 \
+			sig_update_cameras2 \
+			sig_update_cameras3 \
+			sig_update_cameras4 \
+			sig_update_cameras5 \
 			sig_update_settings \
 			sig_new_object \
 			sig_new_camera \
 			sig_new_light \
+			sig_new_scene \
 			sig_delete_object \
 			sig_delete_light \
 			sig_delete_camera \

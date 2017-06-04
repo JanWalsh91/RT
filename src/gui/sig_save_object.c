@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 16:36:18 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 16:50:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 13:59:12 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,26 @@
 
 static void	save_object1(int fd, t_object *obj);
 static void	save_object2(int fd, t_object *obj);
-static void	save_object3(int fd, t_object *obj, t_object *objects);
+static void	save_object3(int fd, t_object *obj);
+static void	save_object4(int fd, t_object *obj, t_object *objects);
 
-
-// Torus ?
 void		save_object(int fd, t_object *obj, t_object *objects)
+{
+	save_object1(fd, obj);
+	write(fd, obj->name, ft_strlen(obj->name));
+	write(fd, "\n\t{\n", 4);
+	write(fd, "\t\tposition: ", 12);
+	write_vector(fd, obj->pos);
+	write(fd, "\n", 1);
+	write(fd, "\t\tdirection: ", 13);
+	write_vector(fd, obj->dir);
+	write(fd, "\n", 1);
+	save_object2(fd, obj);
+	save_object3(fd, obj);
+	save_object4(fd, obj, objects);
+}
+
+static void	save_object1(int fd, t_object *obj)
 {
 	if (obj->type == T_PLANE)
 		write(fd, "\tplane: ", 8);
@@ -35,20 +50,11 @@ void		save_object(int fd, t_object *obj, t_object *objects)
 		write(fd, "\tcube troue: ", 12);
 	else if (obj->type == T_PARABOLOID)
 		write(fd, "\tparaboloid: ", 13);
-	write(fd, obj->name, ft_strlen(obj->name));
-	write(fd, "\n\t{\n", 4);
-	write(fd, "\t\tposition: ", 12);
-	write_vector(fd, obj->pos);
-	write(fd, "\n", 1);
-	write(fd, "\t\tdirection: ", 13);
-	write_vector(fd, obj->dir);
-	write(fd, "\n", 1);
-	save_object1(fd, obj);
-	save_object2(fd, obj);
-	save_object3(fd, obj, objects);
+	else if (obj->type == T_TORUS)
+		write(fd, "\ttorus: ", 8);
 }
 
-static void	save_object1(int fd, t_object *obj)
+static void	save_object2(int fd, t_object *obj)
 {
 	if (!v_isnan(obj->look_at) && (obj->look_at.x != 0 &&
 		obj->look_at.y != 0 && obj->look_at.z != 0))
@@ -75,7 +81,7 @@ static void	save_object1(int fd, t_object *obj)
 	}
 }
 
-static void	save_object2(int fd, t_object *obj)
+static void	save_object3(int fd, t_object *obj)
 {
 	if (obj->type == T_CYLINDER || obj->type == T_CONE ||
 		obj->type == T_PARABOLOID)
@@ -104,7 +110,7 @@ static void	save_object2(int fd, t_object *obj)
 	write(fd, "\n", 1);
 }
 
-static void	save_object3(int fd, t_object *obj, t_object *objects)
+static void	save_object4(int fd, t_object *obj, t_object *objects)
 {
 	if (obj->texture_name)
 	{

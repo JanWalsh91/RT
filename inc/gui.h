@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 15:54:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 17:25:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int				get_parent_index(t_object *parent, t_object *objects);
 ** Scene GUI panel
 */
 
+void			scene_render_sig(t_gtk_tools *g);
 void			*sig_update_res_x(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_res_y(GtkWidget *SpinButton, t_gtk_tools *g);
 void			*sig_update_ray_depth(GtkWidget *spin_button, t_gtk_tools *g);
@@ -98,6 +99,8 @@ void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
 ** Objects GUI panel
 */
 
+GtkWidget		*get_widget(t_gtk_tools *g, char *widget_name); // Change
+void			obj_render_sig(t_gtk_tools *g);
 void			*populate_list_box_objects(t_gtk_tools *g); //Camel
 void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
 void			update_objects_info_panel(t_gtk_tools *g, t_object *obj);
@@ -133,6 +136,8 @@ t_vec3			get_look_at_obj(GtkComboBox *ComboBox, t_gtk_tools *g);
 ** Lights GUI panel
 */
 
+t_light			*get_light_from_list_box(t_gtk_tools *g);
+void			light_render_sig(t_gtk_tools *g);
 void			*update_grid_lights(t_gtk_tools *g);
 void			update_lights_info_panel(t_gtk_tools *g, t_light *light);
 void			*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
@@ -151,6 +156,7 @@ void			*sig_update_light_intensity(GtkWidget *SpinButton, t_gtk_tools *g);
 ** Cameras GUI panel
 */
 
+void			camera_render_sig(t_gtk_tools *g);
 void			*update_grid_cameras(t_gtk_tools *g);
 t_camera		*get_first_camera(t_gtk_tools *g);
 void			update_cameras_info_panel(t_gtk_tools *g, t_camera *camera);
