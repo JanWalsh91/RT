@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 17:24:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 14:40:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ __device__
 static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray);
 __device__
+static void		init_shadow_ray(t_ray *shadow_ray, t_ray *primary_ray, t_light *light);
 
+__device__
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 {
 	t_ray		shadow_ray;
@@ -52,7 +54,6 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
 	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) :
 	update_photon(r, ray);
-	// col = vec_to_col(r->scene->objects[ray->hit_obj].col);
 	// col = c_new(0, 0, 0);
 	return (col);
 }
@@ -73,7 +74,8 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	while (!v_isnan(r->scene->lights[++i].col))
 	{
 		light_color = c_new(0, 0, 0);
-		if ((ret = in_shadow(r, ray, shadow_ray,
+		init_shadow_ray(shadow_ray, ray, &r->scene->lights[i]);
+		if ((ret = in_shadow(r, shadow_ray,
 			&r->scene->lights[i], &dim_light)) != 2 || !r->scene->is_shadow)
 		{
 			light_color = c_add(light_color,
@@ -97,4 +99,15 @@ static t_color	apply_filter(t_vec3 dim_light, t_color light_color)
 	new_col.g = (uint8_t)(dim_light.y * (float)light_color.g);
 	new_col.b = (uint8_t)(dim_light.z * (float)light_color.b);
 	return (new_col);
+}
+
+__device__
+static void		init_shadow_ray(t_ray *shadow_ray, t_ray *primary_ray, t_light *light)
+{
+	shadow_ray->t = INFINITY;
+	shadow_ray->type = R_SHADOW;
+	shadow_ray->origin = v_add(primary_ray->hit,
+		v_scale(primary_ray->nhit, BIAS * primary_ray->n_dir));
+	shadow_ray->dir = v_norm((!v_isnan(light->pos)) ?
+		v_sub(light->pos, shadow_ray->origin) : v_scale(light->dir, -1));
 }

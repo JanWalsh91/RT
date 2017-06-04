@@ -6,9 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 16:38:40 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/26 16:47:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 14:15:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// NOT A LA NORME
 
 __device__
 bool		get_torus_intersection(t_raytracing_tools *r, t_ray *ray,

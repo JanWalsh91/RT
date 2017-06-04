@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 17:23:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/04 16:52:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
 # include "objparser.h"
+// # include <cuda_runtime.h>
 
 #ifndef CUDA_DEV
 #ifdef __CUDACC__
@@ -470,7 +471,6 @@ typedef	struct	s_rt_settings
 {
 	int		tile_size;
 	int		photon_count_per_pass;
-	int		k; //photon search count
 	float	photon_search_radius;
 }				t_rt_settings;
 
@@ -711,8 +711,8 @@ void			get_paraboloid_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
 t_vec3			get_normal_at_normal_map(t_object *obj, t_ray *ray);
 CUDA_DEV
-int				in_shadow(t_raytracing_tools *r, t_ray *primary_ray,
-					t_ray *shadow_ray, t_light *light, t_vec3 *dim_light);
+int				in_shadow(t_raytracing_tools *r, t_ray *shadow_ray,
+					t_light *light, t_vec3 *dim_light);
 CUDA_DEV
 t_color			get_diffuse(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
@@ -827,7 +827,7 @@ t_vec3			get_object_color(t_object *obj, t_ray *ray);
 ** Flare
 */
 
-void	init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
+void			init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
 
 
 /*
@@ -846,6 +846,7 @@ void			rt_file_warning(t_parse_tools *t, char *msg);
 void			data_error_exit(t_scene *scene, int type, void *object,
 					char *msg);
 void			data_warning(t_scene *scene, int type, void *object, char *msg);
+void 			gpu_assert(int code);
 
 /*
 ** Debug functions

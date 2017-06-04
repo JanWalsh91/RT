@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_light_flares.cu                               :+:      :+:    :+:   */
+/*   init_light_flares.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 15:45:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/04 14:44:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void			init_light_flares(t_scene *scene, t_light_flare_tools *tools)
 
 __device__
 static void		init_ray_and_rt_tools(t_raytracing_tools *r, t_ray *ray,
-	t_scene *scene, t_light_flare_tools *tools)
+				t_scene *scene, t_light_flare_tools *tools)
 {
 	r->scene = scene;
 	ray->t = INFINITY;
@@ -72,8 +72,8 @@ static void		init_ray_and_rt_tools(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-static bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray, t_scene *scene,
-			t_light_flare_tools *tools)
+static bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
+				t_scene *scene, t_light_flare_tools *tools)
 {
 	int y;
 

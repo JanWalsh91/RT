@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_triangle_intersection.cu                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: talemari <talemari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:26:41 by talemari          #+#    #+#             */
-/*   Updated: 2017/05/18 15:28:58 by talemari         ###   ########.fr       */
+/*   Updated: 2017/06/04 14:16:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// NOT A LA NORME
 
 #include "../../inc/rt.cuh"
 #include "../../inc/objparser.h"
@@ -16,11 +18,11 @@
 ** Checks for a ray-sphere intersection.
 */
 
-__device__
-static void		print_vec2(t_vec3 vec)
-{
-	printf("x : %f, y : %f, z : %f\n", vec.x, vec.y, vec.z);
-}
+// __device__
+// static void		print_vec2(t_vec3 vec)
+// {
+// 	printf("x : %f, y : %f, z : %f\n", vec.x, vec.y, vec.z);
+// }
 
 /*__device__
 bool	get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index)
