@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/03 15:43:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:06:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*parse_specular_coef(t_parse_tools *t)
 		new_specular_coef < 0 || new_specular_coef > 1)
 	{
 		return ("Specular coefficient formatting error.\n\
-The specular coefficient (ks) is a float between 0 and 1.");
+		The specular coefficient (ks) is a float between 0 and 1.");
 		return (NULL);
 	}
 	if (!t->in_scene)
@@ -37,7 +37,7 @@ The specular coefficient (ks) is a float between 0 and 1.");
 	if (t->in_object && (t->current_type == T_LIGHT ||
 		t->current_type == T_CAMERA))
 		return ("Specular coefficient (ks) attribute \
-only applicable to objects.");
+		only applicable to objects.");
 	return (NULL);
 }
 
@@ -74,8 +74,6 @@ char	*parse_ior(t_parse_tools *t)
 		t->scene_attributes->ior = new_ior;
 	else if (t->in_object)
 		t->object_attributes->ior = new_ior;
-	// else if (t->current_type == T_CAMERA)
-	// 	t->current_camera->ior = new_ior;
 	if (t->in_object && t->current_type == T_LIGHT)
 		return ("Ior attribute only applicable to objects.");
 	return (NULL);
@@ -89,7 +87,7 @@ char	*parse_reflection(t_parse_tools *t)
 	if (isnan(new_reflection_coef = parse_float(t->input->value)) ||
 		new_reflection_coef < 0 || new_reflection_coef > 1)
 		return ("Reflection coefficient formatting error.\n\
-The reflection coefficient is a float between 0 and 1.");
+		The reflection coefficient is a float between 0 and 1.");
 	if (!t->in_scene)
 		t->global_attributes->reflection = new_reflection_coef;
 	else if (!t->in_object)
@@ -99,7 +97,7 @@ The reflection coefficient is a float between 0 and 1.");
 	if (t->in_object && (t->current_type == T_LIGHT ||
 		t->current_type == T_CAMERA))
 		return ("Reflection coefficient attribute \
-only applicable to objects.");
+		only applicable to objects.");
 	return (NULL);
 }
 
@@ -111,7 +109,7 @@ char	*parse_transparency(t_parse_tools *t)
 	if (isnan(new_transparency_coef = parse_float(t->input->value)) ||
 		new_transparency_coef < 0 || new_transparency_coef > 1)
 		return ("Transparency coefficient formatting error.\n\
-The reflection coefficient is a float between 0 and 1.");
+		The reflection coefficient is a float between 0 and 1.");
 	if (!t->in_scene)
 		t->global_attributes->transparency = new_transparency_coef;
 	else if (!t->in_object)
@@ -121,6 +119,6 @@ The reflection coefficient is a float between 0 and 1.");
 	if (t->in_object && (t->current_type == T_LIGHT ||
 		t->current_type == T_CAMERA))
 		return ("Transparency coefficient attribute \
-only applicable to objects.");
+		only applicable to objects.");
 	return (NULL);
 }

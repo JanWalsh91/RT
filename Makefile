@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 11:06:27 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/05 12:13:07 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,8 @@ PARSING = 	get_color \
 			parse_value_8 \
 			parse_value_9 \
 			parse_value_10 \
+			parse_value_11 \
+			parse_value_12 \
 			parse_vector \
 			parse_float \
 			reset_attributes \

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 15:10:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:08:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ char	*parse_color(t_parse_tools *t)
 	t_vec3	new_col;
 
 	if (v_isnan(new_col = get_color(t, t->input->value)))
-	{
-		// rt_file_warning(t, "Color formatting error.");
 		return ("Color formatting error");
-	}
 	if (new_col.x < 0 || new_col.y < 0 || new_col.z < 0 ||
 		new_col.x > 255 || new_col.y > 255 || new_col.z > 255)
 	{
@@ -60,7 +57,6 @@ char	*parse_radius(t_parse_tools *t)
 {
 	float	new_radius;
 
-	// printf("parse radius: %s\n", t->input->value);
 	new_radius = NAN;
 	if (isnan(new_radius = parse_float(t->input->value)) ||
 		new_radius <= 0)
@@ -74,30 +70,10 @@ char	*parse_radius(t_parse_tools *t)
 	if (t->in_object && t->current_type != T_CONE &&
 		t->current_type != T_CYLINDER &&
 	t->current_type != T_SPHERE && t->current_type != T_OBJ
-		&& t->current_type != T_DISK && t->current_type != T_TORUS && t->current_type != T_PARABOLOID)
+		&& t->current_type != T_DISK && t->current_type != T_TORUS &&
+		t->current_type != T_PARABOLOID)
 		return ("Radius attribute only applicable \
-to spheres, cones, cylinders, disks amd toruses.");
-	return (NULL);
-}
-
-char	*parse_radius_2(t_parse_tools *t)
-{
-	float	new_radius_2;
-
-	// printf("parse_radius2: %s\n", t->input->value);
-	new_radius_2 = NAN;
-	if (isnan(new_radius_2 = parse_float(t->input->value)) ||
-		new_radius_2 <= 0)
-		return ("Radius 2 formatting error.");
-	if (!t->in_scene)
-		t->global_attributes->rad_torus = new_radius_2;
-	else if (!t->in_object)
-		t->scene_attributes->rad_torus = new_radius_2;
-	else if (t->in_object)
-		t->object_attributes->rad_torus = new_radius_2;
-	if (t->in_object && t->current_type != T_TORUS)
-		return ("Radius 2 attribute only applicable \
-to toruses.");
+		to spheres, cones, cylinders, disks amd toruses.");
 	return (NULL);
 }
 
@@ -116,7 +92,8 @@ char	*parse_height(t_parse_tools *t)
 	else if (t->in_object)
 		t->object_attributes->height = new_height;
 	if (t->in_object && t->current_type != T_CONE &&
-		t->current_type != T_CYLINDER && t->current_type != T_OBJ && t->current_type != T_PARABOLOID)
+		t->current_type != T_CYLINDER && t->current_type != T_OBJ &&
+		t->current_type != T_PARABOLOID)
 		return ("Height attribute only applicable to cones and cylinders.");
 	return (NULL);
 }
@@ -129,7 +106,7 @@ char	*parse_diffuse_coef(t_parse_tools *t)
 	if (isnan(new_diffuse_coef = parse_float(t->input->value)) ||
 		new_diffuse_coef < 0 || new_diffuse_coef > 1)
 		return ("Diffuse coefficient formatting error.\n\
-The diffuse coefficient is a float between 0 and 1.");
+		diffuse coefficient is a float between 0 and 1.");
 	if (!t->in_scene)
 		t->global_attributes->kd = new_diffuse_coef;
 	else if (!t->in_object)

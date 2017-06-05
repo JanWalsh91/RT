@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 14:24:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 11:57:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_CYLINDER] = &parse_cylinder;
 	t->parse[T_CONE] = &parse_cone;
 	t->parse[T_PARABOLOID] = &parse_paraboloid;
-	t->parse[T_TRIANGLE] = NULL; //&parse_triangle;
+	t->parse[T_TRIANGLE] = NULL;
 	t->parse[T_TORUS] = &parse_torus;
 	t->parse[T_CUBE_TROUE] = &parse_cube_troue;
 	t->parse[T_OBJ] = &parse_obj;

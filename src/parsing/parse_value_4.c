@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:16:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:02:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*parse_ambient_light_color(t_parse_tools *t)
 		t->scene->ambient_light_color = new_col;
 	else if (t->in_object)
 		return ("Ambient lighting is a scene attribute, \
-not an object attribute.");
+		not an object attribute.");
 	return (NULL);
 }
 
@@ -52,7 +52,7 @@ char	*parse_ka(t_parse_tools *t)
 		t->scene->ka = new_intensity;
 	else if (t->in_object)
 		return ("Ambient light coefficient (ka) only applicable to \
-scenes, not objects.");
+		scenes, not objects.");
 	return (NULL);
 }
 

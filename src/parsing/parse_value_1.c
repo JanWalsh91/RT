@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:11:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/31 10:40:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 11:57:07 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*parse_empty_line(t_parse_tools *t)
 char	*parse_scene(t_parse_tools *t)
 {
 	char	*ret;
-	
+
 	if ((ret = can_add_new_scene(t)))
 		return (ret);
 	t->scene = get_new_scene(t);

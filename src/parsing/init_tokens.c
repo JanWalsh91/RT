@@ -6,14 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/27 14:10:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:05:17 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 
 static void	init_tokens2(t_parse_tools *t);
-
+static void	init_tokens3(t_parse_tools *t);
 /*
 ** Initializes the list of tokens for the parser.
 ** These are strings that the user must match in their rt file.
@@ -39,21 +39,21 @@ void		init_tokens(t_parse_tools *t)
 		(!(t->tokens[T_TORUS] = ft_strdup("torus"))) ||
 		(!(t->tokens[T_TRIANGLE] = ft_strdup("triangle"))) ||
 		(!(t->tokens[T_CUBE_TROUE] = ft_strdup("cube troue"))) ||
-		(!(t->tokens[T_OBJ] = ft_strdup("obj"))) ||		
+		(!(t->tokens[T_OBJ] = ft_strdup("obj"))) ||
 		(!(t->tokens[T_RESOLUTION] = ft_strdup("resolution"))) ||
 		(!(t->tokens[T_RAY_DEPTH] = ft_strdup("ray depth"))) ||
 		(!(t->tokens[T_BACKGROUND_COLOR] = ft_strdup("background color"))) ||
-		(!(t->tokens[T_KA] = ft_strdup("ka"))) ||
-		(!(t->tokens[T_AMBIENT_LIGHT_COLOR] =
-			ft_strdup("ambient light color"))) ||
-		(!(t->tokens[T_POSITION] = ft_strdup("position"))))
+		(!(t->tokens[T_KA] = ft_strdup("ka"))))
 		ft_errno_exit();
 	init_tokens2(t);
 }
 
 static void	init_tokens2(t_parse_tools *t)
 {
-	if ((!(t->tokens[T_DIRECTION] = ft_strdup("direction"))) ||
+	if ((!(t->tokens[T_AMBIENT_LIGHT_COLOR] =
+		ft_strdup("ambient light color"))) ||
+		(!(t->tokens[T_POSITION] = ft_strdup("position"))) ||
+		(!(t->tokens[T_DIRECTION] = ft_strdup("direction"))) ||
 		(!(t->tokens[T_LOOK_AT] = ft_strdup("look at"))) ||
 		(!(t->tokens[T_COLOR] = ft_strdup("color"))) ||
 		(!(t->tokens[T_RADIUS] = ft_strdup("radius"))) ||
@@ -70,8 +70,14 @@ static void	init_tokens2(t_parse_tools *t)
 		(!(t->tokens[T_FILTER] = ft_strdup("filter"))) ||
 		(!(t->tokens[T_READ_NORMAL_MAP] = ft_strdup("normal map"))) ||
 		(!(t->tokens[T_READ_TEXTURE_FILE] = ft_strdup("texture"))) ||
-		(!(t->tokens[T_READ_OBJ_FILE] = ft_strdup("source"))) ||
-		(!(t->tokens[T_READ_MATERIAL_FILE] =
+		(!(t->tokens[T_READ_OBJ_FILE] = ft_strdup("source"))))
+		ft_errno_exit();
+	init_tokens3(t);
+}
+
+static void	init_tokens3(t_parse_tools *t)
+{
+	if ((!(t->tokens[T_READ_MATERIAL_FILE] =
 			ft_strdup("read material file"))) ||
 		(!(t->tokens[T_PARENT_INDEX] =
 			ft_strdup("parent index"))) ||

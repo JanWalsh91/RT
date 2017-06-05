@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:13:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 14:27:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:06:07 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,18 @@ char		*parse_resolution(t_parse_tools *t)
 	s2 = split_trim(t->input->value, ',');
 	if (!(s2[0] && s2[1]) && (invalid = true))
 		return ("Resolution formatting error.");
-	// if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 2560 ||
-	// 	(new_res.y = ft_atoi(s2[1])) < 1 || new_res.y > 1600)
-	if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 4000 || // TODO: max value ?
+	if ((new_res.x = ft_atoi(s2[0])) < 1 || new_res.x > 4000 ||
 	(new_res.y = ft_atoi(s2[1])) < 1 || new_res.y > 4000)
 	{
 		invalid = true;
 		rt_file_warning(t, "Resolution width and height invalid.");
 	}
 	free_s2(s2);
-	if (invalid)
-		return (NULL);
-	if (!t->in_scene)
+	if (!t->in_scene && !invalid)
 		t->global_attributes->res = new_res;
-	else if (!t->in_object)
+	else if (!t->in_object && !invalid)
 		t->scene->res = new_res;
-	else if (t->in_object)
+	else if (t->in_object && !invalid)
 		rt_file_warning(t, "You tryin' to give a resolution to an object?");
 	return (NULL);
 }
@@ -109,4 +105,3 @@ char		*parse_background_color(t_parse_tools *t)
 		return ("Objects cannot have background colors!");
 	return (NULL);
 }
-

@@ -6,11 +6,15 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 15:00:03 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/27 14:39:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:08:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
+
+/*
+** Contains functions for parsing each value based on token.
+*/
 
 char	*parse_torus(t_parse_tools *t)
 {
@@ -73,7 +77,7 @@ char	*parse_kflare(t_parse_tools *t)
 	if (isnan(new_kflare = parse_float(t->input->value)) ||
 		new_kflare < 0)
 		return ("Flare coefficient formatting error.\
-Flare coefficient is a positive float.");
+		Flare coefficient is a positive float.");
 	if (!t->in_scene)
 		t->global_attributes->kflare = new_kflare;
 	else if (!t->in_object)
