@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:47:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 12:29:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 13:19:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 ** Sets parsed attributes to current object based on current type.
 */
 
-void	set_attributes(t_parse_tools *t, t_attributes *a)
+static void	set_attributes_by_obj_type(t_parse_tools *t, t_attributes *a);
+
+void		set_attributes(t_parse_tools *t, t_attributes *a)
 {
 	t->current_type == T_CAMERA ? set_attributes_camera(t, a) : 0;
 	t->current_type == T_LIGHT ? set_attributes_light(t, a) : 0;
@@ -40,6 +42,11 @@ void	set_attributes(t_parse_tools *t, t_attributes *a)
 		t->current_object->transparency = a->transparency;
 	if (t->current_type == T_PLANE || t->current_type == T_DISK)
 		set_attributes_plane(t, a);
+	set_attributes_by_obj_type(t, a);
+}
+
+static void	set_attributes_by_obj_type(t_parse_tools *t, t_attributes *a)
+{
 	t->current_type == T_OBJ ? set_attributes_obj(t, a) : 0;
 	t->current_type == T_SPHERE ? set_attributes_sphere(t, a) : 0;
 	t->current_type == T_CYLINDER ? set_attributes_cylinder(t, a) : 0;
@@ -48,7 +55,7 @@ void	set_attributes(t_parse_tools *t, t_attributes *a)
 	t->current_type == T_TORUS ? set_attributes_torus(t, a) : 0;
 }
 
-void	set_attributes_camera(t_parse_tools *t, t_attributes *a)
+void		set_attributes_camera(t_parse_tools *t, t_attributes *a)
 {
 	if (!v_isnan(a->pos))
 		t->current_camera->pos = a->pos;
@@ -64,7 +71,7 @@ void	set_attributes_camera(t_parse_tools *t, t_attributes *a)
 		t->current_camera->ior = a->ior;
 }
 
-void	set_attributes_light(t_parse_tools *t, t_attributes *a)
+void		set_attributes_light(t_parse_tools *t, t_attributes *a)
 {
 	if (!v_isnan(a->pos))
 		t->current_light->pos = a->pos;

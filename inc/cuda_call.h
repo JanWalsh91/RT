@@ -6,12 +6,14 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 15:47:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 15:11:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUDA_CALL_H
 #define CUDA_CALL_H
+
+#include "rt.cuh"
 
 #ifdef __cplusplus
 extern "C"
@@ -53,10 +55,6 @@ void	update_photon_map(struct s_raytracing_tools *r);
 extern "C"
 #endif
 void	copy_region_map_tile(struct s_raytracing_tools *r, struct s_tile tile);
-#ifdef __cplusplus
-extern "C"
-#endif
-void	refresh_region_map_tile(struct s_raytracing_tools *r, struct s_tile t);
 #ifdef __cplusplus
 extern "C"
 #endif

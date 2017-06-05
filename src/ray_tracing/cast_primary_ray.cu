@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 14:40:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 17:06:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	--ray->depth;
 	r->t = INFINITY;
 	i = -1;
-	while (r->scene->objects[++i].type != T_INVALID_TOKEN)
+	while (r->scene->objects && r->scene->objects[++i].type != T_INVALID_TOKEN)
 		if (intersects(r, ray, i) && r->t > ray->t)
 			r->t = ray->t;
 	if (r->t == INFINITY)

@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 12:29:28 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/05 16:06:04 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ PARSING = 	get_color \
 			reset_attributes \
 			set_attributes_1 \
 			set_attributes_2 \
+			set_attributes_3 \
 			split_trim
 
 DATA_PREP = check_scene \
@@ -193,7 +194,11 @@ OBJ_PARSER = 	ft_freetab \
 PHOTON_MAPPING = update_photon \
 				photon_mapping_pass \
 				radiance_estimation_pass \
-				region_map
+				malloc_region_map \
+				update_region_map \
+				shoot_photon \
+				get_iors \
+				redirect_photon
 
 TEXTURE =	export_bmp \
 			read_bmp \

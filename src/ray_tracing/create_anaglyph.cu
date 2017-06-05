@@ -6,13 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:06:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "../../inc/cuda_call.h"
-#include "photon_mapping.h"
 
 __global__
 static void			get_look_at_position(t_scene *scene, t_vec3 *pos);

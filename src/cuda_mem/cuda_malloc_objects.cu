@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:06:29 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:59:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 16:48:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static t_object		*list_to_array_objects2(t_object *object, t_object *array);
 void				cuda_malloc_objects(t_raytracing_tools *r, t_scene
 					*h_scene_to_array)
 {
+	printf("cuda_malloc_objects\n");
 	if (r->update.objects >= 1)
 	{
 		h_scene_to_array->objects = list_to_array_objects(r->scene->objects);
