@@ -2,7 +2,7 @@ scene: rendu4
 {
 	resolution: 1260, 1220
 	ray depth: 10
-	background color: 252.0000, 233.0000, 79.0000
+	background color: 238.0000, 238.0000, 236.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000
 	cylinder: Cylinder
@@ -18,13 +18,12 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.4000
 		reflection: 0.0000
-
 		texture: Checkerboard 600.0000, 600.0000, 100.0000
 	}
 	sphere: Sphere
 	{
 		position: -3.0000, 0.0000, 0.0000
-		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
 		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
@@ -33,7 +32,6 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-
 		texture: textures/earth.bmp
 	}
 	cone: Cone
@@ -49,13 +47,12 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-
 		texture: Perlin 500.0000, 500.0000, 100.0000
 	}
 	plane: Plane
 	{
 		position: 0.0000, 0.0000, 9.0000
-		direction: 0.0000, 0.0000, 1.0000
+		direction: 0.0000, 0.9992, -0.0374
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
 		ks: 0.0000
@@ -63,7 +60,6 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Ground
 	{
@@ -76,7 +72,6 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	light: New light
 	{
@@ -90,6 +85,6 @@ scene: rendu4
 		position: 0.0000, 0.0000, -20.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 30
-		ior: 1.0098
+		ior: 1.0097
 	}
 }

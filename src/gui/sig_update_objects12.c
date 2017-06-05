@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 15:03:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 16:06:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ static void	populate_combo_box(t_gtk_tools *g, GtkWidget *widget)
 	light = g->r->scene->lights;
 	while (light)
 	{
-		if (!v_isnan(light->pos))
-			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget),
-															light->name);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget), light->name);
 		light = light->next;
 	}
 	camera = g->r->scene->cameras;

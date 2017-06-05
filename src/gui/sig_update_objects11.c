@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:34:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:11:24 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 15:01:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static t_vec3	get_obj_pos(t_gtk_tools *g, t_object *obj, int id)
 	t_camera	*camera;
 
 	i = 0;
+	printf("Cherche pour l'id %d\n", id);
 	while (obj && ++i != id)
 		obj = obj->next;
 	if (i == id)
@@ -44,6 +45,7 @@ static t_vec3	get_obj_pos(t_gtk_tools *g, t_object *obj, int id)
 	light = g->r->scene->lights;
 	while (light && ++i != id)
 		light = light->next;
+	printf("Apres la loop, i : %d\n", i);
 	if (i == id)
 		return (light->pos);
 	camera = g->r->scene->cameras;

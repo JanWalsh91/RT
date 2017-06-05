@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_normal2.cu                                     :+:      :+:    :+:   */
+/*   get_normal2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 15:58:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 15:25:36 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void		get_paraboloid_normal(t_ray *ray, t_object *obj)
 	float	m;
 
 	m = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
-	ray->nhit = v_norm(v_scale(v_sub(v_sub(ray->hit,
-		obj->pos), obj->dir), obj->height + m));
+	ray->nhit = v_norm(v_sub(v_sub(ray->hit, obj->pos),
+		v_scale(obj->dir, obj->height + m)));
 	if (obj->normal_map)
 		ray->nhit = get_normal_at_normal_map(obj, ray);
 }

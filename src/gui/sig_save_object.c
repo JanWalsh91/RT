@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 16:36:18 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 13:59:12 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:40:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ static void	save_object3(int fd, t_object *obj)
 	write(fd, "\n", 1);
 	write(fd, "\t\treflection: ", 14);
 	write_float(fd, obj->reflection);
-	write(fd, "\n", 1);
 }
 
 static void	save_object4(int fd, t_object *obj, t_object *objects)

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:28:15 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:12:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:58:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		*sig_update_obj_lookat_name(GtkWidget *combo_box, t_gtk_tools *g)
 	obj = get_selected_object(g);
 	if (v_isnan(look_at = get_look_at_obj(GTK_COMBO_BOX(combo_box), g)))
 		return (NULL);
+	printf("Nouvelle valeur de look at : %f, %f, %f\n", look_at.x, look_at.y, look_at.z);
 	obj->dir = v_norm(v_sub(look_at, obj->pos));
 	if (g->updating_gui)
 		return (NULL);
