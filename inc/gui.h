@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:18:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:02:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define GUI_H
 
 # define SAVE_FLOAT_PRECISION 4
+# define GENERATE_TEXTURE_GLADE "res/GenerateTexture.glade"
+# define SETTINGS_GLADE "res/Settings_glade.glade"
+# define RT_GLADE "res/RT_glade.glade"
+
 
 # include "rt.cuh"
 # include <gtk/gtk.h>

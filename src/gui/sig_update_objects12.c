@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:11:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 13:53:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,20 @@ static void	populate_combo_box(t_gtk_tools *g, GtkWidget *widget)
 														camera->name);
 		camera = camera->next;
 	}
+}
+
+void		*sig_udpate_bg_color(GtkWidget *color_chooser, t_gtk_tools *g)
+{
+	GdkRGBA			color;
+	t_vec3			bg_color;
+
+	printf("sig_update_bg_col\n");
+	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_chooser), &color);
+	bg_color = g->r->scene->background_color;
+	bg_color.x = color.red * 255;
+	bg_color.y = color.green * 255;
+	bg_color.z = color.blue * 255;
+	g->r->scene->background_color = v_clamp(bg_color, 0.0, 255.0);
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	return (NULL);
 }

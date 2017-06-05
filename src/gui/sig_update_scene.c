@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 16:54:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 13:58:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	update_scene_gui(t_gtk_tools *g, GtkBuilder *b);
 void		*update_grid_scene(t_gtk_tools *g)
 {
 	GtkWidget	*widget;
+	GdkRGBA		color;
 	GtkBuilder	*b;
 
 	printf("update_grid_scene\n");
@@ -35,6 +36,12 @@ void		*update_grid_scene(t_gtk_tools *g)
 	widget = GTK_WIDGET(gtk_builder_get_object(b, "LabelCurrentCamera"));
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras ?
 							g->r->scene->cameras->name : "None");
+	widget = GTK_WIDGET(gtk_builder_get_object(b, "BackgroundColorPicker"));
+	color.red = g->r->scene->background_color.x / 255.0;
+	color.green = g->r->scene->background_color.y / 255.0;
+	color.blue = g->r->scene->background_color.z / 255.0;
+	color.alpha = 1;
+	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(widget), &color);
 	return (NULL);
 }
 
