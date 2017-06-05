@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:34:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 11:06:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 		cudaMemcpyHostToDevice)));
 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d,
 		r->d_region_map, tile);
-	gpu_errchk((cudaDeviceSynchronize()));
+	cuda_check_kernel_errors();
 	r->scene->cameras->pos.x -= 0.05;
 	r->scene->cameras->dir = original;
 	update_camera(r->scene->cameras);
@@ -53,7 +53,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 		cudaMemcpyHostToDevice)));
 	create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map,
 		r->d_pixel_map_3d, r->d_scene, tile);
-	gpu_errchk((cudaDeviceSynchronize()));
+	cuda_check_kernel_errors();
 }
 
 static t_vec3		get_look_at(t_scene *scene)
@@ -64,6 +64,7 @@ static t_vec3		get_look_at(t_scene *scene)
 	if (cudaMalloc(&d_look_at, sizeof(t_vec3)))
 		exit(0);
 	get_look_at_position<<<1, 1>>>(scene, d_look_at);
+	cuda_check_kernel_errors();
 	gpu_errchk(cudaMemcpy(&h_look_at, d_look_at, sizeof(t_vec3),
 		cudaMemcpyDeviceToHost));
 	return (h_look_at);

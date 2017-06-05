@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 10:29:03 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/05 11:06:27 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -165,7 +165,6 @@ CUDA_MEM =	cuda_check_kernel_errors \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
-			cuda_malloc_photon_map \
 			cuda_free
 
 OBJ_PARSER = 	ft_freetab \

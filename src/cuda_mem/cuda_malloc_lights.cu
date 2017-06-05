@@ -6,12 +6,16 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:10:25 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:30:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:58:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 #include "../inc/cuda_call.h"
+
+/*
+** Allocated memory on the device for lights.
+*/
 
 static t_light		*list_to_array_lights(t_light *light);
 static size_t		get_lights_array_length(t_light *lights);
@@ -39,17 +43,16 @@ static t_light		*list_to_array_lights(t_light *light)
 	t_light		*array;
 
 	size = 0;
-	head = light; 
+	head = light;
 	while (light)
 	{
 		++size;
 		light = light->next;
 	}
 	if (!(array = (t_light *)malloc(sizeof(t_light) * (size + 1))))
-	{
 		write(2, "Malloc error.\n", 14);
+	if (!array)
 		exit(1);
-	}
 	array[size].col = v_new(NAN, NAN, NAN);
 	light = head;
 	size = -1;

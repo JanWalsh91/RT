@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/20 15:42:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 11:08:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void		set_non_values(t_object *new_object)
 	new_object->look_at = v_new(NAN, NAN, NAN);
 	new_object->col = v_new(NAN, NAN, NAN);
 	new_object->texture = NULL;
-	new_object->texture_ratio.x = 1; // TODO
-	new_object->texture_ratio.y = 1; // TODO
-	new_object->texture_translate.x = 0; // TODO
-	new_object->texture_translate.y = 0; // TODO
+	new_object->texture_ratio.x = 1;
+	new_object->texture_ratio.y = 1;
+	new_object->texture_translate.x = 0;
+	new_object->texture_translate.y = 0;
 	new_object->rad = NAN;
 	new_object->height = NAN;
 	new_object->ior = NAN;
