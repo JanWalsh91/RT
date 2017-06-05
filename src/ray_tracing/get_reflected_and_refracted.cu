@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 12:48:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 17:11:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
 
 	update_ior(&n1, &n2, r, ray);
 	o = &scene->objects[ray->hit_obj];
+	refr.t = INFINITY;
 	refr.type = R_PRIMARY;
 	refr.depth = ray->depth;
 	refr.ior = n2;
@@ -63,8 +64,7 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
 		return (c_add(c_scale(get_beer_lambert_color(r, &refr,
 		cast_primary_ray(r, &refr), o->transparency), (1 - f) *
 		o->transparency), get_reflected(r, scene, ray, f)));
-	else
-		return (c_scale(get_beer_lambert_color(r, &refr,
+	return (c_scale(get_beer_lambert_color(r, &refr,
 		cast_primary_ray(r, &refr), o->transparency), o->transparency));
 }
 
@@ -72,7 +72,9 @@ __device__
 static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
 				t_color col, float kt)
 {
-	return (c_scale(col, exp(-0.3 * ray->t * (1.0 - kt))));
+	if (ray->t != INFINITY)
+		return (c_scale(col, exp(-0.3 * ray->t * (1.0 - kt))));
+	return (col);
 }
 
 __device__
@@ -87,6 +89,7 @@ static t_color	get_reflected(t_raytracing_tools *r, t_scene *scene,
 	reflected.ior = ray->ior;
 	reflected.depth = ray->depth;
 	reflected.n_dir = 1;
+	reflected.t = INFINITY;
 	return (c_scale(cast_primary_ray(r, &reflected), f +
 		scene->objects[ray->hit_obj].reflection));
 }
