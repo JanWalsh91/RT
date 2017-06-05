@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 10:23:34 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/05 10:29:03 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,7 @@ MISC = 		debug \
 			find_texture \
 			tile \
 			write_values \
-			gpu_assert
+			gpu_errchk
 
 GUI =		window_signals \
 			window_signals1 \

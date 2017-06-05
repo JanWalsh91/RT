@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 13:48:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 09:52:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:28:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,6 @@
 #include <cuda.h>
 #include <curand.h>
 #include <curand_kernel.h>
-
-#define N 32
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess) 
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
-}
 
 void			print_photons(t_kd_tree *tree);
 static int		shoot_photon_group(t_raytracing_tools *r, size_t photon_count);
@@ -164,7 +153,7 @@ if (errSync != cudaSuccess)
   printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
 if (errAsync != cudaSuccess)
   printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
-	// gpuErrchk((cudaDeviceSynchronize()));
+	// gpu_errchk((cudaDeviceSynchronize()));
 }
 
 __global__

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 10:23:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:26:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -852,7 +852,7 @@ void			rt_file_warning(t_parse_tools *t, char *msg);
 void			data_error_exit(t_scene *scene, int type, void *object,
 					char *msg);
 void			data_warning(t_scene *scene, int type, void *object, char *msg);
-void 			gpu_assert(int code);
+void 			gpu_errchk(int code);
 
 /*
 ** Debug functions

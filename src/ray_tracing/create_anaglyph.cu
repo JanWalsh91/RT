@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:20:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:34:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,24 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 	r->scene->cameras->pos.x += 0.05;
 	update_camera(r->scene->cameras);
 	r->scene->cameras->filter = F_RIGHT_CYAN;
-	gpu_assert(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras,
+	gpu_errchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras,
 		sizeof(t_camera), cudaMemcpyHostToDevice));
-	gpu_assert((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
+	gpu_errchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice)));
 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d,
 		r->d_region_map, tile);
-	gpu_assert((cudaDeviceSynchronize()));
+	gpu_errchk((cudaDeviceSynchronize()));
 	r->scene->cameras->pos.x -= 0.05;
 	r->scene->cameras->dir = original;
 	update_camera(r->scene->cameras);
 	r->scene->cameras->filter = F_LEFT_RED;
-	gpu_assert(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras,
+	gpu_errchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras,
 		sizeof(t_camera), cudaMemcpyHostToDevice));
-	gpu_assert((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
+	gpu_errchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice)));
 	create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map,
 		r->d_pixel_map_3d, r->d_scene, tile);
-	gpu_assert((cudaDeviceSynchronize()));
+	gpu_errchk((cudaDeviceSynchronize()));
 }
 
 static t_vec3		get_look_at(t_scene *scene)
@@ -64,7 +64,7 @@ static t_vec3		get_look_at(t_scene *scene)
 	if (cudaMalloc(&d_look_at, sizeof(t_vec3)))
 		exit(0);
 	get_look_at_position<<<1, 1>>>(scene, d_look_at);
-	gpu_assert(cudaMemcpy(&h_look_at, d_look_at, sizeof(t_vec3),
+	gpu_errchk(cudaMemcpy(&h_look_at, d_look_at, sizeof(t_vec3),
 		cudaMemcpyDeviceToHost));
 	return (h_look_at);
 }

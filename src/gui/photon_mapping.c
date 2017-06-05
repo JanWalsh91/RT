@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 12:04:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:27:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 // static void	reset_photon_map(t_raytracing_tools *r)
 // {
 // 	cudaFree(r->h_d_scene->photon_list);
-// 	gpuErrchk(cudaMalloc(&(r->h_d_scene->photon_list), sizeof(t_photon) * PHOTON_BOUNCE_MAX * r->scene->photon_count_per_pass));
-// 	gpuErrchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));	
+// 	gpu_errchk(cudaMalloc(&(r->h_d_scene->photon_list), sizeof(t_photon) * PHOTON_BOUNCE_MAX * r->scene->photon_count_per_pass));
+// 	gpu_errchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));	
 // }

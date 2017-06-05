@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:13:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 14:19:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:34:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	cuda_check_kernel_errors(void)
 {
-	cudaError_t errSync;
-	cudaError_t errAsync;
+	cudaError_t	errSync;
+	cudaError_t	errAsync;
 
 	errSync = cudaGetLastError();
 	errAsync = cudaDeviceSynchronize();

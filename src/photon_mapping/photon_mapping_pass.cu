@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   photon_mapping_pass.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 12:29:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 10:28:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,7 @@
 #include <curand_kernel.h>
 
 #define N 32
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess)
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
-}
+
 static int		shoot_photon_group(t_raytracing_tools *r, size_t photon_count);
 static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
 static float	get_total_intensity(t_light *lights);
@@ -161,7 +153,7 @@ static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_
 		printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 	cudaFree(d_rand_numbers);
 	free(h_rand_numbers);
-	// gpuErrchk((cudaDeviceSynchronize()));
+	// gpu_errchk((cudaDeviceSynchronize()));
 }
 
 __global__
