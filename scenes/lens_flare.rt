@@ -86,8 +86,14 @@ scene: rendu4
 	{
 		position: 0.0000, 0.0000, -15.0000
 		direction: 0.0000, 0.0000, 1.0000
-		filter: none
 		fov: 30
-		ior: 1.1000
+		ior: 1.0000
+	}
+	camera: New camera
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 45
+		ior: 1.0000
 	}
 }
