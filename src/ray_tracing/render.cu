@@ -6,12 +6,11 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:06:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 15:29:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include "photon_mapping.h"
 #include "../../inc/cuda_call.h"
 
 /*
@@ -86,7 +85,7 @@ void	render_with_aa(t_raytracing_tools *r)
 		cam_ray = init_camera_ray(r, aa_i);
 		average = v_add(average, col_to_vec(cast_primary_ray(r, &cam_ray)));
 	}
-	average = v_scale(average, 1 / (r->scene->is_aa * r->scene->is_aa));
+	average = v_scale(average, 1 / (float)(r->scene->is_aa * r->scene->is_aa));
 	r->d_pixel_map[r->idx] = filter(vec_to_col(average),
 		r->scene->cameras->filter);
 }

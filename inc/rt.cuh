@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:31:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 16:02:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@
 # define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
 # define CSS_PATH "res/gtk.css"
+# define PHOTON_BOUNCE_MAX 5
+# define PHOTON_SEARCH_RADIUS 100
 
 /*
 ** Tokens for the parser.
@@ -492,6 +494,7 @@ typedef struct	s_raytracing_tools
 	struct curandStateXORWOW	*devStates;
 	struct s_region			**h_region_map; //global region map on the CPU
 	struct s_region			*d_region_map; //tile-sized region map on the GPU
+	float 					*rand_list;
 }				t_raytracing_tools;
 
 typedef struct	s_tile
@@ -523,6 +526,30 @@ typedef struct	s_quartic
 	float	p;
 	float	q;
 }				t_quartic;
+
+/*
+** Photon Mapping
+*/
+
+typedef struct s_region
+{
+	t_vec3	hit_pt; //hit point
+	t_vec3	ray_dir; //incoming ray dir at hit point
+	t_vec3	normal; //normal at hit point
+	float	kd; //pointer to hit object
+	float	radius; //search radius
+	int		n; //photon count
+	t_vec3	power; //accumulated normalized power
+}				t_region;
+
+typedef struct	s_photon
+{
+	t_vec3		pos;
+	t_vec3		dir;
+	t_color		col;
+	t_vec3		n;
+	int			type; //0: direct 1: indirect 2: caustic
+}				t_photon;
 
 /*
 ** File Parsing Functions
@@ -736,7 +763,18 @@ t_color			get_photon_global(t_raytracing_tools *r, t_ray *ray);
 
 CUDA_DEV
 void			update_region_map(t_raytracing_tools *r, t_ray *cam_ray);
-
+CUDA_DEV
+void			get_iors(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
+void			render_ppm(struct s_gtk_tools *g, t_tile tile);
+void			shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
+CUDA_DEV
+int				fresnel_reflect(t_raytracing_tools *r, t_ray *ray);
+CUDA_DEV
+void			redirect_photon_diffuse(t_raytracing_tools *r, t_ray *ray, float p);
+CUDA_DEV
+void			redirect_photon_specular(t_raytracing_tools *r, t_ray *ray, float p);
+CUDA_DEV
+void			redirect_photon_transmit(t_raytracing_tools *r, t_ray *ray, float p);
 /*
 ** Intersection functions.
 */

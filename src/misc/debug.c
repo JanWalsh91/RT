@@ -6,13 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:54:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 #include <stdio.h>
-#include "photon_mapping.h"
 
 void	print_scene(t_scene *scene)
 {

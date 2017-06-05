@@ -6,12 +6,10 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:27:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "photon_mapping.h"
-// #include "cuda.h"
 #include "cuda_call.h"
 #include <cuda_runtime.h>
 #include "gui.h"

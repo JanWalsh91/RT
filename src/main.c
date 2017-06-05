@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 14:02:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../inc/cuda_call.h"
 #include <cuda_runtime.h>
 #include <time.h>
-#include "photon_mapping.h"
 
 static void		init_raytracing_tools(t_raytracing_tools *r);
 static void		init_window(t_gtk_tools *g);
