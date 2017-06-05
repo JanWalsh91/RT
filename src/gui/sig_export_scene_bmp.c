@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 12:39:02 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:11:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	t_th_export		th_export;
 
 	(void)widget;
+	if (!g->r->scene)
+		return (NULL);
 	if (!g->pixbuf)
 	{
 		display_error_popup(NULL, g,
@@ -40,9 +42,7 @@ void			*sig_export_scene_bmp(GtkWidget *widget, t_gtk_tools *g)
 	gtk_window_set_attached_to(GTK_WINDOW(gtk_builder_get_object(
 			GTK_BUILDER(g->builder), "window_main")), dialog);
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
-	{
 		export_accept(dialog, &th_export, g);
-	}
 	return (NULL);
 }
 

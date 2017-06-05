@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 13:58:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:25:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void		*sig_update_res_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_pt2	res;
 
-	printf("sig_update_res_x\n");
 	res = g->r->scene->res;
+	printf("sig_update_res_x\n");
 	while (g->r->rendering)
 		;
 	res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin_button));
@@ -98,6 +98,7 @@ void		*sig_update_res_x(GtkWidget *spin_button, t_gtk_tools *g)
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	g->win ? gtk_widget_set_size_request(g->drawing_area, res.x, res.y) : 0;
 	g->win ? gtk_window_resize(GTK_WINDOW(g->win), res.x, res.y) : 0;
+	g->r->scene->res = res;
 	return (NULL);
 }
 
@@ -116,5 +117,6 @@ void		*sig_update_res_y(GtkWidget *spin_button, t_gtk_tools *g)
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	g->win ? gtk_widget_set_size_request(g->drawing_area, res.x, res.y) : 0;
 	g->win ? gtk_window_resize(GTK_WINDOW(g->win), res.x, res.y) : 0;
+	g->r->scene->res = res;
 	return (NULL);
 }
