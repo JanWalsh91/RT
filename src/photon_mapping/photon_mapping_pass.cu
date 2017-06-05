@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   photon_mapping_pass.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 12:29:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 11:05:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 #include <curand.h>
 #include <curand_kernel.h>
 
-#define N 32
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess)
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
-}
 static int		shoot_photon_group(t_raytracing_tools *r, size_t photon_count);
 static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
 static float	get_total_intensity(t_light *lights);
@@ -152,16 +142,9 @@ static void		shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_
 	init_random_numbers(r->scene->photon_count_per_pass * 3, h_rand_numbers);
 	cudaMemcpy(d_rand_numbers, h_rand_numbers, sizeof(float) * r->scene->photon_count_per_pass * 3, cudaMemcpyHostToDevice);
 	shoot_photon<<<gridSize, blockSize>>>(r->d_scene, init_photon_list, photon_count, d_rand_numbers);
-	// printf("-------p: %f\n", p);
-	cudaError_t errSync  = cudaGetLastError();
-	cudaError_t errAsync = cudaDeviceSynchronize();
-	if (errSync != cudaSuccess) 
-		printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
-	if (errAsync != cudaSuccess)
-		printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+	cuda_check_kernel_errors();
 	cudaFree(d_rand_numbers);
 	free(h_rand_numbers);
-	// gpuErrchk((cudaDeviceSynchronize()));
 }
 
 __global__

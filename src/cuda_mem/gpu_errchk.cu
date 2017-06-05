@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gpu_assert.cu                                      :+:      :+:    :+:   */
+/*   gpu_errchk.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:30:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 16:11:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:57:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 */
 
 __host__
-void gpu_assert(int code)
+void gpu_errchk(int code)
 {
-	int l;
-	const char *s;
+	int			l;
+	const char	*s;
 
 	s = cudaGetErrorString((cudaError_t)code);
 	l = strlen(s);

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 11:28:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 11:05:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,7 @@
 #include <curand_kernel.h>
 
 #define N 32
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess) 
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
-}
+
 __device__
 static void		update_photon_count(int *photon_count, float photons_added);
 __device__
@@ -207,16 +199,9 @@ void			radiance_estimation_pass(t_raytracing_tools *r, t_tile tile)
 	dim3 		gridSize;
 	int			size;
 
-	// printf("a-----photon_iter: %d, count per pass: %d\n", r->scene->photon_iteration, r->scene->photon_count_per_pass);
 	size = (tile.size / BLOCK_DIM) + ((tile.size % BLOCK_DIM) ? 1 : 0);
 	blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
 	gridSize = dim3(size, size);
 	estimate_region_radiance<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map, r->d_region_map, tile);
-			cudaError_t errSync  = cudaGetLastError();
-cudaError_t errAsync = cudaDeviceSynchronize();
-if (errSync != cudaSuccess) 
-  printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
-if (errAsync != cudaSuccess)
-  printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
-	//add cuda debug
+	cuda_check_kernel_errors();
 }

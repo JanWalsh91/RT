@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 12:12:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:17:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 12:18:09 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	update_objects_info_panel3(t_gtk_tools *g, t_object *obj);
 
 void		update_objects_info_panel_bis(t_gtk_tools *g, t_object *o, int type)
 {
-	update_objects_info_panel1(g, obj, type);
-	update_objects_info_panel2(g, obj, type);
-	update_objects_info_panel3(g, obj);
+	update_objects_info_panel1(g, o, type);
+	update_objects_info_panel2(g, o, type);
+	update_objects_info_panel3(g, o);
 }
 
 static void	update_objects_info_panel1(t_gtk_tools *g, t_object *obj, int type)

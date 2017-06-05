@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 12:13:07 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/05 12:18:29 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,8 @@ RAY_TRACING = cast_primary_ray \
 			get_texture \
 			get_flares \
 			init_light_flares \
-			update_ior
+			update_ior \
+			create_anaglyph
 
 MISC = 		debug \
 			free_parse_tools \
@@ -111,7 +112,7 @@ MISC = 		debug \
 			find_texture \
 			tile \
 			write_values \
-			gpu_assert
+			gpu_errchk
 
 GUI =		window_signals \
 			window_signals1 \
@@ -173,7 +174,6 @@ CUDA_MEM =	cuda_check_kernel_errors \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
-			cuda_malloc_photon_map \
 			cuda_free
 
 OBJ_PARSER = 	ft_freetab \

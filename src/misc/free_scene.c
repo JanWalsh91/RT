@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/31 10:47:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 11:55:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	free_cameras(t_camera *cams);
 static void	free_lights(t_light *lights);
 static void	free_objects(t_object *objs);
-// static void	free_matrix(t_matrix *m);
 
 /*
 ** Frees the t_scene linked list and all substructures.

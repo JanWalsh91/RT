@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:27:49 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 14:07:03 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:21:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 __device__
 static void	get_finite_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
-	int index, t_intersection_tools *i);
+			int index, t_intersection_tools *i);
 
 /*
 ** Checks for a cylinder-ray intersection.
@@ -22,7 +22,7 @@ static void	get_finite_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 
 __device__
 bool		get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
-	int index)
+			int index)
 {
 	t_intersection_tools	i;
 
@@ -53,7 +53,7 @@ bool		get_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
 
 __device__
 static void	get_finite_cylinder_intersection(t_raytracing_tools *r, t_ray *ray,
-	int index, t_intersection_tools *i)
+			int index, t_intersection_tools *i)
 {
 	if (i->r1 > 0)
 	{

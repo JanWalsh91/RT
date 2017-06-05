@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 16:52:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 11:09:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -612,8 +612,6 @@ t_scene			*get_new_scene(t_parse_tools *t);
 t_object		*get_new_object(t_parse_tools *t);
 t_light			*get_new_light(t_parse_tools *t);
 t_camera		*get_new_camera(t_parse_tools *t);
-t_input			*get_new_input(char *line, char *file_name, t_parse_tools *t);
-// void			push_scene(t_scene **scenes, t_scene *new_scene);
 void			push_object(t_object **objects, t_object *new_object);
 void			push_light(t_light **lights_head, t_light *new_light);
 void			push_camera(t_camera **cameras_head, t_camera *new_camera);
@@ -674,16 +672,11 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 ** Cuda Malloc Functions
 */
 
-// void			cuda_malloc_photon_map(t_raytracing_tools *r);
 void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
 void			cuda_malloc_camera(t_raytracing_tools *r);
 t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
-// void			malloc_region_map(t_raytracing_tools *r);
-// void			cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile);
-// void			refresh_region_map_tile(t_raytracing_tools *r, t_tile t);
-// void			copy_region_map_tile(t_raytracing_tools *r, t_tile tile);
-// void			increment_tile(t_pt2 *tileId, int tile_row);
+
 /*
 ** Ray Tracing Functions
 */
@@ -735,6 +728,13 @@ CUDA_DEV
 t_color			update_photon(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
 t_color			get_photon_global(t_raytracing_tools *r, t_ray *ray);
+
+/*
+** Photon Mapping
+*/
+
+CUDA_DEV
+void			update_region_map(t_raytracing_tools *r, t_ray *cam_ray);
 
 /*
 ** Intersection functions.
@@ -829,7 +829,6 @@ t_vec3			get_object_color(t_object *obj, t_ray *ray);
 
 void			init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
 
-
 /*
 ** Free Functions
 */
@@ -846,7 +845,7 @@ void			rt_file_warning(t_parse_tools *t, char *msg);
 void			data_error_exit(t_scene *scene, int type, void *object,
 					char *msg);
 void			data_warning(t_scene *scene, int type, void *object, char *msg);
-void 			gpu_assert(int code);
+void 			gpu_errchk(int code);
 
 /*
 ** Debug functions

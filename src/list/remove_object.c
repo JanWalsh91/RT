@@ -3,20 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   remove_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:57:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/30 12:16:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 11:52:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
 #include <cuda_runtime.h>
 
-void	free_object(t_object *to_delete)
+/*
+** Frees an object and related allocated memory.
+*/
+
+static void	remove_object2(t_object **head, t_object *to_delete,
+			t_object *prev);
+static void	free_normal_map(t_object *to_delete);
+
+void		free_object(t_object *to_delete)
 {
 	struct cudaPointerAttributes	attributes;
-	
+
 	if (to_delete->name)
 		free(to_delete->name);
 	if (to_delete->texture)
@@ -35,25 +43,28 @@ void	free_object(t_object *to_delete)
 		}
 	}
 	if (to_delete->normal_map)
-	{
-		if (cudaPointerGetAttributes(&attributes, to_delete->normal_map))
-			ft_error_exit("Invalid device");
-		printf("Memory type: %d\n", attributes.memoryType);
-		if (attributes.memoryType == cudaMemoryTypeHost)
-			cudaFreeHost(to_delete->normal_map);
-		else
-			cudaFree(to_delete->normal_map);
-		if (to_delete->normal_map_name)
-			free(to_delete->normal_map_name);
-	}
-	
+		free_normal_map(to_delete);
 	free(to_delete);
 }
 
-void	remove_object(t_object **head, t_object *to_delete)
+static void	free_normal_map(t_object *to_delete)
+{
+	struct cudaPointerAttributes	attributes;
+
+	if (cudaPointerGetAttributes(&attributes, to_delete->normal_map))
+		ft_error_exit("Invalid device");
+	printf("Memory type: %d\n", attributes.memoryType);
+	if (attributes.memoryType == cudaMemoryTypeHost)
+		cudaFreeHost(to_delete->normal_map);
+	else
+		cudaFree(to_delete->normal_map);
+	if (to_delete->normal_map_name)
+		free(to_delete->normal_map_name);
+}
+
+void		remove_object(t_object **head, t_object *to_delete)
 {
 	t_object	*prev;
-	t_object	*tmp;
 
 	if (!head || !*head)
 		return ;
@@ -64,6 +75,14 @@ void	remove_object(t_object **head, t_object *to_delete)
 		free_object(to_delete);
 		return ;
 	}
+	remove_object2(head, to_delete, prev);
+}
+
+static void	remove_object2(t_object **head, t_object *to_delete,
+			t_object *prev)
+{
+	t_object	*tmp;
+
 	if (prev->next)
 	{
 		tmp = prev->next;

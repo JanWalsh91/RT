@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_flares.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 12:30:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 11:04:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void			get_flares(t_raytracing_tools *r)
 		return ;
 	cudaMalloc(&tools, sizeof(t_light_flare_tools) * light_count);
 	init_light_flares_wrapper(light_count, r, tools);
-	cuda_check_kernel_errors();
 	i = -1;
 	shift = 0;
 	while (++i < light_count)

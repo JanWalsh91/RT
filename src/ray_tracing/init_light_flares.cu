@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_light_flares.c                                :+:      :+:    :+:   */
+/*   init_light_flares.cu                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 14:44:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 11:04:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void			init_light_flares_wrapper(int light_count,
 				t_raytracing_tools *r, t_light_flare_tools *tools)
 {
 	init_light_flares<<<light_count, 1>>>(r->d_scene, tools);
+	cuda_check_kernel_errors();
 }
 
 __global__

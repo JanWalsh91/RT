@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   in_shadow.c                                        :+:      :+:    :+:   */
+/*   in_shadow.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 14:41:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:21:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 ** Returns true if there is an intersection between a light and the origin of
 ** the ray, else returns false.
 */
+
 __device__
 static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k);
 __device__

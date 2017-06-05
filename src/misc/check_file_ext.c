@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   check_file_ext.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 17:15:14 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/12 15:34:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 11:54:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
+
+/*
+** Make checks the extention ext with the extension in file_name.
+*/
 
 int		check_file_ext(char *file_name, char *ext)
 {

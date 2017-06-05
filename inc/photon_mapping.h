@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 12:38:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 16:23:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 09:49:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct	s_kd_tree
 // void			photon_mapping_pass(t_raytracing_tools *r);
 // void			radiance_estimation_pass(t_raytracing_tools *r, struct s_tile tile);
 void			render_ppm(struct s_gtk_tools *g, t_tile tile);
+
 
 
 typedef struct	s_photon

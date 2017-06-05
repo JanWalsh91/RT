@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 12:09:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:28:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include "photon_mapping.h"
 #include "cuda.h"
 #include "../inc/cuda_call.h"
-
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess) 
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
-}
 
 static void init_region_map(t_region *region_map, size_t size, float search_rad);
 
@@ -93,7 +83,7 @@ void	cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile)
 		if (r->d_region_map)
 			cudaFree(r->d_region_map);
 		size = sizeof(t_region) * tile.size * tile.size;
-		gpuErrchk(cudaMalloc(&(r->d_region_map), size));
+		gpu_errchk(cudaMalloc(&(r->d_region_map), size));
 	}
 }
 
@@ -116,7 +106,7 @@ void	refresh_region_map_tile(t_raytracing_tools *r, t_tile tile)
 		empty.kd = NAN;
 		i = -1;
 		while (++i < tile.size * tile.size)
-			gpuErrchk((cudaMemcpy((r->d_region_map + i), &empty, sizeof(t_region), cudaMemcpyHostToDevice)));
+			gpu_errchk((cudaMemcpy((r->d_region_map + i), &empty, sizeof(t_region), cudaMemcpyHostToDevice)));
 	}
 }
 
@@ -130,7 +120,7 @@ void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 	{
 		current_tile = (tile.id.y) * tile.col + (tile.id.x);
 		// printf("copy_region_map_tile: current tile: %d\n", current_tile);
-		gpuErrchk((cudaMemcpy(r->h_region_map[current_tile], r->d_region_map, sizeof(t_region) * tile.size * tile.size, cudaMemcpyDeviceToHost)));
+		gpu_errchk((cudaMemcpy(r->h_region_map[current_tile], r->d_region_map, sizeof(t_region) * tile.size * tile.size, cudaMemcpyDeviceToHost)));
 	}
 }
 
@@ -144,6 +134,18 @@ void	get_region_map_tile(t_raytracing_tools *r, t_tile tile)
 	{
 		current_tile = (tile.id.y) * tile.col + (tile.id.x);
 		// printf("get_region_map_tile: current tile: %d\n", current_tile);
-		gpuErrchk((cudaMemcpy(r->d_region_map, r->h_region_map[current_tile], sizeof(t_region) * tile.size * tile.size, cudaMemcpyHostToDevice)));
+		gpu_errchk((cudaMemcpy(r->d_region_map, r->h_region_map[current_tile], sizeof(t_region) * tile.size * tile.size, cudaMemcpyHostToDevice)));
+	}
+}
+
+__device__
+void	update_region_map(t_raytracing_tools *r, t_ray *cam_ray)
+{
+	if (r->scene->is_photon_mapping && !v_isnan(cam_ray->hit))
+	{
+		r->d_region_map->hit_pt = cam_ray->hit;
+		r->d_region_map->ray_dir = cam_ray->dir;
+		r->d_region_map->normal = v_scale(cam_ray->nhit, cam_ray->n_dir);
+		r->d_region_map->kd = r->scene->objects[cam_ray->hit_obj].kd;
 	}
 }

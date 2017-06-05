@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/31 14:53:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:59:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,26 @@
 #include "../inc/cuda_call.h"
 #include "photon_mapping.h"
 
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess) 
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
-}
-
 static void		reset_update_struct(t_raytracing_tools *r);
 static void		cuda_malloc_scene(t_raytracing_tools *r);
 
 /*
-** Allocates memory on the device and on pinned memory the various sturctures in scene.
+** Allocates memory on the device and on pinned memory the various sturctures
+** in the scene.
 */
 
 int				cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
 
-	// r->scene->photon_count = 100;
-	if (!(memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3))))
-		exit (0);
+	memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
 	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
-	// cuda_malloc_photon_map(r);
 	cuda_malloc_objects(r, &h_scene_to_array);
 	cuda_malloc_lights(r, &h_scene_to_array);
 	cuda_malloc_camera(r);
 	cuda_malloc_scene(r);
-	// printf("-----photon_iter: %d, count per pass: %d\n", r->h_d_scene->photon_iteration, r->h_d_scene->photon_count_per_pass);
-	gpuErrchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene), cudaMemcpyHostToDevice));
+	gpu_errchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
+		cudaMemcpyHostToDevice));
 	reset_update_struct(r);
 	return (1);
 }
@@ -66,17 +54,20 @@ static void		cuda_malloc_scene(t_raytracing_tools *r)
 {
 	if (r->update.resolution == 2)
 	{
-		gpuErrchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
+		gpu_errchk((cudaMallocHost(&r->d_pixel_map, sizeof(t_color) *
+			r->scene->res.y * r->scene->res.x)));
 		if (r->scene->is_3d)
-			gpuErrchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
+			gpu_errchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) *
+				r->scene->res.y * r->scene->res.x)));
 	}
 	if (r->update.ray_depth == 2)
 	{
-		gpuErrchk(cudaSetDevice(0));
+		gpu_errchk(cudaSetDevice(0));
 		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * r->scene->ray_depth);
 	}
 	if (r->update.anaglyph == 2)
-			gpuErrchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) * r->scene->res.y * r->scene->res.x)));
+		gpu_errchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) *
+			r->scene->res.y * r->scene->res.x)));
 	if (r->update.scene == 2)
-		gpuErrchk(cudaMalloc(&r->d_scene, sizeof(t_scene)));
+		gpu_errchk(cudaMalloc(&r->d_scene, sizeof(t_scene)));
 }
