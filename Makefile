@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/04 17:42:48 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/05 12:13:07 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,6 +115,7 @@ MISC = 		debug \
 
 GUI =		window_signals \
 			window_signals1 \
+			get_widget \
 			sig_open_scene \
 			sig_update_scene \
 			sig_update_scene1 \
@@ -125,6 +126,14 @@ GUI =		window_signals \
 			sig_update_objects2 \
 			sig_update_objects3 \
 			sig_update_objects4 \
+			sig_update_objects5 \
+			sig_update_objects6 \
+			sig_update_objects7 \
+			sig_update_objects8 \
+			sig_update_objects9 \
+			sig_update_objects10 \
+			sig_update_objects11 \
+			sig_update_objects12 \
 			sig_update_lights \
 			sig_update_lights1 \
 			sig_update_lights2 \

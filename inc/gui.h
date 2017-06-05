@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 17:25:55 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 12:15:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void			*sig_prev_camera(GtkWidget *button, t_gtk_tools *g);
 ** Objects GUI panel
 */
 
-GtkWidget		*get_widget(t_gtk_tools *g, char *widget_name); // Change
+GtkWidget		*get_widget(t_gtk_tools *g, char *widget_name);
+void			update_objects_info_panel_bis(t_gtk_tools *g, t_object *obj, int type);
 void			obj_render_sig(t_gtk_tools *g);
 void			*populate_list_box_objects(t_gtk_tools *g); //Camel
 void			*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row, t_gtk_tools *g);
