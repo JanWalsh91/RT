@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 11:04:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 16:28:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
 	tools[r->idx].pos.x < scene->res.x && tools[r->idx].pos.y < scene->res.y)
 	{
 		y = -1;
-		while (scene->objects[++y].type != T_INVALID_TOKEN)
+		while (scene->objects && scene->objects[++y].type != T_INVALID_TOKEN)
 		{
 			if (intersects(r, ray, y) &&
 				ray->t < tools[r->idx].dist && ray->t > 0.0)
