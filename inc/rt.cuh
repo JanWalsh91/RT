@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 11:09:03 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 12:31:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -533,6 +533,7 @@ void			init_tokens(t_parse_tools *t);
 char			*get_file(char *file_name, t_parse_tools *t);
 int				get_token(t_parse_tools *t, char *key);
 char			*parse_input(t_parse_tools *t);
+t_input			*get_new_input(char *line, char *file_name, t_parse_tools *t);
 char			**split_trim(char *s, char c);
 void			set_non_values(t_object *new_object);
 void			set_attributes(t_parse_tools *t, t_attributes *a);
