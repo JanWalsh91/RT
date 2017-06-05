@@ -9,15 +9,14 @@ scene: Scene 1
 	{
 		position: 0.0000, 0.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
+		color: 204.0000, 0.0000, 255.0000
 		radius: 1.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Plane
 	{
@@ -27,82 +26,77 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	cylinder: Cylinder
 	{
 		position: -3.0000, -1.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
+		color: 252.0000, 175.0000, 62.0000
 		radius: 1.0000
 		height: 2.0000
 		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
+		ks: 0.3000
+		specular exponent: 31.0000
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	cone: Cone
 	{
 		position: 3.0000, 1.0000, 0.0000
 		direction: 0.0000, -1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
+		color: 117.0000, 80.0000, 123.0000
 		radius: 1.0000
 		height: 2.0000
 		kd: 1.0000
 		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
+		specular exponent: 70.0000
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	paraboloid: Paraboloid
 	{
 		position: -6.0000, 1.0000, 0.0000
 		direction: 0.0000, -1.0000, 0.0000
-		color: 255.0000, 255.0000, 255.0000
+		color: 143.6499, 188.1900, 255.0000
+		radius: 0.2000
 		height: 2.0000
 		kd: 1.0000
-		ks: 0.1000
-		specular exponent: 200.0000
-		ior: 1.0099
+		ks: 0.0000
+		specular exponent: 31.0000
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	disk: Disk
 	{
 		position: 5.5000, 0.0000, -1.0000
 		direction: 0.0000, 0.8192, -0.5734
-		color: 255.0000, 255.0000, 255.0000
+		color: 204.0000, 0.0000, 0.0000
 		radius: 1.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0094
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	light: Light
 	{
-		position: 0.0000, 100.0000, -100.0000
+		direction: 0.0000, -0.3778, 0.9258
 		color:255.0000, 255.0000, 255.0000
-		intensity: 400
+		intensity: 30
 		kflare: 0.0000
 	}
 	camera: New Camera
 	{
 		position: 0.0000, 4.0000, -20.0000
 		direction: 0.0000, -0.1961, 0.9805
-		filter: none
 		fov: 45
-		ior: 1.0098
+		ior: 1.0093
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 16:36:18 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 14:40:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 16:15:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static void	save_object2(int fd, t_object *obj)
 	write_vector(fd, (t_vec3)obj->col);
 	write(fd, "\n", 1);
 	if (obj->type == T_SPHERE || obj->type == T_CYLINDER ||
-		obj->type == T_CONE || obj->type == T_DISK || obj->type == T_TORUS)
+		obj->type == T_PARABOLOID || obj->type == T_CONE ||
+		obj->type == T_DISK || obj->type == T_TORUS)
 	{
 		write(fd, "\t\tradius: ", 10);
 		write_float(fd, obj->rad);
