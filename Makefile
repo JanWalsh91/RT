@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/04 16:11:42 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/05 09:58:33 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,8 @@ RAY_TRACING = cast_primary_ray \
 			get_texture \
 			get_flares \
 			init_light_flares \
-			update_ior
+			update_ior \
+			create_anaglyph
 
 MISC = 		debug \
 			free_parse_tools \

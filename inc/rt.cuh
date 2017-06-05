@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 16:52:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 10:23:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -737,6 +737,13 @@ CUDA_DEV
 t_color			get_photon_global(t_raytracing_tools *r, t_ray *ray);
 
 /*
+** Photon Mapping
+*/
+
+CUDA_DEV
+void			update_region_map(t_raytracing_tools *r, t_ray *cam_ray);
+
+/*
 ** Intersection functions.
 */
 
@@ -828,7 +835,6 @@ t_vec3			get_object_color(t_object *obj, t_ray *ray);
 */
 
 void			init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
-
 
 /*
 ** Free Functions

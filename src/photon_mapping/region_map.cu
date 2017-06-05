@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/02 12:09:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 09:50:18 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,5 +145,17 @@ void	get_region_map_tile(t_raytracing_tools *r, t_tile tile)
 		current_tile = (tile.id.y) * tile.col + (tile.id.x);
 		// printf("get_region_map_tile: current tile: %d\n", current_tile);
 		gpuErrchk((cudaMemcpy(r->d_region_map, r->h_region_map[current_tile], sizeof(t_region) * tile.size * tile.size, cudaMemcpyHostToDevice)));
+	}
+}
+
+__device__
+void	update_region_map(t_raytracing_tools *r, t_ray *cam_ray)
+{
+	if (r->scene->is_photon_mapping && !v_isnan(cam_ray->hit))
+	{
+		r->d_region_map->hit_pt = cam_ray->hit;
+		r->d_region_map->ray_dir = cam_ray->dir;
+		r->d_region_map->normal = v_scale(cam_ray->nhit, cam_ray->n_dir);
+		r->d_region_map->kd = r->scene->objects[cam_ray->hit_obj].kd;
 	}
 }
