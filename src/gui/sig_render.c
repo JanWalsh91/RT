@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 12:29:50 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 14:53:17 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-								"ButtonObjectDirNormalize"));
+	widget = get_widget(g, "ButtonObjectDirNormalize");
 	if (gtk_widget_get_sensitive(widget))
 	{
 		obj = get_selected_object(g);

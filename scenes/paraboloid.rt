@@ -13,10 +13,9 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0094
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Left Plane
 	{
@@ -26,10 +25,9 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0094
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Right Plane
 	{
@@ -39,10 +37,9 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0094
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Top Plane
 	{
@@ -52,10 +49,9 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0094
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Bottom Plane
 	{
@@ -65,10 +61,9 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0094
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	plane: Front Plane
 	{
@@ -78,12 +73,11 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0094
+		ior: 1.0093
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
-	paraboloid: New Object
+	paraboloid: Paraboloid
 	{
 		position: 0.0000, 0.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
@@ -92,10 +86,9 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
-
 	}
 	light: New light
 	{
@@ -108,7 +101,6 @@ scene: Scene 1
 	{
 		position: 0.0000, 0.0000, -50.0000
 		direction: 0.0000, 0.0000, 1.0000
-		filter: none
 		fov: 45
 		ior: 1.0000
 	}
