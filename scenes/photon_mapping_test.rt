@@ -1,6 +1,6 @@
 scene: Scene 1
 {
-	resolution: 252, 252
+	resolution: 1200, 1020
 	ray depth: 10
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
@@ -16,6 +16,7 @@ scene: Scene 1
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: Left Plane
 	{
@@ -28,6 +29,7 @@ scene: Scene 1
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: Right Plane
 	{
@@ -40,6 +42,7 @@ scene: Scene 1
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: Top Plane
 	{
@@ -52,6 +55,7 @@ scene: Scene 1
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: Bottom Plane
 	{
@@ -64,6 +68,7 @@ scene: Scene 1
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	sphere: My Sphere
 	{
@@ -77,6 +82,7 @@ scene: Scene 1
 		ior: 1.0000
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: Front Plane
 	{
@@ -89,6 +95,7 @@ scene: Scene 1
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	light: New light
 	{
@@ -102,6 +109,6 @@ scene: Scene 1
 		position: 0.0000, 0.0000, -50.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 45
-		ior: 1.0099
+		ior: 1.0098
 	}
 }
