@@ -1,6 +1,6 @@
 scene: Scene 1
 {
-	resolution: 1200, 1020
+	resolution: 400, 400
 	ray depth: 10
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
@@ -73,7 +73,7 @@ scene: Scene 1
 	sphere: My Sphere
 	{
 		position: -9.0000, -7.0000, 10.0000
-		direction: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 5.0000
 		kd: 1.0000
@@ -109,6 +109,6 @@ scene: Scene 1
 		position: 0.0000, 0.0000, -50.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 45
-		ior: 1.0098
+		ior: 1.0096
 	}
 }

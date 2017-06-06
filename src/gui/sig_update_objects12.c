@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 16:01:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 17:05:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,12 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
+	if (v_isnan(obj->dir))
+		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
+	if (isnan(obj->height))
+		obj->height = DEFAULT_HEIGHT;
 	if (g->updating_gui)
 		return ;
-	if (v_isnan(obj->dir))
-	{
-		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
-		obj->height = DEFAULT_HEIGHT;
-	}
 }
 
 void		init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
