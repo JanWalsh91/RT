@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 13:52:57 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 14:25:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 		camera->dir = g->r->scene->cameras->dir;
 		camera->pos = g->r->scene->cameras->pos;
 	}
-	camera->dir = g->r->scene->cameras ? g->r->scene->cameras->dir : camera->dir;
-	camera->pos = g->r->scene->cameras ? g->r->scene->cameras->pos : camera->pos;
 	push_camera(&(g->r->scene->cameras), camera);
 	update_grid_cameras(g);
 	widget = get_widget(g, "ButtonNextCamera");

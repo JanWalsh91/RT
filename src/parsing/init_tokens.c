@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 12:05:17 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 12:08:42 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	init_tokens3(t_parse_tools *t)
 			ft_strdup("read material file"))) ||
 		(!(t->tokens[T_PARENT_INDEX] =
 			ft_strdup("parent index"))) ||
+		(!(t->tokens[T_BEER_LAMBERT] = ft_strdup("beer lambert"))) ||
 		(!(t->tokens[T_HASHTAG] = ft_strdup("#"))) ||
 		(!(t->tokens[T_INVALID_TOKEN] = ft_strdup("invalid token"))))
 		ft_errno_exit();

@@ -1,0 +1,106 @@
+scene: rendu4
+{
+	resolution: 1200, 1200
+	ray depth: 5
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	plane: ground
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 70.0000, 70.0000, 95.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	plane: wall
+	{
+		position: 0.0000, 0.0000, 10.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 32.0000, 32.0000, 221.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	cylinder: cylinder1
+	{
+		position: -6.0000, -3.0000, 5.0000
+		direction: 0.7071, 0.7071, 0.0000
+		color: 50.0000, 205.0000, 50.0000
+		radius: 1.0000
+		height: 20.0000
+		kd: 1.0000
+		ks: 0.1500
+		specular exponent: 20.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere1
+	{
+		position: 3.5000, 1.0000, 5.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 255.0000, 0.0000, 0.0000
+		radius: 1.5000
+		kd: 1.0000
+		ks: 0.5899
+		specular exponent: 20.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	cone: cone1
+	{
+		position: 2.0000, 0.0000, 5.0000
+		direction: -0.6753, 0.6753, 0.2960
+		color: 255.0000, 255.0000, 0.0000
+		radius: 3.0000
+		height: 21.0000
+		kd: 1.0000
+		ks: 0.4599
+		specular exponent: 70.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere2
+	{
+		position: -5.0000, 1.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	light: light
+	{
+		position: 20.0000, 5.0000, -20.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 20
+		kflare: 0.0000
+	}
+	light: New light
+	{
+		position: -20.0000, 5.0000, -20.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 20
+		kflare: 0.0000
+	}
+	camera: cam
+	{
+		position: -1.0000, 6.0000, -20.0000
+		direction: 0.0000, -0.1961, 0.9805
+		fov: 30
+		ior: 1.0099
+	}
+}

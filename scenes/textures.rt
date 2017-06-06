@@ -18,12 +18,13 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.4000
 		reflection: 0.0000
+		beer lambert: 0.3600
 		texture: Checkerboard 600.0000, 600.0000, 100.0000
 	}
 	sphere: Sphere
 	{
 		position: -3.0000, 0.0000, 0.0000
-		direction: --2147483648.----, --2147483648.----, --2147483648.----
+		direction: 0.0000, 0.0000, 0.0000
 		color: 242.9299, 255.0000, 194.6499
 		radius: 1.0000
 		kd: 1.0000
@@ -32,6 +33,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0900
 		texture: textures/earth.bmp
 	}
 	cone: Cone
@@ -47,12 +49,13 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 		texture: Perlin 500.0000, 500.0000, 100.0000
 	}
 	plane: Plane
 	{
-		position: 0.0000, 0.0000, 9.0000
-		direction: 0.0000, 0.9992, -0.0374
+		position: 0.0000, -2.0000, 9.0000
+		direction: 0.0000, 1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		kd: 1.0000
 		ks: 0.0000
@@ -60,6 +63,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: Ground
 	{
@@ -72,6 +76,7 @@ scene: rendu4
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	light: New light
 	{
@@ -85,6 +90,6 @@ scene: rendu4
 		position: 0.0000, 0.0000, -20.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 30
-		ior: 1.0097
+		ior: 1.0098
 	}
 }

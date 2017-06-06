@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:41:44 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 14:44:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 14:27:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,17 @@ void			*sig_update_cam_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	printf("sig_update_cam_dir_z\n");
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-											"ButtonCameraDirNormalize"));
+	widget = get_widget(g, "ButtonCameraDirNormalize");
 	gtk_widget_set_sensitive(widget, TRUE);
 	cam = get_selected_camera(g);
 	cam->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-											"ComboBoxTextCamLookAtName"));
+	widget = get_widget(g, "ComboBoxTextCamLookAtName");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-											"SpinButtonCameraDirectionX"));
+	widget = get_widget(g, "SpinButtonCameraDirectionX");
 	cam->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-											"SpinButtonCameraDirectionY"));
+	widget = get_widget(g, "SpinButtonCameraDirectionY");
 	cam->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 	cam->dir = v_norm(cam->dir);
 	update_camera_ctw(cam);

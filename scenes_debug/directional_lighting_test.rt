@@ -1,102 +1,147 @@
-resolution: 1000, 1000
-color: white
-radius: 5
-height: 20
-kd: 0.6
-ks: 0.1
-specular exponent: 50
-ka: 0.1
-ambient light color: Dark Violet
 scene: scene1
 {
-	background color: cyan4
-	light: directional light
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 139.0000, 139.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	sphere: sphere 1
 	{
-		direction: -1, -1, 2	
-		intensity: 5
+		position: -10.0000, 7.0000, -5.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 255.0000, 255.0000, 255.0000
+		radius: 5.0000
+		kd: 0.6000
+		ks: 0.1000
+		specular exponent: 50.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	plane: plane 2
+	{
+		position: 0.0000, -10.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 34.0000, 139.0000, 34.0000
+		kd: 0.6000
+		ks: 0.0000
+		specular exponent: 100.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere 3
+	{
+		position: 0.0000, -10.0000, 0.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 176.0000, 48.0000, 96.0000
+		radius: 12.0000
+		kd: 0.6000
+		ks: 0.1000
+		specular exponent: 50.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere 4
+	{
+		position: 0.0000, 20.0000, 0.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 255.0000, 165.0000, 0.0000
+		radius: 7.0000
+		kd: 0.6000
+		ks: 0.1000
+		specular exponent: 50.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere 5
+	{
+		position: -25.0000, 10.0000, 5.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 255.0000, 255.0000, 255.0000
+		radius: 5.0000
+		kd: 0.6000
+		ks: 0.1000
+		specular exponent: 50.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere 6
+	{
+		position: 20.0000, 10.0000, -5.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 218.0000, 165.0000, 32.0000
+		radius: 2.0000
+		kd: 0.6000
+		ks: 0.1000
+		specular exponent: 50.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	sphere: sphere 7
+	{
+		position: 18.0000, 20.0000, 70.0000
+		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		color: 139.0000, 105.0000, 20.0000
+		radius: 2.0000
+		kd: 0.6000
+		ks: 0.1000
+		specular exponent: 50.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
 	}
 	light: directional light
 	{
-		direction: 0, -1, 0	
-		intensity: 0.1
-		color: cyan
+		direction: -0.4082, -0.4082, 0.8164
+		color:255.0000, 255.0000, 255.0000
+		intensity: 50
+		kflare: 0.0000
 	}
 	light: directional light
 	{
-		direction: 0, -1, 1	
-		intensity: 0.1
-		color: cyan
+		direction: 0.0000, -1.0000, 0.0000
+		color:0.0000, 255.0000, 255.0000
+		intensity: 0
+		kflare: 0.0000
 	}
 	light: directional light
 	{
-		direction: 0, -1, -1	
-		intensity: 0.1
-		color: cyan
+		direction: 0.0000, -0.7071, 0.7071
+		color:0.0000, 255.0000, 255.0000
+		intensity: 0
+		kflare: 0.0000
 	}
 	light: directional light
 	{
-		direction: 1, -1, 0	
-		intensity: 0.1
-		color: cyan
+		direction: 0.0000, -0.7071, -0.7071
+		color:0.0000, 255.0000, 255.0000
+		intensity: 0
+		kflare: 0.0000
 	}
 	light: directional light
 	{
-		direction: -1, -1, 0	
-		intensity: 0.1
-		color: cyan
+		direction: 0.7071, -0.7071, 0.0000
+		color:0.0000, 255.0000, 255.0000
+		intensity: 0
+		kflare: 0.0000
 	}
-	sphere:
+	light: directional light
 	{
-		position: -10, 7, -5
-		kd: 0.6
-		ks: 0.1
-		specular exponent: 50
+		direction: -0.7071, -0.7071, 0.0000
+		color:0.0000, 255.0000, 255.0000
+		intensity: 0
+		kflare: 0.0000
 	}
 	camera: camera1
 	{
-		position: 0, 0, -60
-		direction: 0, 0, 1
+		position: 0.0000, 0.0000, -60.0000
+		direction: 0.0000, 0.0000, 1.0000
 		fov: 50
-		color: pale green
-	}
-	plane: 
-	{
-		position: 0, -10, 0
-		direction: 0, 1, 0
-		ks: 0
-		specular exponent: 100
-		color: forest green
-	}
-	sphere:
-	{
-		position: 0, -10, 0
-		kd: 0.6
-		ks: 0.1
-		radius: 12
-		specular exponent: 50
-		color: maroon
-	}
-	sphere:
-	{
-		position: 0, 20, 0
-		radius: 7
-		color: orange
-	}
-	sphere:
-	{
-		position: -25, 10, 5
-		radius: 5
-	}
-		sphere:
-	{
-		position: 20, 10, -5
-		radius: 2
-		color: goldenrod
-	}
-	sphere:
-	{
-		position: 18, 20, 70
-		radius: 2
-		color: goldenrod4
+		ior: 1.0099
 	}
 }

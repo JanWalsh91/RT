@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 16:36:18 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:15:25 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 12:00:47 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void		save_object(int fd, t_object *obj, t_object *objects)
 	write(fd, "\n", 1);
 	save_object2(fd, obj);
 	save_object3(fd, obj);
+	write(fd, "\n\t\tbeer lambert: ", 17);
+	write_float(fd, obj->beer_lambert);
 	save_object4(fd, obj, objects);
 }
 

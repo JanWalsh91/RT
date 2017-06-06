@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 17:07:51 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:12:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/05 17:38:27 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	int				i;
 	t_object		*obj;
 
-	printf("get_selected_object: ");
+	printf("get_selected_object: \n");
 	widget = get_widget(g, "ListBoxObjects");
 	if (!widget)
 		return (NULL);

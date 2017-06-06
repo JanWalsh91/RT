@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 12:12:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:18:09 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 13:34:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ static void	update_objects_info_panel3(t_gtk_tools *g, t_object *obj)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->ior);
 	widget = get_widget(g, "ScaleObjectKR");
 	gtk_range_set_value(GTK_RANGE(widget), obj->reflection);
+	widget = get_widget(g, "SpinButtonBeerLambert");
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->beer_lambert);
 	widget = get_widget(g, "LabelObjectTexture");
 	gtk_label_set_text(GTK_LABEL(widget), obj->texture_name ?
 							get_file_name(obj->texture_name) : "");

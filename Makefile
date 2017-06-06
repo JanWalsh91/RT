@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 16:06:04 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/06 12:09:24 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ PARSING = 	get_color \
 			parse_value_10 \
 			parse_value_11 \
 			parse_value_12 \
+			parse_value_13 \
 			parse_vector \
 			parse_float \
 			reset_attributes \
@@ -138,6 +139,7 @@ GUI =		window_signals \
 			sig_update_objects10 \
 			sig_update_objects11 \
 			sig_update_objects12 \
+			sig_update_objects13 \
 			sig_update_lights \
 			sig_update_lights1 \
 			sig_update_lights2 \

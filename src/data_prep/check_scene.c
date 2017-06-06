@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/05/31 11:49:25 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 13:44:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char		*check_scene(t_scene *scene)
 	(scene->ray_depth == -1) ? set_default_ray_depth(scene) : 0;
 	if (scene->cameras)
 		check_cameras(scene, scene->cameras);
+	else
+		return ("Need at least one camera");
 	if (scene->lights)
 		check_lights(scene, scene->lights);
 	if (scene->objects)
