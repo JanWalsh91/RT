@@ -36,7 +36,6 @@ void	*sig_udpate_ambient_light_color(GtkWidget *color_chooser,
 	return (NULL);
 }
 
-// if new camera, does not render.
 void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
