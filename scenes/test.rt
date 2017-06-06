@@ -1,33 +1,59 @@
-scene: rendu4
+scene: Scene 1
 {
-	resolution: 1200, 1200
+	resolution: 1000, 1000
 	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000
-	sphere: sphere texture
+	sphere: Sphere
 	{
-		position: 0.0000, 0.0000, 0.0000
+		position: 0.0000, 1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
-		radius: 6.0000
+		radius: 1.0000
 		kd: 0.0000
-		ks: 0.1399
+		ks: 1.0000
 		specular exponent: 200.0000
 		ior: 1.0000
-		transparency: 0.6000
+		transparency: 0.9000
 		reflection: 0.0000
 	}
-	light: light
+	plane: Sol
 	{
-		position: 15.0000, 100.0000, -50.0000
-		color:255.0000, 255.0000, 255.0000
-		intensity: 300
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0598
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
 	}
-	camera: cam
+	plane: Plan qui nous regarde
 	{
-		position: 0.0000, 0.0000, -30.0000
+		position: 0.0000, 0.0000, 3.0000
 		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 1.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	light: New light
+	{
+		position: 11.5000, 82.0000, -30.0000
+		look at: 0.0000, 0.0000, 0.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 250
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 2.0000, -4.0000
+		direction: 0.0000, -0.2784, 0.9604
 		filter: none
-		fov: 30
+		fov: 45
 		ior: 1.0000
 	}
 }

@@ -192,9 +192,9 @@ void			m_new_rodriguez(t_matrix *m, t_vec3 a, t_vec3 b);
 CUDA_HOSTDEV
 void			m_new_rotate(t_matrix *m, float angle, char axis);
 CUDA_HOSTDEV
-void	m_new_rotate_axis(t_matrix *mat, t_vec3 u, float angle);
+void			m_new_rotate_axis(t_matrix *mat, t_vec3 u, float angle);
 CUDA_HOSTDEV
-t_vec3		p_rotate_axis(t_vec3 d1, t_vec3 d2, t_vec3 rot_p, t_vec3 point);
+t_vec3			p_rotate_axis(t_vec3 d1, t_vec3 d2, t_vec3 rot_p, t_vec3 point);
 CUDA_HOSTDEV
 void			m_new_scale(t_matrix *m, float i);
 CUDA_HOSTDEV

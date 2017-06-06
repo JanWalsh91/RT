@@ -27,7 +27,6 @@ __host__ __device__
 void		m_new_rotate(t_matrix *m, float angle, char axis)
 {
 	if (axis == 'x' || axis == 'X')
-		// return (m_rot_x(angle));
 		m_rot_x(m, angle);
 	else if (axis == 'y' || axis == 'Y')
 		m_rot_y(m, angle);

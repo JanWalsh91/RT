@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef OBJPARSER_H
 # define OBJPARSER_H
 
@@ -48,7 +47,7 @@ typedef struct		s_vec3f
 	float			z;
 }					t_vec3f;
 
-typedef struct		t_vec2f
+typedef struct		s_vec2f
 {
 	float			x;
 	float			y;
