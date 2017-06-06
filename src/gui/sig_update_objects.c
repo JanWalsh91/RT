@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:17:20 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 14:57:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void		*populate_list_box_objects(t_gtk_tools *g)
 	if (!g->r->scene->objects)
 	{
 		widget = get_widget(g, "ScrollWindowObject");
-		gtk_widget_set_sensitive(widget, FALSE);
+		gtk_widget_set_sensitive(widget, false);
 		widget = get_widget(g, "ButtonDeleteObject");
-		gtk_widget_set_sensitive(widget, FALSE);
+		gtk_widget_set_sensitive(widget, false);
 		return (NULL);
 	}
 	gtk_list_box_select_row(GTK_LIST_BOX(widget),
@@ -129,20 +129,20 @@ static void	update_objects_info_panel5(t_gtk_tools *g, t_object *obj, int type)
 	gtk_label_set_text(GTK_LABEL(widget), obj->normal_map_name ?
 						get_file_name(obj->normal_map_name) : "");
 	widget = get_widget(g, "SpinButtonObjectRadius");
-	gtk_widget_set_sensitive(widget, TRUE);
+	gtk_widget_set_sensitive(widget, true);
 	(obj->type == T_CYLINDER || obj->type == T_CONE ||
 		obj->type == T_SPHERE || obj->type == T_DISK ||
 		obj->type == T_TORUS || obj->type == T_PARABOLOID) ?
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->rad) :
-		gtk_widget_set_sensitive(widget, FALSE);
+		gtk_widget_set_sensitive(widget, false);
 	widget = get_widget(g, "SpinButtonObjectRadius2");
-	gtk_widget_set_sensitive(widget, TRUE);
+	gtk_widget_set_sensitive(widget, true);
 	(obj->type == T_TORUS) ? gtk_spin_button_set_value(
 			GTK_SPIN_BUTTON(widget), obj->rad_torus) :
-			gtk_widget_set_sensitive(widget, FALSE);
+			gtk_widget_set_sensitive(widget, false);
 	widget = get_widget(g, "SpinButtonObjectHeight");
-	gtk_widget_set_sensitive(widget, TRUE);
+	gtk_widget_set_sensitive(widget, true);
 	(type != T_SPHERE && type != T_DISK && type != T_PLANE) ?
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), obj->height) :
-		gtk_widget_set_sensitive(widget, FALSE);
+		gtk_widget_set_sensitive(widget, false);
 }
