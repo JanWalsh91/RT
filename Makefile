@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/06 12:09:24 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/06 14:48:19 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -240,7 +240,7 @@ OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -gencode=arch=compute_30,code=sm_30
+CUFLAGS = -gencode=arch=compute_30,code=sm_30 #-Xnvlink --disable-warnings #A remettre pour la correction
 FLG = $(CUFLAGS) -Xcompiler="-Werror -Wextra -Wall"
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`
@@ -304,7 +304,7 @@ $(OBJ_DIR)/%.o : ./src/objparser/%.c
 
 $(OBJ_DIR)/%.o : ./src/photon_mapping/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	$(NVCC) $(GTK3_INC) $(CUFLAGS) -I./inc -dc $< -o $@
+	@$(NVCC) $(GTK3_INC) $(CUFLAGS) -I./inc -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/texture/%.c
 	@/bin/mkdir -p $(OBJ_DIR)

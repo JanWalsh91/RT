@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_delete_camera.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:47:39 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 10:47:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 15:26:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void		*sig_delete_camera(GtkWidget *button, t_gtk_tools *g)
 			gtk_list_box_get_row_at_index(
 				GTK_LIST_BOX(widget), id - 1 >= 0 ? id - 1 : 0));
 		update_cameras_info_panel(g, get_selected_camera(g));
-		sig_next_camera(NULL, g);
+		update_camera_ctw(g->r->scene->cameras);
+		g->r->update.cameras = 1;
+		scene_render_sig(g);
 	}
 	else
 		set_gui_no_camera_left(g);
