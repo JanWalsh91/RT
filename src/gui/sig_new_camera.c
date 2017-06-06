@@ -36,6 +36,8 @@ void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 		camera->dir = g->r->scene->cameras->dir;
 		camera->pos = g->r->scene->cameras->pos;
 	}
+	camera->dir = g->r->scene->cameras ? g->r->scene->cameras->dir : camera->dir;
+	camera->pos = g->r->scene->cameras ? g->r->scene->cameras->pos : camera->pos;
 	push_camera(&(g->r->scene->cameras), camera);
 	update_grid_cameras(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
