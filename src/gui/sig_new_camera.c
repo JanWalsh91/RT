@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_camera.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 10:46:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 13:52:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,11 @@ void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 	}
 	push_camera(&(g->r->scene->cameras), camera);
 	update_grid_cameras(g);
-	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-													"ButtonNextCamera"));
-	(g->r->scene->cameras->next == NULL) ?
-		gtk_widget_set_sensitive(widget, false) :
-		gtk_widget_set_sensitive(widget, true);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
-											"ScrollWindowCamera")), true);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
-											"ButtonDeleteCamera")), true);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(
-							GTK_BUILDER(g->builder), "ButtonRender")), true);
+	widget = get_widget(g, "ButtonNextCamera");
+	gtk_widget_set_sensitive(widget, (g->r->scene->cameras->next != NULL));
+	gtk_widget_set_sensitive(get_widget(g, "ScrollWindowCamera"), true);
+	gtk_widget_set_sensitive(get_widget(g, "ButtonDeleteCamera"), true);
+	gtk_widget_set_sensitive(get_widget(g, "ButtonRender"), true);
 	g->r->update.cameras = 2;
 	return (NULL);
 }
