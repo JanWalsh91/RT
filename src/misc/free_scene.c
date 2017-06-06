@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:55:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 16:52:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ static void	free_objects(t_object *objs)
 		tmp = objs;
 		if (objs->name)
 			free(objs->name);
+		if (objs->texture_name)
+			free(objs->texture_name);
+		if (objs->normal_map_name)
+			free(objs->normal_map_name);
 		objs = objs->next;
 		free(tmp);
 		tmp = NULL;
