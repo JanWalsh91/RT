@@ -90,6 +90,20 @@ scene: rendu4
 		position: 0.0000, 0.0000, -20.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 30
-		ior: 1.0098
+		ior: 1.0099
+	}
+	camera: cam 2
+	{
+		position: 0.0000, 0.0000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 45
+		ior: 1.0099
+	}
+	camera: cam 3
+	{
+		position: 0.0000, 0.0000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 55
+		ior: 1.0099
 	}
 }
