@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 14:25:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 10:57:26 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	update_scene_gui(t_gtk_tools *g, GtkBuilder *b)
 
 void		scene_render_sig(t_gtk_tools *g)
 {
+	printf("scene_render_sig\n");
 	g->r->update.render = 1;
 	g->r->update.scene = 1;
 	if (g->win)

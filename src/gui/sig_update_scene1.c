@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 16:44:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 16:45:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 10:55:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*sig_udpate_ambient_light_color(GtkWidget *color_chooser,
 	return (NULL);
 }
 
+// if new camera, does not render.
 void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 {
 	GtkWidget	*widget;

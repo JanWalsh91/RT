@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 17:11:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 11:25:11 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
 	return (c_scale(get_beer_lambert_color(r, &refr,
 		cast_primary_ray(r, &refr), o->transparency), o->transparency));
 }
+
+/*
+** Changes color based on Beer Lambert formula, reducing transmitted color based
+** on coefficient and distance.
+*/
 
 __device__
 static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,

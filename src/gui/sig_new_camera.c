@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_camera.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 13:55:06 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 10:46:41 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+
+/*
+** Adds a new camera in the list of cameras.
+*/
 
 void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -24,19 +28,27 @@ void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 	camera->fov = DEFAULT_FOV;
 	camera->name = ft_strdup("New camera");
 	camera->next = NULL;
+	camera->prev = NULL;
+	camera->ior = DEFAULT_IOR;
 	init_camera(camera);
+	if (g->r->scene->cameras)
+	{
+		camera->dir = g->r->scene->cameras->dir;
+		camera->pos = g->r->scene->cameras->pos;
+	}
 	push_camera(&(g->r->scene->cameras), camera);
 	update_grid_cameras(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
 													"ButtonNextCamera"));
 	(g->r->scene->cameras->next == NULL) ?
-		gtk_widget_set_sensitive(widget, FALSE) :
-		gtk_widget_set_sensitive(widget, TRUE);
+		gtk_widget_set_sensitive(widget, false) :
+		gtk_widget_set_sensitive(widget, true);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
 											"ScrollWindowCamera")), true);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
 											"ButtonDeleteCamera")), true);
 	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(
 							GTK_BUILDER(g->builder), "ButtonRender")), true);
+	g->r->update.cameras = 2;
 	return (NULL);
 }

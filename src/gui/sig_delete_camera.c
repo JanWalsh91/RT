@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   sig_delete_camera.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:47:39 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 14:48:30 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 10:47:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
+
+/*
+** Deletes a camera
+*/
+
 
 static void	set_gui_no_camera_left(t_gtk_tools *g);
 

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:08:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 10:57:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,7 +336,7 @@ typedef struct	s_camera
 	float			fov;
 	struct s_camera	*prev;
 	struct s_camera	*next;
-	float			ior; //ior where the camera is located.
+	float			ior;
 }				t_camera;
 
 /*
