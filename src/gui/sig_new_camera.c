@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 14:25:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/06 14:34:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 	push_camera(&(g->r->scene->cameras), camera);
 	update_grid_cameras(g);
 	widget = get_widget(g, "ButtonNextCamera");
-	gtk_widget_set_sensitive(widget, (g->r->scene->cameras->next != NULL));
+	(g->r->scene->cameras->next == NULL) ?
+		gtk_widget_set_sensitive(widget, false) :
+		gtk_widget_set_sensitive(widget, true);
 	gtk_widget_set_sensitive(get_widget(g, "ScrollWindowCamera"), true);
 	gtk_widget_set_sensitive(get_widget(g, "ButtonDeleteCamera"), true);
 	gtk_widget_set_sensitive(get_widget(g, "ButtonRender"), true);

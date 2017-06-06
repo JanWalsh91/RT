@@ -17,7 +17,6 @@
 ** Deletes a camera
 */
 
-
 static void	set_gui_no_camera_left(t_gtk_tools *g);
 
 void		*sig_delete_camera(GtkWidget *button, t_gtk_tools *g)
