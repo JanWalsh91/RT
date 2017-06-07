@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:08:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:40:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void		*render_wrapper(gpointer data)
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
 	g->r->rendering = 0;
-	return (false);
+	return (NULL);
 }
 
 gboolean	draw_callback(GtkWidget *widget, cairo_t *cr, t_gtk_tools *g)
