@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 16:04:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 11:35:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static float	get_total_intensity(t_light *lights);
 
 void	photon_mapping_pass(t_raytracing_tools *r)
 {
-	// printf("photon_mapping_pass\n");
+	printf("photon_mapping_pass\n");
 	t_photon		*init_photon_list;
 	int 			photon_count;
 
@@ -34,7 +34,6 @@ void	photon_mapping_pass(t_raytracing_tools *r)
 
 static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list)
 {
-	// printf("init_photon_group\n");
 	t_light		*l_ptr;
 	float		total_intensity;
 	float 		ratio;
@@ -47,14 +46,17 @@ static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_pho
 	while (l_ptr)
 	{
 		if (v_isnan(l_ptr->pos))
+		{
+			l_ptr = l_ptr->next;
 			continue ;
+		}
 		ratio += photon_count * l_ptr->intensity / total_intensity;
 		while (++i < ratio)
-			{
-				init_photon_list[i].pos = l_ptr->pos;
-				init_photon_list[i].col = vec_to_col(l_ptr->col);
-				init_photon_list[i].n = v_new(NAN, NAN, NAN);
-			}
+		{
+			init_photon_list[i].pos = l_ptr->pos;
+			init_photon_list[i].col = vec_to_col(l_ptr->col);
+			init_photon_list[i].n = v_new(NAN, NAN, NAN);
+		}
 		l_ptr = l_ptr->next;
 	}
 }		
@@ -69,7 +71,10 @@ static float	get_total_intensity(t_light *lights)
 	while (l_ptr)
 	{
 		if (v_isnan(l_ptr->pos))
+		{
+			l_ptr = l_ptr->next;
 			continue ;
+		}
 		total_intensity += l_ptr->intensity;
 		l_ptr = l_ptr->next;
 	}
