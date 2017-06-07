@@ -17,13 +17,11 @@ void	*sig_update_obj_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
-	t_vec3		old_dir;
 
 	printf("sig_update_obj_dir_x. g->old_dir.x: %f\n", g->old_dir.x);
 	widget = get_widget(g, "ButtonObjectDirNormalize");
 	gtk_widget_set_sensitive(widget, TRUE);
 	obj = get_selected_object(g);
-	old_dir = obj->dir;
 	obj->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	printf("update old_dir.x: %f\n", g->old_dir.x);
 	if (g->updating_gui)
@@ -43,13 +41,11 @@ void	*sig_update_obj_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
-	t_vec3		old_dir;
 
 	printf("sig_update_obj_dir_y\n");
 	widget = get_widget(g, "ButtonObjectDirNormalize");
 	gtk_widget_set_sensitive(widget, TRUE);
 	obj = get_selected_object(g);
-	old_dir = obj->dir;
 	obj->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
@@ -68,13 +64,11 @@ void	*sig_update_obj_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
-	t_vec3		old_dir;
 
 	printf("sig_update_obj_dir_z\n");
 	widget = get_widget(g, "ButtonObjectDirNormalize");
 	gtk_widget_set_sensitive(widget, TRUE);
 	obj = get_selected_object(g);
-	old_dir = obj->dir;
 	obj->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);

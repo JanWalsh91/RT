@@ -60,20 +60,18 @@ void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
-	GtkBuilder	*b;
 
 	(void)button;
 	printf("sig_prev_camera\n");
 	if (!g->r->scene->cameras->prev)
 		return (NULL);
-	b = GTK_BUILDER(g->builder);
 	g->r->scene->cameras = g->r->scene->cameras->prev;
 	widget = get_widget(g, "LabelCurrentCamera");
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
 	widget = get_widget(g, "ButtonNextCamera");
-	gtk_widget_set_sensitive(widget, (gboolean)g->r->scene->cameras->next);
+	gtk_widget_set_sensitive(widget, (bool)g->r->scene->cameras->next);
 	widget = get_widget(g, "ButtonPreviousCamera");
-	gtk_widget_set_sensitive(widget, (gboolean)g->r->scene->cameras->prev);
+	gtk_widget_set_sensitive(widget, (bool)g->r->scene->cameras->prev);
 	update_camera_ctw(g->r->scene->cameras);
 	g->r->update.cameras = 1;
 	(g->updating_gui) ? 0 : scene_render_sig(g);

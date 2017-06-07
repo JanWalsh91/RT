@@ -17,11 +17,9 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
-	GtkBuilder	*b;
 
 	printf("sig_update_obj_lookat_x\n");
 	obj = get_selected_object(g);
-	b = GTK_BUILDER(g->builder);
 	obj->look_at.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
@@ -46,11 +44,9 @@ void	*sig_update_obj_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
-	GtkBuilder	*b;
 
 	printf("sig_update_obj_lookat_y\n");
 	obj = get_selected_object(g);
-	b = GTK_BUILDER(g->builder);
 	obj->look_at.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);
@@ -75,11 +71,9 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_object	*obj;
 	GtkWidget	*widget;
-	GtkBuilder	*b;
 
 	printf("sig_update_obj_lookat_z\n");
 	obj = get_selected_object(g);
-	b = GTK_BUILDER(g->builder);
 	obj->look_at.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
 		return (NULL);

@@ -32,7 +32,6 @@ VECTORS_AND_MATRICES = c_add \
 		m_add \
 		m_scale \
 		v_new \
-		v_to_rot_matrix \
 		v_dot \
 		v_length \
 		v_dist \
@@ -70,7 +69,7 @@ HEAD = libmathft.cuh
 
 CC = nvcc
 
-CFLAGS = -arch=sm_30 -Xcompiler="-Wall -Werror -Wextra"
+CFLAGS = -arch=sm_61 -Xcompiler="-Wall -Werror -Wextra"
 
 C_NONE = \033[0m
 C_BOLD = \033[1m

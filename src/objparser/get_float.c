@@ -18,9 +18,6 @@
 
 static char		*check_number(char c, char c2)
 {
-	int		i;
-
-	i = 0;
 	if ((c == '.' || c == '-') && ft_isdigit(c2) != 1)
 		return ("Corrupted data");
 	return (NULL);

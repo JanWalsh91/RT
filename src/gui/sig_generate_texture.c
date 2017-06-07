@@ -114,13 +114,11 @@ static void	update_gui_texture(t_gtk_tools *g)
 void		*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 {
 	int				id;
-	t_object		*obj;
 	GtkWidget		*widget;
 	GtkAdjustment	*adj;
 	GtkBuilder		*builder;
 
 	printf("sig_generate_texture\n");
-	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	if (id == 0)
 		return (NULL);

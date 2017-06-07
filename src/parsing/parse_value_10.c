@@ -30,7 +30,7 @@ char	*parse_paraboloid(t_parse_tools *t)
 
 char	*parse_parent_index(t_parse_tools *t)
 {
-	unsigned short	new_index;
+	short	new_index;
 
 	new_index = 0;
 	if ((new_index = ft_atoi(t->input->value)) < 0)
