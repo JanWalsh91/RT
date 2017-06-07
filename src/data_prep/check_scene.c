@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 10:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 13:44:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 14:58:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char		*check_scene(t_scene *scene)
 		return ("No scene provided");
 	(scene->res.x == -1) ? set_default_resolution(scene) : 0;
 	isnan(scene->ka) ? set_default_ka(scene) : 0;
+	set_default_ppm_light_intensity(scene);
 	v_isnan(scene->ambient_light_color) ?
 		set_default_ambient_light_color(scene) : 0;
 	scene->image_aspect_ratio = (float)scene->res.x / (float)scene->res.y;

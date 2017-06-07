@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 13:20:08 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 14:53:36 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void		update_grid_settings(t_gtk_tools *g, GtkBuilder *builder)
 											"SpinButtonPhotonRadius"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget),
 									g->r->settings.photon_search_radius);
+	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder),
+											"SpinButtonPPMLightIntensity"));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget),
+									g->r->scene->ppm_light_intensity);
 }
 
 void		*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g)
