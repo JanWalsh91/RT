@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 17:07:51 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 16:16:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 10:03:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void		*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 		current_obj->parent = obj;
 		set_look_at_sensitive(g, false);
 	}
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 

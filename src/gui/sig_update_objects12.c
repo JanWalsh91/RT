@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 17:05:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 10:01:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 	if (obj->type == T_DISK || obj->type == T_SPHERE ||
 		obj->type == T_CYLINDER || obj->type == T_CONE ||
 		obj->type == T_PARABOLOID || obj->type == T_TORUS)
+	{
 		gtk_widget_set_sensitive(widget, TRUE);
+		if (isnan(obj->rad) || !obj->rad)
+			obj->rad = DEFAULT_RADIUS;
+	}
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	widget = get_widget(g, "SpinButtonObjectRadius2");
@@ -57,9 +61,9 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
-	if (v_isnan(obj->dir))
+	if (v_isnan(obj->dir) || (!obj->dir.x && !obj->dir.y && !obj->dir.z))
 		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
-	if (isnan(obj->height))
+	if (isnan(obj->height) || !obj->height)
 		obj->height = DEFAULT_HEIGHT;
 	if (g->updating_gui)
 		return ;
