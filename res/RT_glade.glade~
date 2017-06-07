@@ -119,6 +119,12 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="AdjObjBeerLambert">
+    <property name="upper">1</property>
+    <property name="value">0.29999999999999999</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">0.10000000000000001</property>
+  </object>
   <object class="GtkAdjustment" id="AdjObjDirX">
     <property name="lower">-100000</property>
     <property name="upper">100000</property>
@@ -467,8 +473,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <accelerator key="Escape" signal="activate"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -870,6 +876,33 @@
                     <property name="left_attach">1</property>
                     <property name="top_attach">8</property>
                   </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Ray tracing</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">12</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="IsPhotonMapping">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">12</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -1730,6 +1763,40 @@
                                 <property name="left_attach">4</property>
                                 <property name="top_attach">0</property>
                               </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="label" translatable="yes">Beer Lambert</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">18</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="SpinButtonBeerLambert">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">AdjObjBeerLambert</property>
+                                <property name="digits">2</property>
+                                <signal name="value-changed" handler="sig_update_obj_beer_lambert" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">18</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                             <child>
                               <placeholder/>
@@ -2840,38 +2907,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="PrintScenes">
-                <property name="label" translatable="yes">PrintScenes</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="sig_print_scene" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="ButtonRender">
-                <property name="label" translatable="yes">Render</property>
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="image_position">right</property>
-                <signal name="clicked" handler="sig_render" swapped="no"/>
-                <accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">30</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="ButtonNextCamera">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
@@ -2889,7 +2924,39 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="PrintScenes">
+                <property name="label" translatable="yes">PrintScenes</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="sig_print_scene" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="ButtonRender">
+                <property name="label" translatable="yes">Render</property>
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image_position">right</property>
+                <signal name="clicked" handler="sig_render" swapped="no"/>
+                <accelerator key="r" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">30</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -2904,10 +2971,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkLabel" id="LabelPercentage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xpad">50</property>
+                <property name="margin_left">100</property>
                 <property name="label" translatable="yes">0%</property>
               </object>
               <packing>

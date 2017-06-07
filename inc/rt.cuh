@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 10:57:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 13:42:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef enum	e_token
 	T_READ_TEXTURE_FILE,
 	T_READ_MATERIAL_FILE,
 	T_PARENT_INDEX,
+	T_BEER_LAMBERT,
 	T_KFLARE,
 	T_HASHTAG,
 	T_INVALID_TOKEN,
@@ -208,6 +209,7 @@ typedef struct	s_attributes
 	float			specular_exp;
 	float			kd;
 	float			ior;
+	float			beer_lambert;
 	float			reflection;
 	float			transparency;
 	unsigned short	parent_index;
@@ -284,6 +286,7 @@ typedef struct	s_object
 	float			reflection;
 	float			transparency;
 	float			ior;
+	float			beer_lambert;
 	t_color			*texture;
 	char			*texture_name;
 	t_vec3			texture_dim;
@@ -360,6 +363,7 @@ typedef struct	s_scene
 	t_vec3			ambient_light_color;
 	float			ka;
 	float			image_aspect_ratio;
+	bool			is_raytracing;
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;
@@ -595,6 +599,7 @@ char			*parse_ray_depth(t_parse_tools *t);
 char			*parse_background_color(t_parse_tools *t);
 char			*parse_ambient_light_color(t_parse_tools *t);
 char			*parse_ka(t_parse_tools *t);
+char			*parse_beer_lambert(t_parse_tools *t);
 char			*parse_position(t_parse_tools *t);
 char			*parse_direction(t_parse_tools *t);
 char			*parse_look_at(t_parse_tools *t);

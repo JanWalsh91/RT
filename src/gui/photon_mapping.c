@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:07:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 	photons_shot = 0;
 
 	//rt pixel map is the original map.
+	printf("Resolution : %d, %d\n", g->r->scene->res.x, g->r->scene->res.y);
 	(cudaMallocHost((void **)&g->r->rt_pixel_map, sizeof(t_color) * g->r->scene->res.y * g->r->scene->res.x));
 	cudaMemcpy(g->r->rt_pixel_map, g->r->d_pixel_map, sizeof(t_color) * g->r->scene->res.y * g->r->scene->res.x, cudaMemcpyHostToHost);
 	//malloc space for photons on GPU
@@ -42,7 +43,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 		// exit(0);
 		tile.id.y = 0;
 		tile.id.x = 0;
-		while ((tile.id.y + 1) <= tile.col)
+		while ((tile.id.y + 1) <= tile.row)
 		{ 
 			get_region_map_tile(g->r, tile);
 			// printf("pre radiance pass: %f\n", g->r->h_region_map[0]->radius);
@@ -50,7 +51,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 			// printf("post radiance pass: %f\n", g->r->h_region_map[0]->radius);
 			copy_region_map_tile(g->r, tile);
 			// printf("post copy after radiance pass: %f\n", g->r->h_region_map[0]->radius);
-			increment_tile(&tile.id, tile.row);
+			increment_tile(&tile.id, tile.col);
 		}
 		++g->r->h_d_scene->photon_iteration;
 		photons_shot += g->r->scene->photon_count_per_pass;
@@ -62,6 +63,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 	}
 	cudaFreeHost(g->r->rt_pixel_map);
 	cudaFree(g->r->h_d_scene->photon_list);
+	// free();
 }
 
 // static void	reset_photon_map(t_raytracing_tools *r)

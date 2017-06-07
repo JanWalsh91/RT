@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:24:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:08:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object		*obj;
 
+	printf("sig-render\n");
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
 	widget = get_widget(g, "ButtonObjectDirNormalize");
@@ -68,12 +69,24 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
+	GtkWidget	*widget;
+	int			percentage;
+	char		*str_percentage;
+
+	percentage = 0;
 	while (g->win && (tile.id.y + 1) <= tile.col)
 	{
+		++percentage;
+		widget = get_widget(g, "LabelPercentage");
+		str_percentage = ft_itoa(100.0 / (float)(tile.row * tile.col) *
+			percentage);
+		str_percentage = ft_strjoinfree(str_percentage, " %", 'l');
+		gtk_label_set_text(GTK_LABEL(widget), str_percentage);
+		free(str_percentage);
 		get_region_map_tile(g->r, tile);
 		render(g->r, tile);
 		copy_region_map_tile(g->r, tile);
-		increment_tile(&tile.id, tile.row);
+		increment_tile(&tile.id, tile.col);
 	}
 	if (g->win)
 	{
@@ -93,13 +106,15 @@ void		*render_wrapper(gpointer data)
 	g = (t_gtk_tools *)data;
 	init_tile(&tile, g);
 	if (g->r->update.resolution)
+	{
 		g->pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 0, 8,
-						g->r->scene->res.x, g->r->scene->res.y);
+				g->r->scene->res.x, g->r->scene->res.y);
+		gdk_pixbuf_fill(g->pixbuf, 0);
+	}
 	cuda_malloc(g->r);
 	malloc_region_map(g->r, tile);
 	cuda_malloc_region_map_tile(g->r, tile);
 	render_tile(g, tile);
-	//call on the photon mapping pass and radiance estimation pass in loop.
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
 	g->r->rendering = 0;

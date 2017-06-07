@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 13:30:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	print_scene(t_scene *scene)
 		printf("		object reflection: [%f]\n", o_ptr->reflection);
 		printf("		object transparency: [%f]\n", o_ptr->transparency);
 		printf("		object ior: [%f]\n", o_ptr->ior);
+		printf("		object beer lambert: [%f]\n", o_ptr->beer_lambert);
 		
 		printf("		object texture: [%p]\n", o_ptr->texture);
 		printf("		object texture name: [%s]\n", o_ptr->texture_name);

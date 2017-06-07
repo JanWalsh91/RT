@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_reflected_and_refracted.cu                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 11:25:11 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 11:46:36 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
 				t_color col, float kt)
 {
 	if (ray->t != INFINITY)
-		return (c_scale(col, exp(-0.3 * ray->t * (1.0 - kt))));
+		return (c_scale(col, exp((r->scene->objects[ray->hit_obj].beer_lambert) * ray->t *
+															(1.0 - kt))));
 	return (col);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:57:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 12:11:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_PARENT_INDEX] = &parse_parent_index;
 	t->parse[T_HASHTAG] = &hashtag;
 	t->parse[T_INVALID_TOKEN] = &invalid_token;
+	t->parse[T_BEER_LAMBERT] = &parse_beer_lambert;
 }

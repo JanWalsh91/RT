@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 16:44:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 10:55:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 14:30:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,19 @@ void	*sig_udpate_ambient_light_color(GtkWidget *color_chooser,
 void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 {
 	GtkWidget	*widget;
-	GtkBuilder	*b;
 
 	(void)button;
 	printf("sig_next_camera\n");
 	if (!g->r->scene->cameras->next)
 		return (NULL);
-	b = GTK_BUILDER(g->builder);
 	g->r->scene->cameras = g->r->scene->cameras->next;
-	widget = GTK_WIDGET(gtk_builder_get_object(b, "LabelCurrentCamera"));
+	widget = get_widget(g, "LabelCurrentCamera");
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
-	widget = GTK_WIDGET(gtk_builder_get_object(b, "ButtonNextCamera"));
-	gtk_widget_set_sensitive(widget, (gboolean)g->r->scene->cameras->next);
-	widget = GTK_WIDGET(gtk_builder_get_object(b, "ButtonPreviousCamera"));
-	gtk_widget_set_sensitive(widget, (gboolean)g->r->scene->cameras->prev);
+	widget = get_widget(g, "ButtonNextCamera");
+	gtk_widget_set_sensitive(widget, (bool)g->r->scene->cameras->next);
+	widget = get_widget(g, "ButtonPreviousCamera");
+	gtk_widget_set_sensitive(widget, (bool)g->r->scene->cameras->prev);
+	update_camera_ctw(g->r->scene->cameras);
 	g->r->update.cameras = 1;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	return (NULL);
@@ -69,12 +68,13 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 		return (NULL);
 	b = GTK_BUILDER(g->builder);
 	g->r->scene->cameras = g->r->scene->cameras->prev;
-	widget = GTK_WIDGET(gtk_builder_get_object(b, "LabelCurrentCamera"));
+	widget = get_widget(g, "LabelCurrentCamera");
 	gtk_label_set_text(GTK_LABEL(widget), g->r->scene->cameras->name);
-	widget = GTK_WIDGET(gtk_builder_get_object(b, "ButtonNextCamera"));
+	widget = get_widget(g, "ButtonNextCamera");
 	gtk_widget_set_sensitive(widget, (gboolean)g->r->scene->cameras->next);
-	widget = GTK_WIDGET(gtk_builder_get_object(b, "ButtonPreviousCamera"));
+	widget = get_widget(g, "ButtonPreviousCamera");
 	gtk_widget_set_sensitive(widget, (gboolean)g->r->scene->cameras->prev);
+	update_camera_ctw(g->r->scene->cameras);
 	g->r->update.cameras = 1;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
 	return (NULL);

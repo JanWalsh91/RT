@@ -1,0 +1,121 @@
+scene: spheres fantaisie
+{
+	resolution: 1000, 1000
+	ray depth: 10
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.0500
+	sphere: sphere 3
+	{
+		position: 0.0000, 2.0000, 0.0000
+		direction: -0.5773, -0.5773, -0.5773
+		color: 239.0000, 41.0000, 41.0000
+		radius: 8.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 50.0000
+		ior: 1.1993
+		transparency: 0.0000
+		reflection: 1.0000
+	}
+	plane: Ground
+	{
+		position: 0.0000, -5.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 250.0000, 250.0000, 250.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.1993
+		transparency: 0.0000
+		reflection: 0.0000
+		texture: /Users/tgros/gitlab/RT/textures/earth.bmp
+	}
+	plane: Left
+	{
+		position: -25.0000, -1.0000, 20.0000
+		direction: 1.0000, 0.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.1993
+		transparency: 0.0000
+		reflection: 1.0000
+	}
+	plane: Right
+	{
+		position: 25.0000, 0.0000, 0.0000
+		direction: 1.0000, 0.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.1000
+		transparency: 0.0000
+		reflection: 1.0000
+	}
+	plane: Front
+	{
+		position: 0.0000, 0.0000, 150.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.1000
+		transparency: 0.0000
+		reflection: 1.0000
+	}
+	plane: Back
+	{
+		position: 0.0000, 0.0000, -150.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.1000
+		transparency: 0.0000
+		reflection: 1.0000
+	}
+	plane: Ceiling
+	{
+		position: 0.0000, 35.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 1.0000
+	}
+	light: Light 1
+	{
+		position: 10.0000, 29.0000, -30.0000
+		color:0.0000, 0.0000, 255.0000
+		intensity: 70
+		kflare: 0.0000
+	}
+	light: Light 2
+	{
+		position: -10.0000, 29.0000, -30.0000
+		color:255.0000, 0.0000, 0.0000
+		intensity: 70
+		kflare: 0.0000
+	}
+	camera: cam1
+	{
+		position: 0.0000, 30.0000, -100.0000
+		direction: 0.0000, -0.1961, 0.9805
+		fov: 45
+		ior: 1.0098
+	}
+	camera: cam2
+	{
+		position: 50.0000, 20.0000, -50.0000
+		direction: -0.6804, -0.2721, 0.6804
+		fov: 45
+		ior: 1.0098
+	}
+}

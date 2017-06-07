@@ -1,6 +1,6 @@
 scene: Scene 1
 {
-	resolution: 500, 500
+	resolution: 1200, 1200
 	ray depth: 5
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
@@ -13,10 +13,10 @@ scene: Scene 1
 		kd: 0.1000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0091
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	plane: Left Plane
 	{
@@ -26,10 +26,10 @@ scene: Scene 1
 		kd: 0.1000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0091
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	plane: Right Plane
 	{
@@ -39,10 +39,10 @@ scene: Scene 1
 		kd: 0.1000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0091
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	plane: Top Plane
 	{
@@ -52,10 +52,10 @@ scene: Scene 1
 		kd: 0.1000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0091
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	plane: Bottom Plane
 	{
@@ -65,15 +65,15 @@ scene: Scene 1
 		kd: 0.1000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0091
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	sphere: My Sphere
 	{
 		position: 2.0000, -3.0000, 10.0000
-		direction: -2147483648.----, -2147483648.----, -2147483648.----
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
 		color: 252.0000, 233.0000, 79.0000
 		radius: 10.0000
 		kd: 0.0000
@@ -82,7 +82,7 @@ scene: Scene 1
 		ior: 1.0000
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	plane: Front Plane
 	{
@@ -92,10 +92,10 @@ scene: Scene 1
 		kd: 0.1000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0092
+		ior: 1.0091
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	cylinder: Cylinder 1
 	{
@@ -107,10 +107,10 @@ scene: Scene 1
 		kd: 0.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	cylinder: Cylinder 2
 	{
@@ -122,10 +122,10 @@ scene: Scene 1
 		kd: 0.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.3298
+		ior: 1.3297
 		transparency: 1.0000
 		reflection: 0.0000
-
+		beer lambert: 0.0000
 	}
 	disk: Cylinder 1 cap
 	{
@@ -136,24 +136,24 @@ scene: Scene 1
 		kd: 0.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	disk: Cylinder 1 cap
 	{
-		position: 12.2056, 28.7280, 0.0000
+		position: 12.2055, 28.7280, 0.0000
 		direction: 0.2241, 0.9745, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 1.0000
 		kd: 0.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 1.0000
-
+		beer lambert: 0.0000
 	}
 	disk: Cylinder 2 cap
 	{
@@ -164,24 +164,24 @@ scene: Scene 1
 		kd: 0.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.3298
+		ior: 1.3297
 		transparency: 1.0000
 		reflection: 0.0000
-
+		beer lambert: 0.0000
 	}
 	disk: Cylinder 2 cap
 	{
-		position: -15.2356, 27.6221, 2.0000
+		position: -15.2355, 27.6221, 2.0000
 		direction: -0.3047, 0.9524, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		radius: 1.0000
 		kd: 0.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.3298
+		ior: 1.3297
 		transparency: 1.0000
 		reflection: 0.0000
-
+		beer lambert: 0.0000
 	}
 	light: New light
 	{

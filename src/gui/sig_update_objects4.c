@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects4.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 17:07:51 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:12:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 10:03:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void		*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 	{
 		current_obj->parent_index = 0;
 		current_obj->parent = NULL;
-		set_look_at_sensitive(g, true);
+		set_look_at_sensitive(g, current_obj->type != T_SPHERE);
 	}
 	while (obj && ++i != id)
 		obj = obj->next;
@@ -61,6 +61,7 @@ void		*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 		current_obj->parent = obj;
 		set_look_at_sensitive(g, false);
 	}
+	(g->updating_gui) ? 0 : obj_render_sig(g);
 	return (NULL);
 }
 
@@ -84,7 +85,7 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	int				i;
 	t_object		*obj;
 
-	printf("get_selected_object: ");
+	printf("get_selected_object: \n");
 	widget = get_widget(g, "ListBoxObjects");
 	if (!widget)
 		return (NULL);

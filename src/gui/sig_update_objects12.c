@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:06:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 10:01:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 	int			id;
 	t_object	*obj;
 	GtkWidget	*widget;
+	int			render;
 
 	printf("sig_update_obj_type\n");
+	render = (g->updating_gui) ? 0 : 1;
 	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	obj->type = id + 6;
@@ -33,7 +35,7 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 		gtk_widget_set_sensitive(widget, FALSE);
 	update_obj_type1(g, obj);
 	update_objects_info_panel(g, obj);
-	obj_render_sig(g);
+	render ? obj_render_sig(g) : 0;
 	return (NULL);
 }
 
@@ -45,7 +47,11 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 	if (obj->type == T_DISK || obj->type == T_SPHERE ||
 		obj->type == T_CYLINDER || obj->type == T_CONE ||
 		obj->type == T_PARABOLOID || obj->type == T_TORUS)
+	{
 		gtk_widget_set_sensitive(widget, TRUE);
+		if (isnan(obj->rad) || !obj->rad)
+			obj->rad = DEFAULT_RADIUS;
+	}
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	widget = get_widget(g, "SpinButtonObjectRadius2");
@@ -55,13 +61,12 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)
 		obj->angle = atan(obj->rad / obj->height);
+	if (v_isnan(obj->dir) || (!obj->dir.x && !obj->dir.y && !obj->dir.z))
+		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
+	if (isnan(obj->height) || !obj->height)
+		obj->height = DEFAULT_HEIGHT;
 	if (g->updating_gui)
 		return ;
-	if (v_isnan(obj->dir))
-	{
-		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
-		obj->height = DEFAULT_HEIGHT;
-	}
 }
 
 void		init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)

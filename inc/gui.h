@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:11:04 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 13:11:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void			*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g);
 void			*sig_open_settings(GtkWidget *menu_item, t_gtk_tools *g);
+void			settings_render_sig(t_gtk_tools *g);
 gboolean		update_available_memory(gpointer data);
 /*
 ** Render Functions

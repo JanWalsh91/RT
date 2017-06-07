@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:57:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:46:11 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/05 17:52:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		free_object(t_object *to_delete)
 {
 	struct cudaPointerAttributes	attributes;
 
+	printf("======================= DELETE [%s] ======================= \n", to_delete->name);
 	if (to_delete->name)
 		free(to_delete->name);
 	if (to_delete->texture)
@@ -36,6 +37,7 @@ void		free_object(t_object *to_delete)
 			cudaFreeHost(to_delete->texture);
 		else
 			cudaFree(to_delete->texture);
+		C(1)
 		if (to_delete->texture_name)
 		{
 			printf("Texture name: %s\n", to_delete->texture_name);

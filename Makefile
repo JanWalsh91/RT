@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/05 16:06:04 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/07 13:11:13 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ PARSING = 	get_color \
 			parse_value_10 \
 			parse_value_11 \
 			parse_value_12 \
+			parse_value_13 \
 			parse_vector \
 			parse_float \
 			reset_attributes \
@@ -138,6 +139,7 @@ GUI =		window_signals \
 			sig_update_objects10 \
 			sig_update_objects11 \
 			sig_update_objects12 \
+			sig_update_objects13 \
 			sig_update_lights \
 			sig_update_lights1 \
 			sig_update_lights2 \
@@ -150,6 +152,7 @@ GUI =		window_signals \
 			sig_update_cameras4 \
 			sig_update_cameras5 \
 			sig_update_settings \
+			sig_update_settings1 \
 			sig_new_object \
 			sig_new_camera \
 			sig_new_light \
@@ -239,7 +242,7 @@ OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -gencode=arch=compute_30,code=sm_30
+CUFLAGS = -gencode=arch=compute_30,code=sm_30 #-Xnvlink --disable-warnings #A remettre pour la correction
 FLG = $(CUFLAGS) -Xcompiler="-Werror -Wextra -Wall"
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`
@@ -303,7 +306,7 @@ $(OBJ_DIR)/%.o : ./src/objparser/%.c
 
 $(OBJ_DIR)/%.o : ./src/photon_mapping/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	$(NVCC) $(GTK3_INC) $(CUFLAGS) -I./inc -dc $< -o $@
+	@$(NVCC) $(GTK3_INC) $(CUFLAGS) -I./inc -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/texture/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
