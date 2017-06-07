@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 13:42:57 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 14:59:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define DEFAULT_RAY_DEPTH 5
 # define MAX_RAY_DEPTH 10
 # define DEFAULT_KA 0.1
+# define DEFAULT_PPM_LIGHT_INTENSITY 1500
 # define DEFAULT_AMBIENT_LIGHT_COLOR_R 255
 # define DEFAULT_AMBIENT_LIGHT_COLOR_G 255
 # define DEFAULT_AMBIENT_LIGHT_COLOR_B 255
@@ -363,6 +364,7 @@ typedef struct	s_scene
 	t_vec3			ambient_light_color;
 	float			ka;
 	float			image_aspect_ratio;
+	float			ppm_light_intensity;
 	bool			is_raytracing;
 	bool			is_shadow;
 	bool			is_diffuse;
@@ -675,6 +677,7 @@ void			update_camera_ctw(t_camera *camera);
 void			set_default_resolution(t_scene *scene);
 void			set_default_ray_depth(t_scene *scene);
 void			set_default_ka(t_scene *scene);
+void			set_default_ppm_light_intensity(t_scene *scene);
 void			set_default_ambient_light_color(t_scene *scene);
 void			set_default_pos(t_scene *scene, int type, void *obj,
 					t_vec3 *pos);

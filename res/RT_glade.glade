@@ -473,8 +473,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>
@@ -836,7 +836,7 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">11</property>
+                    <property name="top_attach">12</property>
                   </packing>
                 </child>
                 <child>
@@ -850,7 +850,7 @@
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">11</property>
+                    <property name="top_attach">12</property>
                   </packing>
                 </child>
                 <child>
@@ -886,7 +886,7 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">12</property>
+                    <property name="top_attach">11</property>
                   </packing>
                 </child>
                 <child>
@@ -894,13 +894,14 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="halign">start</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
-					<signal name="toggled" handler="sig_update_is_raytracing" swapped="no"/>
+                    <signal name="toggled" handler="sig_update_is_raytracing" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">12</property>
+                    <property name="top_attach">11</property>
                   </packing>
                 </child>
                 <child>

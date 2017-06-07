@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:46:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 15:10:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ __device__
 static void		update_region_values(t_raytracing_tools *r, int photons_added,
 				t_vec3 power_added);
 __device__
-static t_vec3	add_accumulated_power(t_region *region, t_photon photon,
+static t_vec3	add_accumulated_power(float k, t_region *region, t_photon photon,
 				float rad);
 
 void			radiance_estimation_pass(t_raytracing_tools *r, t_tile tile)
@@ -68,7 +68,7 @@ static void		estimate_region_radiance(t_scene *scene, t_color *pixel_map,
 			dist = v_length(v_sub(r.d_region_map->hit_pt, scene->photon_list[i].pos));
 			if (r.d_region_map->radius > dist && v_dot(r.d_region_map->normal, scene->photon_list[i].n) > 0.5)
 			{
-				power_added = v_add(power_added, add_accumulated_power(r.d_region_map, scene->photon_list[i], dist * dist));
+				power_added = v_add(power_added, add_accumulated_power(scene->ppm_light_intensity, r.d_region_map, scene->photon_list[i], dist * dist));
 				++photons_added;
 			}
 		}
@@ -95,11 +95,10 @@ static void		update_region_values(t_raytracing_tools *r, int photons_added, t_ve
 }
 
 __device__
-static t_vec3	add_accumulated_power(t_region *region, t_photon photon, float dist2)
+static t_vec3	add_accumulated_power(float k, t_region *region, t_photon photon, float dist2)
 {
 	// printf("update_accumulated_power\n");
 	t_vec3 result;
-	float k = 1500; ///
 
 	result = v_scale(col_to_vec(photon.col), sqrtf(region->radius * region->radius - dist2) / (M_PI));
 	result = v_scale(result, -v_dot(photon.dir, region->normal) * k * region->kd);

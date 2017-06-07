@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 16:31:14 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/26 12:02:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 14:58:07 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 ** - ray depth
 ** - ambient light coefficient (ka)
 ** - ambient light color
+** - PPM light intensity
 */
 
 void	set_default_resolution(t_scene *scene)
@@ -46,4 +47,11 @@ void	set_default_ambient_light_color(t_scene *scene)
 	scene->ambient_light_color = v_new(DEFAULT_AMBIENT_LIGHT_COLOR_R,
 										DEFAULT_AMBIENT_LIGHT_COLOR_G,
 										DEFAULT_AMBIENT_LIGHT_COLOR_B);
+}
+
+void	set_default_ppm_light_intensity(t_scene *scene)
+{
+	data_warning(scene, 0, NULL,
+		"Providing default photon mapping light intensity.");
+	scene->ppm_light_intensity = DEFAULT_PPM_LIGHT_INTENSITY;
 }
