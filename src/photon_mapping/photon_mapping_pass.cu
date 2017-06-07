@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   photon_mapping_pass.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 11:35:08 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 12:21:59 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,15 @@ void	photon_mapping_pass(t_raytracing_tools *r)
 	t_photon		*init_photon_list;
 	int 			photon_count;
 
+	C(1)
 	photon_count = r->scene->photon_count_per_pass;
+	C(2)
 	gpu_errchk(cudaMallocHost(&init_photon_list, sizeof(t_photon) * photon_count));
+	C(3)
 	init_photon_group(r, photon_count, init_photon_list);
+	C(4)
 	shoot_photon_wrapper(r, photon_count, init_photon_list);
+	C(5)
 	cudaFreeHost(init_photon_list);
 }
 

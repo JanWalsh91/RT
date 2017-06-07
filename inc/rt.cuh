@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 12:18:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 13:42:57 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,6 +362,7 @@ typedef struct	s_scene
 	t_vec3			ambient_light_color;
 	float			ka;
 	float			image_aspect_ratio;
+	bool			is_raytracing;
 	bool			is_shadow;
 	bool			is_diffuse;
 	bool			is_specular;

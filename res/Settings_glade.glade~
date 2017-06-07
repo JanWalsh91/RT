@@ -4,9 +4,23 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="AdjPhotonCount">
     <property name="lower">1</property>
-    <property name="upper">10000000</property>
+    <property name="upper">100000</property>
     <property name="step_increment">10</property>
     <property name="page_increment">100</property>
+  </object>
+  <object class="GtkAdjustment" id="AdjPhotonCountPerPass">
+    <property name="lower">1</property>
+    <property name="upper">1000</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="AdjPhotonRadius">
+    <property name="lower">0.01</property>
+    <property name="upper">100</property>
+    <property name="value">1</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="AdjTileSize">
     <property name="lower">1</property>
@@ -155,7 +169,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
+                <property name="top_attach">6</property>
                 <property name="width">3</property>
               </packing>
             </child>
@@ -168,7 +182,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">8</property>
               </packing>
             </child>
             <child>
@@ -187,7 +201,7 @@
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">8</property>
               </packing>
             </child>
             <child>
@@ -215,12 +229,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="LabelPhotonCount">
+              <object class="GtkLabel" id="LabelPhotonCountPerPass">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
-                <property name="label" translatable="yes">Photon mapping
-sampling count</property>
+                <property name="label" translatable="yes">Photon count per pass</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -228,12 +241,11 @@ sampling count</property>
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton" id="SpinButtonPhotonCount">
+              <object class="GtkSpinButton" id="SpinButtonPhotonCountPerPass">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">AdjPhotonCount</property>
-                <property name="numeric">True</property>
-                <signal name="value-changed" handler="sig_update_photon_count" swapped="no"/>
+                <property name="adjustment">AdjPhotonCountPerPass</property>
+                <signal name="value-changed" handler="sig_update_photon_count_per_pass" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -241,7 +253,52 @@ sampling count</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="LabelPhotonCount">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Photon count (total)</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="SpinButtonPhotonCount">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="adjustment">AdjPhotonCount</property>
+                <signal name="value-changed" handler="sig_update_photon_count" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Search radius</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="SpinButtonPhotonRadius">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="adjustment">AdjPhotonRadius</property>
+                <property name="digits">2</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">5</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
