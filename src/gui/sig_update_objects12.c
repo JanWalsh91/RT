@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects12.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 10:01:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 20:24:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,12 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 	widget = get_widget(g, "SpinButtonObjectRadius");
 	if (obj->type == T_DISK || obj->type == T_SPHERE ||
 		obj->type == T_CYLINDER || obj->type == T_CONE ||
-		obj->type == T_PARABOLOID || obj->type == T_TORUS)
+		obj->type == T_PARABOLOID)
 	{
 		gtk_widget_set_sensitive(widget, TRUE);
 		if (isnan(obj->rad) || !obj->rad)
 			obj->rad = DEFAULT_RADIUS;
 	}
-	else
-		gtk_widget_set_sensitive(widget, FALSE);
-	widget = get_widget(g, "SpinButtonObjectRadius2");
-	if (obj->type == T_TORUS)
-		gtk_widget_set_sensitive(widget, TRUE);
 	else
 		gtk_widget_set_sensitive(widget, FALSE);
 	if (obj->type == T_CONE)

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:59:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 20:31:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ typedef enum	e_token
 	T_CYLINDER,
 	T_CONE,
 	T_PARABOLOID,
-	T_TORUS,
-	T_CUBE_TROUE,
 	T_OBJ,
 	T_TRIANGLE,
 	T_RESOLUTION,
@@ -111,7 +109,6 @@ typedef enum	e_token
 	T_LOOK_AT,
 	T_COLOR,
 	T_RADIUS,
-	T_RADIUS_2,
 	T_HEIGHT,
 	T_DIFFUSE_COEF,
 	T_REFRACTION_INDEX,
@@ -204,7 +201,6 @@ typedef struct	s_attributes
 	t_vec3			col;
 	t_filter		filter;
 	float			rad;
-	float			rad_torus;
 	float			height;
 	float			ks;
 	float			specular_exp;
@@ -278,7 +274,6 @@ typedef struct	s_object
 	t_vec3			look_at;
 	t_vec3			col;
 	float			rad;
-	float			rad_torus;
 	float			height;
 	float			angle;
 	float			kd;
@@ -578,7 +573,6 @@ void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
 void			set_attributes_paraboloid(t_parse_tools *t, t_attributes *a);
-void			set_attributes_torus(t_parse_tools *t, t_attributes *a);
 void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
 char			*parse_open_bracket(t_parse_tools *t);
@@ -594,8 +588,6 @@ char			*parse_sphere(t_parse_tools *t);
 char			*parse_cylinder(t_parse_tools *t);
 char			*parse_cone(t_parse_tools *t);
 char			*parse_paraboloid(t_parse_tools *t);
-char			*parse_torus(t_parse_tools *t);
-char			*parse_cube_troue(t_parse_tools *t);
 char			*parse_resolution(t_parse_tools *t);
 char			*parse_ray_depth(t_parse_tools *t);
 char			*parse_background_color(t_parse_tools *t);
@@ -607,7 +599,6 @@ char			*parse_direction(t_parse_tools *t);
 char			*parse_look_at(t_parse_tools *t);
 char			*parse_color(t_parse_tools *t);
 char			*parse_radius(t_parse_tools *t);
-char			*parse_radius_2(t_parse_tools *t);
 char			*parse_height(t_parse_tools *t);
 char			*parse_ior(t_parse_tools *t);
 char			*parse_reflection(t_parse_tools *t);
@@ -736,8 +727,6 @@ void			get_cylinder_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
 void			get_cone_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
-void			get_torus_normal(t_ray *ray, t_object *obj);
-CUDA_DEV
 void			get_paraboloid_normal(t_ray *ray, t_object *obj);
 CUDA_DEV
 t_vec3			get_normal_at_normal_map(t_object *obj, t_ray *ray);
@@ -809,8 +798,6 @@ bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 CUDA_DEV
 bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
-CUDA_DEV
-bool			get_torus_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 CUDA_DEV
 bool			get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index);
 CUDA_DEV

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 12:11:15 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 20:30:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_CONE] = &parse_cone;
 	t->parse[T_PARABOLOID] = &parse_paraboloid;
 	t->parse[T_TRIANGLE] = NULL;
-	t->parse[T_TORUS] = &parse_torus;
-	t->parse[T_CUBE_TROUE] = &parse_cube_troue;
 	t->parse[T_OBJ] = &parse_obj;
 	t->parse[T_RESOLUTION] = &parse_resolution;
 	t->parse[T_RAY_DEPTH] = &parse_ray_depth;
@@ -95,7 +93,6 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_LOOK_AT] = &parse_look_at;
 	t->parse[T_COLOR] = &parse_color;
 	t->parse[T_RADIUS] = &parse_radius;
-	t->parse[T_RADIUS_2] = &parse_radius_2;
 	t->parse[T_HEIGHT] = &parse_height;
 	t->parse[T_DIFFUSE_COEF] = &parse_diffuse_coef;
 	t->parse[T_REFRACTION_INDEX] = &parse_ior;

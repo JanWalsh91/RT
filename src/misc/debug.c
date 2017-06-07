@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 17:13:38 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 13:30:44 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 20:24:32 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	print_scene(t_scene *scene)
 		printf("		object lookat: [%f] [%f] [%f]\n", o_ptr->look_at.x, o_ptr->look_at.y, o_ptr->look_at.z);
 		printf("		object col: [%f] [%f] [%f]\n", o_ptr->col.x, o_ptr->col.y, o_ptr->col.z);
 		printf("		object rad: [%f]\n", o_ptr->rad);
-		printf("		object rad_torus: [%f]\n", o_ptr->rad_torus);
 		printf("		object height: [%f]\n", o_ptr->height);
 		printf("		object angle: [%f]\n", o_ptr->angle);
 		printf("		object kd: [%f]\n", o_ptr->kd);

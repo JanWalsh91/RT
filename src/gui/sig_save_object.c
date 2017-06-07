@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 16:36:18 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 12:00:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 20:23:44 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,8 @@ static void	save_object1(int fd, t_object *obj)
 		write(fd, "\tcylinder: ", 11);
 	else if (obj->type == T_CONE)
 		write(fd, "\tcone: ", 7);
-	else if (obj->type == T_CUBE_TROUE)
-		write(fd, "\tcube troue: ", 12);
 	else if (obj->type == T_PARABOLOID)
 		write(fd, "\tparaboloid: ", 13);
-	else if (obj->type == T_TORUS)
-		write(fd, "\ttorus: ", 8);
 }
 
 static void	save_object2(int fd, t_object *obj)
@@ -70,16 +66,10 @@ static void	save_object2(int fd, t_object *obj)
 	write(fd, "\n", 1);
 	if (obj->type == T_SPHERE || obj->type == T_CYLINDER ||
 		obj->type == T_PARABOLOID || obj->type == T_CONE ||
-		obj->type == T_DISK || obj->type == T_TORUS)
+		obj->type == T_DISK)
 	{
 		write(fd, "\t\tradius: ", 10);
 		write_float(fd, obj->rad);
-		write(fd, "\n", 1);
-	}
-	if (obj->type == T_TORUS)
-	{
-		write(fd, "\t\tradius 2: ", 12);
-		write_float(fd, obj->rad_torus);
 		write(fd, "\n", 1);
 	}
 }

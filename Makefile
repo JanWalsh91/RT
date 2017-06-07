@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/07 13:11:13 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/07 20:28:36 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,15 +79,12 @@ RAY_TRACING = cast_primary_ray \
 			get_normal2 \
 			init_camera_ray \
 			solve_quadratic \
-			solve_cubic \
-			solve_quartic \
 			intersects \
 			get_plane_intersection \
 			get_sphere_intersection \
 			get_disk_intersection \
 			get_cylinder_intersection \
 			get_cone_intersection \
-			get_torus_intersection \
 			get_paraboloid_intersection \
 			get_object_intersection \
 			get_triangle_intersection \

@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 13:31:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 12:08:42 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 20:31:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ void		init_tokens(t_parse_tools *t)
 		(!(t->tokens[T_CYLINDER] = ft_strdup("cylinder"))) ||
 		(!(t->tokens[T_CONE] = ft_strdup("cone"))) ||
 		(!(t->tokens[T_PARABOLOID] = ft_strdup("paraboloid"))) ||
-		(!(t->tokens[T_TORUS] = ft_strdup("torus"))) ||
 		(!(t->tokens[T_TRIANGLE] = ft_strdup("triangle"))) ||
-		(!(t->tokens[T_CUBE_TROUE] = ft_strdup("cube troue"))) ||
 		(!(t->tokens[T_OBJ] = ft_strdup("obj"))) ||
 		(!(t->tokens[T_RESOLUTION] = ft_strdup("resolution"))) ||
 		(!(t->tokens[T_RAY_DEPTH] = ft_strdup("ray depth"))) ||
@@ -57,7 +55,6 @@ static void	init_tokens2(t_parse_tools *t)
 		(!(t->tokens[T_LOOK_AT] = ft_strdup("look at"))) ||
 		(!(t->tokens[T_COLOR] = ft_strdup("color"))) ||
 		(!(t->tokens[T_RADIUS] = ft_strdup("radius"))) ||
-		(!(t->tokens[T_RADIUS_2] = ft_strdup("radius 2"))) ||
 		(!(t->tokens[T_HEIGHT] = ft_strdup("height"))) ||
 		(!(t->tokens[T_DIFFUSE_COEF] = ft_strdup("kd"))) ||
 		(!(t->tokens[T_REFRACTION_INDEX] = ft_strdup("ior"))) ||

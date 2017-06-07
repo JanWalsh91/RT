@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersects.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 12:11:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 14:44:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 20:27:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ bool	intersects(t_raytracing_tools *r, t_ray *ray, int index)
 		return (get_cone_intersection(r, ray, index));
 	else if (r->scene->objects[index].type == T_PARABOLOID)
 		return (get_paraboloid_intersection(r, ray, index));
-	else if (r->scene->objects[index].type == T_TORUS)
-		return (get_torus_intersection(r, ray, index));
-	else if (r->scene->objects[index].type == T_CUBE_TROUE)
-		return (get_torus_intersection(r, ray, index));
 	else if (r->scene->objects[index].type == T_OBJ)
 		return (get_obj_intersection(r, ray, index));
 	return (false);

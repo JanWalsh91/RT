@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 12:08:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 20:25:34 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ char	*parse_radius(t_parse_tools *t)
 	if (t->in_object && t->current_type != T_CONE &&
 		t->current_type != T_CYLINDER &&
 	t->current_type != T_SPHERE && t->current_type != T_OBJ
-		&& t->current_type != T_DISK && t->current_type != T_TORUS &&
+		&& t->current_type != T_DISK &&
 		t->current_type != T_PARABOLOID)
 		return ("Radius attribute only applicable \
-		to spheres, cones, cylinders, disks amd toruses.");
+		to spheres, cones, cylinders and disks.");
 	return (NULL);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_normal.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 16:05:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 16:20:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 20:27:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,9 @@ void		get_normal(t_ray *ray, t_object *obj)
 		get_cylinder_normal(ray, obj);
 	if (ray->hit_type == T_CONE)
 		get_cone_normal(ray, obj);
-	if (ray->hit_type == T_TORUS)
-		get_torus_normal(ray, obj);
 	if (ray->hit_type == T_PARABOLOID)
 		get_paraboloid_normal(ray, obj);
 	ray->n_dir = v_dot(ray->nhit, ray->dir) < 0 ? 1 : -1;
-}
-
-__device__
-void		get_torus_normal(t_ray *ray, t_object *obj)
-{
-	t_vec3	a;
-	float	k;
-	float	m;
-	t_vec3	tmp;
-
-	k = v_dot(v_sub(ray->hit, obj->pos), obj->dir);
-	a = v_sub(ray->hit, v_scale(obj->dir, k));
-	m = sqrt((obj->rad * obj->rad) - (k * k));
-	tmp = v_scale(v_sub(obj->pos, a), m);
-	ray->nhit = v_norm(v_sub(v_sub(ray->hit, a),
-			v_scale(tmp, (1 / (obj->rad_torus + m)))));
-	if (obj->normal_map)
-		ray->nhit = get_normal_at_normal_map(obj, ray);
 }
 
 __device__
