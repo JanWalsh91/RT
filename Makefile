@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/07 20:28:36 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/07 21:33:41 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,7 +103,8 @@ RAY_TRACING = cast_primary_ray \
 			get_flares \
 			init_light_flares \
 			update_ior \
-			create_anaglyph
+			create_anaglyph \
+			get_cartoon_effect
 
 MISC = 		debug \
 			free_parse_tools \

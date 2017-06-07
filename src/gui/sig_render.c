@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 17:20:22 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 22:07:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <cuda_runtime.h>
 
 static void	init_render_window(t_gtk_tools *g);
+void	get_cartoon_effect(struct s_raytracing_tools *r, struct s_vec3 cartoon_tools);
 
 void		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -69,6 +70,8 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
+	t_vec3 c;
+
 	while (g->win && (tile.id.y + 1) <= tile.col)
 	{
 		get_region_map_tile(g->r, tile);
@@ -82,6 +85,8 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 	if (g->win)
 	{
 		get_flares(g->r);
+		c = v_new(25, 20, 2);
+		get_cartoon_effect(g->r, c);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
 						g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
