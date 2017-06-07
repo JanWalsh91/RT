@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 17:38:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:07:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 16:50:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void				check_objects(t_scene *scene, t_object *objects)
 	{
 		v_isnan(o_ptr->pos) ? set_default_pos(scene, o_ptr->type,
 			o_ptr, &o_ptr->pos) : 0;
-		o_ptr->type != T_SPHERE ? get_obj_direction(scene, o_ptr) : 0;
+		get_obj_direction(scene, o_ptr);
 		v_isnan(o_ptr->col) ? set_default_col(scene, o_ptr->type,
 			o_ptr, &o_ptr->col) : 0;
 		if ((o_ptr->type != T_PLANE) && isnan(o_ptr->rad))

@@ -1,0 +1,95 @@
+scene: SCENE_1
+    camera:
+        pos: 0 20 -100
+    spot:
+        pos: -20 10 30
+        color: 0x00ff00
+    spot:
+        pos: 70 10 30
+        color: 0x646464
+ambiance: 0x452d6e 52
+object:
+    simple_obj:
+        name: plan1
+        type: plan
+        pos: 71 0 0
+        dir: -1 0 0
+        size: 0 0 0
+        color: 0x646464
+    simple_obj:
+        name: cone jaune
+        type: cone
+        pos: -30 10 70
+        dir: -0.5 1 0
+        size: 0 70 0
+        color: 0xFFFF00
+    simple_obj:
+        name: plan2
+        type: plan
+        pos: -50 0 0
+        dir: 1 0 0
+        size: 0 0 0
+        color: 0x646464
+    simple_obj:
+        name: plan3
+        type: plan
+        pos: 0 0 100
+        dir: 0 0 -1
+        size: 0 0 0
+        color: 0x646464
+    simple_obj:
+        name: plan4
+        type: plan
+        pos: 0 0 -101
+        dir: 0 0 1
+        size: 0 0 0
+        color: 0x646464
+    simple_obj:
+        name: plan5
+        type: plan
+        pos: 0 -11 0
+        dir: 0 1 0
+        size: 0 0 0
+        color: 0x646464
+    simple_obj:
+        name: plan6
+        type: plan
+        pos: 0 50 0
+        dir: 0 -1 0
+        size: 0 0 0
+        color: 0x646464
+    simple_obj:
+        name: sphere1
+        type: sphere
+        pos: 0 0 55
+        dir: 0 0 0
+        size: 10 0 0
+        color: 0xF06446
+    simple_obj:
+        name: sphere2
+        type: sphere
+        pos: 10 17 60
+        dir: 0 0 0
+        size: 10 0 0
+        color: 0x6464FA
+    simple_obj:
+        name: sphere3
+        type: sphere
+        pos: 20 0 50
+        dir: 0 0 0
+        size: 10 0 0
+        color: 0x64FA64
+    simple_obj:
+        name: cylindre vi
+        type: cylindre
+        pos: 25 -4 50
+        dir: 0 1 0
+        size: 10 50 0
+        color: 0xFF00FF
+    simple_obj:
+        name: cylindre ve
+        type: cylindre
+        pos: 40 20 25
+        dir: 1 1 1
+        size: 5 50 0
+        color: 0x00ff00

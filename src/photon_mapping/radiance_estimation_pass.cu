@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 15:15:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 16:52:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ __global__
 static void		estimate_region_radiance(t_scene *scene, t_color *pixel_map,
 				t_region *region_map, t_tile tile);
 __device__
-static t_vec3	update_region_values(t_raytracing_tools *r, int photons_added,
+static void		update_region_values(t_raytracing_tools *r, int photons_added,
 				t_vec3 power_added);
 __device__
 static t_vec3	add_accumulated_power(t_region *region, t_photon photon,
@@ -79,7 +79,7 @@ static void		estimate_region_radiance(t_scene *scene, t_color *pixel_map,
 }
 
 __device__
-static t_vec3	update_region_values(t_raytracing_tools *r, int photons_added, t_vec3 power_added)
+static void		update_region_values(t_raytracing_tools *r, int photons_added, t_vec3 power_added)
 {
 	float	old_rad2;
 	float	alpha;
