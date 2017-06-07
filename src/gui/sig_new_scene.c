@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 13:54:20 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:42:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:43:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void		*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	gtk_widget_set_visible(widget, TRUE);
 	g->r->update.cameras = 2;
 	g->r->update.scene = 2;
-	return (0);
 	if (cuda_malloc(g->r) == false)
 		return (0);
 	update_gui(g);
