@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:40:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:54:36 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,9 @@ void		*render_wrapper(gpointer data)
 				g->r->scene->res.x, g->r->scene->res.y);
 		gdk_pixbuf_fill(g->pixbuf, 0);
 	}
-	cuda_malloc(g->r);
+	if (!cuda_malloc(g->r))
+		return (NULL);
+	return (NULL);
 	malloc_region_map(g->r, tile);
 	cuda_malloc_region_map_tile(g->r, tile);
 	render_tile(g, tile);

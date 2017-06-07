@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 17:00:10 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 14:50:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void			*main_gtk(t_gtk_tools *g)
 	build_gui(g);
 	init_window(g);
 	(g->filename) ? open_scene(g, NULL) : 0;
-	// print_scene(g->r->scene);
     gtk_main();
 	clean_exit(g);
 	while (g->r->rendering);
@@ -115,7 +114,7 @@ void	build_gui(t_gtk_tools *g)
 
 int	clean_exit(t_gtk_tools *g)
 {
-	// cuda_free(&g->r, 1);
+	cuda_free(g->r, 1);
     g_object_unref(g->builder);
 	free_scene(g->r->scene);
 	return (1);

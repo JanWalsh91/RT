@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_open_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 13:55:47 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 14:50:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int			open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 	if (g->r->scene)
 		cuda_free(g->r, 0);
 	g->r->scene = g->t->scene;
-	cuda_malloc(g->r);
 	update_grid_scene(g);
 	populate_list_box_objects(g);
 	update_grid_lights(g);
