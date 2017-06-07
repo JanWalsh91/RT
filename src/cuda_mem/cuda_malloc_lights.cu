@@ -20,20 +20,26 @@
 static t_light		*list_to_array_lights(t_light *light);
 static size_t		get_lights_array_length(t_light *lights);
 
-void				cuda_malloc_lights(t_raytracing_tools *r,
+bool				cuda_malloc_lights(t_raytracing_tools *r,
 					t_scene *h_scene_to_array)
 {
 	if (r->update.lights >= 1)
 	{
 		h_scene_to_array->lights = list_to_array_lights(r->scene->lights);
 		if (r->update.lights == 2)
-			gpu_errchk(cudaMalloc(&(r->h_d_scene->lights),
-				get_lights_array_length(h_scene_to_array->lights)));
+		{
+			if(test_cuda_malloc((void **)(&(r->h_d_scene->lights)), 
+				get_lights_array_length(h_scene_to_array->lights)) == false)
+				return(false);
+		}
+			// gpu_errchk(cudaMalloc(&(r->h_d_scene->lights),
+				// get_lights_array_length(h_scene_to_array->lights)));
 		gpu_errchk((cudaMemcpy(r->h_d_scene->lights, h_scene_to_array->lights,
 			get_lights_array_length(h_scene_to_array->lights),
 			cudaMemcpyHostToDevice)));
 		free(h_scene_to_array->lights);
 	}
+	return(true);
 }
 
 static t_light		*list_to_array_lights(t_light *light)

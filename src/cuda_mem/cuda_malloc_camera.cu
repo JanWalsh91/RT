@@ -17,15 +17,19 @@
 ** Allocated memory on the device for the first camera.
 */
 
-void		cuda_malloc_camera(t_raytracing_tools *r)
+bool		cuda_malloc_camera(t_raytracing_tools *r)
 {
 	if (r->update.cameras >= 1)
 	{
 		if (r->update.cameras == 2)
-			gpu_errchk(cudaMalloc(&(r->h_d_scene->cameras), sizeof(t_camera)));
+		{
+			if(test_cuda_malloc((void **)(&r->h_d_scene->cameras), sizeof(t_camera)) == false)
+				return(false);
+		}
 		if (r->scene->is_3d)
 			r->scene->cameras->filter = F_LEFT_RED;
 		gpu_errchk((cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras,
 			sizeof(t_camera), cudaMemcpyHostToDevice)));
 	}
+	return(true);
 }

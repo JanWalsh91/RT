@@ -22,7 +22,7 @@ static size_t		get_objects_array_length(t_object *objects);
 static void			update_child_info(t_object *parent, t_object *obj);
 static t_object		*list_to_array_objects2(t_object *object, t_object *array);
 
-void				cuda_malloc_objects(t_raytracing_tools *r, t_scene
+bool				cuda_malloc_objects(t_raytracing_tools *r, t_scene
 					*h_scene_to_array)
 {
 	printf("cuda_malloc_objects\n");
@@ -30,13 +30,17 @@ void				cuda_malloc_objects(t_raytracing_tools *r, t_scene
 	{
 		h_scene_to_array->objects = list_to_array_objects(r->scene->objects);
 		if (r->update.objects == 2)
-			gpu_errchk(cudaMalloc(&(r->h_d_scene->objects),
-				get_objects_array_length(h_scene_to_array->objects)));
+		{
+			if(test_cuda_malloc((void **)(&(r->h_d_scene->objects)), 
+				get_objects_array_length(h_scene_to_array->objects)) == false)
+				return (false);
+		}
 		gpu_errchk((cudaMemcpy(r->h_d_scene->objects, h_scene_to_array->objects,
 			get_objects_array_length(h_scene_to_array->objects),
 			cudaMemcpyHostToDevice)));
 		free(h_scene_to_array->objects);
 	}
+	return (true);
 }
 
 static t_object		*list_to_array_objects(t_object *object)

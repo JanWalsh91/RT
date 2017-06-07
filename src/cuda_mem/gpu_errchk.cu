@@ -29,9 +29,10 @@ void gpu_errchk(int code)
 	l = strlen(s);
 	if (code != cudaSuccess)
 	{
-		write(2, "GPUassert: ", 11);
+		write(2, "\e[1;93mGPUassert: ", 17);
+		write(1, "test\n", 5);
 		write(2, s, l);
-		write(2, "\n", 1);
+		write(2, "\e[0m\n", 5);
 		exit(code);
 	}
 }

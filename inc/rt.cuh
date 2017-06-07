@@ -74,8 +74,9 @@
 # define INIT_IOR 1.0003 // initial index of refraction (air)
 # define COLORS_PATH "res/colors.txt"
 # define CSS_PATH "res/gtk.css"
+# define CUDA_TEST 5
 # define PHOTON_BOUNCE_MAX 5
-# define PHOTON_SEARCH_RADIUS 100
+# define PHOTON_SEARCH_RADIUS 10
 
 /*
 ** Tokens for the parser.
@@ -700,10 +701,11 @@ void			set_default_transparency(t_scene *scene, int type, void *obj, float *tran
 ** Cuda Malloc Functions
 */
 
-void			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
-void			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
-void			cuda_malloc_camera(t_raytracing_tools *r);
+bool			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
+bool			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
+bool			cuda_malloc_camera(t_raytracing_tools *r);
 t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
+bool			test_cuda_malloc(void **to_malloc, size_t size);
 
 /*
 ** Ray Tracing Functions
