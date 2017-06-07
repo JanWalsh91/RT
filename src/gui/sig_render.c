@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 15:07:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 17:20:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,14 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
-	GtkWidget	*widget;
-	int			percentage;
-	char		*str_percentage;
-
-	percentage = 0;
 	while (g->win && (tile.id.y + 1) <= tile.col)
 	{
-		++percentage;
-		widget = get_widget(g, "LabelPercentage");
-		str_percentage = ft_itoa(100.0 / (float)(tile.row * tile.col) *
-			percentage);
-		str_percentage = ft_strjoinfree(str_percentage, " %", 'l');
-		gtk_label_set_text(GTK_LABEL(widget), str_percentage);
-		free(str_percentage);
 		get_region_map_tile(g->r, tile);
 		render(g->r, tile);
 		copy_region_map_tile(g->r, tile);
+		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
+			g->r->scene->res.x * 3 * g->r->scene->res.y);
+		gtk_widget_queue_draw(g->win);
 		increment_tile(&tile.id, tile.col);
 	}
 	if (g->win)
