@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 15:19:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:04:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 
 	if (r->scene->is_photon_mapping)
 	{
-		current_tile = (tile.id.y) * tile.col + (tile.id.x);
-		// printf("copy_region_map_tile: current tile: %d\n", current_tile);
+		current_tile = (tile.id.y) * (tile.col) + (tile.id.x);
 		gpu_errchk((cudaMemcpy(r->h_region_map[current_tile], r->d_region_map,
 			sizeof(t_region) * tile.size * tile.size, cudaMemcpyDeviceToHost)));
 	}
@@ -35,8 +34,7 @@ void	get_region_map_tile(t_raytracing_tools *r, t_tile tile)
 
 	if (r->scene->is_photon_mapping)
 	{
-		current_tile = (tile.id.y) * tile.col + (tile.id.x);
-		// printf("get_region_map_tile: current tile: %d\n", current_tile);
+		current_tile = (tile.id.y) * (tile.col) + (tile.id.x);
 		gpu_errchk((cudaMemcpy(r->d_region_map, r->h_region_map[current_tile],
 			sizeof(t_region) * tile.size * tile.size, cudaMemcpyHostToDevice)));
 	}

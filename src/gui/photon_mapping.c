@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 11:06:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:04:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 		// exit(0);
 		tile.id.y = 0;
 		tile.id.x = 0;
-		while ((tile.id.y + 1) <= tile.col)
+		while ((tile.id.y + 1) <= tile.row)
 		{ 
 			get_region_map_tile(g->r, tile);
 			// printf("pre radiance pass: %f\n", g->r->h_region_map[0]->radius);
@@ -50,7 +50,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 			// printf("post radiance pass: %f\n", g->r->h_region_map[0]->radius);
 			copy_region_map_tile(g->r, tile);
 			// printf("post copy after radiance pass: %f\n", g->r->h_region_map[0]->radius);
-			increment_tile(&tile.id, tile.row);
+			increment_tile(&tile.id, tile.col);
 		}
 		++g->r->h_d_scene->photon_iteration;
 		photons_shot += g->r->scene->photon_count_per_pass;
@@ -62,6 +62,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 	}
 	cudaFreeHost(g->r->rt_pixel_map);
 	cudaFree(g->r->h_d_scene->photon_list);
+	// free();
 }
 
 // static void	reset_photon_map(t_raytracing_tools *r)

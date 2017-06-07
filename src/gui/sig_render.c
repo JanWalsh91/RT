@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 11:06:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:04:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
-	while (g->win && (tile.id.y + 1) <= tile.col)
+	while (g->win && (tile.id.y + 1) <= tile.row)
 	{
 		get_region_map_tile(g->r, tile);
 		render(g->r, tile);
 		copy_region_map_tile(g->r, tile);
-		increment_tile(&tile.id, tile.row);
+		increment_tile(&tile.id, tile.col);
 	}
 	if (g->win)
 	{
@@ -83,6 +83,8 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 						g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}
+	C(2)
+
 }
 
 void		*render_wrapper(gpointer data)
@@ -94,13 +96,15 @@ void		*render_wrapper(gpointer data)
 	g = (t_gtk_tools *)data;
 	init_tile(&tile, g);
 	if (g->r->update.resolution)
+	{
 		g->pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 0, 8,
-						g->r->scene->res.x, g->r->scene->res.y);
+				g->r->scene->res.x, g->r->scene->res.y);
+		gdk_pixbuf_fill(g->pixbuf, 0);
+	}
 	cuda_malloc(g->r);
 	malloc_region_map(g->r, tile);
 	cuda_malloc_region_map_tile(g->r, tile);
 	render_tile(g, tile);
-	g->r->rendering = 1;
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
 	g->r->rendering = 0;
