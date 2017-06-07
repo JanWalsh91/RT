@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:04:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 14:08:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,20 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
-	while (g->win && (tile.id.y + 1) <= tile.row)
+	GtkWidget	*widget;
+	int			percentage;
+	char		*str_percentage;
+
+	percentage = 0;
+	while (g->win && (tile.id.y + 1) <= tile.col)
 	{
+		++percentage;
+		widget = get_widget(g, "LabelPercentage");
+		str_percentage = ft_itoa(100.0 / (float)(tile.row * tile.col) *
+			percentage);
+		str_percentage = ft_strjoinfree(str_percentage, " %", 'l');
+		gtk_label_set_text(GTK_LABEL(widget), str_percentage);
+		free(str_percentage);
 		get_region_map_tile(g->r, tile);
 		render(g->r, tile);
 		copy_region_map_tile(g->r, tile);
@@ -83,8 +95,6 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 						g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}
-	C(2)
-
 }
 
 void		*render_wrapper(gpointer data)

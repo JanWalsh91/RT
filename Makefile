@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/06 14:48:19 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/07 13:11:13 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,6 +152,7 @@ GUI =		window_signals \
 			sig_update_cameras4 \
 			sig_update_cameras5 \
 			sig_update_settings \
+			sig_update_settings1 \
 			sig_new_object \
 			sig_new_camera \
 			sig_new_light \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_12.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 12:11:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 12:28:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 16:57:36 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,28 @@ char		*read_texture_file(t_parse_tools *t)
 	if (!t->input->value)
 		return ("Invalid texture name");
 	res = ft_strsplit(t->input->value, ' ');
+	printf("Res[0] = %p\n", res[0]);
 	if (!res)
 		return ("Invalid texture name");
+	ret = NULL;
 	ft_strtoupper(res[0]);
-	if (ft_strcmp(res[0], "PERLIN") == 0 && !(ret = init_perlin(t, res)))
-		return (ret);
-	else if (ft_strcmp(res[0], "CHECKERBOARD") == 0 && !(ret =
-		init_checkerboard(t, res)))
-		return (ret);
-	else if (ft_strcmp(res[0], "NOISE") == 0 && !(ret = init_noise(t, res)))
-		return (ret);
-	else if (!(ret = init_bmp(t)))
-		return (ret);
+	if (ft_strcmp(res[0], "PERLIN") == 0)
+		ret = init_perlin(t, res);
+	else if (ft_strcmp(res[0], "CHECKERBOARD") == 0)
+		ret = init_checkerboard(t, res);
+	else if (ft_strcmp(res[0], "NOISE") == 0)
+		ret = init_noise(t, res);
+	else
+		ret = init_bmp(t);
 	i = -1;
+	printf("Yeah ! \n=================\n");
 	while (res[++i])
+	{
+		printf("Res[i] = %p\n", res[i]);
 		free(res[i]);
+	}
 	free(res);
-	return (NULL);
+	return (ret);
 }
 
 static char	*init_perlin(t_parse_tools *t, char **res)

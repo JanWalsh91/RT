@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/06 17:00:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,6 @@ int	clean_exit(t_gtk_tools *g)
 {
 	// cuda_free(&g->r, 1);
     g_object_unref(g->builder);
-	// free_scene(g->r->scene);
+	free_scene(g->r->scene);
 	return (1);
 }
