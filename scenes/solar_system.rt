@@ -1,0 +1,97 @@
+scene: Scene 1
+{
+	resolution: 1920, 1080
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.0000
+	sphere: Sun
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.9213, 0.3887, 0.0000
+		color: 206.0000, 92.0000, 0.0000
+		radius: 2.2999
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.8000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		texture: /home/theo/RT3/textures/sun.bmp
+	}
+	sphere: Earth
+	{
+		position: -5.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 0.5000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		texture: /home/theo/RT3/textures/earth.bmp
+		parent index: 1.0000
+	}
+	sphere: Mars
+	{
+		position: 4.0000, 0.0000, 0.0000
+		direction: 0.0000, 0.8963, -0.4434
+		color: 255.0000, 255.0000, 255.0000
+		radius: 0.2500
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		texture: /home/theo/RT3/textures/mars.bmp
+		parent index: 1.0000
+	}
+	plane: Background
+	{
+		position: 0.0000, -4.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 211.0000, 215.0000, 207.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		texture: /home/theo/RT3/textures/galaxy.bmp
+	}
+	sphere: Capsule
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 206.0000, 92.0000, 0.0000
+		radius: 2.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.9000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	light: Sun
+	{
+		position: 0.0000, 0.0000, 0.0000
+		color:238.0000, 238.0000, 236.0000
+		intensity: 8
+		kflare: 0.0000
+	}
+	camera: Camera
+	{
+		position: 0.0000, 15.0000, 0.0000
+		direction: 0.0000, -1.0000, 0.0000
+		fov: 45
+		ior: 1.0097
+	}
+}
