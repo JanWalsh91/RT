@@ -473,8 +473,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>
@@ -2944,10 +2944,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkLabel" id="LabelPercentage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xpad">50</property>
+                <property name="margin_left">100</property>
                 <property name="label" translatable="yes">0%</property>
               </object>
               <packing>

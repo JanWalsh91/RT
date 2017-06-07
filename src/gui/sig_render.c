@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 15:44:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 12:06:05 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,19 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
+	GtkWidget	*widget;
+	int			percentage;
+	char		*str_percentage;
+
+	percentage = 0;
 	while (g->win && (tile.id.y + 1) <= tile.col)
 	{
+		++percentage;
+		widget = get_widget(g, "LabelPercentage");
+		str_percentage = ft_itoa(100.0 / (float)(tile.row * tile.col) * percentage);
+		str_percentage = ft_strjoinfree(str_percentage, " %", 'l');
+		gtk_label_set_text(GTK_LABEL(widget), str_percentage);
+		free(str_percentage);
 		get_region_map_tile(g->r, tile);
 		render(g->r, tile);
 		copy_region_map_tile(g->r, tile);
