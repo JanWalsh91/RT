@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 12:06:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/07 12:08:36 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		*render_wrapper(gpointer data)
 	malloc_region_map(g->r, tile);
 	cuda_malloc_region_map_tile(g->r, tile);
 	render_tile(g, tile);
+	g->r->rendering = 1;
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
 	g->r->rendering = 0;

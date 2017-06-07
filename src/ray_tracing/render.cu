@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 15:11:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/07 11:02:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,34 @@ void	render(t_raytracing_tools *r, t_tile tile)
 	printf("end kernel\n");
 	if (r->scene->is_3d)
 		create_anaglyph_wrapper(r, block_size, grid_size, tile);
+}
+
+/*
+** Kernel to render a single pixel.
+*/
+
+__global__
+void	render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *region_map,
+		t_tile tile)
+{
+	t_raytracing_tools	r;
+
+	r.pix.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
+	r.pix.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
+	r.scene = scene;
+	r.idx = scene->res.x * r.pix.y + r.pix.x;
+	r.d_pixel_map = d_pixel_map;
+	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
+	{
+		if (r.scene->is_photon_mapping)
+		{
+			r.d_region_map = &region_map[(r.pix.x % tile.size) +
+				(r.pix.y % tile.size) * tile.size];
+		}
+		(scene->is_aa == 1 || r.scene->is_photon_mapping) ?
+			render_without_aa(&r) :
+			render_with_aa(&r);
+	}
 }
 
 __device__
@@ -91,26 +119,3 @@ void	render_with_aa(t_raytracing_tools *r)
 		r->scene->cameras->filter);
 }
 
-__global__
-void	render_pixel(t_scene *scene, t_color *d_pixel_map, t_region *region_map,
-		t_tile tile)
-{
-	t_raytracing_tools	r;
-
-	r.pix.x = (tile.id.x * tile.size) + (blockDim.x * blockIdx.x) + threadIdx.x;
-	r.pix.y = (tile.id.y * tile.size) + (blockDim.y * blockIdx.y) + threadIdx.y;
-	r.scene = scene;
-	r.idx = scene->res.x * r.pix.y + r.pix.x;
-	r.d_pixel_map = d_pixel_map;
-	if (r.pix.x < scene->res.x && r.pix.y < scene->res.y)
-	{
-		if (r.scene->is_photon_mapping)
-		{
-			r.d_region_map = &region_map[(r.pix.x % tile.size) +
-				(r.pix.y % tile.size) * tile.size];
-		}
-		(scene->is_aa == 1 || r.scene->is_photon_mapping) ?
-			render_without_aa(&r) :
-			render_with_aa(&r);
-	}
-}
