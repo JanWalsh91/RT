@@ -14,27 +14,31 @@
 #include "../inc/cuda_call.h"
 
 static void		reset_update_struct(t_raytracing_tools *r);
-static void		cuda_malloc_scene(t_raytracing_tools *r);
+bool	cuda_malloc_scene(t_raytracing_tools *r);
 
 /*
 ** Allocates memory on the device and on pinned memory the various sturctures
 ** in the scene.
 */
 
-int				cuda_malloc(t_raytracing_tools *r)
+bool				cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
 
 	memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
 	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
-	cuda_malloc_objects(r, &h_scene_to_array);
-	cuda_malloc_lights(r, &h_scene_to_array);
-	cuda_malloc_camera(r);
-	cuda_malloc_scene(r);
+	if (cuda_malloc_objects(r, &h_scene_to_array) == false)
+		return(false);
+	if (cuda_malloc_lights(r, &h_scene_to_array) == false)
+		return(false);
+	if (cuda_malloc_camera(r) == false)
+		return(false);
+	if (cuda_malloc_scene(r) == false)
+		return(false);
 	gpu_errchk(cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice));
 	reset_update_struct(r);
-	return (1);
+	return (true);
 }
 
 static void		reset_update_struct(t_raytracing_tools *r)
@@ -49,7 +53,7 @@ static void		reset_update_struct(t_raytracing_tools *r)
 	r->update.photon_map = 0;
 }
 
-static void		cuda_malloc_scene(t_raytracing_tools *r)
+ bool		cuda_malloc_scene(t_raytracing_tools *r)
 {
 	if (r->update.resolution == 2)
 	{
@@ -68,5 +72,9 @@ static void		cuda_malloc_scene(t_raytracing_tools *r)
 		gpu_errchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) *
 			r->scene->res.y * r->scene->res.x)));
 	if (r->update.scene == 2)
-		gpu_errchk(cudaMalloc(&r->d_scene, sizeof(t_scene)));
+	{
+		if(test_cuda_malloc((void **)(&r->d_scene), sizeof(t_scene)) == false)
+			return(false);
+	}
+	return(true);
 }

@@ -180,7 +180,8 @@ CUDA_MEM =	cuda_check_kernel_errors \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
-			cuda_free
+			cuda_free \
+			test_cuda_malloc
 
 OBJ_PARSER = 	ft_freetab \
 				ft_isnumeric \

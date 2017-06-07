@@ -18,7 +18,7 @@
 #ifdef __cplusplus
 extern "C"
 #endif
-int		cuda_malloc(struct s_raytracing_tools *r);
+bool		cuda_malloc(struct s_raytracing_tools *r);
 #ifdef __cplusplus
 extern "C"
 #endif
