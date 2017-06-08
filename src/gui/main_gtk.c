@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 14:00:16 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:03:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/rt.cuh"
 #include "../inc/gui.h"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 #include <cuda_runtime.h>
 
 void		init_raytracing_tools(t_raytracing_tools *r);

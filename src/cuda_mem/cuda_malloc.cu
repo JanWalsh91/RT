@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:16:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 static void		reset_update_struct(t_raytracing_tools *r);
 bool	cuda_malloc_scene(t_raytracing_tools *r);

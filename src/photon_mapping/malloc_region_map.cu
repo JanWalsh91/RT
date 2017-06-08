@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:14:03 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "cuda.h"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 static void init_region_map(t_region *region_map, size_t size, float search_rad);
 

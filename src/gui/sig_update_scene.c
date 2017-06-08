@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 static void	update_scene_gui(t_gtk_tools *g, GtkBuilder *b);
 

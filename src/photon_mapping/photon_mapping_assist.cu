@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 12:55:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:54:39 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include "cuda_call.h"
+#include "cuda_call.cuh"
 #include <cuda_runtime.h>
 
 /*

@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:38:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
-#include "cuda_call.h"
+#include "cuda_call.cuh"
 
 static void	populate_combo_box(t_gtk_tools *g, GtkWidget *widget);
 static void	set_lookat_dir_values(t_gtk_tools *g, t_vec3 l_at, t_camera *cam);

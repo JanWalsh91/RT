@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:10:25 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:58:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 /*
 ** Allocated memory on the device for lights.

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   create_anaglyph.cu                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:19:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include "../../inc/cuda_call.h"
+#include "../../inc/cuda_call.cuh"
 
 __global__
 void			get_look_at_position(t_scene *scene, t_vec3 *pos);

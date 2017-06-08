@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_photon.cu                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:32:16 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 14:16:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ t_color			update_photon(t_raytracing_tools *r, t_ray *ray)
 	float	tmp;
 	float 	p;
 	
-	// printf("update_photon: type: [%d],  diffuse: [%f], reflection: [%f], transparency: [%f]\n",
-	// ray->type,
-	// r->scene->objects[ray->hit_obj].kd,
-	// r->scene->objects[ray->hit_obj].reflection,
-	// r->scene->objects[ray->hit_obj].transparency);
-	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type == r->scene->is_raytracing ? R_INDIRECT_PHOTON : R_DIRECT_PHOTON)
-		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX, ray, &r->scene->objects[ray->hit_obj]);
+	if (r->scene->objects[ray->hit_obj].kd > 0.0 && ray->type ==
+		r->scene->is_raytracing ? R_INDIRECT_PHOTON : R_DIRECT_PHOTON)
+		save_photon(r->scene->photon_list + r->idx * PHOTON_BOUNCE_MAX,
+			ray, &r->scene->objects[ray->hit_obj]);
 	rand_f = curand_uniform(r->devStates);
 	tmp = 0;
 	p = NAN;
 	ray->type = R_INDIRECT_PHOTON;
-	if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].kd / 3.0, col_to_vec(ray->col))) > rand_f)
+	if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col,
+		r->scene->objects[ray->hit_obj].kd / 3.0, col_to_vec(ray->col))) > rand_f)
 		redirect_photon_diffuse(r, ray, p);
-	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].reflection / 3.0, col_to_vec(ray->col))) > rand_f)
+	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col,
+		r->scene->objects[ray->hit_obj].reflection / 3.0, col_to_vec(ray->col))) > rand_f)
 		redirect_photon_specular(r, ray, p);
-	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col, r->scene->objects[ray->hit_obj].transparency / 3.0, col_to_vec(ray->col))) > rand_f)
+	else if ((tmp += get_probability(&p, r->scene->objects[ray->hit_obj].col,
+		r->scene->objects[ray->hit_obj].transparency / 3.0, col_to_vec(ray->col))) > rand_f)
 	{
 		if (fresnel_reflect(r, ray))
 			redirect_photon_specular(r, ray, p);
@@ -70,10 +70,6 @@ static void		save_photon(t_photon *photon_list, t_ray *ray, t_object *obj)
 	photon_list[i].dir = ray->dir;
 	photon_list[i].col = ray->type == R_INDIRECT_PHOTON ? ray->col : vec_to_col(get_object_color(obj, ray));
 	photon_list[i].n = v_scale(ray->nhit, ray->n_dir);
-	// printf("save photon[%d]: pos: [%f, %f, %f] dir: [%f, %f, %f] col: [%d, %d, %d]\n", i,
-		// photon_list[i].pos.x, photon_list[i].pos.y, photon_list[i].pos.z,
-		// photon_list[i].dir.x, photon_list[i].dir.y, photon_list[i].dir.z,
-		// photon_list[i].col.r, photon_list[i].col.g, photon_list[i].col.b);
 }
 
 __device__

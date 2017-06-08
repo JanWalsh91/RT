@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:13:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 15:57:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 /*
 ** Allocated memory on the device for the first camera.

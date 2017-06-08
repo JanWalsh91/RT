@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_export_scene_bmp.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 13:31:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 14:11:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 static void		update_loading_bar(GtkWidget *dialog, t_gtk_tools *g,
 							t_th_export *th_export);

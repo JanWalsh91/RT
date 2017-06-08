@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 20:55:19 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:48:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-#include "../../inc/cuda_call.h"
+#include "../../inc/cuda_call.cuh"
 
 /*
 ** cartoontools: 

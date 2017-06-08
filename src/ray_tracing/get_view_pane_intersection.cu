@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 15:41:24 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/04 14:16:33 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include "../../inc/cuda_call.h"
+#include "../../inc/cuda_call.cuh"
 
 __device__
 bool		get_view_pane_intersection(t_ray *ray, t_camera *cam)

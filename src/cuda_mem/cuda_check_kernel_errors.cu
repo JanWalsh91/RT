@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:13:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:37:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 /*
 ** An error checking function to be used agfter every kernel launch.

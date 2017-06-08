@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:55:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "rt.cuh"
-#include "cuda_call.h"
+#include "cuda_call.cuh"
 
 void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 {

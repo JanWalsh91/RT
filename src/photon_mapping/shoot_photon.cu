@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_photon.cu                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 14:38:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:36:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include "../../inc/cuda_call.h"
+#include "../../inc/cuda_call.cuh"
 #include <cuda.h>
 #include <curand.h>
 #include <curand_kernel.h>

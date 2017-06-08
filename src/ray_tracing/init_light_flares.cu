@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_light_flares.cu                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 11:23:58 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include "../../inc/cuda_call.h"
+#include "../../inc/cuda_call.cuh"
 
 __device__
 t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene);

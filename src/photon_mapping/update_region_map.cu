@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:40:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "cuda.h"
-#include "../inc/cuda_call.h"
+#include "../inc/cuda_call.cuh"
 
 void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 {
