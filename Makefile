@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 13:55:57 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/08 14:03:20 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,8 @@ MISC = 		free_parse_tools \
 			write_values \
 			gpu_errchk
 
-GUI =		window_signals \
+GUI =		main_gtk \
+			window_signals \
 			window_signals1 \
 			get_widget \
 			sig_open_scene \

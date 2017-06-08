@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:57:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 09:31:30 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 13:57:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	free_normal_map(t_object *to_delete);
 
 void		free_object(t_object *to_delete)
 {
-	struct cudaPointerAttributes	attributes;
+	struct cuda_pointer_attributes	attributes;
 
 	if (to_delete->name)
 		free(to_delete->name);
@@ -45,7 +45,7 @@ void		free_object(t_object *to_delete)
 
 static void	free_normal_map(t_object *to_delete)
 {
-	struct cudaPointerAttributes	attributes;
+	struct cuda_pointer_attributes	attributes;
 
 	if (to_delete->normal_map_name)
 		free(to_delete->normal_map_name);

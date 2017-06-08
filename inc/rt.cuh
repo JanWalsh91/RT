@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 13:44:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:57:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@
 # define PHOTON_BOUNCE_MAX 5
 # define PHOTON_SEARCH_RADIUS 10
 # define cuda_device_prop cudaDeviceProp
+# define cuda_pointer_attributes cudaPointerAttributes
 /*
 ** Tokens for the parser.
 */

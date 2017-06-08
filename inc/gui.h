@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:50:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:07:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,5 @@ void			window_destroy_esc(GtkWidget *widget, void *ouais);
 
 int				display_error_popup(GtkWidget *chooser, t_gtk_tools *g,
 															char *ret);
-
 
 #endif
