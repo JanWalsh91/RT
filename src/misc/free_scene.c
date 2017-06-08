@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:20:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 17:22:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 20:53:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ static void	free_objects(t_object *objs);
 void		free_scene(t_scene *scene)
 {
 	free(scene->name);
-	free_cameras(scene->cameras);
+	if (scene->cameras)
+		free_cameras(scene->cameras);
 	scene->cameras = NULL;
-	free_lights(scene->lights);
+	if (scene->lights)
+		free_lights(scene->lights);
 	scene->lights = NULL;
-	free_objects(scene->objects);
+	if (scene->objects)
+		free_objects(scene->objects);
 	scene->objects = NULL;
 	scene = NULL;
 }
