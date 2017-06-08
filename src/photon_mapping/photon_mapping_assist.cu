@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 12:55:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:59:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 void	perpare_memory(t_raytracing_tools *r)
 {
 	r->h_d_scene->photon_iteration = 1;
-	(cudaMallocHost((void **)&r->rt_pixel_map, sizeof(t_color) *
-		r->scene->res.y * r->scene->res.x));
+	cudaMallocHost((void **)&r->rt_pixel_map, sizeof(t_color) *
+		r->scene->res.y * r->scene->res.x);
 	cudaMemcpy(r->rt_pixel_map, r->d_pixel_map, sizeof(t_color) *
 		r->scene->res.y * r->scene->res.x, cudaMemcpyHostToHost);
-	cudaMalloc((void **)&(r->h_d_scene->photon_list), sizeof(t_photon) *
-		PHOTON_BOUNCE_MAX * r->scene->photon_count_per_pass);
+	test_cuda_malloc((void **)&(r->h_d_scene->photon_list),
+		sizeof(t_photon) * PHOTON_BOUNCE_MAX * r->scene->photons_per_pass);
 	cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice);
 }

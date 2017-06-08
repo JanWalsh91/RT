@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/28 17:15:06 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:57:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 {
-	//copy over d_region_map over to corresponding h_region_map[i]
 	int current_tile;
 
 	if (r->scene->is_photon_mapping)
@@ -29,7 +28,6 @@ void	copy_region_map_tile(t_raytracing_tools *r, t_tile tile)
 
 void	get_region_map_tile(t_raytracing_tools *r, t_tile tile)
 {
-	//copy over h_region_map[i] over to d_region_map
 	int current_tile;
 
 	if (r->scene->is_photon_mapping)

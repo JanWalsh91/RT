@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 15:51:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../inc/cuda_call.cuh"
 
 static void		reset_update_struct(t_raytracing_tools *r);
-bool	cuda_malloc_scene(t_raytracing_tools *r);
+bool			cuda_malloc_scene(t_raytracing_tools *r);
 
 /*
 ** Allocates memory on the device and on pinned memory the various sturctures
@@ -66,7 +66,7 @@ static void		reset_update_struct(t_raytracing_tools *r)
 	if (r->update.ray_depth == 2)
 	{
 		gpu_errchk(cudaSetDevice(0));
-		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * r->scene->ray_depth);
+		cudaDeviceSetLimit(cudaLimitStackSize, 1024 * MAX_RAY_DEPTH);
 	}
 	if (r->update.anaglyph == 2)
 		gpu_errchk((cudaMallocHost(&r->d_pixel_map_3d, sizeof(t_color) *

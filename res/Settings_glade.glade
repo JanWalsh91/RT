@@ -252,7 +252,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">AdjPhotonCountPerPass</property>
-                <signal name="value-changed" handler="sig_update_photon_count_per_pass" swapped="no"/>
+                <signal name="value-changed" handler="sig_update_photons_per_pass" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>

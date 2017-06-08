@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:11:12 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:29:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:36:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		update_grid_settings(t_gtk_tools *g, GtkBuilder *builder)
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder),
 											"SpinButtonPhotonCountPerPass"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget),
-									g->r->scene->photon_count_per_pass);
+									g->r->scene->photons_per_pass);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(builder),
 											"SpinButtonPhotonRadius"));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget),

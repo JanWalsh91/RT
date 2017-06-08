@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:21:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 15:44:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 	int			i;
 	t_color		col;
 
-	if (ray->depth == 0)
+	if (ray->depth < 1 || (ray->type > 1 && r->scene->ray_depth - ray->depth > PHOTON_BOUNCE_MAX))
 		return (c_new(0, 0, 0));
 	--ray->depth;
 	r->t = INFINITY;
@@ -88,6 +88,7 @@ t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
 	color = c_add(color, get_ambient(r->scene, ray));
 	return (color);
+	// return (c_new(0, 0, 0));
 }
 
 __device__

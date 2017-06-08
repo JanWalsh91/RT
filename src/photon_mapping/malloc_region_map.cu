@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc_region_map.cu                               :+:      :+:    :+:   */
+/*   malloc_region_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:14:03 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:17:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,48 @@
 #include "cuda.h"
 #include "../inc/cuda_call.cuh"
 
-static void init_region_map(t_region *region_map, size_t size, float search_rad);
+static void init_region_map(t_region *region_map, size_t size,
+				float search_rad);
 
 /*
-** Allocated or reallocates memory for the CPU region map used in Progressive Photon Mapping. 
+** Allocated or reallocates memory for the CPU region map used in
+** Progressive Photon Mapping.
 */
 
-//TODO ADD MALLOC PROTECTIONZ
-
-void	malloc_region_map(t_raytracing_tools *r, t_tile tile)
+void		malloc_region_map(t_raytracing_tools *r, t_tile tile)
 {
-	size_t	size1;
-	size_t	size2;
-	int		i;
+	int			i;
 	static int	old_tile_size = 0;
 
-	if (r->scene->is_photon_mapping)
+	if (!r->scene->is_photon_mapping)
+		return ;
+	if (r->h_region_map)
 	{
-
-		if (r->h_region_map)
-		{
-			i = -1;
-			while (++i < old_tile_size)
-				free(r->h_region_map[i]);
-			free(r->h_region_map);
-			old_tile_size = tile.max;
-		}
-		size1 = sizeof(t_region *) * tile.col * tile.row;
-		size2 = sizeof(t_region) * tile.size * tile.size;
-		if (!(r->h_region_map = (t_region **)malloc(size1)))
-			exit(0);
 		i = -1;
-		while (++i < tile.max)
-		{
-			if (!(r->h_region_map[i] = (t_region *)malloc(size2)))
-				exit(0);
-			init_region_map(r->h_region_map[i], tile.size * tile.size, r->settings.photon_search_radius);
-		}
+		while (++i < old_tile_size)
+			free(r->h_region_map[i]);
+		free(r->h_region_map);
+		old_tile_size = tile.max;
+	}
+	if (!(r->h_region_map = (t_region **)malloc(sizeof(t_region *) *
+		tile.col * tile.row)))
+		exit(0);
+	i = -1;
+	while (++i < tile.max)
+	{
+		if (!(r->h_region_map[i] = (t_region *)malloc(sizeof(t_region) *
+			tile.size * tile.size)))
+			exit(0);
+		init_region_map(r->h_region_map[i], tile.size * tile.size,
+			r->settings.photon_search_radius);
 	}
 }
 
-static void init_region_map(t_region *region_map, size_t size, float search_rad)
+static void	init_region_map(t_region *region_map, size_t size,
+				float search_rad)
 {
 	int i;
-	
+
 	i = -1;
 	while (++i < size)
 	{
@@ -72,10 +70,11 @@ static void init_region_map(t_region *region_map, size_t size, float search_rad)
 }
 
 /*
-** Allocated or reallocates memory for the GPU region map used in Progressive Photon Mapping. 
+** Allocated or reallocates memory for the GPU region map used in
+** Progressive Photon Mapping.
 */
 
-void	cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile)
+void		cuda_malloc_region_map_tile(t_raytracing_tools *r, t_tile tile)
 {
 	size_t	size;
 

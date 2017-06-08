@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 13:57:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:36:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 #define CUDA_DEV
 #endif
 #endif
-
 
 /*
 ** General settings
@@ -73,8 +72,7 @@
 # define COLORS_PATH "res/colors.txt"
 # define CSS_PATH "res/gtk.css"
 # define CUDA_TEST 5
-# define PHOTON_BOUNCE_MAX 5
-# define PHOTON_SEARCH_RADIUS 10
+# define PHOTON_BOUNCE_MAX 10
 # define cuda_device_prop cudaDeviceProp
 # define cuda_pointer_attributes cudaPointerAttributes
 /*
@@ -362,7 +360,7 @@ typedef struct	s_scene
 	bool			is_cartoon_effect;
 	char			is_aa;
 	int				photon_count;
-	int				photon_count_per_pass;
+	int				photons_per_pass;
 	int				photon_iteration;
 	struct s_photon	*photon_list;
 	struct s_kd_tree		*photon_kd_tree;
@@ -467,7 +465,7 @@ typedef struct	s_update
 typedef	struct	s_rt_settings
 {
 	int		tile_size;
-	int		photon_count_per_pass;
+	int		photons_per_pass;
 	float	photon_search_radius;
 }				t_rt_settings;
 

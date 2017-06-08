@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:19:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:36:22 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void		set_scene_non_values(t_scene *new_scene)
 	new_scene->is_photon_mapping = false;
 	new_scene->is_raytracing = true;
 	new_scene->photon_kd_tree = NULL;
-	new_scene->photon_count_per_pass = 100;
+	new_scene->photons_per_pass = 100;
 	new_scene->photon_count = 200;
 	new_scene->is_aa = 1;
 }
