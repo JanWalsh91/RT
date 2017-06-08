@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 14:55:33 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,12 @@ void		*render_wrapper(gpointer data)
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
 	if (g->r->scene->is_cartoon_effect)
+	{
 		get_cartoon_effect(g->r);
+		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
+			g->r->scene->res.x * 3 * g->r->scene->res.y);
+		gtk_widget_queue_draw(g->win);
+	}
 	g->r->rendering = 0;
 	return (NULL);
 }
