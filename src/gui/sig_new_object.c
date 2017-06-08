@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_object.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 20:58:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ void		*sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	g->r->update.render = 1;
 	g->r->update.objects = 2;
 	cuda_free(g->r, 0);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
-											"ScrollWindowObject")), true);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
-											"ButtonDeleteObject")), true);
-	list = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));
+	gtk_widget_set_sensitive(get_widget(g, "ScrollWindowObject"), true);
+	gtk_widget_set_sensitive(get_widget(g, "ButtonDeleteObject"), true);
+	gtk_widget_set_sensitive(get_widget(g, "ButtonRender"), true);
+	list = get_widget(g, "ListBoxObjects");
 	gtk_list_box_insert(GTK_LIST_BOX(list), gtk_label_new(obj->name), -1);
 	select_new_object(g, obj, list);
 	update_objects_info_panel(g, get_selected_object(g));
