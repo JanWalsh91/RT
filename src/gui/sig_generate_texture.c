@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:47:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void		*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 	builder = gtk_builder_new_from_file(GENERATE_TEXTURE_GLADE);
 	gtk_builder_connect_signals(builder, g);
 	adj = GTK_ADJUSTMENT(gtk_builder_get_object(builder,
-									"AdjTexturePrecision"));
+		"AdjTexturePrecision"));
 	gtk_adjustment_set_lower(adj, id == 3 ? 0.01 : 10);
 	gtk_adjustment_set_upper(adj, id == 3 ? 100 : 2000);
 	widget = GTK_WIDGET(gtk_builder_get_object(builder, "window_generate"));

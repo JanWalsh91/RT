@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 13:35:59 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:48:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:46:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,22 @@ void	cuda_check_kernel_errors(void);
 extern "C"
 #endif
 void	get_cartoon_effect(struct s_raytracing_tools *r);
+#ifdef __cplusplus
+extern "C"
+#endif
+void	perpare_memory(t_raytracing_tools *r);
+#ifdef __cplusplus
+extern "C"
+#endif
+void	free_map_and_list(t_raytracing_tools *r);
+#ifdef __cplusplus
+extern "C"
+#endif
+void	copy_1(t_raytracing_tools *r);
+#ifdef __cplusplus
+extern "C"
+#endif
+void	copy_2(t_raytracing_tools *r);
 #ifdef __cplusplus
 #endif
 #endif

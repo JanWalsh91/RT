@@ -6,15 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:32:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:44:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cuda_call.h"
-#include <cuda_runtime.h>
 #include "gui.h"
-
-void	perpare_memory(struct s_gtk_tools *g);
+#include "rt.cuh"
+#include "cuda_call.h"
 
 void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 {
@@ -22,7 +20,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 	photons_shot = 0;
 
 	g->r->h_d_scene->photon_iteration = 1;
-	perpare_memory(g);
+	perpare_memory(g->r);
 	while (photons_shot < (int)g->r->scene->photon_count)
 	{
 		photon_mapping_pass(g->r);
@@ -37,26 +35,11 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 		}
 		++g->r->h_d_scene->photon_iteration;
 		photons_shot += g->r->scene->photon_count_per_pass;
-		cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene),
-			cudaMemcpyHostToDevice);
+		copy_1(g->r);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
 			g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
-		cudaMemcpy(g->r->d_pixel_map, g->r->rt_pixel_map, sizeof(t_color) *
-			g->r->scene->res.x * g->r->scene->res.y, cudaMemcpyHostToHost);
+		copy_2(g->r);
 	}
-	cudaFreeHost(g->r->rt_pixel_map);
-	cudaFree(g->r->h_d_scene->photon_list);
-}
-
-void	perpare_memory(struct s_gtk_tools *g)
-{
-	(cudaMallocHost((void **)&g->r->rt_pixel_map, sizeof(t_color) *
-		g->r->scene->res.y * g->r->scene->res.x));
-	cudaMemcpy(g->r->rt_pixel_map, g->r->d_pixel_map, sizeof(t_color) *
-		g->r->scene->res.y * g->r->scene->res.x, cudaMemcpyHostToHost);
-	cudaMalloc((void **)&(g->r->h_d_scene->photon_list), sizeof(t_photon) *
-		PHOTON_BOUNCE_MAX * g->r->scene->photon_count_per_pass);
-	cudaMemcpy(g->r->d_scene, g->r->h_d_scene, sizeof(t_scene),
-		cudaMemcpyHostToDevice);
+	free_map_and_list(g->r);
 }

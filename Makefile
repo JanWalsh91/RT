@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 12:50:09 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/08 13:42:25 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -184,7 +184,8 @@ PHOTON_MAPPING = update_photon \
 				update_region_map \
 				shoot_photon \
 				get_iors \
-				redirect_photon
+				redirect_photon \
+				photon_mapping_assist
 
 TEXTURE =	export_bmp \
 			read_bmp \
