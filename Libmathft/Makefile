@@ -14,47 +14,47 @@ NAME = libmathft.a
 
 VECTORS_AND_MATRICES = c_add \
 		c_min \
-		c_sub \
 		c_mult \
 		c_new \
 		c_scale \
+		c_sub \
+		col_to_vec \
+		m_add \
+		m_mult \
 		m_new \
 		m_new_identity \
-		m_new_scale \
+		m_new_rodriguez \
 		m_new_rotate \
 		m_new_rotate_axis \
-		p_rotate_axis \
-		m_new_rodriguez \
+		m_new_scale \
+		m_p_mult \
+		m_scale \
 		m_translate \
 		m_v_mult \
-		m_p_mult \
-		m_mult \
-		m_add \
-		m_scale \
-		v_new \
-		v_dot \
-		v_length \
-		v_dist \
-		v_norm \
-		v_cross \
+		p_rotate_axis \
 		v_add \
-		v_sub \
-		v_mult \
-		v_scale \
 		v_clamp \
+		v_cross \
+		v_dist \
+		v_dot \
 		v_isnan \
-		vec_to_col \
-		col_to_vec
+		v_length \
+		v_mult \
+		v_new \
+		v_norm \
+		v_scale \
+		v_sub \
+		vec_to_col
 
 MISC = 	ft_abs \
+		ft_clampf \
 		ft_power \
-		ft_round \
 		ft_rgb_mix \
-		ft_to_radian \
+		ft_round \
+		ft_sqrtfi \
 		ft_swap \
 		ft_swapf \
-		ft_clampf \
-		ft_sqrtfi
+		ft_to_radian
 
 OBJ_DIR = obj
 
