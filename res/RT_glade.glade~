@@ -459,8 +459,8 @@
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Quit</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Escape" signal="activate"/>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <accelerator key="Escape" signal="activate"/>
                       </object>
                     </child>
                   </object>
@@ -1688,17 +1688,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="ComboBoxGeneratedNormal">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="model">ListGeneratedTexture</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">13</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -1780,6 +1769,9 @@
                                 <property name="left_attach">1</property>
                                 <property name="top_attach">18</property>
                               </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                             <child>
                               <placeholder/>
