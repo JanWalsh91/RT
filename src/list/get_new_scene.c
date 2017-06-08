@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_scene.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:19:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:31:46 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void		set_scene_non_values(t_scene *new_scene)
 	new_scene->is_fresnel = true;
 	new_scene->is_photon_mapping = false;
 	new_scene->is_raytracing = true;
-	new_scene->photon_kd_tree = NULL;
 	new_scene->photon_count_per_pass = 100;
 	new_scene->photon_count = 200;
 	new_scene->is_aa = 1;

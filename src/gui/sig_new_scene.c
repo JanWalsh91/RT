@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_scene.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 13:54:20 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:33:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static void	set_default_values_scene(t_gtk_tools *g)
 	g->r->scene->is_fresnel = true;
 	g->r->scene->is_raytracing = true;
 	g->r->scene->is_photon_mapping = false;
-	g->r->scene->photon_kd_tree = NULL;
 	g->r->scene->is_aa = 1;
 }
 

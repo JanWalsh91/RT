@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 14:03:20 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/08 15:51:43 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -223,7 +223,7 @@ OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -gencode=arch=compute_30,code=sm_30 #-Xnvlink --disable-warnings #A remettre pour la correction
+CUFLAGS = -gencode=arch=compute_30,code=sm_30 -Xnvlink --disable-warnings
 FLG = $(CUFLAGS) -Xcompiler="-Werror -Wextra -Wall"
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`
