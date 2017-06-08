@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:44:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:55:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 {
 	int	photons_shot;
-	photons_shot = 0;
 
-	g->r->h_d_scene->photon_iteration = 1;
+	photons_shot = 0;
 	perpare_memory(g->r);
 	while (photons_shot < (int)g->r->scene->photon_count)
 	{
@@ -27,7 +26,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 		tile.id.y = 0;
 		tile.id.x = 0;
 		while (tile.id.x != tile.col && tile.id.y != tile.row)
-		{ 
+		{
 			get_region_map_tile(g->r, tile);
 			radiance_estimation_pass(g->r, tile);
 			copy_region_map_tile(g->r, tile);

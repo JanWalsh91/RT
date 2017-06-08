@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:58:35 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 13:59:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	init_window(t_gtk_tools *g)
 
 	widget = get_widget(g, "MenuItemQuit");
 	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy),
-						NULL);
+			NULL);
 	gdk_monitor_get_geometry(gdk_display_get_monitor(
 			gdk_display_get_default(), 0), &res);
 	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionX"));
