@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 20:40:19 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 20:42:21 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void		init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 {
 	int			id;
 
-	// if (g->updating_gui)
-	// 	return ;
 	id = (gtk_combo_box_get_has_entry(GTK_COMBO_BOX(widget))) ?
 		gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) : 0;
 	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(widget));
