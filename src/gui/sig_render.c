@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 17:50:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 21:22:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 			g->r->scene->res.x * 3 * g->r->scene->res.y);
 		g->win ? gtk_widget_queue_draw(g->win) : 0;
 	}
-	if (g->r->scene->is_photon_mapping)
+	if (g->r->scene->is_photon_mapping && !g->r->scene->is_cartoon_effect)
 		render_ppm(g, tile);
 }
 
