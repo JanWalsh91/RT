@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_new_object.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 15:53:20 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 11:08:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:54:23 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void		set_non_values(t_object *new_object)
 	ft_bzero(new_object, sizeof(t_object));
 	new_object->name = NULL;
 	new_object->next = NULL;
-	new_object->obj = NULL;
 	new_object->pos = v_new(NAN, NAN, NAN);
 	new_object->dir = v_new(NAN, NAN, NAN);
 	new_object->look_at = v_new(NAN, NAN, NAN);

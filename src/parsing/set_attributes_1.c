@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/26 15:47:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 20:25:46 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 11:49:08 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void		set_attributes(t_parse_tools *t, t_attributes *a)
 
 static void	set_attributes_by_obj_type(t_parse_tools *t, t_attributes *a)
 {
-	t->current_type == T_OBJ ? set_attributes_obj(t, a) : 0;
 	t->current_type == T_SPHERE ? set_attributes_sphere(t, a) : 0;
 	t->current_type == T_CYLINDER ? set_attributes_cylinder(t, a) : 0;
 	t->current_type == T_CONE ? set_attributes_cone(t, a) : 0;

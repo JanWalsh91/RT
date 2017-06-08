@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 18:17:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 20:25:34 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 11:49:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ char	*parse_radius(t_parse_tools *t)
 		t->object_attributes->rad = new_radius;
 	if (t->in_object && t->current_type != T_CONE &&
 		t->current_type != T_CYLINDER &&
-	t->current_type != T_SPHERE && t->current_type != T_OBJ
-		&& t->current_type != T_DISK &&
+	t->current_type != T_SPHERE && t->current_type != T_DISK &&
 		t->current_type != T_PARABOLOID)
 		return ("Radius attribute only applicable \
 		to spheres, cones, cylinders and disks.");
@@ -92,8 +91,7 @@ char	*parse_height(t_parse_tools *t)
 	else if (t->in_object)
 		t->object_attributes->height = new_height;
 	if (t->in_object && t->current_type != T_CONE &&
-		t->current_type != T_CYLINDER && t->current_type != T_OBJ &&
-		t->current_type != T_PARABOLOID)
+		t->current_type != T_CYLINDER && t->current_type != T_PARABOLOID)
 		return ("Height attribute only applicable to cones and cylinders.");
 	return (NULL);
 }

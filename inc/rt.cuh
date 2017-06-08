@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 21:33:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:52:37 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 // # include <cuda.h>
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
-# include "objparser.h"
 // # include <cuda_runtime.h>
 
 #ifndef CUDA_DEV
@@ -72,7 +71,7 @@
 # define DEFAULT_TILE_SIZE 288
 # define CAM_IMG_PANE_DIST 1
 # define BIAS 0.001
-# define INIT_IOR 1.0003 // initial index of refraction (air)
+# define INIT_IOR 1.0003
 # define COLORS_PATH "res/colors.txt"
 # define CSS_PATH "res/gtk.css"
 # define CUDA_TEST 5
@@ -97,8 +96,6 @@ typedef enum	e_token
 	T_CYLINDER,
 	T_CONE,
 	T_PARABOLOID,
-	T_OBJ,
-	T_TRIANGLE,
 	T_RESOLUTION,
 	T_RAY_DEPTH,
 	T_BACKGROUND_COLOR,
@@ -120,7 +117,6 @@ typedef enum	e_token
 	T_INTENSITY,
 	T_FILTER,
 	T_READ_NORMAL_MAP,
-	T_READ_OBJ_FILE,
 	T_READ_TEXTURE_FILE,
 	T_READ_MATERIAL_FILE,
 	T_PARENT_INDEX,
@@ -267,8 +263,6 @@ typedef struct	s_object
 {
 	t_token			type;
 	char			*name;
-	//poitner to obj file which contains all info about obj, including paths
-	struct s_obj	*obj;
 	t_vec3			pos;
 	t_vec3			dir;
 	t_vec3			look_at;
@@ -573,7 +567,6 @@ void			set_attributes_sphere(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cylinder(t_parse_tools *t, t_attributes *a);
 void			set_attributes_cone(t_parse_tools *t, t_attributes *a);
 void			set_attributes_paraboloid(t_parse_tools *t, t_attributes *a);
-void			set_attributes_obj(t_parse_tools *t, t_attributes *a);
 int				reset_attributes(t_attributes *att);
 char			*parse_open_bracket(t_parse_tools *t);
 char			*parse_close_bracket(t_parse_tools *t);
@@ -610,7 +603,6 @@ char			*parse_fov(t_parse_tools *t);
 char			*parse_intensity(t_parse_tools *t);
 char			*parse_filter(t_parse_tools *t);
 char			*read_normal_map(t_parse_tools *t);
-char			*read_obj_file(t_parse_tools *t);
 char			*read_texture_file(t_parse_tools *t);
 char			*read_material_file(t_parse_tools *t);
 char			*parse_parent_index(t_parse_tools *t);
@@ -798,10 +790,6 @@ bool			get_disk_intersection(t_raytracing_tools *r, t_ray *ray,
 CUDA_DEV
 bool			get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 					int index);
-CUDA_DEV
-bool			get_triangle_intersection(t_raytracing_tools *r, t_triangle *t, t_ray *ray, int index);
-CUDA_DEV
-bool			get_obj_intersection(t_raytracing_tools *r, t_ray *ray, int index);
 CUDA_DEV
 bool			get_view_pane_intersection(t_ray *ray, t_camera *cam);
 CUDA_DEV

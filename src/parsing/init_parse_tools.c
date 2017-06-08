@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/25 14:43:48 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 20:30:31 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 11:52:12 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ static void	init_parse_functions(t_parse_tools *t)
 	t->parse[T_CYLINDER] = &parse_cylinder;
 	t->parse[T_CONE] = &parse_cone;
 	t->parse[T_PARABOLOID] = &parse_paraboloid;
-	t->parse[T_TRIANGLE] = NULL;
-	t->parse[T_OBJ] = &parse_obj;
 	t->parse[T_RESOLUTION] = &parse_resolution;
 	t->parse[T_RAY_DEPTH] = &parse_ray_depth;
 	t->parse[T_BACKGROUND_COLOR] = &parse_background_color;
@@ -104,7 +102,6 @@ static void	init_parse_functions2(t_parse_tools *t)
 	t->parse[T_INTENSITY] = &parse_intensity;
 	t->parse[T_FILTER] = &parse_filter;
 	t->parse[T_READ_NORMAL_MAP] = &read_normal_map;
-	t->parse[T_READ_OBJ_FILE] = &read_obj_file;
 	t->parse[T_READ_TEXTURE_FILE] = &read_texture_file;
 	t->parse[T_READ_MATERIAL_FILE] = &read_material_file;
 	t->parse[T_PARENT_INDEX] = &parse_parent_index;

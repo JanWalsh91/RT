@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 20:24:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:02:40 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	obj->type = id + 6;
 	widget = get_widget(g, "SpinButtonObjectHeight");
-	if (obj->type == T_CYLINDER || obj->type == T_CONE)
-		gtk_widget_set_sensitive(widget, TRUE);
-	else
-		gtk_widget_set_sensitive(widget, FALSE);
+	gtk_widget_set_sensitive(widget, obj->type == T_CYLINDER || obj->type == T_CONE);
 	update_obj_type1(g, obj);
-	update_objects_info_panel(g, obj);
+	if (g->updating_gui)
+		return (NULL);
+	render ? 0 : update_objects_info_panel(g, obj);
 	render ? obj_render_sig(g) : 0;
 	return (NULL);
 }
@@ -60,8 +59,6 @@ static void	update_obj_type1(t_gtk_tools *g, t_object *obj)
 		obj->dir = v_new(DEFAULT_DIR_X, DEFAULT_DIR_Y, DEFAULT_DIR_Z);
 	if (isnan(obj->height) || !obj->height)
 		obj->height = DEFAULT_HEIGHT;
-	if (g->updating_gui)
-		return ;
 }
 
 void		init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)

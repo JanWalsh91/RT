@@ -344,9 +344,6 @@
       <row>
         <col id="0" translatable="yes">Paraboloid</col>
       </row>
-      <row>
-        <col id="0" translatable="yes">.Obj</col>
-      </row>
     </data>
   </object>
   <object class="GtkListStore" id="liststore2">

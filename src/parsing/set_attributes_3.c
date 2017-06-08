@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_attributes_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 13:19:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 13:21:11 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:49:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,4 @@ void	set_attributes_paraboloid(t_parse_tools *t, t_attributes *a)
 		t->current_object->rad = a->rad;
 	if (!isnan(a->height))
 		t->current_object->height = a->height;
-}
-
-void	set_attributes_obj(t_parse_tools *t, t_attributes *a)
-{
-	if (a->obj)
-		t->current_object->obj = a->obj;
 }

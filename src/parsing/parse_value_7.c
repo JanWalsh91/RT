@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_7.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:25:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:10:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:50:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/rt.cuh"
-#include "objparser.h"
 
 /*
 ** Contains functions for parsing each value based on token.
@@ -82,26 +81,5 @@ char	*read_normal_map(t_parse_tools *t)
 		return (strerror(errno));
 	t->current_object->normal_map_name = ft_strdup(t->input->value);
 	t->current_object->normal_map = normal_map;
-	return (NULL);
-}
-
-char	*read_obj_file(t_parse_tools *t)
-{
-	t_obj	*new_obj;
-	char	*ret;
-
-	printf("READING OBJ\n");
-	if ((ret = objparser(t->input->value, &new_obj)))
-		return (ret);
-	printf("ad : %p\n", new_obj);
-	print_triangles(new_obj);
-	if (!t->in_scene)
-		t->global_attributes->obj = new_obj;
-	else if (!t->in_object)
-		t->scene_attributes->obj = new_obj;
-	else if (t->in_object)
-		t->object_attributes->obj = new_obj;
-	t->object_attributes->rad = v_dist(new_obj->far_point1,
-		(t_vec3){0, 0, 0}) * 2;
 	return (NULL);
 }
