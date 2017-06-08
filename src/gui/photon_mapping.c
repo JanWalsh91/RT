@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 11:56:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 16:36:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 17:13:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 
 	photons_shot = 0;
 	perpare_memory(g->r);
-	while (photons_shot < (int)g->r->scene->photon_count)
+	while (photons_shot < (int)g->r->scene->photon_count && g->win)
 	{
 		photon_mapping_pass(g->r);
 		tile.id.y = 0;
@@ -37,7 +37,7 @@ void	render_ppm(struct s_gtk_tools *g, t_tile tile)
 		copy_1(g->r);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
 			g->r->scene->res.x * 3 * g->r->scene->res.y);
-		gtk_widget_queue_draw(g->win);
+		g->win ? gtk_widget_queue_draw(g->win) : 0;
 		copy_2(g->r);
 	}
 	free_map_and_list(g->r);
