@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:28:15 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 15:06:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ void		*sig_update_obj_lookat_name(GtkWidget *combo_box, t_gtk_tools *g)
 	t_vec3		look_at;
 	t_object	*obj;
 
-	printf("sig_update_obj_lookat_name\n");
 	obj = get_selected_object(g);
 	if (v_isnan(look_at = get_look_at_obj(GTK_COMBO_BOX(combo_box), g)))
 		return (NULL);
-	printf("Nouvelle valeur de look at : %f, %f, %f\n", look_at.x, look_at.y, look_at.z);
 	obj->dir = v_norm(v_sub(look_at, obj->pos));
 	if (g->updating_gui)
 		return (NULL);
@@ -62,7 +60,6 @@ void		*sig_uptate_obj_texture_translate_x(GtkWidget *spin_button,
 {
 	t_object	*obj;
 
-	printf("sig_update_obj_texture_translate\n");
 	obj = get_selected_object(g);
 	obj->texture_translate.x =
 			gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -75,7 +72,6 @@ void		*sig_uptate_obj_texture_translate_y(GtkWidget *spin_button,
 {
 	t_object	*obj;
 
-	printf("sig_update_obj_texture_translate\n");
 	obj = get_selected_object(g);
 	obj->texture_translate.y =
 			gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));

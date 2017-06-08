@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_12.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 12:11:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 09:32:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char		*read_texture_file(t_parse_tools *t)
 	if (!t->input->value)
 		return ("Invalid texture name");
 	res = ft_strsplit(t->input->value, ' ');
-	printf("Res[0] = %p\n", res[0]);
 	if (!res)
 		return ("Invalid texture name");
 	ret = NULL;
@@ -105,7 +104,6 @@ static char	*init_bmp(t_parse_tools *t)
 
 	if (!check_file_ext(t->input->value, "BMP"))
 		return ("Texture must be a bmp file.");
-	printf("%s\n", t->input->value);
 	if (!(texture = read_bmp(t->input->value, &t->current_object->texture_dim)))
 		return (strerror(errno));
 	t->current_object->texture_name = ft_strdup(t->input->value);

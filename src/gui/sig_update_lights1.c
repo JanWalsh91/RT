@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:35:51 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 15:40:07 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	*sig_update_light_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
-	printf("sig_update_light_pos_x\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -29,7 +28,6 @@ void	*sig_update_light_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
-	printf("sig_update_light_pos_y\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -41,7 +39,6 @@ void	*sig_update_light_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
-	printf("sig_update_light_pos_z\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -54,7 +51,6 @@ void	*sig_update_light_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	t_light			*l_ptr;
 	GdkRGBA			color;
 
-	printf("sig_update_light_color\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_chooser), &color);
@@ -69,7 +65,6 @@ void	*sig_update_light_intensity(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_light		*l_ptr;
 
-	printf("sig_update_light_intensity\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->intensity = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));

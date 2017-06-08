@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_delete_camera.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:47:39 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 15:26:23 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:18:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void		*sig_delete_camera(GtkWidget *button, t_gtk_tools *g)
 	int					id;
 
 	(void)button;
-	printf("sig_delete_camera\n");
 	widget = get_widget(g, "ListBoxCameras");
 	list_box_row = gtk_list_box_get_selected_row(GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index(list_box_row);

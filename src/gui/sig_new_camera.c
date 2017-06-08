@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_camera.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 16:14:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*sig_new_camera(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_camera	*camera;
 
-	printf("sig_new_camera\n");
 	if (!(camera = (t_camera *)ft_memalloc(sizeof(t_camera))))
 		return (NULL);
 	ft_bzero(camera, sizeof(t_camera));

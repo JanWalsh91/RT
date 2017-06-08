@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 14:56:48 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:14:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:16:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 int	cuda_free(t_raytracing_tools *r, int all)
 {
-	printf("cudafree\n");
 	if (r->update.resolution == 2 || all)
 		cudaFree(r->d_pixel_map);
 	if (r->update.objects == 2 || all)

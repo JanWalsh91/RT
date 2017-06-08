@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 13:54:20 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:48:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void		*sig_new_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	(void)menu_item;
-	printf("sig_new_scene\n");
 	free_old_scene(g);
 	if (!(g->r->scene = (t_scene *)malloc(sizeof(t_scene))))
 		return (NULL);

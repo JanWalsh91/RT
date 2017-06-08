@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   photon_mapping_pass.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:29:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static float	get_total_intensity(t_light *lights);
 
 void	photon_mapping_pass(t_raytracing_tools *r)
 {
-	printf("photon_mapping_pass\n");
 	t_photon		*init_photon_list;
 	int 			photon_count;
 

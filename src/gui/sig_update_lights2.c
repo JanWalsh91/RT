@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:37:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 15:39:48 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*sig_update_light_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_light		*l_ptr;
 	GtkWidget	*widget;
 
-	printf("sig_update_light_dir_x\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -44,7 +43,6 @@ void	*sig_update_light_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	t_light		*l_ptr;
 	GtkWidget	*widget;
 
-	printf("sig_update_light_dir_y\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -70,7 +68,6 @@ void	*sig_update_light_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_light		*l_ptr;
 	GtkWidget	*widget;
 
-	printf("sig_update_light_dir_z\n");
 	if (!(l_ptr = get_light_from_list_box(g)))
 		return (NULL);
 	l_ptr->dir.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
@@ -98,7 +95,6 @@ void	*sig_light_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	GtkBuilder	*b;
 
 	(void)button;
-	printf("sig_light_dir_normalize\n");
 	b = GTK_BUILDER(g->builder);
 	light = get_selected_light(g);
 	light->dir = v_norm(light->dir);

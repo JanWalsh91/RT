@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 12:16:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 12:30:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*get_file(char *file_name, t_parse_tools *t)
 	int			ret;
 	int			line;
 
-	printf("get_file\n");
 	line = 0;
 	next_line = NULL;
 	fd = open(file_name, O_RDONLY);

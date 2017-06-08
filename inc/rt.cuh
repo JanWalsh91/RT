@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 11:52:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:29:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@
 # include <errno.h>
 # include <limits.h>
 # include <stdbool.h>
-// # include <cuda.h>
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
-// # include <cuda_runtime.h>
 
 #ifndef CUDA_DEV
 #ifdef __CUDACC__
@@ -77,7 +75,7 @@
 # define CUDA_TEST 5
 # define PHOTON_BOUNCE_MAX 5
 # define PHOTON_SEARCH_RADIUS 10
-
+# define cuda_device_prop cudaDeviceProp
 /*
 ** Tokens for the parser.
 */

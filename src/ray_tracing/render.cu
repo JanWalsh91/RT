@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/30 10:59:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 20:58:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ void	render(t_raytracing_tools *r, t_tile tile)
 	size = (tile.size / BLOCK_DIM) + ((tile.size % BLOCK_DIM) ? 1 : 0);
 	block_size = dim3(BLOCK_DIM, BLOCK_DIM, 1);
 	grid_size = dim3(size, size);
-	printf("launch kernel:\n");
 	render_pixel<<<grid_size, block_size>>>(r->d_scene, r->d_pixel_map,
 		r->d_region_map, tile);
 	cuda_check_kernel_errors();
-	printf("end kernel\n");
 	if (r->scene->is_3d)
 		create_anaglyph_wrapper(r, block_size, grid_size, tile);
 }

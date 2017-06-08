@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 17:02:19 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 16:19:17 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void		*update_grid_lights(t_gtk_tools *g)
 	GtkBuilder	*b;
 
 	b = GTK_BUILDER(g->builder);
-	printf("update_grid_lights\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(b, "ListBoxLights"));
 	gtk_container_foreach(GTK_CONTAINER(widget), (GtkCallback)G_CALLBACK(
 												gtk_widget_destroy), NULL);
@@ -65,7 +64,6 @@ void		update_lights_info_panel(t_gtk_tools *g, t_light *light)
 	GdkRGBA		color;
 	GtkBuilder	*b;
 
-	printf("update_lights_info_panel\n");
 	b = GTK_BUILDER(g->builder);
 	widget = GTK_WIDGET(gtk_builder_get_object(b, "ComboBoxLightType"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), !v_isnan(light->dir));

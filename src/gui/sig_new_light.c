@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 10:54:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 	t_light	*light;
 
 	(void)widget;
-	printf("sig_new_light\n");
 	if (!(light = (t_light *)ft_memalloc(sizeof(t_light))))
 		return (NULL);
 	ft_bzero(light, sizeof(t_light));

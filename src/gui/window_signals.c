@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 17:06:27 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 17:00:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void		on_window_main_destroy(void)
 
 void		window_destroy(GtkWidget *widget, void *g)
 {
-	printf("window_destroy\n");
 	gtk_widget_destroy(((t_gtk_tools *)g)->win ?
 		GTK_WIDGET(((t_gtk_tools *)g)->win) : widget);
 	((t_gtk_tools *)g)->win = NULL;
@@ -31,7 +30,6 @@ void		window_destroy(GtkWidget *widget, void *g)
 void		window_destroy_esc(GtkWidget *widget, void *g)
 {
 	(void)widget;
-	printf("window_destroy_esc\n");
 	gtk_widget_destroy(GTK_WIDGET(g));
 }
 

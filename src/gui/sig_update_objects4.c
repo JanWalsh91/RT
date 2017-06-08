@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 17:07:51 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 10:03:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void		*sig_update_current_object(GtkListBox *box, GtkListBoxRow *row,
 	t_object	*o_ptr;
 
 	(void)box;
-	printf("sig_update_current_object\n");
 	i = -1;
 	index = gtk_list_box_row_get_index(row);
 	o_ptr = g->r->scene->objects;
@@ -42,7 +41,6 @@ void		*sig_update_object_parent(GtkWidget *combo_box, t_gtk_tools *g)
 	t_object	*current_obj;
 	int			i;
 
-	printf("update parent\n");
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	current_obj = get_selected_object(g);
 	i = 0;
@@ -85,7 +83,6 @@ t_object	*get_selected_object(t_gtk_tools *g)
 	int				i;
 	t_object		*obj;
 
-	printf("get_selected_object: \n");
 	widget = get_widget(g, "ListBoxObjects");
 	if (!widget)
 		return (NULL);
@@ -105,7 +102,6 @@ void		*sig_update_obj_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	t_object	*obj;
 	GdkRGBA		color;
 
-	printf("sig_update_obj_color\n");
 	obj = get_selected_object(g);
 	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_chooser), &color);
 	obj->col.x = color.red * 255;

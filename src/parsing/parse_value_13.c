@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_value_13.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 12:09:16 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 09:32:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*parse_beer_lambert(t_parse_tools *t)
 		new_beer_lambert < 0 || new_beer_lambert > 1)
 		return ("Beer Lambert coefficient formatting error.\n\
 		The Beer Lambert coefficient is a float between 0 and 1.");
-	printf("New beer_lambert: %f\n", new_beer_lambert);
 	if (!t->in_scene)
 		t->global_attributes->beer_lambert = new_beer_lambert;
 	else if (!t->in_object)

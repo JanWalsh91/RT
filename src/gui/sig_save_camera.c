@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save_camera.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 16:38:18 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 16:40:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	save_camera2(int fd, t_camera *cam);
 
 void		save_camera(int fd, t_camera *cam)
 {
-	printf("save_camera\n");
 	write(fd, "\tcamera: ", 9);
 	write(fd, cam->name, ft_strlen(cam->name));
 	write(fd, "\n\t{\n", 4);

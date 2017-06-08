@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:39:38 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:42:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void			*sig_delete_object(GtkWidget *button, t_gtk_tools *g)
 	int				id;
 
 	(void)button;
-	printf("sig_delete_object\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxObjects"));
 	list_box_row = gtk_list_box_get_selected_row(GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index(list_box_row);

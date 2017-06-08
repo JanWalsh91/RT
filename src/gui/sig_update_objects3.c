@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 17:07:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 15:08:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*sig_update_obj_lookat_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object	*obj;
 	GtkWidget	*widget;
 
-	printf("sig_update_obj_lookat_x\n");
 	obj = get_selected_object(g);
 	obj->look_at.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
@@ -45,7 +44,6 @@ void	*sig_update_obj_lookat_y(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object	*obj;
 	GtkWidget	*widget;
 
-	printf("sig_update_obj_lookat_y\n");
 	obj = get_selected_object(g);
 	obj->look_at.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)
@@ -72,7 +70,6 @@ void	*sig_update_obj_lookat_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_object	*obj;
 	GtkWidget	*widget;
 
-	printf("sig_update_obj_lookat_z\n");
 	obj = get_selected_object(g);
 	obj->look_at.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	if (g->updating_gui)

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:33:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 11:47:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void		*update_grid_scene(t_gtk_tools *g)
 	GdkRGBA		color;
 	GtkBuilder	*b;
 
-	printf("update_grid_scene\n");
 	b = GTK_BUILDER(g->builder);
 	update_scene_gui(g, b);
 	widget = GTK_WIDGET(gtk_builder_get_object(b, "ButtonPreviousCamera"));
@@ -76,7 +75,6 @@ static void	update_scene_gui(t_gtk_tools *g, GtkBuilder *b)
 
 void		scene_render_sig(t_gtk_tools *g)
 {
-	printf("scene_render_sig\n");
 	g->r->update.render = 1;
 	g->r->update.scene = 1;
 	if (g->win)
@@ -88,7 +86,6 @@ void		*sig_update_res_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_pt2	res;
 
 	res = g->r->scene->res;
-	printf("sig_update_res_x\n");
 	while (g->r->rendering)
 		;
 	res.x = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin_button));

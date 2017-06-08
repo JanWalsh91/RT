@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 12:51:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:53:07 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:16:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ bool				cuda_malloc(t_raytracing_tools *r)
 {
 	t_scene		h_scene_to_array;
 
-	printf("-------------cuda malloc\n");
 	memcpy(&h_scene_to_array, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
 	memcpy(r->h_d_scene, r->scene, sizeof(t_scene) - (sizeof(void *) * 3));
 	if (cuda_malloc_objects(r, &h_scene_to_array) == false)

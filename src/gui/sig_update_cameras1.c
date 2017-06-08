@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_cameras1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:32:31 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 14:42:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*sig_update_current_cam(GtkListBox *box, GtkListBoxRow *row,
 	t_camera	*c_ptr;
 
 	(void)box;
-	printf("sig_update_current_cam\n");
 	i = -1;
 	index = gtk_list_box_row_get_index(row);
 	c_ptr = get_first_camera(g);
@@ -40,7 +39,6 @@ void	*sig_update_cam_name(GtkWidget *gtk_entry, t_gtk_tools *g)
 	char		*name;
 	t_camera	*cam;
 
-	printf("sig_update_cam_name\n");
 	cam = get_selected_camera(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)gtk_entry));
 	free(cam->name);
@@ -59,7 +57,6 @@ void	*sig_update_cam_pos_x(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera	*cam;
 
-	printf("sig_update_cam_pos_x\n");
 	cam = get_selected_camera(g);
 	cam->pos.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : camera_render_sig(g);
@@ -70,7 +67,6 @@ void	*sig_update_cam_pos_y(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera	*cam;
 
-	printf("sig_update_cam_pos_y\n");
 	cam = get_selected_camera(g);
 	cam->pos.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : camera_render_sig(g);
@@ -81,7 +77,6 @@ void	*sig_update_cam_pos_z(GtkWidget *spin_button, t_gtk_tools *g)
 {
 	t_camera	*cam;
 
-	printf("sig_update_cam_pos_z\n");
 	cam = get_selected_camera(g);
 	cam->pos.z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin_button));
 	(g->updating_gui) ? 0 : camera_render_sig(g);

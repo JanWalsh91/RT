@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_generate_texture.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 15:40:05 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 14:01:11 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void		*sig_generated_texture_get_dimensions(GtkWidget *button,
 	t_vec3		dim_tmp;
 
 	(void)button;
-	printf("Getting dimensions of generated texture");
 	obj = get_selected_object(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder_texture,
 						"SpinButtonResolutionGeneratedTextureX"));
@@ -118,7 +117,6 @@ void		*sig_generate_texture(GtkWidget *combo_box, t_gtk_tools *g)
 	GtkAdjustment	*adj;
 	GtkBuilder		*builder;
 
-	printf("sig_generate_texture\n");
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	if (id == 0)
 		return (NULL);

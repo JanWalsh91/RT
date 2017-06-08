@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 14:41:55 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 16:41:57 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void		*update_grid_cameras(t_gtk_tools *g)
 	GtkWidget	*label;
 	t_camera	*camera;
 
-	printf("update_grid_cameras\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
 													"ListBoxCameras"));
 	gtk_container_foreach(GTK_CONTAINER(widget), (GtkCallback)
@@ -63,7 +62,6 @@ void		update_cameras_info_panel(t_gtk_tools *g, t_camera *camera)
 {
 	GtkWidget	*widget;
 
-	printf("update_cameras_info_panel\n");
 	g->updating_gui = true;
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
 										"EntryCameraName"));

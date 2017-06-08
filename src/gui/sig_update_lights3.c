@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 15:40:44 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 15:59:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*sig_update_current_light(GtkListBox *box, GtkListBoxRow *row,
 	t_light		*l_ptr;
 
 	(void)box;
-	printf("sig_update_current_light\n");
 	i = -1;
 	index = gtk_list_box_row_get_index(row);
 	l_ptr = g->r->scene->lights;
@@ -60,7 +59,6 @@ void	*sig_update_light_type(GtkWidget *combo_box, t_gtk_tools *g)
 	int			id;
 	t_light		*light;
 
-	printf("sig_update_light_type\n");
 	light = get_selected_light(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	if (id == 0)
@@ -90,7 +88,6 @@ void	*sig_update_light_name(GtkWidget *gtk_entry, t_gtk_tools *g)
 	t_light		*light;
 	GtkWidget	*widget;
 
-	printf("sig_update_light_name\n");
 	light = get_selected_light(g);
 	name = ft_strdup((char *)gtk_entry_get_text((struct _GtkEntry *)gtk_entry));
 	free(light->name);

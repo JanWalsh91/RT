@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_cameras5.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:41:44 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 14:27:45 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_camera		*get_selected_camera(t_gtk_tools *g)
 	int				i;
 	t_camera		*cam;
 
-	printf("get_selected_camera\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxCameras"));
 	list_box_row = gtk_list_box_get_selected_row(GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index(list_box_row);
@@ -48,7 +47,6 @@ void			*sig_update_cam_dir_x(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera	*cam;
 	GtkWidget	*widget;
 
-	printf("sig_update_cam_dir_x\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
 											"ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive(widget, TRUE);
@@ -76,7 +74,6 @@ void			*sig_update_cam_dir_y(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera	*cam;
 	GtkWidget	*widget;
 
-	printf("sig_update_cam_dir_y\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
 											"ButtonCameraDirNormalize"));
 	gtk_widget_set_sensitive(widget, TRUE);
@@ -104,7 +101,6 @@ void			*sig_update_cam_dir_z(GtkWidget *spin_button, t_gtk_tools *g)
 	t_camera	*cam;
 	GtkWidget	*widget;
 
-	printf("sig_update_cam_dir_z\n");
 	widget = get_widget(g, "ButtonCameraDirNormalize");
 	gtk_widget_set_sensitive(widget, TRUE);
 	cam = get_selected_camera(g);

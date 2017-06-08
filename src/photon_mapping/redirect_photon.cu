@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_photon.cu                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 16:00:41 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:37:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,8 @@ static void		scale_color(t_ray *ray, float p, float k, t_vec3 obj_col)
 {
 	t_color p_inc;
 
-	// printf("scale color input: p: [%f] k : [%f]\n", p, k);
 	p_inc = ray->col;
 	ray->col.r = p_inc.r * k * (obj_col.x / (p * 255.0));
 	ray->col.g = p_inc.g * k * (obj_col.y / (p * 255.0));
 	ray->col.b = p_inc.b * k * (obj_col.z / (p * 255.0));
-	// printf("scale color: old: [%d, %d, %d] new: [%d, %d, %d]\n", p_inc.r, p_inc.g, p_inc.b, ray->col.r, ray->col.g, ray->col.b);
 }

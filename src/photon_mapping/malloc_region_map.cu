@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:14:03 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:05:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,17 @@ static void init_region_map(t_region *region_map, size_t size, float search_rad)
 
 void	malloc_region_map(t_raytracing_tools *r, t_tile tile)
 {
-	printf("malloc_region_map\n");
 	size_t	size1;
 	size_t	size2;
 	int		i;
 	static int	old_tile_size = 0;
 
-	r->update.photon_map = 2; ///////////
-	if (r->scene->is_photon_mapping && r->update.photon_map == 2)
+	if (r->scene->is_photon_mapping)
 	{
 
 		if (r->h_region_map)
 		{
 			i = -1;
-			printf("free\n");
 			while (++i < old_tile_size)
 				free(r->h_region_map[i]);
 			free(r->h_region_map);
@@ -47,7 +44,6 @@ void	malloc_region_map(t_raytracing_tools *r, t_tile tile)
 		size2 = sizeof(t_region) * tile.size * tile.size;
 		if (!(r->h_region_map = (t_region **)malloc(size1)))
 			exit(0);
-		printf("new: %p\n", r->h_region_map);
 		i = -1;
 		while (++i < tile.max)
 		{
@@ -55,8 +51,6 @@ void	malloc_region_map(t_raytracing_tools *r, t_tile tile)
 				exit(0);
 			init_region_map(r->h_region_map[i], tile.size * tile.size, r->settings.photon_search_radius);
 		}
-		printf("allocated %d in h_region_map\n", tile.max);
-		r->update.photon_map = 0;
 	}
 }
 

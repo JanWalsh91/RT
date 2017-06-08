@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects12.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:02:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 	GtkWidget	*widget;
 	int			render;
 
-	printf("sig_update_obj_type\n");
 	render = (g->updating_gui) ? 0 : 1;
 	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
@@ -65,7 +64,6 @@ void		init_obj_look_at_combo_box(GtkWidget *widget, t_gtk_tools *g)
 {
 	int			id;
 
-	printf("init_obj_look_at_combo_box\n");
 	if (g->updating_gui)
 		return ;
 	id = (gtk_combo_box_get_has_entry(GTK_COMBO_BOX(widget))) ?
@@ -109,7 +107,6 @@ void		*sig_udpate_bg_color(GtkWidget *color_chooser, t_gtk_tools *g)
 	GdkRGBA			color;
 	t_vec3			bg_color;
 
-	printf("sig_update_bg_col\n");
 	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_chooser), &color);
 	bg_color = g->r->scene->background_color;
 	bg_color.x = color.red * 255;

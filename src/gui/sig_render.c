@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 11:12:43 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:39:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 #include <cuda_runtime.h>
 
 static void	init_render_window(t_gtk_tools *g);
-void	get_cartoon_effect(struct s_raytracing_tools *r, struct s_vec3 cartoon_tools);
+void		get_cartoon_effect(struct s_raytracing_tools *r, struct s_vec3 cartoon_tools);
 
 void		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
 	t_object		*obj;
 
-	printf("sig-render\n");
 	g->r->update.render = 1;
 	update_camera_ctw(g->r->scene->cameras);
 	widget = get_widget(g, "ButtonObjectDirNormalize");
@@ -98,7 +97,6 @@ void		*render_wrapper(gpointer data)
 	t_gtk_tools	*g;
 	t_tile		tile;
 
-	printf("render_wrapper\n");
 	g = (t_gtk_tools *)data;
 	init_tile(&tile, g);
 	if (g->r->update.resolution)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_object.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 14:09:59 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void		*sig_new_object(GtkWidget *widget, t_gtk_tools *g)
 	GtkWidget	*list;
 
 	(void)widget;
-	printf("sig_new_object\n");
 	if (set_obj_default_values(g, &obj) == -1)
 		return (NULL);
 	g->r->update.render = 1;

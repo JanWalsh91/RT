@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_lights4.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 16:13:23 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/04 16:14:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_light		*get_light_from_list_box(t_gtk_tools *g)
 	int			index;
 	int			i;
 
-	printf("get_light_from_list_box\n");
 	i = -1;
 	index = gtk_list_box_row_get_index(gtk_list_box_get_selected_row(
 		GTK_LIST_BOX(gtk_builder_get_object(GTK_BUILDER(g->builder),
@@ -41,7 +40,6 @@ t_light		*get_selected_light(t_gtk_tools *g)
 	int				i;
 	t_light			*light;
 
-	printf("get_selected_light\n");
 	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "ListBoxLights"));
 	list_box_row = gtk_list_box_get_selected_row(GTK_LIST_BOX(widget));
 	id = gtk_list_box_row_get_index(list_box_row);

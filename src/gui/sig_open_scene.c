@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_open_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 13:46:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 17:19:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void		*sig_open_scene(GtkWidget *menu_item, t_gtk_tools *g)
 	int				dialog_ret;
 
 	(void)menu_item;
-	printf("sig open scene\n");
 	dialog = gtk_file_chooser_dialog_new("Open File", NULL,
 				GTK_FILE_CHOOSER_ACTION_OPEN, "_Cancel",
 				GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT, NULL);
@@ -59,7 +58,6 @@ static void	open_response_accept(t_gtk_tools *g, GtkWidget *dialog)
 
 int			open_scene(t_gtk_tools *g, GtkWidget *filechooser)
 {
-	printf("open_scene: [%s]\n", g->filename);
 	if (get_scene(g, filechooser))
 		return (1);
 	if (g->r->scene)

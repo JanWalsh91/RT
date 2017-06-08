@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects8.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 10:56:33 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:12:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void		*sig_update_obj_texture(GtkWidget *chooser, t_gtk_tools *g)
 {
 	t_object	*obj;
 
-	printf("sig_update_obj_texture\n");
 	obj = get_selected_object(g);
 	if (obj->texture)
 		cudaFreeHost(obj->texture);

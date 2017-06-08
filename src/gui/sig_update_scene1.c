@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_scene1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 16:44:28 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 14:30:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	*sig_next_camera(GtkWidget *button, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	(void)button;
-	printf("sig_next_camera\n");
 	if (!g->r->scene->cameras->next)
 		return (NULL);
 	g->r->scene->cameras = g->r->scene->cameras->next;
@@ -62,7 +61,6 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 	GtkWidget	*widget;
 
 	(void)button;
-	printf("sig_prev_camera\n");
 	if (!g->r->scene->cameras->prev)
 		return (NULL);
 	g->r->scene->cameras = g->r->scene->cameras->prev;
@@ -80,7 +78,6 @@ void	*sig_prev_camera(GtkWidget *button, t_gtk_tools *g)
 
 void	*sig_update_ray_depth(GtkWidget *spin_button, t_gtk_tools *g)
 {
-	printf("sig_update_ray_depth\n");
 	g->r->scene->ray_depth = gtk_spin_button_get_value(
 							GTK_SPIN_BUTTON(spin_button));
 	g->r->update.render = 1;

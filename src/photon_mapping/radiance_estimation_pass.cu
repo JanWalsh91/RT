@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   radiance_estimation_pass.cu                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:25:54 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static t_vec3	add_accumulated_power(float k, t_region *region, t_photon photon,
 
 void			radiance_estimation_pass(t_raytracing_tools *r, t_tile tile)
 {
-	// printf("radiance_estimation_pass\n");
 	dim3 		blockSize;
 	dim3 		gridSize;
 	int			size;
@@ -95,81 +94,9 @@ static void		update_region_values(t_raytracing_tools *r, int photons_added, t_ve
 __device__
 static t_vec3	add_accumulated_power(float k, t_region *region, t_photon photon, float dist2)
 {
-	// printf("update_accumulated_power\n");
 	t_vec3 result;
 
 	result = v_scale(col_to_vec(photon.col), sqrtf(region->radius * region->radius - dist2) / (M_PI));
 	result = v_scale(result, -v_dot(photon.dir, region->normal) * k * region->kd);
-	// printf("add accumulated power: [%f, %f, %f]\n", result.x, result.y, result.z);
 	return (result);
 }
-
-
-
-
-	// if (r.idx == 0 && scene->photon_iteration == 1)
-	// {
-	// 	t_vec3 normalized_power = v_scale(region_map[0].power, 1.0 / (float)(scene->photon_iteration * scene->photon_count_per_pass * M_PI * region_map[0].radius * region_map[0].radius));
-
-	// 	printf("\nregion intialization: iteration: [%d]\
-	// 		\n\tphotons added: [%d]\
-	// 		\n\thit_pt: [%f, %f, %f]\
-	// 		\n\tray_dir: [%f, %f, %f]\
-	// 		\n\tnormal: [%f, %f, %f]\
-	// 		\n\tkd: [%f]\
-	// 		\n\tradius: [%f]\
-	// 		\n\tphoton count: [%d]\
-	// 		\n\taccumulated power: [%f, %f, %f]\n\n",
-	// 		scene->photon_iteration,
-	// 		photons_added,
-	// 		region_map[0].hit_pt.x, region_map[0].hit_pt.y, region_map[0].hit_pt.z,
-	// 		region_map[0].ray_dir.x, region_map[0].ray_dir.y, region_map[0].ray_dir.z,
-	// 		region_map[0].normal.x, region_map[0].normal.y, region_map[0].normal.z,
-	// 		region_map[0].kd,
-	// 		region_map[0].radius,
-	// 		region_map[0].n,
-	// 		region_map[0].power.x, region_map[0].power.y, region_map[0].power.z
-	// 	);
-	// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// if (r.idx == 0)
-	// {
-	// 	t_vec3 normalized_power = v_scale(region_map[0].power, 1.0 / (float)(scene->photon_iteration * scene->photon_count_per_pass * M_PI * region_map[0].radius * region_map[0].radius));
-
-	// 	printf("\nupdated region: iteration: [%d]\
-	// 		\n\tphoton count per pass: [%d]\
-	// 		\n\tphotons added: [%d]\
-	// 		\n\thit_pt: [%f, %f, %f]\
-	// 		\n\tray_dir: [%f, %f, %f]\
-	// 		\n\tnormal: [%f, %f, %f]\
-	// 		\n\tkd: [%f]\
-	// 		\n\tradius: [%f]\
-	// 		\n\tphoton count: [%d]\
-	// 		\n\taccumulated power: [%f, %f, %f]\
-	// 		\n\tnormalized_power: [%f, %f, %f]\n\n",
-	// 		scene->photon_iteration,
-	// 		scene->photon_count_per_pass,
-	// 		photons_added,
-	// 		region_map[0].hit_pt.x, region_map[0].hit_pt.y, region_map[0].hit_pt.z,
-	// 		region_map[0].ray_dir.x, region_map[0].ray_dir.y, region_map[0].ray_dir.z,
-	// 		region_map[0].normal.x, region_map[0].normal.y, region_map[0].normal.z,
-	// 		region_map[0].kd,
-	// 		region_map[0].radius,
-	// 		region_map[0].n,
-	// 		region_map[0].power.x, region_map[0].power.y, region_map[0].power.z,
-	// 		normalized_power.x, normalized_power.y, normalized_power.z
-	// 	);
-	// }

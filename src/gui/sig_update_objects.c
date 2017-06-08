@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 18:39:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 20:24:05 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void		*populate_list_box_objects(t_gtk_tools *g)
 	GtkWidget	*label;
 	t_object	*obj;
 
-	printf("populate_list_box_objects\n");
 	obj = g->r->scene->objects;
 	widget = get_widget(g, "ListBoxObjects");
 	while (obj)
@@ -55,7 +54,6 @@ void		update_objects_info_panel(t_gtk_tools *g, t_object *obj)
 	GdkRGBA		color;
 	t_token		type;
 
-	printf("update_objects_info_panel\n");
 	g->updating_gui = true;
 	type = obj->type;
 	obj->dir = v_norm(obj->dir);

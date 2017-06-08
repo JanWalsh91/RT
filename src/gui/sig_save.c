@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_save.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 11:08:11 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 16:38:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	*sig_save_as(GtkWidget *menu_item, t_gtk_tools *g)
 
 	(void)menu_item;
 	fd = -1;
-	printf("sig_save_as\n");
 	file_name = get_new_filename(g);
 	if (file_name)
 		g->filename = file_name;
@@ -65,7 +64,6 @@ char	*get_new_filename(t_gtk_tools *g)
 	GtkWidget		*dialog;
 	char			*filename;
 
-	printf("get_new_filename\n");
 	filename = NULL;
 	dialog = gtk_file_chooser_dialog_new("Save as .rt", GTK_WINDOW(
 			gtk_builder_get_object(g->builder, "window_main")),
@@ -74,10 +72,7 @@ char	*get_new_filename(t_gtk_tools *g)
 	gtk_window_set_attached_to(GTK_WINDOW(gtk_builder_get_object(
 			GTK_BUILDER(g->builder), "window_main")), dialog);
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
-	{
 		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		printf("saving as [%s]\n", filename);
-	}
 	gtk_widget_destroy(dialog);
 	return (filename);
 }

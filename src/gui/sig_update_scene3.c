@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 16:46:48 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 14:25:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	*sig_update_is_aa(GtkWidget *check_box, t_gtk_tools *g)
 {
-	printf("sig_update_is_aa\n");
 	g->r->scene->is_aa = gtk_toggle_button_get_active(
 		GTK_TOGGLE_BUTTON(check_box)) + 1;
 	(g->updating_gui) ? 0 : scene_render_sig(g);
@@ -24,7 +23,6 @@ void	*sig_update_is_aa(GtkWidget *check_box, t_gtk_tools *g)
 
 void	*sig_update_is_anaglyph(GtkWidget *check_box, t_gtk_tools *g)
 {
-	printf("sig_update_is_anaglyph\n");
 	g->r->scene->is_3d = gtk_toggle_button_get_active(
 		GTK_TOGGLE_BUTTON(check_box));
 	if (g->r->scene->is_3d)
@@ -40,7 +38,6 @@ void	*sig_update_is_anaglyph(GtkWidget *check_box, t_gtk_tools *g)
 
 void	*sig_update_is_raytracing(GtkWidget *check_box, t_gtk_tools *g)
 {
-	printf("sig_update_is_raytracing\n");
 	g->r->scene->is_raytracing = gtk_toggle_button_get_active(
 		GTK_TOGGLE_BUTTON(check_box));
 	(g->updating_gui) ? 0 : scene_render_sig(g);

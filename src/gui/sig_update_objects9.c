@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_update_objects9.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:22:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 12:12:39 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void		*sig_uptate_obj_texture_ratio_x(GtkWidget *button, t_gtk_tools *g)
 {
 	t_object	*obj;
 
-	printf("sig_update_obj_texture_ratio\n");
 	obj = get_selected_object(g);
 	obj->texture_ratio.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(button));
 	obj->texture_ratio.x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(button));
@@ -74,7 +73,6 @@ void		*sig_uptate_obj_texture_ratio_y(GtkWidget *button, t_gtk_tools *g)
 {
 	t_object	*obj;
 
-	printf("sig_update_obj_texture_ratio\n");
 	obj = get_selected_object(g);
 	obj->texture_ratio.y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(button));
 	(g->updating_gui) ? 0 : obj_render_sig(g);
