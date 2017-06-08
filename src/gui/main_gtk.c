@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 14:00:16 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:24:21 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 17:22:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int			clean_exit(t_gtk_tools *g)
 {
 	cuda_free(g->r, 1);
 	g_object_unref(g->builder);
-	free_scene(g->r->scene);
+	if (g->r->scene)
+		free_scene(g->r->scene);
 	return (1);
 }

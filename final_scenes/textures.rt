@@ -12,11 +12,11 @@ scene: rendu4
 		color: 255.0000, 255.0000, 255.0000
 		radius: 1.0000
 		height: 4.0000
-		kd: 0.7000
+		kd: 1.0000
 		ks: 0.0000
 		specular exponent: 200.0000
 		ior: 1.0089
-		transparency: 0.4000
+		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.3600
 		texture: Checkerboard 600.0000, 600.0000, 100.0000
@@ -25,23 +25,23 @@ scene: rendu4
 	{
 		position: -3.0000, 0.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
-		color: 242.9299, 255.0000, 194.6499
+		color: 238.0000, 238.0000, 236.0000
 		radius: 1.0000
 		kd: 1.0000
-		ks: 0.0298
+		ks: 0.0000
 		specular exponent: 7.0000
 		ior: 1.0089
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0900
-		texture: textures/earth.bmp
+		texture: Noise 500.0000, 500.0000, 10.0000
 	}
 	cone: Cone
 	{
 		position: 3.0000, 2.0000, 0.0000
 		direction: 0.0000, -1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
-		radius: 0.5000
+		radius: 0.8000
 		height: 4.0000
 		kd: 1.0000
 		ks: 0.0000
@@ -90,20 +90,20 @@ scene: rendu4
 		position: 0.0000, 0.0000, -20.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 30
-		ior: 1.0097
+		ior: 1.0096
 	}
 	camera: cam 2
 	{
 		position: 0.0000, 0.0000, -20.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 45
-		ior: 1.0097
+		ior: 1.0096
 	}
 	camera: cam 3
 	{
 		position: 0.0000, 0.0000, -20.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 55
-		ior: 1.0097
+		ior: 1.0096
 	}
 }
