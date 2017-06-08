@@ -6,16 +6,16 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 10:33:52 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 11:23:49 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "../../inc/cuda_call.h"
 
-static int		get_light_count(t_light *light);
+int		get_light_count(t_light *light);
 __global__
-static void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
+void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
 				t_color *pixel_map);
 
 void			get_flares(t_raytracing_tools *r)
@@ -45,7 +45,7 @@ void			get_flares(t_raytracing_tools *r)
 	}
 }
 
-static int		get_light_count(t_light *light)
+int		get_light_count(t_light *light)
 {
 	int				i;
 	t_light			*l_ptr;
@@ -61,7 +61,7 @@ static int		get_light_count(t_light *light)
 }
 
 __global__
-static void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
+void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
 				t_color *pixel_map)
 {
 	t_pt2	pix;

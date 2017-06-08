@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_shadow.cu                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 13:13:23 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 17:02:42 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:22:25 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 */
 
 __device__
-static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k);
+void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k);
 __device__
-static void	filter_color(float *dim, float obj_col, float k);
+void	filter_color(float *dim, float obj_col, float k);
 __device__
-static void	init_values(t_raytracing_tools *r, float *max, t_light *light,
+void	init_values(t_raytracing_tools *r, float *max, t_light *light,
 			t_ray *shadow_ray);
 
 __device__
@@ -58,7 +58,7 @@ int			in_shadow(t_raytracing_tools *r, t_ray *shadow_ray,
 }
 
 __device__
-static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k)
+void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k)
 {
 	filter_color(&dim_light->x, obj_col.x, k);
 	filter_color(&dim_light->y, obj_col.y, k);
@@ -66,13 +66,13 @@ static void	filter_for_transparency(t_vec3 *dim_light, t_vec3 obj_col, float k)
 }
 
 __device__
-static void	filter_color(float *dim, float obj_col, float k)
+void	filter_color(float *dim, float obj_col, float k)
 {
 	*dim *= (1 - (255 - obj_col) / 255 * (1 - k)) * k;
 }
 
 __device__
-static void	init_values(t_raytracing_tools *r, float *max, t_light *light,
+void	init_values(t_raytracing_tools *r, float *max, t_light *light,
 			t_ray *shadow_ray)
 {
 	r->t = INFINITY;

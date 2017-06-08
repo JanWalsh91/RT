@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_fresnel_ratio.cu                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 14:25:09 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/03 15:49:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:23:53 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 __device__
-static float	get_fresnel_ratio2(float cosi, float etai,
+float	get_fresnel_ratio2(float cosi, float etai,
 				float etat, float sint);
 
 __device__
@@ -43,7 +43,7 @@ float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal,
 }
 
 __device__
-static float	get_fresnel_ratio2(float cosi, float etai,
+float	get_fresnel_ratio2(float cosi, float etai,
 				float etat, float sint)
 {
 	float	cost;

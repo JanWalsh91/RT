@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 11:15:02 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/08 11:36:42 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -240,7 +240,7 @@ OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -gencode=arch=compute_30,code=sm_30 -Xcompiler="-Werror -Wextra -Wall" #-Xnvlink --disable-warnings #A remettre pour la correction
+CUFLAGS = -gencode=arch=compute_30,code=sm_30 #-Xnvlink --disable-warnings #A remettre pour la correction
 FLG = $(CUFLAGS) -Xcompiler="-Werror -Wextra -Wall"
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`
@@ -284,7 +284,7 @@ $(OBJ_DIR)/%.o : ./src/data_prep/%.c
 
 $(OBJ_DIR)/%.o : ./src/ray_tracing/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
+	@$(NVCC) $(CUFLAGS) $(FLG) -I./inc -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/misc/%.c
 	@/bin/mkdir -p $(OBJ_DIR)
@@ -296,7 +296,7 @@ $(OBJ_DIR)/%.o : ./src/gui/%.c
 
 $(OBJ_DIR)/%.o : ./src/cuda_mem/%.cu
 	@/bin/mkdir -p $(OBJ_DIR)
-	@$(NVCC) $(CUFLAGS) -I./inc -dc $< -o $@
+	@$(NVCC) $(CUFLAGS) $(FLG) -I./inc -dc $< -o $@
 
 $(OBJ_DIR)/%.o : ./src/objparser/%.c
 	@/bin/mkdir -p $(OBJ_DIR)

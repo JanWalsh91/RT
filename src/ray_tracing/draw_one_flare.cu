@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_one_flare.cu                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:28:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:23:45 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "cuda_runtime.h"
 
 __global__
-static void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
+void		draw_one_flare(t_light_flare_tools *tools, t_scene *scene,
 				t_color *pixel_map);
 
 void	draw_one_flare_wrapper(t_raytracing_tools *r, t_light_flare_tools *tools, int light_count)

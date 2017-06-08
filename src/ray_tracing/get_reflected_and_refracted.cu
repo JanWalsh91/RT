@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 13:49:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 11:46:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 11:23:38 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 */
 
 __device__
-static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
+t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
 				t_ray *ray);
 __device__
-static t_color	get_reflected(t_raytracing_tools *r, t_scene *scene,
+t_color	get_reflected(t_raytracing_tools *r, t_scene *scene,
 				t_ray *ray, float f);
 __device__
-static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
+t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
 				t_color col, float kt);
 
 __device__
@@ -39,7 +39,7 @@ t_color			get_reflected_and_refracted(t_raytracing_tools *r,
 }
 
 __device__
-static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
+t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
 				t_ray *ray)
 {
 	t_ray		refr;
@@ -74,7 +74,7 @@ static t_color	get_refracted(t_raytracing_tools *r, t_scene *scene,
 */
 
 __device__
-static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
+t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
 				t_color col, float kt)
 {
 	if (ray->t != INFINITY)
@@ -84,7 +84,7 @@ static t_color	get_beer_lambert_color(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-static t_color	get_reflected(t_raytracing_tools *r, t_scene *scene,
+t_color	get_reflected(t_raytracing_tools *r, t_scene *scene,
 				t_ray *ray, float f)
 {
 	t_ray	reflected;

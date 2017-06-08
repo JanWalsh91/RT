@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_ior.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 12:46:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 10:22:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:24:01 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 */
 
 __device__
-static void		ray_entering(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_entering(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray);
 __device__
-static void		ray_exiting(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_exiting(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray);
 				__device__
-static void		ray_exiting2(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_exiting2(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray);
 				__device__
-static void		ray_exiting3(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_exiting3(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray);
 __device__
 void			update_ior(float *n1, float *n2, t_raytracing_tools *r,
@@ -41,7 +41,7 @@ void			update_ior(float *n1, float *n2, t_raytracing_tools *r,
 }
 
 __device__
-static void		ray_entering(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_entering(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray)
 {
 	int		i;
@@ -57,7 +57,7 @@ static void		ray_entering(float *n1, float *n2, t_raytracing_tools *r,
 }
 
 __device__
-static void		ray_exiting(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_exiting(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray)
 {
 	int		i;
@@ -87,7 +87,7 @@ static void		ray_exiting(float *n1, float *n2, t_raytracing_tools *r,
 }
 
 __device__
-static void		ray_exiting3(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_exiting3(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray)
 {
 	int i;
@@ -100,7 +100,7 @@ static void		ray_exiting3(float *n1, float *n2, t_raytracing_tools *r,
 }
 
 __device__
-static void		ray_exiting2(float *n1, float *n2, t_raytracing_tools *r,
+void		ray_exiting2(float *n1, float *n2, t_raytracing_tools *r,
 				t_ray *ray)
 {
 	int i;

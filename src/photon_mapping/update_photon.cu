@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   update_photon.cu                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 15:50:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:22:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:32:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include <curand.h>
 #include <curand_kernel.h>
+
+__device__ float 
+curand_uniform (curandState_t *state);
 
 __device__
 static void		save_photon(t_photon *photon_list, t_ray *ray, t_object *obj);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_light_flares.cu                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:29:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:23:58 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "../../inc/cuda_call.h"
 
 __device__
-static t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene);
+t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene);
 __global__
 void			init_light_flares(t_scene *scene, t_light_flare_tools *tools);
 __device__
-static void		init_ray_and_rt_tools(t_raytracing_tools *t, t_ray *ray,
+void		init_ray_and_rt_tools(t_raytracing_tools *t, t_ray *ray,
 				t_scene *scene, t_light_flare_tools *tools);
 __device__
-static bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
+bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
 				t_scene *scene, t_light_flare_tools *tools);
 
 void			init_light_flares_wrapper(int light_count,
@@ -61,7 +61,7 @@ void			init_light_flares(t_scene *scene, t_light_flare_tools *tools)
 }
 
 __device__
-static void		init_ray_and_rt_tools(t_raytracing_tools *r, t_ray *ray,
+void		init_ray_and_rt_tools(t_raytracing_tools *r, t_ray *ray,
 				t_scene *scene, t_light_flare_tools *tools)
 {
 	r->scene = scene;
@@ -73,7 +73,7 @@ static void		init_ray_and_rt_tools(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-static bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
+bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
 				t_scene *scene, t_light_flare_tools *tools)
 {
 	int y;
@@ -95,7 +95,7 @@ static bool		is_light_blocked(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-static t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene)
+t_pt2	get_pane_coords(t_ray *ray, t_camera *cam, t_scene *scene)
 {
 	t_pt2	coord;
 	t_vec3	ortho_x;

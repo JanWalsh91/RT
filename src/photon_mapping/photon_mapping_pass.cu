@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   photon_mapping_pass.cu                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:08:52 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:29:26 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "../../inc/cuda_call.h"
 #include <cuda.h>
-#include <curand.h>
-#include <curand_kernel.h>
 
 static void		init_photon_group(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
 static float	get_total_intensity(t_light *lights);

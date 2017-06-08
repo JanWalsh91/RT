@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:18:26 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 11:21:11 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@
 */
 
 __device__
-static t_color	apply_filter(t_vec3 dim_light, t_color light_color);
+t_color	apply_filter(t_vec3 dim_light, t_color light_color);
 __device__
 t_color			get_reflected_and_refracted(t_raytracing_tools *r,
 				t_scene *scene, t_ray *ray);
 __device__
-static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
+t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray);
 __device__
-static void		init_shadow_ray(t_ray *shadow_ray, t_ray *primary_ray, t_light *light);
+void		init_shadow_ray(t_ray *shadow_ray, t_ray *primary_ray, t_light *light);
 
 __device__
 t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
@@ -52,16 +52,14 @@ t_color			cast_primary_ray(t_raytracing_tools *r, t_ray *ray)
 		return (vec_to_col(r->scene->background_color));
 	ray->hit = v_add(ray->origin, v_scale(ray->dir, r->t));
 	get_normal(ray, &r->scene->objects[ray->hit_obj]);
-	if (ray->type < 2)
-		col = get_color_at_hitpoint(r, ray, &shadow_ray);
-	else
-		update_photon(r, ray);
+	col = (ray->type < 2) ? get_color_at_hitpoint(r, ray, &shadow_ray) :
+	update_photon(r, ray);
 	col = r->scene->is_raytracing ? col : c_new(0, 0, 0); 
 	return (col);
 }
 
 __device__
-static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
+t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 				t_ray *shadow_ray)
 {
 	t_color	color;
@@ -93,7 +91,7 @@ static t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-static t_color	apply_filter(t_vec3 dim_light, t_color light_color)
+t_color	apply_filter(t_vec3 dim_light, t_color light_color)
 {
 	t_color new_col;
 
@@ -104,7 +102,7 @@ static t_color	apply_filter(t_vec3 dim_light, t_color light_color)
 }
 
 __device__
-static void		init_shadow_ray(t_ray *shadow_ray, t_ray *primary_ray, t_light *light)
+void		init_shadow_ray(t_ray *shadow_ray, t_ray *primary_ray, t_light *light)
 {
 	shadow_ray->t = INFINITY;
 	shadow_ray->type = R_SHADOW;

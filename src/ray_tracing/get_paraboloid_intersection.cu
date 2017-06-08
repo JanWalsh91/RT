@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_paraboloid_intersection.cu                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 13:05:58 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/03 16:15:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:21:47 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 
 __device__
-static void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
+void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
 			int index, t_intersection_tools *i);
 
 __device__
@@ -69,7 +69,7 @@ bool		get_paraboloid_intersection(t_raytracing_tools *r, t_ray *ray,
 }
 
 __device__
-static void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
+void	init_paraboloid_roots(t_raytracing_tools *r, t_ray *ray,
 			int index, t_intersection_tools *i)
 {
 	i->v1 = v_sub(ray->origin, r->scene->objects[index].pos);

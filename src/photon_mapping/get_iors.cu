@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_iors.cu                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:56:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 15:59:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:29:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
-#include <curand.h>
-#include <curand_kernel.h>
 
 __device__
 static void		get_iors2(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);

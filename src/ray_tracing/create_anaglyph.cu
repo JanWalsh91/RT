@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_anaglyph.cu                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/05 14:31:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:23:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "../../inc/cuda_call.h"
 
 __global__
-static void			get_look_at_position(t_scene *scene, t_vec3 *pos);
-static t_vec3		get_look_at(t_scene *scene);
-static void			update_camera(t_camera *camera);
+void			get_look_at_position(t_scene *scene, t_vec3 *pos);
+t_vec3		get_look_at(t_scene *scene);
+void			update_camera(t_camera *camera);
 __global__
-static void			create_anaglyph(t_color *left, t_color *right,
+void			create_anaglyph(t_color *left, t_color *right,
 					t_scene *scene, t_tile tile);
 __global__
 void render_pixel	(t_scene *scene, t_color *d_pixel_map,
@@ -55,7 +55,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 	cuda_check_kernel_errors();
 }
 
-static t_vec3		get_look_at(t_scene *scene)
+t_vec3		get_look_at(t_scene *scene)
 {
 	t_vec3	h_look_at;
 	t_vec3	*d_look_at;
@@ -70,7 +70,7 @@ static t_vec3		get_look_at(t_scene *scene)
 }
 
 __global__
-static void			get_look_at_position(t_scene *scene, t_vec3 *pos)
+void			get_look_at_position(t_scene *scene, t_vec3 *pos)
 {
 	t_ray				cam_ray;
 	t_raytracing_tools	r;
@@ -98,7 +98,7 @@ static void			get_look_at_position(t_scene *scene, t_vec3 *pos)
 		*pos = v_add(cam_ray.origin, v_scale(cam_ray.dir, r.t)); 
 }
 
-static void			update_camera(t_camera *camera)
+void			update_camera(t_camera *camera)
 {
 	t_vec3	forward;
 	t_vec3	right;
@@ -127,7 +127,7 @@ static void			update_camera(t_camera *camera)
 }
 
 __global__
-static void			create_anaglyph(t_color *left, t_color *right, t_scene *scene,
+void			create_anaglyph(t_color *left, t_color *right, t_scene *scene,
 					t_tile tile)
 {
 	int		idx;

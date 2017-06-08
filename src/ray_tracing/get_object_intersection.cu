@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_object_intersection.cu                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:26:41 by talemari          #+#    #+#             */
-/*   Updated: 2017/06/03 15:58:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:22:03 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 
 __device__
-static void		print_triangles_dev(t_obj *obj)
+void		print_triangles_dev(t_obj *obj)
 {
 	t_obj_triangle		*tmp2;
 	t_list				*tmp;

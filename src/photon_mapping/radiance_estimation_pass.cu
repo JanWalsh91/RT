@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   radiance_estimation_pass.cu                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 15:10:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 11:25:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "../../inc/cuda_call.h"
 #include <cuda.h>
-#include <curand.h>
-#include <curand_kernel.h>
 
 __global__
 static void		estimate_region_radiance(t_scene *scene, t_color *pixel_map,
