@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 11:56:57 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/08 12:50:09 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -162,7 +162,6 @@ GUI =		window_signals \
 			sig_save_light \
 			sig_open_settings \
 			sig_export_scene_bmp \
-			sig_print_scene \
 			sig_render \
 			sig_set_full_screen \
 			sig_generate_texture \

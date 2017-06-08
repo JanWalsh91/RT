@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 20:55:19 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:26:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:48:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ bool	high_contrast(t_dpt2 comp[3], float tolerance);
 __device__
 void	set_black(t_color *pix, int x);
 
-void	get_cartoon_effect(t_raytracing_tools *r, t_vec3 cartoon_tools)
+void	get_cartoon_effect(t_raytracing_tools *r)
 {
 	dim3			block_size;
 	dim3			grid_size;
-	
+	t_vec3			cartoon_tools;
+
+	cartoon_tools = v_new(45, 50, 2);
 	block_size = dim3(32, 32, 1);
 	grid_size = dim3(r->scene->res.x / 32 + 1, r->scene->res.y / 32 + 1);
 	cartoonize<<<grid_size, block_size>>>(r->d_scene, r->d_pixel_map, cartoon_tools);

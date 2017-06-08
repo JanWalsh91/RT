@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:42:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:51:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <cuda_runtime.h>
 
 static void	init_render_window(t_gtk_tools *g);
-void		get_cartoon_effect(struct s_raytracing_tools *r, struct s_vec3 cartoon_tools);
+void		get_cartoon_effect(struct s_raytracing_tools *r);
 
 void		*sig_render(GtkWidget *widget, t_gtk_tools *g)
 {
@@ -92,8 +92,7 @@ void		*render_wrapper(gpointer data)
 {
 	t_gtk_tools	*g;
 	t_tile		tile;
-	t_vec3 c;
-	
+
 	g = (t_gtk_tools *)data;
 	init_tile(&tile, g);
 	if (g->r->update.resolution)
@@ -109,9 +108,8 @@ void		*render_wrapper(gpointer data)
 	render_tile(g, tile);
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
-	c = v_new(45, 50, 2);
 	if (g->r->scene->is_cartoon_effect)
-		get_cartoon_effect(g->r, c);
+		get_cartoon_effect(g->r);
 	g->r->rendering = 0;
 	return (NULL);
 }

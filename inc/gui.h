@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 17:39:46 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/07 13:11:52 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:50:04 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,10 +231,5 @@ void			window_destroy_esc(GtkWidget *widget, void *ouais);
 int				display_error_popup(GtkWidget *chooser, t_gtk_tools *g,
 															char *ret);
 
-/*
-** Debugging signals -- Remove
-*/
-
-void			*sig_print_scene(GtkWidget *button, t_gtk_tools *g);
 
 #endif

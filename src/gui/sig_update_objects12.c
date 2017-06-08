@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:40:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:49:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	obj->type = id + 6;
 	widget = get_widget(g, "SpinButtonObjectHeight");
-	gtk_widget_set_sensitive(widget, obj->type == T_CYLINDER || obj->type == T_CONE);
+	gtk_widget_set_sensitive(widget, obj->type == T_CYLINDER ||
+		obj->type == T_CONE);
 	update_obj_type1(g, obj);
 	if (g->updating_gui)
 		return (NULL);

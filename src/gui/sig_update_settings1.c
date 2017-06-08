@@ -6,14 +6,15 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 13:09:16 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:49:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.cuh"
 #include "gui.h"
 
-void	*sig_update_photon_count_per_pass(GtkWidget *spin_button, t_gtk_tools *g)
+void	*sig_update_photon_count_per_pass(GtkWidget *spin_button,
+		t_gtk_tools *g)
 {
 	g->r->scene->photon_count_per_pass =
 		gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin_button));
