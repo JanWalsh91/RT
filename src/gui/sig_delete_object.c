@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:39:38 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 20:57:27 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 21:05:04 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void		update_object_gui(t_gtk_tools *g, int id, GtkWidget *widget)
 		gtk_widget_set_sensitive(widget, false);
 		widget = get_widget(g, "ButtonRender");
 		gtk_widget_set_sensitive(widget, false);
-		cuda_malloc(g->r);
 	}
 }
 
