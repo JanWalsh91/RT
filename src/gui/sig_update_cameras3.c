@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 14:35:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 20:45:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	cam->dir = v_norm(cam->dir);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
 											"ButtonCameraDirNormalize"));
-	gtk_widget_set_sensitive(widget, FALSE);
+	gtk_widget_set_sensitive(widget, false);
 	if (g->updating_gui)
 		return (NULL);
 	g->updating_gui = true;
@@ -35,8 +35,8 @@ void		*sig_cam_dir_normalize(GtkWidget *button, t_gtk_tools *g)
 	update_camera_ctw(cam);
 	camera_render_sig(g);
 	widget = GTK_WIDGET(gtk_builder_get_object(GTK_BUILDER(g->builder),
-											"ButtonCamDirNormalize"));
-	gtk_widget_set_sensitive(widget, FALSE);
+											"ButtonCameraDirNormalize"));
+	gtk_widget_set_sensitive(widget, false);
 	return (NULL);
 }
 
