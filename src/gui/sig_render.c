@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:55:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 15:15:56 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 		copy_region_map_tile(g->r, tile);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
 			g->r->scene->res.x * 3 * g->r->scene->res.y);
-		gtk_widget_queue_draw(g->win);
+		g->win ? gtk_widget_queue_draw(g->win) : 0;
 		increment_tile(&tile.id, tile.col);
 	}
 	if (g->win)
@@ -84,8 +84,10 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 		get_flares(g->r);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
 			g->r->scene->res.x * 3 * g->r->scene->res.y);
-		gtk_widget_queue_draw(g->win);
+		g->win ? gtk_widget_queue_draw(g->win) : 0;
 	}
+	if (g->r->scene->is_photon_mapping)
+		render_ppm(g, tile);
 }
 
 void		*render_wrapper(gpointer data)
@@ -106,8 +108,6 @@ void		*render_wrapper(gpointer data)
 	malloc_region_map(g->r, tile);
 	cuda_malloc_region_map_tile(g->r, tile);
 	render_tile(g, tile);
-	if (g->r->scene->is_photon_mapping)
-		render_ppm(g, tile);
 	if (g->r->scene->is_cartoon_effect)
 	{
 		get_cartoon_effect(g->r);
