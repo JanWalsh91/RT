@@ -1,44 +1,50 @@
 scene: spheres fantaisie
 {
-	resolution: 500, 500
-	ray depth: 4
+	resolution: 1000, 1000
+	ray depth: 5
 	ambient light color: 255.0000, 255.0000, 255.0000
 	ka: 0.1000
 	sphere: sphere 1
 	{
 		position: 0.0000, 20.0000, -10.0000
+		direction: 0.0000, 1.0000, 0.0000
 		color: 250.0000, 250.0000, 250.0000
-		radius: 4.0000
+		radius: 10.0000
 		kd: 0.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 4.0000
-		transparency: 1.0000
+		ior: 2.2300
+		transparency: 0.0000
 		reflection: 1.0000
+		beer lambert: 0.0000
 	}
 	sphere: sphere 2
 	{
-		position: -12.0000, 5.0000, 0.0000
+		position: -12.0000, 8.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
 		color: 250.0000, 250.0000, 250.0000
-		radius: 4.0000
-		kd: 1.0000
+		radius: 9.0000
+		kd: 0.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.1996
-		transparency: 0.0000
+		ior: 1.5000
+		transparency: 1.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	sphere: sphere 3
 	{
-		position: 8.0000, 5.0000, -15.0000
-		color: 250.0000, 250.0000, 250.0000
+		position: 8.0000, 5.0000, -5.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 218.0000, 165.0000, 32.0000
 		radius: 4.0000
-		kd: 1.0000
+		kd: 0.6000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.1996
-		transparency: 0.0000
+		ior: 1.7000
+		transparency: 0.8000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	plane: GREY
 	{
@@ -48,9 +54,10 @@ scene: spheres fantaisie
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.1996
+		ior: 1.1995
 		transparency: 0.5000
 		reflection: 0.5000
+		beer lambert: 0.0000
 	}
 	plane: GREY
 	{
@@ -60,38 +67,44 @@ scene: spheres fantaisie
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.1996
+		ior: 1.1995
 		transparency: 0.0000
 		reflection: 0.0000
+		beer lambert: 0.0000
 	}
 	light: red
 	{
 		position: 20.0000, 40.0000, -20.0000
 		color:200.0000, 50.0000, 50.0000
 		intensity: 50
+		kflare: 0.0000
 	}
 	light: blue
 	{
 		position: -25.0000, 10.0000, 10.0000
 		color:20.0000, 20.0000, 250.0000
 		intensity: 100
+		kflare: 0.0000
 	}
 	light: cyan
 	{
 		position: 0.0000, 10.0000, -40.0000
 		color:50.0000, 150.0000, 150.0000
 		intensity: 20
+		kflare: 0.0000
 	}
 	camera: cam1
 	{
 		position: 0.0000, 20.0000, -100.0000
 		direction: 0.0000, -0.1961, 0.9805
 		fov: 45
+		ior: 1.0098
 	}
 	camera: cam2
 	{
 		position: 50.0000, 20.0000, -50.0000
 		direction: -0.6804, -0.2721, 0.6804
 		fov: 45
+		ior: 1.0098
 	}
 }
