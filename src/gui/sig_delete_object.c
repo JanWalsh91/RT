@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_delete_object.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:39:38 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 17:52:10 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ static void		update_object_gui(t_gtk_tools *g, int id, GtkWidget *widget)
 	}
 	else
 	{
-		widget = GTK_WIDGET(gtk_builder_get_object(
-				g->builder, "ScrollWindowObject"));
+		widget = get_widget(g, "ScrollWindowObject");
 		gtk_widget_set_sensitive(widget, false);
-		widget = GTK_WIDGET(gtk_builder_get_object(
-				g->builder, "ButtonDeleteObject"));
+		widget = get_widget(g, "ButtonDeleteObject");
 		gtk_widget_set_sensitive(widget, false);
 		cuda_malloc(g->r);
 	}
