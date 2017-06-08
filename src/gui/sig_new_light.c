@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_new_light.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:08:01 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 21:16:18 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	*sig_new_light(GtkWidget *widget, t_gtk_tools *g)
 	g->r->update.render = 1;
 	g->r->update.lights = 2;
 	update_grid_lights(g);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
-												"ScrollWindowLight")), true);
-	gtk_widget_set_sensitive(GTK_WIDGET(gtk_builder_get_object(g->builder,
-												"ButtonDeleteLight")), true);
+	gtk_widget_set_sensitive(get_widget(g, "ScrollWindowLight"), true);
+	gtk_widget_set_sensitive(get_widget(g, "ButtonDeleteLight"), true);
+	if (g->win)
+		gtk_widget_queue_draw(g->win);
 	return (NULL);
 }
