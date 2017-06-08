@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_delete_light.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:42:52 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 21:07:22 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	set_gui_no_light_left(t_gtk_tools *g)
 	gtk_widget_set_sensitive(widg, false);
 	widg = GTK_WIDGET(gtk_builder_get_object(g->builder, "ButtonDeleteLight"));
 	gtk_widget_set_sensitive(widg, false);
-	cuda_malloc(g->r);
 	g->r->update.render = 1;
 	if (g->win)
 		gtk_widget_queue_draw(g->win);
