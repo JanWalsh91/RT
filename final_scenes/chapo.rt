@@ -1,0 +1,143 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	cylinder: Cylindre 1
+	{
+		position: 0.0000, -2.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 124.0000, 252.0000, 0.0000
+		radius: 4.0000
+		height: 6.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	disk: Base
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 124.0000, 252.0000, 0.0000
+		radius: 6.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	cylinder: Base Cylinder
+	{
+		position: 0.0000, -0.1000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 124.0000, 252.0000, 0.0000
+		radius: 6.0000
+		height: 0.1000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	cylinder: Decortion
+	{
+		position: 0.0000, 0.2500, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 238.0000, 77.7465, 77.7465
+		radius: 4.0500
+		height: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		texture: Checkerboard 200.0000, 600.0000, 100.0000
+		parent index: 1.0000
+	}
+	sphere: Sphere 1
+	{
+		position: -0.4000, 0.5000, -4.0500
+		direction: 0.0000, 1.0000, 0.0000
+		color: 72.0000, 133.0000, 237.0000
+		radius: 0.1000
+		kd: 0.5000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.7000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	sphere: Sphere 2
+	{
+		position: 0.4000, 0.5000, -4.0500
+		direction: 0.0000, 1.0000, 0.0000
+		color: 244.0000, 194.0000, 13.0000
+		radius: 0.1000
+		kd: 0.5000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.5000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	sphere: Sphere 3
+	{
+		position: 0.0000, 0.9000, -4.0500
+		direction: 0.0000, 1.0000, 0.0000
+		color: 60.0000, 186.0000, 84.0000
+		radius: 0.1000
+		kd: 0.5000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.5000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	plane: New Object
+	{
+		position: 0.0000, 0.0000, 15.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	light: New light
+	{
+		position: 5.5000, 15.0000, -13.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 13
+		kflare: 0.0000
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 1.5000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 45
+		ior: 1.0098
+	}
+}

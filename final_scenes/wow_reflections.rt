@@ -1,0 +1,200 @@
+scene: Scene 1
+{
+	resolution: 1200, 1200
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.0000
+	plane: Back Plane
+	{
+		position: 0.0000, 0.0000, 20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.1000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	plane: Left Plane
+	{
+		position: -15.0000, 0.0000, 0.0000
+		direction: 1.0000, 0.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.1000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	plane: Right Plane
+	{
+		position: 15.0000, 0.0000, 0.0000
+		direction: 1.0000, 0.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.1000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	plane: Top Plane
+	{
+		position: 0.0000, 15.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.1000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	plane: Bottom Plane
+	{
+		position: 0.0000, -15.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.1000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	sphere: My Sphere
+	{
+		position: 2.0000, -3.0000, 10.0000
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
+		color: 252.0000, 233.0000, 79.0000
+		radius: 10.0000
+		kd: 0.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0000
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	plane: Front Plane
+	{
+		position: 0.0000, 0.0000, -52.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.1000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	cylinder: Cylinder 1
+	{
+		position: 1.0000, -20.0000, 0.0000
+		direction: 0.2241, 0.9745, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 2.0000
+		height: 50.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	cylinder: Cylinder 2
+	{
+		position: 0.0000, -20.0000, 2.0000
+		direction: -0.3047, 0.9524, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 2.0000
+		height: 50.0000
+		kd: 0.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.3297
+		transparency: 1.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	disk: Cylinder 1 cap
+	{
+		position: 1.0000, -20.0000, 0.0000
+		direction: 0.2241, 0.9745, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	disk: Cylinder 1 cap
+	{
+		position: 12.2055, 28.7280, 0.0000
+		direction: 0.2241, 0.9745, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0096
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	disk: Cylinder 2 cap
+	{
+		position: 0.0000, -20.0000, 2.0000
+		direction: -0.3047, 0.9524, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 0.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.3297
+		transparency: 1.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	disk: Cylinder 2 cap
+	{
+		position: -15.2355, 27.6221, 2.0000
+		direction: -0.3047, 0.9524, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 0.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.3297
+		transparency: 1.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	light: New light
+	{
+		position: 4.0000, 4.0000, 0.0000
+		color:252.0000, 233.0000, 79.0000
+		intensity: 39
+		kflare: 0.0000
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 0.0000, -50.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 45
+		ior: 1.0000
+	}
+}
