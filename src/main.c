@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/07 14:50:04 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 09:41:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int				main(int ac, char **av)
 	g.t = &t;
 	g.r = &r;
 	g.pixbuf = NULL;
-	// g.r->settings.tile_size = 4;
 	g.r->settings.tile_size = DEFAULT_TILE_SIZE;
 	// g.r->settings.photon_search_radius = PHOTON_SEARCH_RADIUS;
 	g.r->settings.photon_search_radius = 5;
@@ -53,9 +52,10 @@ void			*main_gtk(t_gtk_tools *g)
 	build_gui(g);
 	init_window(g);
 	(g->filename) ? open_scene(g, NULL) : 0;
-    gtk_main();
+	gtk_main();
 	clean_exit(g);
-	while (g->r->rendering);
+	while (g->r->rendering)
+		;
 	return (NULL);
 }
 
@@ -82,40 +82,42 @@ static void		init_raytracing_tools(t_raytracing_tools *r)
 
 static void	init_window(t_gtk_tools *g)
 {
-	GtkWidget       *window;
+	GtkWidget		*window;
 	GtkWidget		*widget;
 	GtkAdjustment	*adj;
 	GdkRectangle	res;
-	
-	widget = GTK_WIDGET(gtk_builder_get_object(g->builder, "MenuItemQuit"));
-	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy), NULL);
-	gdk_monitor_get_geometry(gdk_display_get_monitor(gdk_display_get_default(), 0), &res);
-	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionX"));
+
+	widget = get_widget(g, "MenuItemQuit");
+	g_signal_connect(widget, "activate", G_CALLBACK(on_window_main_destroy),
+						NULL);
+	gdk_monitor_get_geometry(gdk_display_get_monitor(
+			gdk_display_get_default(), 0), &res);
+	adj = GTK_ADJUSTMENT(get_widget(g, "AdjResolutionX"));
 	gtk_adjustment_set_upper(adj, res.width);
-	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionY"));
+	adj = GTK_ADJUSTMENT(get_widget(g, "AdjResolutionY"));
 	gtk_adjustment_set_upper(adj, res.height);
-    window = GTK_WIDGET(gtk_builder_get_object(g->builder, "window_main"));
+	window = get_widget(g, "window_main");
 	gtk_widget_show(window);
-	g_timeout_add_seconds (1, update_available_memory, g);
+	g_timeout_add_seconds(1, update_available_memory, g);
 	gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);
 }
 
 void	build_gui(t_gtk_tools *g)
 {
-	GtkCssProvider		*cssProvider;
+	GtkCssProvider		*css_provider;
 
-	cssProvider = gtk_css_provider_new();
-	gtk_css_provider_load_from_path(cssProvider, CSS_PATH, NULL); //NULL instead of GError**
+	css_provider = gtk_css_provider_new();
+	gtk_css_provider_load_from_path(css_provider, CSS_PATH, NULL);
 	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-		GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-    g->builder = gtk_builder_new_from_file(RT_GLADE);
-    gtk_builder_connect_signals(g->builder, g);
+		GTK_STYLE_PROVIDER(css_provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+	g->builder = gtk_builder_new_from_file(RT_GLADE);
+	gtk_builder_connect_signals(g->builder, g);
 }
 
 int	clean_exit(t_gtk_tools *g)
 {
 	cuda_free(g->r, 1);
-    g_object_unref(g->builder);
+	g_object_unref(g->builder);
 	free_scene(g->r->scene);
 	return (1);
 }

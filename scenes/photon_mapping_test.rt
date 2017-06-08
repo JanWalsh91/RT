@@ -1,6 +1,6 @@
 scene: Scene 1
 {
-	resolution: 400, 400
+	resolution: 1200, 1200
 	ray depth: 10
 	background color: 0.0000, 0.0000, 0.0000
 	ambient light color: 255.0000, 255.0000, 255.0000
@@ -109,6 +109,6 @@ scene: Scene 1
 		position: 0.0000, 0.0000, -50.0000
 		direction: 0.0000, 0.0000, 1.0000
 		fov: 45
-		ior: 1.0093
+		ior: 1.0092
 	}
 }

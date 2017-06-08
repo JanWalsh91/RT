@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_flares.cu                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 10:18:02 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 16:28:26 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 10:33:52 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void			get_flares(t_raytracing_tools *r)
 	shift = 0;
 	while (++i < light_count)
 	{
-		dim3 blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
-		dim3 gridSize = dim3(r->scene->res.x / BLOCK_DIM + 1,
+		dim3 block_size = dim3(BLOCK_DIM, BLOCK_DIM, 1);
+		dim3 grid_size = dim3(r->scene->res.x / BLOCK_DIM + 1,
 			r->scene->res.y / BLOCK_DIM + 1);
-		draw_one_flare<<<gridSize, blockSize>>>(tools + shift,
+		draw_one_flare<<<grid_size, block_size>>>(tools + shift,
 			r->d_scene, r->d_pixel_map);
 		cuda_check_kernel_errors();
 		shift++;
