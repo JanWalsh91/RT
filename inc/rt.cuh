@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 11:52:37 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:15:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,6 @@ typedef struct	s_camera
 ** (see t_attributes for more information)
 */
 
-
 typedef struct	s_scene
 {
 	t_pt2			res;
@@ -361,6 +360,7 @@ typedef struct	s_scene
 	bool			is_3d;
 	bool			is_fresnel;
 	bool			is_photon_mapping;
+	bool			is_cartoon_effect;
 	char			is_aa;
 	int				photon_count;
 	int				photon_count_per_pass;
