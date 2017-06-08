@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 12:55:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:43:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:54:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 void	perpare_memory(t_raytracing_tools *r)
 {
+	r->h_d_scene->photon_iteration = 1;
 	(cudaMallocHost((void **)&r->rt_pixel_map, sizeof(t_color) *
 		r->scene->res.y * r->scene->res.x));
 	cudaMemcpy(r->rt_pixel_map, r->d_pixel_map, sizeof(t_color) *
