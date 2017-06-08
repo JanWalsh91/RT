@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:13:47 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 20:32:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	cuda_check_kernel_errors(void)
 	errAsync = cudaDeviceSynchronize();
 	if (errSync != cudaSuccess)
 	{
-		write(2, "\e[1;93mSync kernel error: ", 16);
+		write(2, "\e[1;93mSync kernel error: ", 26);
 		s =  cudaGetErrorString(errSync);
 		l = strlen(s);
 		write(2, s, l);
@@ -36,7 +36,7 @@ void	cuda_check_kernel_errors(void)
 	}
 	if (errAsync != cudaSuccess)
 	{
-		write(2, "\e[1;93mAsync kernel error: ", 17);
+		write(2, "\e[1;93mAsync kernel error: ", 27);
 		s =  cudaGetErrorString(errAsync);
 		l = strlen(s);
 		write(2, s, l);
