@@ -1,0 +1,310 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	cylinder: Corps
+	{
+		position: 0.0000, -3.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 2.0000
+		height: 4.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	cylinder: Left Arm
+	{
+		position: -2.7000, 1.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		height: 2.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	sphere: Left Moignon 1
+	{
+		position: 0.0000, -0.0500, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 2.0000
+	}
+	sphere: Left Moignon 2
+	{
+		position: 0.0000, 2.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 2.0000
+	}
+	sphere: Right Moignon 1
+	{
+		position: 0.0000, 2.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0097
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 6.0000
+	}
+	cylinder: Right Arm
+	{
+		position: 2.7000, 1.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		height: 2.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	sphere: Right Moignon 2
+	{
+		position: 0.0000, -0.0500, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 6.0000
+	}
+	cylinder: Left leg
+	{
+		position: -0.7000, -1.5000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		height: 1.5000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	cylinder: Right leg
+	{
+		position: 0.7000, -1.5000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		height: 1.5000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	sphere: Left leg moignon
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 8.0000
+	}
+	sphere: Right leg moignon
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.4000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 9.0000
+	}
+	sphere: Head
+	{
+		position: 0.0000, 4.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 2.0000
+		kd: 0.9000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	cylinder: Collier
+	{
+		position: 0.0000, 3.9800, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 0.0000, 0.0000, 0.0000
+		radius: 2.0099
+		height: 0.1000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 1.0000
+	}
+	cylinder: Left ear
+	{
+		position: -1.0000, 1.0000, 0.0000
+		direction: -0.7071, 0.7071, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.1000
+		height: 2.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 12.0000
+	}
+	cylinder: Right ear
+	{
+		position: 1.0000, 1.0000, 0.0000
+		direction: 0.7071, 0.7071, 0.0000
+		color: 153.0000, 204.0000, 1.0000
+		radius: 0.1000
+		height: 2.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0098
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 12.0000
+	}
+	sphere: Left eye
+	{
+		position: 0.7000, 1.0000, -1.7999
+		direction: 0.0000, 1.0000, 0.0000
+		color: 0.0000, 0.0000, 0.0000
+		radius: 0.2000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 12.0000
+	}
+	sphere: Right eye
+	{
+		position: -0.7000, 1.0000, -1.7999
+		direction: 0.0000, 1.0000, 0.0000
+		color: 0.0000, 0.0000, 0.0000
+		radius: 0.2000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		parent index: 12.0000
+	}
+	plane: Background
+	{
+		position: 0.0000, 0.0000, 10.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 1.0000
+		beer lambert: 0.0000
+	}
+	plane: Foreground
+	{
+		position: 0.0000, -5.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 0.5000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0099
+		transparency: 0.0000
+		reflection: 0.5000
+		beer lambert: 0.0000
+	}
+	light: New light
+	{
+		position: 0.0000, 20.0000, -100.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 400
+		kflare: 0.0000
+	}
+	camera: New Camera
+	{
+		position: 2.0000, 4.0000, -15.0000
+		direction: -0.1254, -0.2315, 0.9647
+		fov: 45
+		ior: 1.0096
+	}
+}

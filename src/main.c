@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 15:57:15 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 13:52:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 13:58:35 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	init_window(t_gtk_tools *g)
 {
 	GtkWidget		*window;
 	GtkWidget		*widget;
-	GtkWidget		*adj;
+	GtkAdjustment	*adj;
 	GdkRectangle	res;
 
 	widget = get_widget(g, "MenuItemQuit");
@@ -92,10 +92,10 @@ static void	init_window(t_gtk_tools *g)
 						NULL);
 	gdk_monitor_get_geometry(gdk_display_get_monitor(
 			gdk_display_get_default(), 0), &res);
-	adj = (get_widget(g, "AdjResolutionX"));
-	gtk_adjustment_set_upper(GTK_ADJUSTMENT(adj), res.width);
-	adj = (get_widget(g, "AdjResolutionY"));
-	gtk_adjustment_set_upper(GTK_ADJUSTMENT(adj), res.height);
+	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionX"));
+	gtk_adjustment_set_upper(adj, res.width);
+	adj = GTK_ADJUSTMENT(gtk_builder_get_object(g->builder, "AdjResolutionY"));
+	gtk_adjustment_set_upper(adj, res.height);
 	window = get_widget(g, "window_main");
 	gtk_widget_show(window);
 	g_timeout_add_seconds(1, update_available_memory, g);
