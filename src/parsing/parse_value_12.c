@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 12:11:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/06 16:57:36 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 09:32:39 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char		*read_texture_file(t_parse_tools *t)
 	int				i;
 	char			*ret;
 
-	printf("read_texture_file\n");
 	if (!t->input->value)
 		return ("Invalid texture name");
 	res = ft_strsplit(t->input->value, ' ');
@@ -45,12 +44,8 @@ char		*read_texture_file(t_parse_tools *t)
 	else
 		ret = init_bmp(t);
 	i = -1;
-	printf("Yeah ! \n=================\n");
 	while (res[++i])
-	{
-		printf("Res[i] = %p\n", res[i]);
 		free(res[i]);
-	}
 	free(res);
 	return (ret);
 }

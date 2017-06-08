@@ -6,7 +6,7 @@
 /*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 17:23:50 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/01/21 15:41:14 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 09:28:31 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ static int	write_1_byte(wchar_t c, int fd)
 
 static int	write_2_bytes(wchar_t c, int fd)
 {
-	//unsigned char s[2];
-
-	//s[0] = ((c >> 6) & 0x1F) + 0x80;
-	//s[1] = (c & 0xBF);
 	write(fd, &c, 2);
 	return (1);
 }

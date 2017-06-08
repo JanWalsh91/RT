@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:57:12 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/05 17:52:01 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 09:31:30 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,18 @@ void		free_object(t_object *to_delete)
 {
 	struct cudaPointerAttributes	attributes;
 
-	printf("======================= DELETE [%s] ======================= \n", to_delete->name);
 	if (to_delete->name)
 		free(to_delete->name);
 	if (to_delete->texture)
 	{
 		if (cudaPointerGetAttributes(&attributes, to_delete->texture))
 			ft_error_exit("Invalid device");
-		printf("Memory type: %d\n", attributes.memoryType);
 		if (attributes.memoryType == cudaMemoryTypeHost)
 			cudaFreeHost(to_delete->texture);
 		else
 			cudaFree(to_delete->texture);
-		C(1)
 		if (to_delete->texture_name)
-		{
-			printf("Texture name: %s\n", to_delete->texture_name);
 			free(to_delete->texture_name);
-		}
 	}
 	if (to_delete->normal_map)
 		free_normal_map(to_delete);
@@ -53,9 +47,10 @@ static void	free_normal_map(t_object *to_delete)
 {
 	struct cudaPointerAttributes	attributes;
 
+	if (to_delete->normal_map_name)
+		free(to_delete->normal_map_name);
 	if (cudaPointerGetAttributes(&attributes, to_delete->normal_map))
 		ft_error_exit("Invalid device");
-	printf("Memory type: %d\n", attributes.memoryType);
 	if (attributes.memoryType == cudaMemoryTypeHost)
 		cudaFreeHost(to_delete->normal_map);
 	else

@@ -18,7 +18,7 @@ scene: Scene 1
 		transparency: 0.8000
 		reflection: 0.0000
 		beer lambert: 0.0000
-		texture: /home/theo/RT3/textures/sun.bmp
+		texture: textures/sun.bmp
 	}
 	sphere: Earth
 	{
@@ -33,7 +33,7 @@ scene: Scene 1
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
-		texture: /home/theo/RT3/textures/earth.bmp
+		texture: textures/earth.bmp
 		parent index: 1.0000
 	}
 	sphere: Mars
@@ -49,7 +49,7 @@ scene: Scene 1
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
-		texture: /home/theo/RT3/textures/mars.bmp
+		texture: textures/mars.bmp
 		parent index: 1.0000
 	}
 	plane: Background
@@ -64,7 +64,7 @@ scene: Scene 1
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
-		texture: /home/theo/RT3/textures/galaxy.bmp
+		texture: textures/galaxy.bmp
 	}
 	sphere: Capsule
 	{

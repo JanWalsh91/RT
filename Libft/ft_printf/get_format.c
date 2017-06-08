@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 15:39:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/02/07 14:11:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 09:28:50 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int	parse_user_input(t_data *d, char **input)
 
 static int	get_code_values(char *c)
 {
-
 	!ft_strcmp(c, "eoc") || !ft_strcmp(c, "")
 		? c = ft_strdupfree(c, "\e[0m") : 0;
 	!ft_strcmp(c, "bold") || !ft_strcmp(c, "b") ?
