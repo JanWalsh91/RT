@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 16:36:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 17:02:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # include "../Libft/inc/libft.h"
 # include "../Libmathft/inc/libmathft.cuh"
 
-#ifndef CUDA_DEV
-#ifdef __CUDACC__
-#define CUDA_DEV __device__
-#else
-#define CUDA_DEV
-#endif
-#endif
+# ifndef CUDA_DEV
+#  ifdef __CUDACC__
+#   define CUDA_DEV __device__
+#  else
+#   define CUDA_DEV
+#  endif
+# endif
 
 /*
 ** General settings
@@ -75,6 +75,7 @@
 # define PHOTON_BOUNCE_MAX 10
 # define cuda_device_prop cudaDeviceProp
 # define cuda_pointer_attributes cudaPointerAttributes
+
 /*
 ** Tokens for the parser.
 */
@@ -239,12 +240,12 @@ typedef	struct	s_ray
 	t_vec3			dir;
 	float			t;
 	t_vec3			hit;
-	int				hit_obj; //index of hit obj
+	int				hit_obj;
 	t_token			hit_type;
 	int				n_dir;
 	t_vec3			nhit;
 	t_color			col;
-	float			ior; //current index of refraction
+	float			ior;
 	int				depth;
 }				t_ray;
 
@@ -363,8 +364,6 @@ typedef struct	s_scene
 	int				photons_per_pass;
 	int				photon_iteration;
 	struct s_photon	*photon_list;
-	struct s_kd_tree		*photon_kd_tree;
-	// struct s_selected_photon *selected_photons;
 	t_camera		*cameras;
 	t_light			*lights;
 	t_object		*objects;
@@ -454,7 +453,6 @@ typedef struct	s_update
 	uint8_t		anaglyph;
 }				t_update;
 
-
 /*
 ** Structure with tools to help with raytracing
 ** scene - contains info about the scene
@@ -471,23 +469,23 @@ typedef	struct	s_rt_settings
 
 typedef struct	s_raytracing_tools
 {
-	t_scene					*scene;
-	t_scene					*d_scene;
-	t_scene					*h_d_scene;
-	t_color					*d_pixel_map;
-	t_color					*rt_pixel_map;
-	t_color					*d_pixel_map_3d;
-	t_pt2					pix;
-	float					t;
-	t_update				update;
-	uint8_t					rendering;
-	t_rt_settings			settings;
-	float					ior_list[MAX_RAY_DEPTH + 1];
-	int						idx; // thread index
+	t_scene						*scene;
+	t_scene						*d_scene;
+	t_scene						*h_d_scene;
+	t_color						*d_pixel_map;
+	t_color						*rt_pixel_map;
+	t_color						*d_pixel_map_3d;
+	t_pt2						pix;
+	float						t;
+	t_update					update;
+	uint8_t						rendering;
+	t_rt_settings				settings;
+	float						ior_list[MAX_RAY_DEPTH + 1];
+	int							idx;
 	struct curandStateXORWOW	*devStates;
-	struct s_region			**h_region_map; //global region map on the CPU
-	struct s_region			*d_region_map; //tile-sized region map on the GPU
-	float 					*rand_list;
+	struct s_region				**h_region_map;
+	struct s_region				*d_region_map;
+	float						*rand_list;
 }				t_raytracing_tools;
 
 typedef struct	s_tile
@@ -501,38 +499,24 @@ typedef struct	s_tile
 
 typedef struct	s_th_export
 {
-	float	progress;
-	char	*filename;
-	struct s_gtk_tools *g;
+	float				progress;
+	char				*filename;
+	struct s_gtk_tools	*g;
 }				t_th_export;
-
-typedef struct	s_quartic
-{
-	float	a;
-	float	b;
-	float	c;
-	float	d;
-	float	e;
-	float	m;
-	float	n;
-	float	o;
-	float	p;
-	float	q;
-}				t_quartic;
 
 /*
 ** Photon Mapping
 */
 
-typedef struct s_region
+typedef struct	s_region
 {
-	t_vec3	hit_pt; //hit point
-	t_vec3	ray_dir; //incoming ray dir at hit point
-	t_vec3	normal; //normal at hit point
-	float	kd; //pointer to hit object
-	float	radius; //search radius
-	int		n; //photon count
-	t_vec3	power; //accumulated normalized power
+	t_vec3	hit_pt;
+	t_vec3	ray_dir;
+	t_vec3	normal;
+	float	kd;
+	float	radius;
+	int		n;
+	t_vec3	power;
 }				t_region;
 
 typedef struct	s_photon
@@ -541,7 +525,7 @@ typedef struct	s_photon
 	t_vec3		dir;
 	t_color		col;
 	t_vec3		n;
-	int			type; //0: direct 1: indirect 2: caustic
+	int			type;
 }				t_photon;
 
 /*
@@ -681,16 +665,21 @@ void			set_default_ks(t_scene *scene, int type, void *obj, float *ks);
 void			set_default_kd(t_scene *scene, int type, void *obj, float *kd);
 void			set_default_specular_exp(t_scene *scene, int type, void *obj,
 					float *specular_exp);
-void			set_default_ior(t_scene *scene, int type, void *obj, float *ior);					
-void			set_default_reflection(t_scene *scene, int type, void *obj, float *reflection);
-void			set_default_transparency(t_scene *scene, int type, void *obj, float *transparency);
+void			set_default_ior(t_scene *scene, int type, void *obj,
+														float *ior);
+void			set_default_reflection(t_scene *scene, int type, void *obj,
+													float *reflection);
+void			set_default_transparency(t_scene *scene, int type, void *obj,
+												float *transparency);
 
 /*
 ** Cuda Malloc Functions
 */
 
-bool			cuda_malloc_objects(t_raytracing_tools *r, t_scene *h_scene_to_array);
-bool			cuda_malloc_lights(t_raytracing_tools *r, t_scene *h_scene_to_array);
+bool			cuda_malloc_objects(t_raytracing_tools *r, t_scene
+												*h_scene_to_array);
+bool			cuda_malloc_lights(t_raytracing_tools *r, t_scene
+												*h_scene_to_array);
 bool			cuda_malloc_camera(t_raytracing_tools *r);
 t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
 bool			test_cuda_malloc(void **to_malloc, size_t size);
@@ -729,17 +718,21 @@ CUDA_DEV
 t_color			get_specular(t_scene *scene, t_ray *primary_ray,
 					t_ray *shadow_ray, t_light *light);
 CUDA_DEV
-t_color			get_reflected_and_refracted(t_raytracing_tools *r, t_scene *scene, t_ray *ray);
+t_color			get_reflected_and_refracted(t_raytracing_tools *r,
+									t_scene *scene, t_ray *ray);
 CUDA_DEV
-void			update_ior(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
+void			update_ior(float *n1, float *n2, t_raytracing_tools *r,
+													t_ray *ray);
 CUDA_DEV
-float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal, float n1, float n2);				
+float			get_fresnel_ratio(t_vec3 ray_dir, t_vec3 normal,
+											float n1, float n2);
 CUDA_DEV
 t_color			get_ambient(t_scene *scene, t_ray *ray);
 CUDA_DEV
 t_vec3			reflect(t_vec3 ray_dir, t_vec3 nhit);
 CUDA_DEV
-t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ray_ior, float new_ior);
+t_vec3			refract(t_vec3 ray_dir, t_vec3 nhit, float ray_ior,
+													float new_ior);
 CUDA_DEV
 t_color			update_photon(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
@@ -754,15 +747,19 @@ void			update_region_map(t_raytracing_tools *r, t_ray *cam_ray);
 CUDA_DEV
 void			get_iors(float *n1, float *n2, t_raytracing_tools *r, t_ray *ray);
 void			render_ppm(struct s_gtk_tools *g, t_tile tile);
-void			shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count, t_photon *init_photon_list);
+void			shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count,
+													t_photon *init_photon_list);
 CUDA_DEV
 int				fresnel_reflect(t_raytracing_tools *r, t_ray *ray);
 CUDA_DEV
-void			redirect_photon_diffuse(t_raytracing_tools *r, t_ray *ray, float p);
+void			redirect_photon_diffuse(t_raytracing_tools *r, t_ray *ray,
+																float p);
 CUDA_DEV
-void			redirect_photon_specular(t_raytracing_tools *r, t_ray *ray, float p);
+void			redirect_photon_specular(t_raytracing_tools *r, t_ray *ray,
+																float p);
 CUDA_DEV
-void			redirect_photon_transmit(t_raytracing_tools *r, t_ray *ray, float p);
+void			redirect_photon_transmit(t_raytracing_tools *r, t_ray *ray,
+																float p);
 
 /*
 ** Intersection functions.
@@ -792,11 +789,6 @@ CUDA_DEV
 bool			get_view_pane_intersection(t_ray *ray, t_camera *cam);
 CUDA_DEV
 bool			solve_quadratic(t_vec3 q, float *r1, float *r2);
-CUDA_DEV
-bool			solve_cubic(t_vec3 q, float x, t_vec3im *sol);
-CUDA_DEV
-bool			solve_quartic(t_quartic *qua, t_vec4im *sol);
-
 
 /*
 ** Filters functions
@@ -819,7 +811,8 @@ t_color			left_red_filter(t_color c);
 
 void			*export_image(void *th_export);
 t_color			*read_bmp(char *file_name, t_vec3 *dim);
-t_object		*find_texture(t_object *head, t_object *to_cmp, char *texture_name, t_vec3 dim);
+t_object		*find_texture(t_object *head, t_object *to_cmp, char
+											*texture_name, t_vec3 dim);
 
 
 
@@ -849,7 +842,8 @@ t_vec3			get_object_color(t_object *obj, t_ray *ray);
 ** Flare
 */
 
-void			init_light_flares_wrapper(int light_count, t_raytracing_tools *r, t_light_flare_tools *tools);
+void			init_light_flares_wrapper(int light_count, t_raytracing_tools *r,
+												t_light_flare_tools *tools);
 
 /*
 ** Free Functions
@@ -866,20 +860,17 @@ void			rt_file_error_exit(t_parse_tools *t, char *msg);
 void			rt_file_warning(t_parse_tools *t, char *msg);
 void			data_error_exit(t_scene *scene, int type, void *object,
 					char *msg);
-void			data_warning(t_scene *scene, int type, void *object, char *msg);
+void			data_warning(t_scene *scene, int type, void *object,
+														char *msg);
 void 			gpu_errchk(int code);
 
 /*
 ** Debug functions
 */
 
-# define C(...) printf("check%i\n", __VA_ARGS__);
-# define P(x) ft_printf(x);
-
 void			print_scene(t_scene *scene);
 void			print_attributes(t_attributes att);
 void			print_vec(t_vec3 vec);
 void			print_matrix(t_matrix m);
-void			print_photons(struct s_kd_tree *tree);
 
 #endif

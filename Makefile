@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
+#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 14:03:20 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/08 15:51:43 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,16 @@ SRC = 		main
 PARSING = 	get_color \
 			get_file \
 			get_token \
+			init_color_list \
 			init_parse_tools \
 			init_tokens \
-			init_color_list \
 			parse_color_name \
+			parse_float \
 			parse_input \
 			parse_value_1 \
+			parse_value_10 \
+			parse_value_12 \
+			parse_value_13 \
 			parse_value_2 \
 			parse_value_3 \
 			parse_value_4 \
@@ -39,19 +43,15 @@ PARSING = 	get_color \
 			parse_value_7 \
 			parse_value_8 \
 			parse_value_9 \
-			parse_value_10 \
-			parse_value_12 \
-			parse_value_13 \
 			parse_vector \
-			parse_float \
 			reset_attributes \
 			set_attributes_1 \
 			set_attributes_2 \
 			set_attributes_3 \
 			split_trim
 
-DATA_PREP = check_scene \
-			check_objects \
+DATA_PREP = check_objects \
+			check_scene \
 			init_cameras \
 			set_default_1 \
 			set_default_2 \
@@ -60,69 +60,97 @@ DATA_PREP = check_scene \
 			set_default_5
 
 LIST = 		get_new_camera \
+			get_new_input \
 			get_new_light \
 			get_new_object \
 			get_new_scene \
-			get_new_input \
 			input_pushback \
 			push_camera \
 			push_light \
 			push_object \
-			remove_object \
 			remove_camera \
-			remove_light
+			remove_light \
+			remove_object
 
 RAY_TRACING = cast_primary_ray \
-			render \
+			create_anaglyph \
+			filter \
+			filters \
+			get_ambient \
+			get_cartoon_effect \
+			get_cone_intersection \
+			get_cylinder_intersection \
+			get_diffuse \
+			get_disk_intersection \
+			get_flares \
+			get_fresnel_ratio \
 			get_normal \
 			get_normal2 \
-			init_camera_ray \
-			solve_quadratic \
-			intersects \
-			get_plane_intersection \
-			get_sphere_intersection \
-			get_disk_intersection \
-			get_cylinder_intersection \
-			get_cone_intersection \
 			get_paraboloid_intersection \
+			get_plane_intersection \
+			get_reflected_and_refracted \
+			get_specular \
+			get_sphere_intersection \
+			get_texture \
 			get_view_pane_intersection \
 			in_shadow \
-			get_diffuse \
-			get_specular \
-			get_ambient \
+			init_camera_ray \
+			init_light_flares \
+			intersects \
 			reflect \
 			refract \
-			filters \
-			filter \
-			get_reflected_and_refracted \
-			get_fresnel_ratio \
-			get_texture \
-			get_flares \
-			init_light_flares \
-			update_ior \
-			create_anaglyph \
-			get_cartoon_effect
+			render \
+			solve_quadratic \
+			update_ior
 
-MISC = 		free_parse_tools \
-			free_scene \
-			rt_error \
-			check_file_ext \
+MISC = 		check_file_ext \
 			find_texture \
+			free_parse_tools \
+			free_scene \
+			gpu_errchk \
+			rt_error \
 			tile \
-			write_values \
-			gpu_errchk
+			write_values
 
-GUI =		main_gtk \
-			window_signals \
-			window_signals1 \
-			get_widget \
+GUI =		get_widget \
+			main_gtk \
+			photon_mapping \
+			sig_delete_camera \
+			sig_delete_light \
+			sig_delete_object \
+			sig_errors \
+			sig_export_scene_bmp \
+			sig_generate_texture \
+			sig_new_camera \
+			sig_new_light \
+			sig_new_object \
+			sig_new_scene \
 			sig_open_scene \
-			sig_update_scene \
-			sig_update_scene1 \
-			sig_update_scene2 \
-			sig_update_scene3 \
+			sig_open_settings \
+			sig_render \
+			sig_save \
+			sig_save_camera \
+			sig_save_light \
+			sig_save_object \
+			sig_save_scene \
+			sig_set_full_screen \
+			sig_update_cameras \
+			sig_update_cameras1 \
+			sig_update_cameras2 \
+			sig_update_cameras3 \
+			sig_update_cameras4 \
+			sig_update_cameras5 \
+			sig_update_lights \
+			sig_update_lights1 \
+			sig_update_lights2 \
+			sig_update_lights3 \
+			sig_update_lights4 \
 			sig_update_objects \
 			sig_update_objects1 \
+			sig_update_objects10 \
+			sig_update_objects11 \
+			sig_update_objects12 \
+			sig_update_objects13 \
 			sig_update_objects2 \
 			sig_update_objects3 \
 			sig_update_objects4 \
@@ -131,68 +159,40 @@ GUI =		main_gtk \
 			sig_update_objects7 \
 			sig_update_objects8 \
 			sig_update_objects9 \
-			sig_update_objects10 \
-			sig_update_objects11 \
-			sig_update_objects12 \
-			sig_update_objects13 \
-			sig_update_lights \
-			sig_update_lights1 \
-			sig_update_lights2 \
-			sig_update_lights3 \
-			sig_update_lights4 \
-			sig_update_cameras \
-			sig_update_cameras1 \
-			sig_update_cameras2 \
-			sig_update_cameras3 \
-			sig_update_cameras4 \
-			sig_update_cameras5 \
+			sig_update_scene \
+			sig_update_scene1 \
+			sig_update_scene2 \
+			sig_update_scene3 \
 			sig_update_settings \
 			sig_update_settings1 \
-			sig_new_object \
-			sig_new_camera \
-			sig_new_light \
-			sig_new_scene \
-			sig_delete_object \
-			sig_delete_light \
-			sig_delete_camera \
-			sig_save \
-			sig_save_object \
-			sig_save_scene \
-			sig_save_camera \
-			sig_save_light \
-			sig_open_settings \
-			sig_export_scene_bmp \
-			sig_render \
-			sig_set_full_screen \
-			sig_generate_texture \
-			sig_errors \
-			photon_mapping
+			window_signals \
+			window_signals1
 
 CUDA_MEM =	cuda_check_kernel_errors \
+			cuda_free \
 			cuda_malloc \
-			ft_lstnew_cuda \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
-			cuda_free \
+			ft_lstnew_cuda \
 			test_cuda_malloc
 
-PHOTON_MAPPING = update_photon \
+PHOTON_MAPPING = get_iors \
+				malloc_region_map \
+				photon_mapping_assist \
 				photon_mapping_pass \
 				radiance_estimation_pass \
-				malloc_region_map \
-				update_region_map \
-				shoot_photon \
-				get_iors \
 				redirect_photon \
-				photon_mapping_assist
+				shoot_photon \
+				update_photon \
+				update_region_map
 
 TEXTURE =	export_bmp \
-			read_bmp \
-			get_file_name \
-			generate_perlin_noise \
 			generate_checkerboard \
 			generate_noise \
+			generate_perlin_noise \
+			get_file_name \
+			read_bmp
 
 OBJ_DIR = obj
 
@@ -223,7 +223,7 @@ OBJ_TEXTURE = $(addprefix $(OBJ_DIR)/, $(SRC_TEXTURE:.c=.o))
 
 CC	= nvcc
 NVCC = nvcc
-CUFLAGS = -gencode=arch=compute_30,code=sm_30 #-Xnvlink --disable-warnings #A remettre pour la correction
+CUFLAGS = -gencode=arch=compute_30,code=sm_30 -Xnvlink --disable-warnings
 FLG = $(CUFLAGS) -Xcompiler="-Werror -Wextra -Wall"
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
 GTK3_INC = `pkg-config --cflags gtk+-3.0`

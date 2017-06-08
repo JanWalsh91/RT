@@ -1,0 +1,78 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 5
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	sphere: New Object
+	{
+		position: 1.0000, 0.0000, 0.0000
+		direction: -0.5773, -0.5773, -0.5773
+		color: 238.0000, 238.0000, 236.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0091
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	plane: Wall
+	{
+		position: 0.0000, 0.0000, 26.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0092
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	sphere: New Object
+	{
+		position: -1.5000, 0.0000, -12.0000
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0095
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	sphere: New Object
+	{
+		position: 6.5000, 0.0000, 12.0000
+		direction: --2147483648.----, --2147483648.----, --2147483648.----
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0095
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	light: New light
+	{
+		position: 0.0000, 100.0000, -100.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 400
+		kflare: 0.0000
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 0.0000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		filter: none
+		fov: 45
+		ior: 1.0091
+	}
+}

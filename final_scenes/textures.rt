@@ -1,0 +1,109 @@
+scene: rendu4
+{
+	resolution: 1200, 1200
+	ray depth: 10
+	background color: 238.0000, 238.0000, 236.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	cylinder: Cylinder
+	{
+		position: 0.0000, -2.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		height: 4.0000
+		kd: 0.7000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.4000
+		reflection: 0.0000
+		beer lambert: 0.3600
+		texture: Checkerboard 600.0000, 600.0000, 100.0000
+	}
+	sphere: Sphere
+	{
+		position: -3.0000, 0.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 242.9299, 255.0000, 194.6499
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.0298
+		specular exponent: 7.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0900
+		texture: textures/earth.bmp
+	}
+	cone: Cone
+	{
+		position: 3.0000, 2.0000, 0.0000
+		direction: 0.0000, -1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 0.5000
+		height: 4.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+		texture: Perlin 500.0000, 500.0000, 100.0000
+	}
+	plane: Plane
+	{
+		position: 0.0000, -2.0000, 9.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	plane: Ground
+	{
+		position: 0.0000, -4.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 186.0000, 189.0000, 182.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+		beer lambert: 0.0000
+	}
+	light: New light
+	{
+		direction: 0.2705, -0.0973, 0.9577
+		color:255.0000, 255.0000, 255.0000
+		intensity: 20
+		kflare: 0.0000
+	}
+	camera: cam
+	{
+		position: 0.0000, 0.0000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 30
+		ior: 1.0097
+	}
+	camera: cam 2
+	{
+		position: 0.0000, 0.0000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 45
+		ior: 1.0097
+	}
+	camera: cam 3
+	{
+		position: 0.0000, 0.0000, -20.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 55
+		ior: 1.0097
+	}
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_set_full_screen.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 12:40:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 15:17:15 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*sig_set_fullscreen(GtkWidget *menu_item, t_gtk_tools *g)
 	GdkRectangle	res;
 
 	(void)menu_item;
-	if (!g->win)
+	if (!g->win || g->r->rendering)
 		return (NULL);
 	gdk_monitor_get_geometry(gdk_display_get_monitor(gdk_display_get_default(),
 																	0), &res);

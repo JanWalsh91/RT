@@ -1,0 +1,99 @@
+scene: rendu4
+{
+	resolution: 1000, 1000
+	ray depth: 10
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.1000
+	cylinder: Cylinder
+	{
+		position: 0.0000, -2.0000, 6.0000
+		direction: -0.3112, 0.4980, -0.8093
+		look at: -5.0000, 6.0000, -7.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 1.0000
+		height: 4.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	sphere: Sphere
+	{
+		position: 0.0000, -2.0000, 0.0000
+		direction: 0.0000, 0.0000, 0.0000
+		color: 242.9299, 255.0000, 194.6499
+		radius: 1.0000
+		kd: 1.0000
+		ks: 0.5500
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	cone: Cone
+	{
+		position: 3.0000, 2.0000, 6.0000
+		direction: 0.0000, -1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 0.5000
+		height: 4.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	plane: Plane
+	{
+		position: 0.0000, 0.0000, 18.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 255.0000, 255.0000, 255.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	plane: Ground
+	{
+		position: 0.0000, -4.0000, 0.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 186.0000, 189.0000, 182.0000
+		kd: 1.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.0089
+		transparency: 0.0000
+		reflection: 0.0000
+
+	}
+	light: Blue light
+	{
+		position: 0.0000, 1.0000, -3.0000
+		color:147.0500, 24.9979, 24.9979
+		intensity: 3
+		kflare: 0.0000
+	}
+	camera: cam
+	{
+		position: 0.0000, 0.0000, -15.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 30
+		ior: 1.0000
+	}
+	camera: New camera
+	{
+		position: 0.0000, 0.0000, 0.0000
+		direction: 0.0000, 0.0000, 1.0000
+		fov: 45
+		ior: 1.0000
+	}
+}

@@ -1,0 +1,48 @@
+scene: Scene 1
+{
+	resolution: 1000, 1000
+	ray depth: 7
+	background color: 0.0000, 0.0000, 0.0000
+	ambient light color: 255.0000, 255.0000, 255.0000
+	ka: 0.0000
+	plane: Plan
+	{
+		position: 0.0000, 0.0000, 50.0000
+		direction: 0.0000, 0.0000, 1.0000
+		color: 238.0000, 238.0000, 236.0000
+		kd: 1.0000
+		ks: 0.1000
+		specular exponent: 200.0000
+		ior: 1.3297
+		transparency: 0.0000
+		reflection: 0.0000
+	}
+	cylinder: Plan 2
+	{
+		position: 0.0000, -10.0000, 19.0000
+		direction: 0.0000, 1.0000, 0.0000
+		color: 255.0000, 255.0000, 255.0000
+		radius: 20.0000
+		height: 23.0000
+		kd: 0.0000
+		ks: 0.0000
+		specular exponent: 200.0000
+		ior: 1.3298
+		transparency: 0.9000
+		reflection: 0.0000
+	}
+	light: New light
+	{
+		position: 0.0000, 0.0000, -80.0000
+		color:255.0000, 255.0000, 255.0000
+		intensity: 1000
+	}
+	camera: New Camera
+	{
+		position: 0.0000, 0.0000, -70.0000
+		direction: 0.0000, 0.0000, 1.0000
+		filter: none
+		fov: 45
+		ior: 1.0089
+	}
+}

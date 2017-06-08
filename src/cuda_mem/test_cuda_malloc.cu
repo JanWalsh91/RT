@@ -19,9 +19,9 @@
 
 void	malloc_error(char *cuda, const char *s)
 {
-	write(2, "\e[1;93mcudaMalloc fail after ", 17);
+	write(2, "\e[1;93mcudaMalloc fail after ", 29);
 	write(2, cuda, 1);
-	write(2, " attempts\n", 9);
+	write(2, " attempts\n", 10);
 	write(2, "GPUassert : ", 12);
 	write(2, s, strlen(s));
 	write(2, "\e[0m\n", 5);
