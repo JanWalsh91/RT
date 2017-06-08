@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 21:20:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 __global__
 void			get_look_at_position(t_scene *scene, t_vec3 *pos);
-t_vec3		get_look_at(t_scene *scene);
+t_vec3			get_look_at(t_scene *scene);
 void			update_camera(t_camera *camera);
 __global__
 void			create_anaglyph(t_color *left, t_color *right,
 					t_scene *scene, t_tile tile);
 __global__
-void render_pixel	(t_scene *scene, t_color *d_pixel_map,
+void 			render_pixel(t_scene *scene, t_color *d_pixel_map,
 					t_region *region_map, t_tile tile);
 
 void				create_anaglyph_wrapper(t_raytracing_tools *r,
-					dim3 blockSize, dim3 gridSize, t_tile tile)
+					dim3 block_size, dim3 grid_size, t_tile tile)
 {
 	t_vec3	original;
 	
@@ -39,7 +39,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 		sizeof(t_camera), cudaMemcpyHostToDevice));
 	gpu_errchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice)));
-	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d,
+	render_pixel<<<grid_size, block_size>>>(r->d_scene, r->d_pixel_map_3d,
 		r->d_region_map, tile);
 	cuda_check_kernel_errors();
 	r->scene->cameras->pos.x -= 0.08;
@@ -50,7 +50,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 		sizeof(t_camera), cudaMemcpyHostToDevice));
 	gpu_errchk((cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice)));
-	create_anaglyph<<<gridSize, blockSize>>>(r->d_pixel_map,
+	create_anaglyph<<<grid_size, block_size>>>(r->d_pixel_map,
 		r->d_pixel_map_3d, r->d_scene, tile);
 	cuda_check_kernel_errors();
 }

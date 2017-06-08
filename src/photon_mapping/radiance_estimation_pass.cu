@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 12:16:58 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 16:36:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 21:19:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static t_vec3	add_accumulated_power(float k, t_region *region,
 
 void			radiance_estimation_pass(t_raytracing_tools *r, t_tile tile)
 {
-	dim3 		blockSize;
-	dim3 		gridSize;
+	dim3 		block_size;
+	dim3 		grid_size;
 	int			size;
 
 	size = (tile.size / BLOCK_DIM) + ((tile.size % BLOCK_DIM) ? 1 : 0);
-	blockSize = dim3(BLOCK_DIM, BLOCK_DIM, 1);
-	gridSize = dim3(size, size);
-	estimate_region_radiance<<<gridSize, blockSize>>>(r->d_scene,
+	block_size = dim3(BLOCK_DIM, BLOCK_DIM, 1);
+	grid_size = dim3(size, size);
+	estimate_region_radiance<<<grid_size, block_size>>>(r->d_scene,
 		r->d_pixel_map, r->d_region_map, tile);
 	cuda_check_kernel_errors();
 }
