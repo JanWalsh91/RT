@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_camera.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:37:33 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/06 10:53:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 20:49:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	set_current_camera(t_camera *head, t_gtk_tools *g)
 	else
 	{
 		g->r->scene->cameras = NULL;
-		gtk_widget_destroy(GTK_WIDGET(g->win));
+		if (g->win)
+			gtk_widget_destroy(GTK_WIDGET(g->win));
 	}
 }
