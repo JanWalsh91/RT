@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 11:51:50 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:02:40 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:05:02 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 	int			id;
 	t_object	*obj;
 	GtkWidget	*widget;
-	int			render;
 
 	printf("sig_update_obj_type\n");
-	render = (g->updating_gui) ? 0 : 1;
 	obj = get_selected_object(g);
 	id = gtk_combo_box_get_active(GTK_COMBO_BOX(combo_box));
 	obj->type = id + 6;
@@ -33,8 +31,8 @@ void		*sig_update_obj_type(GtkWidget *combo_box, t_gtk_tools *g)
 	update_obj_type1(g, obj);
 	if (g->updating_gui)
 		return (NULL);
-	render ? 0 : update_objects_info_panel(g, obj);
-	render ? obj_render_sig(g) : 0;
+	update_objects_info_panel(g, obj);
+	obj_render_sig(g);
 	return (NULL);
 }
 
