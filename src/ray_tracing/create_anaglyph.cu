@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:23:41 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/08 12:19:16 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 	original = r->scene->cameras->dir;
 	r->scene->cameras->dir = v_norm(v_sub(get_look_at(r->d_scene),
 		r->scene->cameras->pos));
-	r->scene->cameras->pos.x += 0.05;
+	r->scene->cameras->pos.x += 0.08;
 	update_camera(r->scene->cameras);
 	r->scene->cameras->filter = F_RIGHT_CYAN;
 	gpu_errchk(cudaMemcpy(r->h_d_scene->cameras, r->scene->cameras,
@@ -42,7 +42,7 @@ void				create_anaglyph_wrapper(t_raytracing_tools *r,
 	render_pixel<<<gridSize, blockSize>>>(r->d_scene, r->d_pixel_map_3d,
 		r->d_region_map, tile);
 	cuda_check_kernel_errors();
-	r->scene->cameras->pos.x -= 0.05;
+	r->scene->cameras->pos.x -= 0.08;
 	r->scene->cameras->dir = original;
 	update_camera(r->scene->cameras);
 	r->scene->cameras->filter = F_LEFT_RED;

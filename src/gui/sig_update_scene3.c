@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/04 16:46:48 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:25:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:46:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,13 @@ void	*sig_update_is_raytracing(GtkWidget *check_box, t_gtk_tools *g)
 	g->r->scene->is_raytracing = gtk_toggle_button_get_active(
 		GTK_TOGGLE_BUTTON(check_box));
 	(g->updating_gui) ? 0 : scene_render_sig(g);
-	return (NULL);	
+	return (NULL);
+}
+
+void	*sig_update_is_cartoon(GtkWidget *check_box, t_gtk_tools *g)
+{
+	g->r->scene->is_cartoon_effect = gtk_toggle_button_get_active(
+		GTK_TOGGLE_BUTTON(check_box));
+	(g->updating_gui) ? 0 : scene_render_sig(g);
+	return (NULL);
 }

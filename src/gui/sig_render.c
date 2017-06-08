@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:43:54 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 12:39:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:42:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static void	init_render_window(t_gtk_tools *g)
 
 void		render_tile(t_gtk_tools *g, t_tile tile)
 {
-	t_vec3 c;
-	
 	while (g->win && tile.id.x != tile.col && tile.id.y != tile.row)
 	{
 		get_region_map_tile(g->r, tile);
@@ -84,10 +82,8 @@ void		render_tile(t_gtk_tools *g, t_tile tile)
 	if (g->win)
 	{
 		get_flares(g->r);
-		c = v_new(45, 50, 2);
-		get_cartoon_effect(g->r, c);
 		ft_memcpy(gdk_pixbuf_get_pixels(g->pixbuf), g->r->d_pixel_map,
-						g->r->scene->res.x * 3 * g->r->scene->res.y);
+			g->r->scene->res.x * 3 * g->r->scene->res.y);
 		gtk_widget_queue_draw(g->win);
 	}
 }
@@ -96,7 +92,8 @@ void		*render_wrapper(gpointer data)
 {
 	t_gtk_tools	*g;
 	t_tile		tile;
-
+	t_vec3 c;
+	
 	g = (t_gtk_tools *)data;
 	init_tile(&tile, g);
 	if (g->r->update.resolution)
@@ -112,6 +109,9 @@ void		*render_wrapper(gpointer data)
 	render_tile(g, tile);
 	if (g->r->scene->is_photon_mapping)
 		render_ppm(g, tile);
+	c = v_new(45, 50, 2);
+	if (g->r->scene->is_cartoon_effect)
+		get_cartoon_effect(g->r, c);
 	g->r->rendering = 0;
 	return (NULL);
 }
