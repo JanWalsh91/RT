@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 13:42:25 by jwalsh           ###   ########.fr        #
+#    Updated: 2017/06/08 13:55:57 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,8 +103,7 @@ RAY_TRACING = cast_primary_ray \
 			create_anaglyph \
 			get_cartoon_effect
 
-MISC = 		debug \
-			free_parse_tools \
+MISC = 		free_parse_tools \
 			free_scene \
 			rt_error \
 			check_file_ext \
