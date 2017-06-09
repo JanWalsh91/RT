@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 13:07:31 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 09:23:12 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/09 09:50:10 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ MISC = 	ft_abs \
 		ft_power \
 		ft_rgb_mix \
 		ft_round \
-		ft_sqrtfi \
 		ft_swap \
 		ft_swapf \
 		ft_to_radian

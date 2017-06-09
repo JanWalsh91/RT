@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libmathft.cuh                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/24 15:36:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 11:46:33 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/09 09:49:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <math.h>
 # include <stdlib.h>
-
 # include <cuda.h>
 
 #ifdef __CUDACC__
@@ -55,45 +54,6 @@ typedef struct	s_vec3
 }				t_vec3;
 
 
-typedef struct	s_im
-{
-	float		r;
-	float		i;
-}				t_im;
-
-typedef struct	s_vec3im
-{
-	t_im		x;
-	t_im		y;
-	t_im		z;
-}				t_vec3im;
-
-typedef struct	s_vec4
-{
-	float		w;
-	float		x;
-	float		y;
-	float		z;
-}				t_vec4;
-
-typedef struct	s_vec4im
-{
-	t_im		w;
-	t_im		x;
-	t_im		y;
-	t_im		z;
-}				t_vec4im;
-
-typedef struct	s_squart
-{
-	float		p;
-	float		q;
-	float		r;
-	float		s;
-	t_im		pim;
-	t_im		qim;
-}				t_squart;
-
 typedef float	t_matrix[4][4];
 
 EXT
@@ -113,9 +73,6 @@ CUDA_HOSTDEV
 void			ft_swapf(float *a, float *b);
 CUDA_HOSTDEV
 float			ft_clampf(float i, float min, float max);
-CUDA_HOSTDEV
-t_im			ft_sqrtfi(t_im i);
-
 
 /*
 ** Colors
