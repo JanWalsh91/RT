@@ -15,7 +15,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -30,7 +30,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -45,7 +45,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -60,7 +60,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -75,7 +75,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0097
+		ior: 1.0096
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -91,7 +91,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -106,7 +106,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -114,15 +114,15 @@ scene: Scene 1
 	}
 	cylinder: Left leg
 	{
-		position: -0.7000, -1.5000, 0.0000
+		position: -0.7000, -2.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
 		color: 153.0000, 204.0000, 1.0000
 		radius: 0.4000
-		height: 1.5000
+		height: 2.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -130,15 +130,15 @@ scene: Scene 1
 	}
 	cylinder: Right leg
 	{
-		position: 0.7000, -1.5000, 0.0000
+		position: 0.7000, -2.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
 		color: 153.0000, 204.0000, 1.0000
 		radius: 0.4000
-		height: 1.5000
+		height: 2.0000
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -153,7 +153,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -168,7 +168,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -183,7 +183,7 @@ scene: Scene 1
 		kd: 0.9000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -199,7 +199,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -215,7 +215,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -231,7 +231,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0098
+		ior: 1.0097
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -246,7 +246,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -261,7 +261,7 @@ scene: Scene 1
 		kd: 1.0000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.0000
 		beer lambert: 0.0000
@@ -275,20 +275,20 @@ scene: Scene 1
 		kd: 0.0000
 		ks: 0.0000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 1.0000
 		beer lambert: 0.0000
 	}
 	plane: Foreground
 	{
-		position: 0.0000, -5.0000, 0.0000
+		position: 0.0000, -6.0000, 0.0000
 		direction: 0.0000, 1.0000, 0.0000
 		color: 255.0000, 255.0000, 255.0000
 		kd: 0.5000
 		ks: 0.1000
 		specular exponent: 200.0000
-		ior: 1.0099
+		ior: 1.0098
 		transparency: 0.0000
 		reflection: 0.5000
 		beer lambert: 0.0000
@@ -305,6 +305,6 @@ scene: Scene 1
 		position: 2.0000, 4.0000, -15.0000
 		direction: -0.1254, -0.2315, 0.9647
 		fov: 45
-		ior: 1.0096
+		ior: 1.0095
 	}
 }
