@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_photon.cu                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 14:38:56 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 17:04:53 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/09 09:57:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ void			shoot_photon_wrapper(t_raytracing_tools *r, size_t photon_count,
 	rand_size = r->scene->photons_per_pass * 3;
 	block_size = dim3(BLOCK_DIM, 1, 1);
 	grid_size = dim3(photon_count / BLOCK_DIM + 1, 1);
-	h_rand_numbers = (float *)malloc(sizeof(float) * rand_size);
-	test_cuda_malloc((void **)&d_rand_numbers, sizeof(float) * rand_size);
+	if (!(h_rand_numbers = (float *)malloc(sizeof(float) * rand_size)))
+		exit (1);
+	if (!test_cuda_malloc((void **)&d_rand_numbers, sizeof(float) * rand_size))
+		exit (1);
 	init_random_numbers(rand_size, h_rand_numbers);
 	cudaMemcpy(d_rand_numbers, h_rand_numbers, sizeof(float) * rand_size,
 		cudaMemcpyHostToDevice);
