@@ -6,7 +6,7 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 11:08:45 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 15:21:03 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/09 09:57:54 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void		write_header(int fd, int width, int height)
 {
 	t_bmp_header	*header;
 
-	header = (t_bmp_header *)malloc(sizeof(t_bmp_header));
+	if (!(header = (t_bmp_header *)malloc(sizeof(t_bmp_header))))
+		ft_error_exit("Malloc error");
 	header->signature = 0x4D42;
 	header->file_size = width * height * sizeof(t_rgb) * sizeof(header);
 	header->reserv_1 = 0;
