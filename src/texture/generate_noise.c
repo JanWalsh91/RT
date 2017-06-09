@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate_noise.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 11:33:53 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/02 16:09:25 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/09 10:22:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_color		*generate_noise(t_vec3 *res)
 	t_pt2		pos;
 
 	if (cudaMallocHost((void **)&map, (3 * res->x * res->y)) != 0)
-		return (NULL);
+		ft_error_exit("cudaMallocHost error");
 	ft_bzero(map, 3 * res->x * res->y);
 	nb_pts = (res->x * res->y) * res->z / 100;
 	while (nb_pts > 0)

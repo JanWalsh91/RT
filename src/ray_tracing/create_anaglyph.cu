@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 09:52:05 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 21:20:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/09 10:17:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ t_vec3		get_look_at(t_scene *scene)
 	t_vec3	h_look_at;
 	t_vec3	*d_look_at;
 
-	if (cudaMalloc(&d_look_at, sizeof(t_vec3)))
-		exit(0);
+	gpu_errchk(cudaMalloc(&d_look_at, sizeof(t_vec3)));
 	get_look_at_position<<<1, 1>>>(scene, d_look_at);
 	cuda_check_kernel_errors();
 	gpu_errchk(cudaMemcpy(&h_look_at, d_look_at, sizeof(t_vec3),

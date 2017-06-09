@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generate_checkerboard.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 17:49:17 by tgros             #+#    #+#             */
-/*   Updated: 2017/05/21 11:40:56 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/09 10:22:39 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_color		*generate_checkerboard(t_vec3 *res)
 	char		color;
 
 	if (cudaMallocHost((void **)&map, (3 * res->x * res->y)) != 0)
-		return (NULL);
+		ft_error_exit("cudaMallocHost error");
 	i.y = -1;
 	while (++i.y < res->y)
 	{

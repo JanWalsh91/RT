@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   photon_mapping_assist.cu                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 12:55:39 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/09 09:57:09 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/09 10:18:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@
 void	perpare_memory(t_raytracing_tools *r)
 {
 	r->h_d_scene->photon_iteration = 1;
-	cudaMallocHost((void **)&r->rt_pixel_map, sizeof(t_color) *
-		r->scene->res.y * r->scene->res.x);
+	gpu_errchk(cudaMallocHost(&r->rt_pixel_map, sizeof(t_color) *
+		r->scene->res.y * r->scene->res.x));
 	cudaMemcpy(r->rt_pixel_map, r->d_pixel_map, sizeof(t_color) *
 		r->scene->res.y * r->scene->res.x, cudaMemcpyHostToHost);
-	if (!test_cuda_malloc((void **)&(r->h_d_scene->photon_list),
-		sizeof(t_photon) * PHOTON_BOUNCE_MAX * r->scene->photons_per_pass))
-		exit (1);
+	gpu_errchk(cudaMalloc(&(r->h_d_scene->photon_list),
+		sizeof(t_photon) * PHOTON_BOUNCE_MAX * r->scene->photons_per_pass));
 	cudaMemcpy(r->d_scene, r->h_d_scene, sizeof(t_scene),
 		cudaMemcpyHostToDevice);
 }
