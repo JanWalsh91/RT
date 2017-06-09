@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_primary_ray.cu                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/05 11:10:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 15:44:00 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/09 09:31:48 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_color	get_color_at_hitpoint(t_raytracing_tools *r, t_ray *ray,
 	color = c_add(color, get_reflected_and_refracted(r, r->scene, ray));
 	color = c_add(color, get_ambient(r->scene, ray));
 	return (color);
-	// return (c_new(0, 0, 0));
 }
 
 __device__

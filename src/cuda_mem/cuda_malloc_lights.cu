@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuda_malloc_lights.cu                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 16:10:25 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/06/08 14:14:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/09 09:31:43 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ bool				cuda_malloc_lights(t_raytracing_tools *r,
 				get_lights_array_length(h_scene_to_array->lights)) == false)
 				return(false);
 		}
-			// gpu_errchk(cudaMalloc(&(r->h_d_scene->lights),
-				// get_lights_array_length(h_scene_to_array->lights)));
 		gpu_errchk((cudaMemcpy(r->h_d_scene->lights, h_scene_to_array->lights,
 			get_lights_array_length(h_scene_to_array->lights),
 			cudaMemcpyHostToDevice)));
