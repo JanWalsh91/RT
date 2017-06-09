@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
+#    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/09 09:22:45 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/09 10:05:33 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -290,14 +290,14 @@ $(OBJ_DIR)/%.o : ./src/texture/%.c
 
 clean:
 	@/bin/rm -Rf $(OBJ_DIR)
-	# @make -C $(LIB_PATH) clean
-	# @make -C $(LIBMATH_PATH) clean
+	@make -C $(LIB_PATH) clean
+	@make -C $(LIBMATH_PATH) clean
 	@$(ECHO) "$(C_GREEN)$(NAME) clean done.$(C_NONE)"
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	# @make./ -C $(LIB_PATH) fclean
-	# @make -C $(LIBMATH_PATH) fclean
+	@make -C $(LIB_PATH) fclean
+	@make -C $(LIBMATH_PATH) fclean
 	@$(ECHO) "$(C_GREEN)$(NAME) fclean done.$(C_NONE)"
 
 re: fclean all
