@@ -6,12 +6,11 @@
 /*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 17:06:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2017/04/29 10:50:38 by tgros            ###   ########.fr       */
+/*   Updated: 2017/06/09 09:26:55 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libmathft.cuh"
-#include <stdio.h>
 
 /*
 ** Creates a new 4 by 4 matrix and sets its values to 0;

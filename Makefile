@@ -6,7 +6,7 @@
 #    By: tgros <tgros@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/27 15:51:12 by jwalsh            #+#    #+#              #
-#    Updated: 2017/06/08 15:51:43 by tgros            ###   ########.fr        #
+#    Updated: 2017/06/09 09:22:45 by tgros            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -174,7 +174,6 @@ CUDA_MEM =	cuda_check_kernel_errors \
 			cuda_malloc_camera \
 			cuda_malloc_lights \
 			cuda_malloc_objects \
-			ft_lstnew_cuda \
 			test_cuda_malloc
 
 PHOTON_MAPPING = get_iors \

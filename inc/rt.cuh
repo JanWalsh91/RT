@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.cuh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tgros <tgros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 14:28:08 by tgros             #+#    #+#             */
-/*   Updated: 2017/06/08 17:02:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2017/06/09 09:22:41 by tgros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -681,7 +681,6 @@ bool			cuda_malloc_objects(t_raytracing_tools *r, t_scene
 bool			cuda_malloc_lights(t_raytracing_tools *r, t_scene
 												*h_scene_to_array);
 bool			cuda_malloc_camera(t_raytracing_tools *r);
-t_list			*ft_lstnew_cuda(void const *content, size_t content_size);
 bool			test_cuda_malloc(void **to_malloc, size_t size);
 
 /*
