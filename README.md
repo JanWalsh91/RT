@@ -307,3 +307,5 @@ Reflection and Refraction Example: <br>
 Progressive Photon Mapping with Caustics: <br>
 ![PPM with Caustics](https://github.com/JanWalsh91/RT/blob/master/Screenshots/PPM%20with%20Caustics.png "PPM with Caustics") <br>
 
+Should you have any questions or suggestions, feel free to send me an email at **jwalsh@student.42.fr**.
+
