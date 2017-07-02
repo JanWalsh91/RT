@@ -304,6 +304,6 @@ Textures such as Perlin Noise, noise, or checkerboard textures can be added to o
 ![Textures](https://github.com/JanWalsh91/RT/blob/master/Screenshots/Textures.png "Textures") <br>
 Reflection and Refraction Example: <br>
 ![Boules Fantaise](https://github.com/JanWalsh91/RT/blob/master/Screenshots/Boule_Fantaisie.png "Boules Fantaisie") <br>
-Progressive Photon Map with Caustics: <br>
+Progressive Photon Mapping with Caustics: <br>
 ![PPM with Caustics](https://github.com/JanWalsh91/RT/blob/master/Screenshots/PPM%20with%20Caustics.png "PPM with Caustics") <br>
 
