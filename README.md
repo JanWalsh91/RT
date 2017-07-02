@@ -296,6 +296,14 @@ scene: Scene 1
 ```
 </p></details>
 
-
 Here is the output of the file above:
 ![Everything](https://github.com/JanWalsh91/RT/blob/master/Screenshots/everything.png "Everything")
+Objects can be linked together and moved or rotated around easily as a group:
+![Android](https://github.com/JanWalsh91/RT/blob/master/Screenshots/Android.png "Android")
+Texrtures such as Perlin Noise, noise, or checkerboard textures can be added to objects. The user can also add his/her own texture:
+![Textures](https://github.com/JanWalsh91/RT/blob/master/Screenshots/Textures.png "Textures")
+Reflection and Refraction Example:
+![Boules Fantaise](https://github.com/JanWalsh91/RT/blob/master/Screenshots/Boule_Fantaisie.png "Boules Fantaisie")
+Progressive Photon Map with Caustics:
+![PPM with Caustics](https://github.com/JanWalsh91/RT/blob/master/Screenshots/PPM%20with%20Caustics.png "PPM with Caustics")
+
